@@ -70,3 +70,11 @@
 .a4 {
   color: #ffffff;
 }
+
+#btn1
+{
+    width: 100px;
+    height: 80px;
+    background-color: rgb(32, 33, 36);
+    border-radius: 6px;
+}
