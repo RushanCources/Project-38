@@ -36,15 +36,18 @@
    align-items: center;
 
 }
+
 /* Не трогай это, логику адаптива сломаешь */
 .container {
     display: grid;
     grid-gap: 5px;
     grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: 100px 350px 100px;
+    grid-template-rows: 20px 70px 20px;
     grid-template-areas:
         "h h h h h h h h h h h h h h h h"
+        /* "h h h h h h h h h h h h h h h h" */
         "m m m c c c c c c c c c c c c c"
+        /* "m m m c c c c c c c c c c c c c" */
         "f f f f f f f f f f f f f f f f";
 }
 @media screen and (max-width: 640px) {
