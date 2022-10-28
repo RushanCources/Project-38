@@ -36,6 +36,7 @@
    align-items: center;
 
 }
+
 /* Не трогай это, логику адаптива сломаешь */
 .container {
     display: grid;
