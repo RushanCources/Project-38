@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("""Здесь будет доска обьявлений
-                        <br><button onclick="location.href='announcements'">announcements</button> <br> 
-                        <button onclick="location.href='management'">management</button><br>
-                        <button onclick="location.href='subjects'">subjects</button><br>
-                        <button onclick="location.href='projects'">projects</button><br>""")
+                        <br><button onclick="location.href='announcements'">Объявления</button> <br> 
+                        <button onclick="location.href='management'">Администрирование</button><br>
+                        <button onclick="location.href='subjects'">Список тем</button><br>
+                        <button onclick="location.href='projects'">Проекты</button><br>""")
