@@ -1,10 +1,14 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
-    return HttpResponse("""Извините, но вам не доступна эта страница, т.к. у вас нет роли админа, пока что её ни у кого нет, т.к. она не определена в проекте""")
+    text = "Здесь будет администрирование"
+    title = "Панель админа"
+    data = {"header" : title, "text" : text}
+    return render(request, "index.html", context=data)
+
 def front(r):
-    return HttpResponse(f"""
-                        <br><button onclick="location.href='announcements'">Объявления</button> <br> 
-                        <button onclick="location.href='management'">Администрирование</button><br>
-                        <button onclick="location.href='subjects'">Список тем</button><br>
-                        <button onclick="location.href='projects'">Проекты</button><br> """)
+    text = "здесь пока что ничего нет"
+    title = "Стартовая страница"
+    data = {"header" : title, "text" : text}
+    return render(r, "index.html", context=data)

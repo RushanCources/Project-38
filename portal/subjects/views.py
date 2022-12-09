@@ -1,9 +1,9 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("""Здесь должен быть список проетных тем
-                        <br><button onclick="location.href='announcements'">Объявления</button> <br> 
-                        <button onclick="location.href='management'">Администрирование</button><br>
-                        <button onclick="location.href='subjects'">Список тем</button><br>
-                        <button onclick="location.href='projects'">Проекты</button><br>""")
+    text = "Здесь должен быть список проетных тем"
+    title = "Проектные темы"
+    data = {"header" : title, "text" : text}
+    return render(request, "index.html", context=data)
