@@ -1,0 +1,5 @@
+Guides for Django:
+https://metanit.com/python/django/
+
+How to inftall and work with django from VS Code:
+https://code.visualstudio.com/docs/python/tutorial-django
