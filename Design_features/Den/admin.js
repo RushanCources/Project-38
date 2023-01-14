@@ -8,6 +8,20 @@ function group(cls, pp) {
         $(cls).css({'display':'block'});
     }
 
+    // document.getElementById("list").onmousedown = function(event) {
+    //     if (event.button == 0) {
+    //         $(cls).css({'display':'block'});
+    //     }
+    // }
+    if(document.getElementById("list").mouseover){
+
+    }
+    // document.getElementById("main").onmousedown = function(event) {
+    //     if (event.button == 2) {
+    //         $(cls).css({'display':'none'});
+    //     }
+    // }
+    
     Array.from(document.querySelectorAll('.group-li'), function(el){
         el.onclick = function(){
             var name = this.innerHTML;
@@ -15,4 +29,12 @@ function group(cls, pp) {
             $(cls).css({'display':'none'});
     }
     });
+    
+    // Array.from(document.querySelectorAll('.group-li'), function(el){
+    //     el.onclick = function(){
+    //         var name = this.innerHTML;
+    //         $(pp).html(name);
+    //         $(cls).css({'display':'none'});
+    // }
+    // });
 }
