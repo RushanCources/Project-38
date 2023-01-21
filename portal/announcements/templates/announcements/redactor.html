@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Редактор объявлений</title>
 </head>
 <body>
-$END$
+<form method="post" action="createannouncement">
+    {% csrf_token %}
+    <p>Имя объявления:<br> <input name="title" /></p>
+    <p>Текст объявления:<br> <input name="body" /></p>
+    <input type="submit" value="Send" />
+</form>
 </body>
 </html>
