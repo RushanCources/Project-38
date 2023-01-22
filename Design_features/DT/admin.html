@@ -23,8 +23,6 @@
 
     <main class="main" id="main">
 
-        <p class="back">На главную страницу</p>
-
         <nav class="nav">
             <div class="search">
                 <input class="search-input" type="text" placeholder="Поиск...">
@@ -63,7 +61,8 @@
                                 <li class="group-sel-op">27</li>
                             </ul> -->
                             <select class="group" name="group" id="group">
-                                <option class="`group-sel-op`" value="">1</option>
+                                <option class="group-sel-op" value="">Не указано</option>
+                                <option class="group-sel-op" value="">1</option>
                                 <option class="group-sel-op" value="">2</option>
                                 <option class="group-sel-op" value="">3</option>
                                 <option class="group-sel-op" value="">4</option>
@@ -92,13 +91,19 @@
                     <p class="filter-name">Роль:</p>
                     <ul class="list" id="list">
                         <li class="item">
-                            <p class="group-p1" onclick="group('.rol', '.group-p1')">Не указано</p>
+                            <!-- <p class="group-p1" onclick="group('.rol', '.group-p1')">Не указано</p>
                             <ul class="rol sub-list">
                                 <li class="group-sel-op">Не указано</li>
                                 <li class="group-sel-op">Ученик</li>
                                 <li class="group-sel-op">Учитель</li>
                                 <li class="group-sel-op">Администратор</li>
-                            </ul>
+                            </ul> -->
+                            <select class="rol" name="rol" id="rol">
+                                <option class="group-sel-op" value="">Не указано</option>
+                                <option class="group-sel-op" value="">Ученик</option>
+                                <option class="group-sel-op" value="">Учитель</option>
+                                <option class="group-sel-op" value="">Администратор</option>
+                            </select>
                         </li>
                     </ul>
                 </div>
