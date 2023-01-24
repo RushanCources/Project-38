@@ -1,6 +1,6 @@
 html {
     box-sizing: border-box;
-  }
+}
 
 *,
 *::before,
@@ -82,11 +82,11 @@ body {
 .nav {
     position: relative;
     display: block;
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
 }
 
-.search{
+.search {
     margin-bottom: 20px;
     width: 100%;
     display: flex;
@@ -119,21 +119,56 @@ body {
 
 .filter {
     width: 100%;
-    display: flex;
     justify-content: space-between;
     padding-right: 40px;
+    /*собсно контейнер адаптива это всё что ниже, остальное пиши над коментом*/
+    display: grid;
+    grid-template-areas:
+        "g g r r"
+        "g g r r"
+        "e e e e";
 }
 
-.filter-div {
+.empty{
+    grid-area: e;
+    height: 5px;
+}
+
+@media screen and (max-aspect-ratio: 1) {
+    .filter {
+        grid-template-areas:
+            "g g g g"
+            "e e e e"
+            "r r r r";
+    }
+}/*меняет настройки grid если соотношение ширина/высота экрана=1*/
+
+@media screen and (max-aspect-ratio: 1.5) {
+    .nav{
+        width: 80%;
+    }
+}
+
+.filter-group {
+    grid-area: g;
+    display: flex;
+}
+
+.filter-role {
+    grid-area: r;
+    display: flex;
+}
+
+/* .filter-div {
     width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .filter-name {
     margin: 0;
-    width: 50%;
+    width: 90%;
     background: #30475E;
     padding: 10px 8px;
     color: #fff;
@@ -142,7 +177,8 @@ body {
     line-height: 16px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-}
+} 
+/*
 
 .list {
     position: relative;
@@ -150,9 +186,10 @@ body {
     padding: 0;
     width: 50%;
     list-style: none;
-}
+} */
 
-.group, .rol {
+.group,
+.rol {
     /* position: absolute; */
     width: 100%;
     /* max-height: 200px; */
@@ -166,9 +203,12 @@ body {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     line-height: 1.3;
-    padding: .666em;
+    padding: .58em;
+    font-size: .9em;
 }
-.group-p, .group-p1 {
+
+.group-p,
+.group-p1 {
     margin: 0;
     padding: 9px 8px;
     border: 1px solid #30475E;
@@ -197,12 +237,14 @@ body {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
-.group-sel-op:focus { border-color: #aaa;
- box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
- box-shadow: 0 0 0 3px -moz-mac-focusring;
-color: #222;
- outline: none;
+.group-sel-op:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
 }
+
 .group-sel-op:hover {
     border-color: #ccc;
 }
@@ -215,14 +257,14 @@ color: #222;
     border-collapse: collapse;
 }
 
-.table td{
+.table td {
     border-bottom: 4px solid #F5F5F5;
     padding: 10px 25px;
     font-size: 16px;
     line-height: 21px;
 }
 
-.table-names > td {
+.table-names>td {
     font-weight: 700;
 }
 

@@ -1,0 +1,26 @@
+.grid1{
+    display: grid;
+    grid-template-areas:
+    "g g r r"
+    "g g r r";
+    background-color: blanchedalmond;
+    height: 200px;
+}
+
+.filter-group {
+    grid-area: g;
+    background-color: aqua;
+}
+
+.filter-role {
+    grid-area: r;
+    background-color: aquamarine;
+}
+
+@media screen and (max-aspect-ratio: 1){
+    .grid1{
+        grid-template-areas:
+        "g g g g"
+        "r r r r";
+    }
+}
