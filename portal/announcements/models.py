@@ -14,7 +14,7 @@ class Announcement(TimeStampMixin):
     title = models.CharField(max_length=255)
     body = models.TextField()
     #author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
+    is_pinned = models.BooleanField(default=False)
+    date_of_expiring = models.DateTimeField(null=True)
 
 

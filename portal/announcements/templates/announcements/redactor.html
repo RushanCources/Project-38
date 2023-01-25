@@ -9,7 +9,15 @@
     {% csrf_token %}
     <p>Имя объявления:<br> <input name="title" /></p>
     <p>Текст объявления:<br> <input name="body" /></p>
-    <input type="submit" value="Send" />
+    <b>Закреплять объявления?</b>
+    <p><select name="is_pinned">
+    <option selected value="1">Да</option>
+    <option value="">Нет</option>
+    </select>
+    </p>
+    <b>Дата исчезновения объявления:</b>
+    <p><input type="date" name="date_of_expiring"></p>
+    <input type="submit" value="Разместить" />
 </form>
 </body>
 </html>
