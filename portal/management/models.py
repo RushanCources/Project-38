@@ -9,7 +9,7 @@ class User (models.Model):
 
 class Student(User):
     def __init__(self, **kwargs):
-        super(student, self).__init__(**kwargs)
+        super(Student, self).__init__(**kwargs)
         self.access="student"
 
 class Teacher(User):
