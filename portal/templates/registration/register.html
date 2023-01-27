@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Регистрация</title>
+    <h1>Регистрация</h1>
+
+    {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}    
+
+    <form action={% url 'register' %} method="post">
+        {% csrf_token %} 
+        {{ form.as_table }}
+        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+    </form>
+{% endblock %}
