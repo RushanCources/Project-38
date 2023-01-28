@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <script src="jquery.js"></script>
     <title>Админка</title>
 </head>
+
 <body>
     <header class="header">
         <a href="#" class="logo"><img src="img/icon.png" alt="Логотип сайта"></a>
@@ -21,7 +23,7 @@
         </div>
     </header>
 
-    <main class="main" id="main">
+    <main class="main">
 
         <nav class="nav">
             <div class="search">
@@ -31,8 +33,6 @@
             <div class="filter">
                 <div class="filter-group">
                     <p class="filter-name">Группа:</p>
-                    <!-- <ul class="list" id="list">
-                        <li class="item"> -->
                             <select class="group" name="group" id="group">
                                 <option class="group-sel-op" value="">Не указано</option>
                                 <option class="group-sel-op" value="">1</option>
@@ -57,22 +57,16 @@
                                 <option class="group-sel-op" value="">26</option>
                                 <option class="group-sel-op" value="">27</option>
                             </select>
-                        <!-- </li>
-                    </ul> -->
                 </div>
                 <div class="empty"></div>
                 <div class="filter-role">
                     <p class="filter-name">Роль:</p>
-                    <!-- <ul class="list" id="list">
-                        <li class="item"> -->
                             <select class="rol" name="rol" id="rol">
                                 <option class="group-sel-op" value="">Не указано</option>
                                 <option class="group-sel-op" value="">Ученик</option>
                                 <option class="group-sel-op" value="">Учитель</option>
                                 <option class="group-sel-op" value="">Администратор</option>
                             </select>
-                        <!-- </li>
-                    </ul> -->
                 </div>
             </div>
         </nav>
@@ -84,11 +78,15 @@
                     <td class="table-group">Группа</td>
                     <td class="table-role">Роль</td>
                     <td class="func">
-                        <button class="new-user table-btn"></button>
+                        <button class="new-user table-btn" onclick="n_user()"></button>
                     </td>
                 </tr>
                 <tr class="table-user">
-                    <td>Кокорин Петр Алексеевич</td>
+                    <td>
+                        <span class="surname">Кокорин</span>
+                        <span class="name">Петр</span>
+                        <span class="patronymic">Алексеевич</span>
+                    </td>
                     <td>14</td>
                     <td>Ученик</td>
                     <td class="func">
@@ -99,6 +97,71 @@
             </tbody>
         </table>
     </main>
+
+    <form class="new-user-block" method="POST" id="form">
+        <p class="new-user-p">Создание пользователя</p>
+        <div class="new-user-main">
+            <div class="inputs">
+                <input class="input input-surname" type="text" placeholder="Фамилия">
+                <input class="input input-name" type="text" placeholder="Имя">
+                <input class="input input-patronymic" type="text" placeholder="Отчество">
+                <input class="input input-login" type="text" placeholder="Логин">
+                <input class="input input-password" type="text" placeholder="Пароль">
+            </div>
+            <div class="lists">
+                <div class="new-user-role">
+                    <div>
+                        <label class="role-name" for="role1">Ученик</label>
+                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                    </div>
+                    <div>
+                        <label class="role-name" for="role2">Учитель</label>
+                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
+                    </div>
+                    <div>
+                        <label class="role-name" for="role3">Админ</label>
+                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
+                    </div>
+                </div>
+
+                <div class="new-user-group">
+                    <p class="filter-name">Группа:</p>
+                            <select class="group" name="group" id="group">
+                                <option class="group-sel-op" value="">Не указано</option>
+                                <option class="group-sel-op" value="">1</option>
+                                <option class="group-sel-op" value="">2</option>
+                                <option class="group-sel-op" value="">3</option>
+                                <option class="group-sel-op" value="">4</option>
+                                <option class="group-sel-op" value="">5</option>
+                                <option class="group-sel-op" value="">6</option>
+                                <option class="group-sel-op" value="">7</option>
+                                <option class="group-sel-op" value="">11</option>
+                                <option class="group-sel-op" value="">12</option>
+                                <option class="group-sel-op" value="">13</option>
+                                <option class="group-sel-op" value="">14</option>
+                                <option class="group-sel-op" value="">15</option>
+                                <option class="group-sel-op" value="">16</option>
+                                <option class="group-sel-op" value="">17</option>
+                                <option class="group-sel-op" value="">21</option>
+                                <option class="group-sel-op" value="">22</option>
+                                <option class="group-sel-op" value="">23</option>
+                                <option class="group-sel-op" value="">24</option>
+                                <option class="group-sel-op" value="">25</option>
+                                <option class="group-sel-op" value="">26</option>
+                                <option class="group-sel-op" value="">27</option>
+                            </select>
+                </div>
+            </div>
+        </div>
+        <div class="new-user-btns">
+            <button class="new-user-btn exit" onclick="exit()" type="button">Отмена</button>
+            <button class="new-user-btn create" onclick="create()" type="button">Создать</button>
+        </div>
+    </form>
+
+    <div class="back-form"></div>
+
     <script src="admin.js"></script>
 </body>
+
 </html>

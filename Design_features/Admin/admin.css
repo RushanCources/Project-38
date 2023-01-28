@@ -1,28 +1,30 @@
 html {
     box-sizing: border-box;
-}
-
+    width: 100%;
+    height: 100%;
+  }
+  
 *,
 *::before,
 *::after {
     box-sizing: inherit;
 }
-
+  
 a {
     color: inherit;
     text-decoration: none;
 }
-
+  
 img {
     max-width: 100%;
 }
-
+  
 body {
     margin: 0;
     font-family: 'Roboto', Verdana, sans-serif;
     min-width: 100%;
     min-height: 100%;
-    background-color: #F5F5F5;
+    background-color: #E8F1FF;
 }
 
 .header {
@@ -32,7 +34,7 @@ body {
     width: 100%;
     height: 75px;
     padding: 0 75px;
-    background: #F05454;
+    background: #1f3f76;
 }
 
 .user {
@@ -57,7 +59,7 @@ body {
     height: 50px;
     border: 2px solid #fff;
     border-radius: 50%;
-    background: #19C5FB url('img/avatar.png') no-repeat center center;
+    background: #168cd1 url('img/avatar.png') no-repeat center center;
     background-size: 75%;
 }
 
@@ -67,35 +69,24 @@ body {
     margin-top: 50px;
 }
 
-.back {
-    position: absolute;
-    left: 75px;
-    padding-left: 38px;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 16px;
-    color: #30475E;
-    background: url('./img/Arrow.svg') no-repeat left center;
-    cursor: pointer;
-}
-
 .nav {
     position: relative;
     display: block;
-    width: 60%;
+    width: 50%;
     margin: 0 auto;
 }
 
-.search {
+.search{
     margin-bottom: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .search-input {
     width: 100%;
-    border: 1px solid #121212;
+    border: 1px solid #1f3f76;
     border-radius: 30px;
     background: #fff;
     outline: none;
@@ -106,16 +97,19 @@ body {
 }
 
 .search-button {
-    width: 0;
-    height: 0;
+    width: 40px;
+    height: 40px;
     margin-left: -40px;
     padding: 19px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
-    background: #121212 url('img/search.svg') no-repeat 40% center;
+    border: none;
+    background: #1f3f76 url('img/search.svg') no-repeat 40% center;
     cursor: pointer;
 
 }
+
+/* Выдвигающиеся списки */
 
 .filter {
     width: 100%;
@@ -159,17 +153,10 @@ body {
     display: flex;
 }
 
-/* .filter-div {
-    width: 48%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
-
 .filter-name {
     margin: 0;
     width: 90%;
-    background: #30475E;
+    background: #1f3f76;
     padding: 10px 8px;
     color: #fff;
     font-weight: 700;
@@ -178,26 +165,10 @@ body {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 } 
-/*
-
-.list {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    width: 50%;
-    list-style: none;
-} */
 
 .group,
 .rol {
-    /* position: absolute; */
     width: 100%;
-    /* max-height: 200px; */
-    /* overflow-y: auto;  */
-    /* display: none; */
-    /* padding: 0;
-    margin: 0; */
-    /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); */
     background-color: #fff;
     border: 1px solid #121212;
     border-top-right-radius: 5px;
@@ -211,7 +182,7 @@ body {
 .group-p1 {
     margin: 0;
     padding: 9px 8px;
-    border: 1px solid #30475E;
+    border: 1px solid #1f3f76;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     font-size: 14px;
@@ -228,13 +199,10 @@ body {
 }
 
 .group-sel-op {
-    padding: 9px 8px;
     font-size: 14px;
     line-height: 16px;
     font-weight: 400;
     color: #121212;
-    cursor: pointer;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .group-sel-op:focus {
@@ -249,6 +217,8 @@ body {
     border-color: #ccc;
 }
 
+/* Таблица */
+
 .table {
     margin: 0 auto;
     margin-top: 50px;
@@ -257,14 +227,14 @@ body {
     border-collapse: collapse;
 }
 
-.table td {
-    border-bottom: 4px solid #F5F5F5;
+.table td{
+    border-bottom: 4px solid #E8F1FF;
     padding: 10px 25px;
     font-size: 16px;
     line-height: 21px;
 }
 
-.table-names>td {
+.table-names > td {
     font-weight: 700;
 }
 
@@ -291,4 +261,167 @@ body {
 
 .delete {
     background: url('img/delete.svg') no-repeat center center;
+}
+
+/* Поле для добавления нового юзера */
+
+.new-user-block {
+    display: none;
+    position: absolute;
+    min-width: 600px;
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 20px 45px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.4);
+}
+
+.back-form {
+    display: none;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.new-user-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.new-user-main > div {
+    margin: 3% 0;
+}
+
+.lists{
+    width: 50%;
+}
+
+.new-user-role {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.role-name {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.input-role {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #1f3f76;
+    transition: 0.2s all linear;
+    outline: none;
+    position: relative;
+    cursor: pointer;
+}
+
+.input-role:checked {
+    border: 6px solid #1f3f76;
+
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-user-p {
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.input {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: 2px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.error {
+    border-color: #F05454;
+}
+
+.new-user-btns {
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.new-user-btn {
+    padding: 10px 25px;
+    box-sizing: border-box;
+    border: 2px solid #1f3f76;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: 0.3s background;
+}
+
+.exit {
+    background: none;
+    color: #1f3f76;
+}
+
+.exit:hover {
+    background-color: #F5F5F5;
+}
+
+.exit:active {
+    background-color: #1f3f76;
+    color: #fff;
+}
+
+.create {
+    background-color: #1f3f76;
+    color: #fff;
+}
+
+.create:hover {
+    background: #142b53;
+}
+
+.create:active {
+    background: none;
+    color: #1f3f76;
+}
+
+.new-user-group {
+    padding-top: 65px;
+    display: flex;
+}
+
+.n-hidden {
+    color: #121212;
+    background-color: #fff;
+    pointer-events: auto;
+}
+
+.hidden {
+    color: transparent;
+    background: #F5F5F5;
+    pointer-events: none;
 }
