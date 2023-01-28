@@ -128,16 +128,16 @@ body {
     height: 10px;
 }
 
-@media screen and (max-aspect-ratio: 1) {
+@media (max-aspect-ratio: 1),(orientation: portrait) {
     .filter {
         grid-template-areas:
             "g g g g"
             "e e e e"
             "r r r r";
     }
-}/*меняет настройки grid если соотношение ширина/высота экрана=1*/
+}/*меняет настройки grid если соотношение ширина/высота экрана=1 или в chrome ориентация портретная*/
 
-@media screen and (max-aspect-ratio: 1.5) {
+@media (-webkit-max-width: 70%), (max-aspect-ratio: 1.5) {
     .nav{
         width: 80%;
     }
