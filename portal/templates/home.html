@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Главная страница</title>
+    <h1>Добро пожаловать!</h1>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'account' %}">Профиль</a>
+        <a href="{% url 'logout' %}">Выйти</a>
+    {% else %}
+        <a href="{% url 'login' %}">Авторизация</a>
+    {% endif %}
+{% endblock %}
