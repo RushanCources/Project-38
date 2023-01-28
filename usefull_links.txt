@@ -3,3 +3,10 @@ https://metanit.com/python/django/
 
 How to inftall and work with django from VS Code:
 https://code.visualstudio.com/docs/python/tutorial-django
+
+Design apps:
+Figma:https://www.figma.com/downloads/
+codePen:https://codepen.io/
+Bootstrap:https://getbootstrap.com/docs/5.3/getting-started/download/
+FlatIcon:https://www.flaticon.com/ru/
+Other assets: in /Assets LTE/ folder in project
