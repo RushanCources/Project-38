@@ -75,10 +75,27 @@ body {
     -ms-overflow-style: none;/* IE and Edge */
     scrollbar-width: none;/* Firefox */
 }
-
-.grid::-webkit-scrollbar {
+/*Настройки скроллбара в Chrome*/
+.main::-webkit-scrollbar {
     display: none;
     /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(8, 42, 70, 0.2) inset;
+    background-color: #e8f1ff;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(4, 0, 80);
+    background-image: -webkit-linear-gradient(45deg,
+        rgba(4, 0, 80, 1) 0%,
+        rgba(9, 9, 121, 1) 31%,
+        rgba(0, 162, 195, 1) 100%);
 }
 
 .nav {
