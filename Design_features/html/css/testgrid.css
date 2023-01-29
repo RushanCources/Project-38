@@ -93,7 +93,7 @@ html, body{
 }
 @media (min-width: 2700px) {
 
-    /* стили для fhd-устройств */
+    /* стили для uhd-устройств */
     .flex {
         width: 22.5%;
         height: 10em;
