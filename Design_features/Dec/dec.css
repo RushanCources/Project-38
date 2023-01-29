@@ -158,9 +158,16 @@ body {
     border-radius: 9px;
 }
 
-
+.IB{
+    background-color: #051A3F;
+    height: 100%;
+    width: 25%;
+    border-radius: 0 9px 9px 0;
+}
 
 .flex {
+    display: flex;
+    flex-direction: row-reverse;
     width: 42%;
     height: 150px;
     margin: 3%;
