@@ -1,26 +1,107 @@
+html, body{
+    /* overflow: hidden; */
+}
 .grid1{
     display: grid;
-    grid-template-areas:
+    /* grid-template-areas:
     "g g r r"
-    "g g r r";
+    "g g r r"; */
+    /* grid-template-areas:
+            "g g g g"
+            "r r r r"
+            "r r r r"; */
     background-color: blanchedalmond;
-    height: 200px;
+    height: 70em;
+    width: 80%;
+    margin-left: 10%;
+    overflow: scroll; 
+
+    /*убираем полосу прокрутки*/
+    -ms-overflow-style: none;/* IE and Edge */
+    scrollbar-width: none;/* Firefox */
+}
+.grid::-webkit-scrollbar{
+    display: none;/* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+.scroll{
+    height:140em;
+    grid-template-areas:
+            "g g g g"
+            "r r r r"
+            "r r r r";
 }
 
 .filter-group {
     grid-area: g;
     background-color: aqua;
+    border-radius: .6em;
 }
 
 .filter-role {
     grid-area: r;
     background-color: aquamarine;
+    border-radius: .6em;
+    display: flex;
+    /* flex-flow: column wrap; */
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
-@media screen and (max-aspect-ratio: 1){
+/* @media screen and (max-aspect-ratio: 1){
     .grid1{
         grid-template-areas:
         "g g g g"
         "r r r r";
+    }
+} */
+
+.flex{
+    width: 42%;
+    height: 150px;
+    margin: 3%;
+    background: #FFFFFF;
+    /* Back shadow */
+    box-shadow: 0px 0px 4px 3px rgba(63, 63, 63, 0.55);
+    border-radius: 9px;
+}
+@media (max-width: 640px) {
+    /* стили для xs-устройств */
+    .flex {
+        width: 80%;
+        height: 5em;
+        margin: 2%;
+        border-radius: 4px;
+    }
+    .filter-role {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1700px) {
+    /* стили для fhd-устройств */
+    .flex {
+            width: 30.3%;
+            height: 10em;
+            margin: 1.5%;
+            border-radius: 12px;
+        }
+    .grid1{
+        width: 86%;
+        margin-left: 7%;
+    }
+}
+@media (min-width: 2700px) {
+
+    /* стили для fhd-устройств */
+    .flex {
+        width: 22.5%;
+        height: 10em;
+        margin: 1.25%;
+        border-radius: 12px;
+    }
+    .grid1{
+        width: 94%;
+        margin-left: 3%;
     }
 }
