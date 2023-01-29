@@ -168,9 +168,9 @@ body {
 .flex {
     display: flex;
     flex-direction: row-reverse;
-    width: 42%;
+    width: 45%;
     height: 150px;
-    margin: 3%;
+    margin: 2%;
     background: #FFFFFF;
     /* Back shadow */
     box-shadow: 0px 0px 4px 3px rgba(63, 63, 63, 0.55);
@@ -192,11 +192,11 @@ body {
     }
 }
 
-@media (min-width: 1700px) {
+@media (min-width: 1700px) and (max-width:2700px) {
 
     /* стили для fhd-устройств */
     .flex {
-        width: 30.3%;
+        width: 30.1%;
         height: 10em;
         margin: 1.5%;
         border-radius: 12px;
