@@ -13,8 +13,8 @@
     {% endif %}    
 
     <form action={% url 'register' %} method="post">
-        {% csrf_token %} 
-        {{ form.as_table }}
-        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+        {{ user_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-success" value="Создать аккаунт"></p>
     </form>
 {% endblock %}

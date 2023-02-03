@@ -1,19 +1,17 @@
-from django.contrib.auth import forms 
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
-from django.contrib.auth.forms import UserCreationForm 
-from .forms import CustomUserCreationForm
+from .forms import UserRegistrationForm
  
 def register(request):
     if request.method == 'POST':
-        f = CustomUserCreationForm(request.POST)
-        if f.is_valid():
-            f.save()
-            messages.success(request, 'Аккаунт успешно создан')
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            messages.success(request,'Аккаунт успешно создан')
             return redirect('register')
-
     else:
-        f = CustomUserCreationForm()
-
-    return render(request, 'registration/register.html', {'form': f})
+        user_form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'user_form': user_form})
 
