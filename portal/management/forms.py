@@ -8,10 +8,11 @@ class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
     username= forms.CharField(label='Имя пользователя', min_length=3, max_length=35)
+    middle_name = forms.CharField(label='Отчество')
 
     class Meta:
         model = User
-        fields = ('username','first_name', 'last_name', 'email')
+        fields = ('username','first_name', 'last_name', 'middle_name', 'email')
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -28,5 +29,5 @@ class UserRegistrationForm(forms.ModelForm):
     def email_clean(self): 
         email = self.cleaned_data['email']
         if User.objects.filter(email = email).exists():
-            raise forms.ValidationError("Аккаунт с такой электронной почтой уже создан") 
+            raise forms.ValidationError("Аккаунт с такой электронной почтой уже создан")
         return email 
