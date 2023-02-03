@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'management.User'
 LOGIN_REDIRECT_URL = '/projects/account/'
 LOGOUT_REDIRECT_URL = '/'
+STATIC_URL = 'static/'
 
 # Application definition
 
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-Ru'
 
 TIME_ZONE = 'UTC'
 

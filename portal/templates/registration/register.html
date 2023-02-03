@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <title>Регистрация</title>
+    <h1>Регистрация</h1>
+
+    {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}    
+
+    <form action={% url 'register' %} method="post">
+        {{ user_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-success" value="Создать аккаунт"></p>
+    </form>
+{% endblock %}
