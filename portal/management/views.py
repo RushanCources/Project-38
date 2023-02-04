@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
 from .forms import UserRegistrationForm
+from .models import User
  
 def register(request):
     if request.method == 'POST':
@@ -14,4 +15,8 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
+
+def admin_menu(request):
+    users=User.objects.all()
+    return render(request, 'admin_menu/admin.html', context={"users" : users})
 
