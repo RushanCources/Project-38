@@ -7,7 +7,7 @@ def index(request):
     text = "Здесь будет доска обьявлений"
     title = "Доска объявлений"
     data = {"header" : title, "text" : text}
-    return render(request, "index.html", context=data)
+    return render(request, "announcements/index.html", context=data)
 
 
 def redactor(request):

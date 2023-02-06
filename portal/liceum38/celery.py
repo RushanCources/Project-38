@@ -25,7 +25,7 @@ app.autodiscover_tasks()
 
 
 app.conf.beat_schedule = {
-    # Executes every day at  12:30 pm.
+    # Стартует постоянно в 00:00. Удаляет объявления с истекшим сроком годности.
     'delete_expired_values_task': {
         'task': 'announcements.tasks.delete_expired_values',
         'schedule': crontab(hour=0, minute=0),
