@@ -19,8 +19,9 @@ def createannouncement(request):
     body = request.POST.get("body")
     is_pinned = request.POST.get("is_pinned")
     de = request.POST.get("date_of_expiring")
+    author = request.user
 
     de = de.split("-")
 
-    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])))
+    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])), author=author)
     return HttpResponsePermanentRedirect('/announcements')

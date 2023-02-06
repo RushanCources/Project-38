@@ -1,5 +1,4 @@
 from liceum38.celery import app
-from datetime import timedelta
 from django.utils import timezone
 from .models import Announcement
 from celery import shared_task
