@@ -1,3 +1,23 @@
+//Открытие списка
+
+$('.group-p').on('click', function() {
+
+    let ul = this.parentNode.childNodes[3];
+    $('.group').css({'display':'none'});
+    $(ul).css({'display':'block'});
+});
+
+window.onclick = function(event) {
+
+    if (event.target.matches('.group-li')){
+        let text = event.target.innerHTML;
+        event.target.parentNode.parentNode.childNodes[1].innerHTML = text;
+        $('.group').css({'display':'none'});
+    }
+    else if (!event.target.matches('.group-p')) {
+        $('.group').css({'display':'none'});
+    }
+}
 
 //Код для проверки заполненности полей. Используется в создании и редактировании пользователя
 
@@ -34,10 +54,11 @@ function exit() {
     $('.new-user-block').css({ 'display': 'none' });
     $('.back-form').css({ 'display': 'none' });
     $('.input').val('');
-    $('.group-p2').html('1');
+    $('#group-p').html('1');
     $('#role1').click();
     $('.input').removeClass('error');
 
+    $('.new-user-p').html('Создание пользователя')
     $('.create').html('Создать');
     $('.create').attr('onclick', 'create()');
 }
@@ -47,14 +68,14 @@ let role = 'Ученик';
 $('.input-role').on('click', function () {
 
     if (this.id == 'role1') {
-        $('.group-p2').removeClass('hidden');
-        $('.group-p2').addClass('n-hidden');
-        $('.group-p2').html('1');
+        $('#group-p').removeClass('hidden');
+        $('#group-p').addClass('n-hidden');
+        $('#group-p').html('1');
     } else {
-        $('.group-p2').removeClass('nhidden');
-        $('.group-p2').addClass('hidden');
-        $('.group1').css({ 'display': 'none' });
-        $('.group-p2').html(' ');
+        $('#group-p').removeClass('n-hidden');
+        $('#group-p').addClass('hidden');
+        $('#group-list').css({ 'display': 'none' });
+        $('#group-p').html(' ');
     }
 
     role = this.value;
@@ -69,7 +90,7 @@ function create() {
     let pat = $('.input-patronymic').val().trim();
     // let login = $('.input-login').val().trim();
     // let password = $('.input-password').val().trim();
-    let group = $('.group-p2').html();
+    let group = $('#group-p').html();
 
     let errors = input_errors();
 
@@ -148,6 +169,7 @@ function change_fn() {
             role = tr.childNodes[5].innerHTML;
         }
 
+        $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');
         $('.create').attr('onclick', 'chang()');
 
@@ -156,7 +178,7 @@ function change_fn() {
         $('.input-surname').val(surname);
         $('.input-name').val(name);
         $('.input-patronymic').val(pat);
-        $('.group-p2').html(group);
+        $('#group-p').html(group);
 
         if (role == 'Учитель') {
             $('#role2').click();
@@ -192,7 +214,7 @@ function chang() {
         let pat = $('.input-patronymic').val().trim();
         // let login = $('.input-login').val().trim();
         // let password = $('.input-password').val().trim();
-        let group = $('.group-p2').html();
+        let group = $('#group-p').html();
 
         $(span_surname).html(surname + " ");
         $(span_name).html(name + " ");
