@@ -11,7 +11,7 @@ class User(AbstractUser):
         self._meta.get_field('password').verbose_name = "Пароль"
 
 class Student(User):
-    access = "student"
+    role = "Ученик"
 
 class Teacher(User):
-    access = "teacher"
+    role = "Учитель"
