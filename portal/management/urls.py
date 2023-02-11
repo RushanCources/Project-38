@@ -3,5 +3,5 @@ from .views import register
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls'), name='management'),
-    path('register/', register, name = 'register') 
+    path('register/', register, name = 'register')
 ]
