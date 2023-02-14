@@ -20,3 +20,7 @@ def admin_menu(request):
     users=User.objects.all()
     return render(request, 'admin_menu/admin.html', context={"users" : users})
 
+def profile(request):
+    users=User.objects.all()
+    return render(request, 'profile/profile.html', context={"users" : users})    
+

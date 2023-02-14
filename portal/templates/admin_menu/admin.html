@@ -7,70 +7,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
-    <link rel="icon" href="{% static 'img/admin_menu/icon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
+    <link rel="icon" href="{% static 'img/global/icon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="{% static 'js/admin_menu/jquery.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/global/jquery.js' %}"></script>
     <title>Администрирование</title>
 </head>
 
 <body>
     <header class="header">
-        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/admin_menu/icon.png' %}" alt="Логотип сайта"></a>
+        <a href="#" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Объявления</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Список тем</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Управление проектом</a>
+                </li>
+            </ul>
+        </nav>
         <div class="user">
-            <p class="username">Петя Кокорин</p>
+            <p class="username">User Login</p>
             <div class="avatar"></div>
         </div>
     </header>
 
     <main class="main">
 
-        <nav class="nav">
+        <div class="main-nav">
             <div class="search">
                 <input class="search-input" type="text" placeholder="Поиск...">
                 <button class="search-button"></button>
             </div>
             <div class="filter">
-                <div class="filter-group">
+                <div class="filter-div">
                     <p class="filter-name">Группа:</p>
-                            <select class="group" name="group">
-                                <option class="group-sel-op" value="">Не указано</option>
-                                <option class="group-sel-op" value="">1</option>
-                                <option class="group-sel-op" value="">2</option>
-                                <option class="group-sel-op" value="">3</option>
-                                <option class="group-sel-op" value="">4</option>
-                                <option class="group-sel-op" value="">5</option>
-                                <option class="group-sel-op" value="">6</option>
-                                <option class="group-sel-op" value="">7</option>
-                                <option class="group-sel-op" value="">11</option>
-                                <option class="group-sel-op" value="">12</option>
-                                <option class="group-sel-op" value="">13</option>
-                                <option class="group-sel-op" value="">14</option>
-                                <option class="group-sel-op" value="">15</option>
-                                <option class="group-sel-op" value="">16</option>
-                                <option class="group-sel-op" value="">17</option>
-                                <option class="group-sel-op" value="">21</option>
-                                <option class="group-sel-op" value="">22</option>
-                                <option class="group-sel-op" value="">23</option>
-                                <option class="group-sel-op" value="">24</option>
-                                <option class="group-sel-op" value="">25</option>
-                                <option class="group-sel-op" value="">26</option>
-                                <option class="group-sel-op" value="">27</option>
-                            </select>
+                    <ul class="list">
+                        <li class="item">
+                            <p class="group-p">Не указано</p>
+                            <ul class="group">
+                                <li class="group-li">Не указано</li>
+                                <li class="group-li">1</li>
+                                <li class="group-li">2</li>
+                                <li class="group-li">3</li>
+                                <li class="group-li">4</li>
+                                <li class="group-li">5</li>
+                                <li class="group-li">6</li>
+                                <li class="group-li">7</li>
+                                <li class="group-li">10</li>
+                                <li class="group-li">11</li>
+                                <li class="group-li">12</li>
+                                <li class="group-li">13</li>
+                                <li class="group-li">14</li>
+                                <li class="group-li">15</li>
+                                <li class="group-li">16</li>
+                                <li class="group-li">17</li>
+                                <li class="group-li">20</li>
+                                <li class="group-li">21</li>
+                                <li class="group-li">22</li>
+                                <li class="group-li">23</li>
+                                <li class="group-li">24</li>
+                                <li class="group-li">25</li>
+                                <li class="group-li">26</li>
+                                <li class="group-li">27</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                <div class="empty"></div>
-                <div class="filter-role">
+                <div class="filter-div">
                     <p class="filter-name">Роль:</p>
-                            <select class="rol" name="rol" id="rol">
-                                <option class="group-sel-op" value="">Не указано</option>
-                                <option class="group-sel-op" value="">Ученик</option>
-                                <option class="group-sel-op" value="">Учитель</option>
-                                <option class="group-sel-op" value="">Администратор</option>
-                            </select>
+                    <ul class="list">
+                        <li class="item">
+                            <p class="group-p">Не указано</p>
+                            <ul class="group sub-list">
+                                <li class="group-li">Не указано</li>
+                                <li class="group-li">Ученик</li>
+                                <li class="group-li">Учитель</li>
+                                <li class="group-li">Администратор</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </nav>
+        </div>
 
         <table class="table">
             <tbody>
@@ -129,31 +157,35 @@
                 </div>
 
                 <div class="new-user-group">
-                    <p class="filter-name">Группа:</p>
-                            <select class="group" name="group">
-                                <option class="group-sel-op" value="">Не указано</option>
-                                <option class="group-sel-op" value="">1</option>
-                                <option class="group-sel-op" value="">2</option>
-                                <option class="group-sel-op" value="">3</option>
-                                <option class="group-sel-op" value="">4</option>
-                                <option class="group-sel-op" value="">5</option>
-                                <option class="group-sel-op" value="">6</option>
-                                <option class="group-sel-op" value="">7</option>
-                                <option class="group-sel-op" value="">11</option>
-                                <option class="group-sel-op" value="">12</option>
-                                <option class="group-sel-op" value="">13</option>
-                                <option class="group-sel-op" value="">14</option>
-                                <option class="group-sel-op" value="">15</option>
-                                <option class="group-sel-op" value="">16</option>
-                                <option class="group-sel-op" value="">17</option>
-                                <option class="group-sel-op" value="">21</option>
-                                <option class="group-sel-op" value="">22</option>
-                                <option class="group-sel-op" value="">23</option>
-                                <option class="group-sel-op" value="">24</option>
-                                <option class="group-sel-op" value="">25</option>
-                                <option class="group-sel-op" value="">26</option>
-                                <option class="group-sel-op" value="">27</option>
-                            </select>
+                    <p class="group-name">Группа:</p>
+                    <div class="list">
+                        <p class="group-p n-hidden" id="group-p">1</p>
+                        <ul class="group" id="group-list">
+                            <li class="group-li">1</li>
+                            <li class="group-li">2</li>
+                            <li class="group-li">3</li>
+                            <li class="group-li">4</li>
+                            <li class="group-li">5</li>
+                            <li class="group-li">6</li>
+                            <li class="group-li">7</li>
+                            <li class="group-li">10</li>
+                            <li class="group-li">11</li>
+                            <li class="group-li">12</li>
+                            <li class="group-li">13</li>
+                            <li class="group-li">14</li>
+                            <li class="group-li">15</li>
+                            <li class="group-li">16</li>
+                            <li class="group-li">17</li>
+                            <li class="group-li">20</li>
+                            <li class="group-li">21</li>
+                            <li class="group-li">22</li>
+                            <li class="group-li">23</li>
+                            <li class="group-li">24</li>
+                            <li class="group-li">25</li>
+                            <li class="group-li">26</li>
+                            <li class="group-li">27</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -166,6 +198,7 @@
     <div class="back-form"></div>
 
     <script src="{% static 'js/admin_menu/admin.js' %}"></script>
+    <script src="{% static 'js/global/list.js' %}"></script>
 </body>
 
 </html>
