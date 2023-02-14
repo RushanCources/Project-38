@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import date, datetime
 
-conn = sqlite3.connect(r"/home/a/lycproject/Project-38/portal/db.sqlite3")
+conn = sqlite3.connect(r"Путь к базе данных")
 cur = conn.cursor()
 cur.execute("SELECT date_of_expiring FROM announcements_announcement")
 dates = cur.fetchall()
