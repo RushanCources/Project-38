@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date
+from .decorators import allowed_users
+
 
 def index(request):
     text = "Здесь будет доска обьявлений"
@@ -10,10 +12,12 @@ def index(request):
     return render(request, "announcements/index.html", context=data)
 
 
+@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
     return render(request, "announcements/redactor.html")
 
 
+@allowed_users(allowed_roles=['Teacher', 'admin'])
 def createannouncement(request):
     title = request.POST.get("title")
     body = request.POST.get("body")
