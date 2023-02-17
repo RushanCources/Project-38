@@ -16,6 +16,9 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
 
+def token_page(request):
+    return render(request, 'registration/token_page.html')    
+
 def admin_menu(request):
     users=User.objects.all()
     return render(request, 'admin_menu/admin.html', context={"users" : users})

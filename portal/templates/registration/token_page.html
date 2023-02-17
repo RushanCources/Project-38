@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
+    <title>Начало регистрации</title>
     <link rel="stylesheet" href="{% static 'css/registration/login.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,27 +17,20 @@
 <body>
     {% block content %}
     {% if form.errors %}
-    <p class="error">Неправильный логин или пароль</p>
+    <p class="error">Такого токена не существует!</p>
     {% endif %}
 
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-    <form action="{% url 'login' %}" method="post" class="form">
+    <form method="post" class="token">
         {% csrf_token %}
-        <h1 class="title">Добро пожаловать!</h1>
+        <h1 class="title">Вставьте токен для регистрации!</h1>
         <div class="form-div">
             <div>
-                <span class="input-p">Логин:</span>
-                {{ form.username }}
-            </div>
-            <div>
-                <span class="input-p">Пароль:</span>
-                {{ form.password }}
+                <span class="input-p">Ваш токен:</span>
+                <input type="text">
             </div>
         </div>
-        <div class="buttons">
-            <button type="submit" class="btn btn-success">Войти</button>
-            <a href="{% url 'token_page' %}" class="register">Регистрация</a>
-        </div>
+        <button type="submit" class="btn">Продолжить</button>
     </form>
     {% endblock %}
 </body>
