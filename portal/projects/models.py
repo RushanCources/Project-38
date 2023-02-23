@@ -11,7 +11,6 @@ class Project(models.Model):
         if n in self._statuses:
             self._status = n
             self.save()
-            print("супер")
     def getStatus(self):
         return self.status
 
