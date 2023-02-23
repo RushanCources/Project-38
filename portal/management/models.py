@@ -9,9 +9,3 @@ class User(AbstractUser):
         super(User, self).__init__(*args, **kwargs)
         self._meta.get_field('username').verbose_name = "Логин"
         self._meta.get_field('password').verbose_name = "Пароль"
-
-class Student(User):
-    role = "Ученик"
-
-class Teacher(User):
-    role = "Учитель"

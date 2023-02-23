@@ -1,9 +1,9 @@
 from django.db import models
-from management.models import Teacher, Student
+from management.models import User
 
 class Project(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
-    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="students")
+    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="teachers")
     name = models.CharField(max_length=30)
     _statuses = ["send request", "on work", "send to verification", "done"]
     _status = models.CharField(max_length=30)
