@@ -2,6 +2,12 @@
 
 {% block content %}
     <title>Проекты</title>
-    <a href="{% url 'create' %}">Создать новый проект</a>
+
+    {% if user.is_authenticated %}
+        {% if user.role == "Ученик" %}
+            <a href="{% url 'create' %}">Создать новый проект</a>
+        {% endif %}
+    {% endif %}
+
     <h1>Общий список</h1>
 {% endblock %}

@@ -5,7 +5,6 @@
     <h1>Заявка на проект</h1>
     <form method="post" action="postcreate/">
         {% csrf_token %}
-        <p>Ученик:<br> <input name="student" minlength="1"/></p>
         <p>Учитель:<br> <input name="teacher" minlength="1"/></p>
         <p>Название:<br> <input name="name" minlength="1"/></p>
         <input type="submit" value="Send" />
