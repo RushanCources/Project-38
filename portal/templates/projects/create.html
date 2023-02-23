@@ -5,7 +5,11 @@
     <h1>Заявка на проект</h1>
     <form method="post" action="postcreate/">
         {% csrf_token %}
-        <p>Учитель:<br> <input name="teacher" minlength="1"/></p>
+        <select name="teacher" class="form-control" id="region_id">Учитель
+            {% for teacher in teachers %}
+              <option value="{{ teacher.id }}">{{ teacher.fullName }}</option>
+            {% endfor %}
+        </select>
         <p>Название:<br> <input name="name" minlength="1"/></p>
         <input type="submit" value="Send" />
     </form>

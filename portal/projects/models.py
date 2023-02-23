@@ -9,7 +9,9 @@ class Project(models.Model):
     _status = models.CharField(max_length=30)
     def setStatus(self, n):
         if n in self._statuses:
-            self.status = n
+            self._status = n
+            self.save()
+            print("супер")
     def getStatus(self):
         return self.status
 

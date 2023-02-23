@@ -9,3 +9,6 @@ class User(AbstractUser):
         super(User, self).__init__(*args, **kwargs)
         self._meta.get_field('username').verbose_name = "Логин"
         self._meta.get_field('password').verbose_name = "Пароль"
+
+    def fullName(self):
+        return self.last_name + " " + self.first_name + " " + self.middle_name
