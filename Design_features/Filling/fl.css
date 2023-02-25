@@ -124,13 +124,17 @@ body {
     "d d d d d"
     "d d d d d"
     "t t z s s"
-    "f f f f f";
+    "f f f f f"
+    "b b b b b"
+    "b b b b b";
 }
 
 .wf {
     border-radius: 5px;
     background: #FFFFFF;
     min-height: 50%;
+    width: 100%;
+    border: rgb(0,0,0,0);
 }
 
 div.desc div {
@@ -149,6 +153,7 @@ div.desc div {
     font-weight: 200;
 
     margin-bottom: 1%;
+    margin-left: 0px;
 }
 
 .nng {
@@ -177,6 +182,10 @@ div.desc div {
     grid-area: t;
 }
 
+div.tea h3 {
+    margin-left: 0;
+} 
+
 .subj {
     margin-right: 7.5%;
     margin-left: 0%;
@@ -198,6 +207,20 @@ div.desc div {
 .zero {/*обычный костыль ввиде пустого класса*/
     background: rgba(0,0,0,0);
     grid-area: z;
+}
+
+.but{
+    cursor: pointer;
+
+    background: #000000;
+    border-radius: 5px;
+    border: 0px;
+
+    width: 30%;
+    height: 60%;
+    margin: 3% auto;
+
+    grid-area: b;
 }
 
 .h1 {
