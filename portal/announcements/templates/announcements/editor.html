@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор объявлений</title>
+</head>
+<body>
+<form method="post" action="editannouncement/{{ announcement.id }}">
+    {% csrf_token %}
+    <p>Имя объявления:<br> <input name="title" value="{{ announcement.title }}" /></p>
+    <p>Текст объявления:<br> <input name="body" value="{{ announcement.body }}" /></p>
+    <b>Закреплять объявления?</b>
+    <p><select name="is_pinned">
+        {% if announcement.is_pinned == 1 %}
+        <option selected value="1">Да</option>
+        <option value="">Нет</option>
+        {% else %}
+        <option selected value="">Нет</option>
+        <option value="1">Да</option>
+        {% endif %}
+    </select>
+    </p>
+    <b>Дата исчезновения объявления:</b>
+    <p><input type="date" name="date_of_expiring" value="{{ date_of_expiring }}"></p>
+    <input type="submit" value="Изменить" />
+</form>
+</body>
+</html>
