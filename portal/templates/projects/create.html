@@ -5,11 +5,34 @@
     <h1>Заявка на проект</h1>
     <form method="post" action="postcreate/">
         {% csrf_token %}
-        <select name="teacher" class="form-control" id="region_id">Учитель
+        <select name="teacher" class="js-chosen" id="region_id" placeholder="Выберите учителя">
             {% for teacher in teachers %}
               <option value="{{ teacher.id }}">{{ teacher.fullName }}</option>
             {% endfor %}
         </select>
+
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/chosen/chosen.min.css">
+        
+        <style type="text/css">
+            .select_wrp {
+                width: 300px;
+                margin: 0 auto;
+            }
+        </style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/chosen.jquery.min.js"></script>
+
+        <script>
+        $(document).ready(function(){
+	        $('.js-chosen').chosen({
+		    width: '100%',
+		    no_results_text: 'Совпадений не найдено',
+		    placeholder_text_single: 'Выберите учителя'
+	        });
+        });
+        </script>
+
         <p>Название:<br> <input name="name" minlength="1"/></p>
         <input type="submit" value="Send" />
     </form>
