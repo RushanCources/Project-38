@@ -65,11 +65,12 @@ body {
 
 .main {
     /* max-width: 1200px; */
-    /* margin: 0 auto;
-    margin-top: 50px; */
+    margin: 0 auto;
+    margin-top: 4%;
     width: 80%;
-    margin-left: 10%; 
+    /* margin-left: 10%;  */
     overflow: scroll;
+    /* align-items: center; */
 
     /*убираем полосу прокрутки*/
     -ms-overflow-style: none;
@@ -105,8 +106,8 @@ body {
     /*временные размеры*/
     width: 1000px;/*в адаптив*/
     min-height: 700px;/*в адаптив*/
-    margin-left: 5%;/*в адаптив*/
-    margin-top: 5%;/*в адаптив*/
+    /* margin-top: 10%; */
+    margin: auto;
 
     background: linear-gradient(297.37deg, #17428F 6.45%, #4679D3 91.88%);
     border-radius: 14px;/*в адаптив*/
