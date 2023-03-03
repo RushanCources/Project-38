@@ -211,6 +211,8 @@ div.tea h3 {
 
 .but{
     cursor: pointer;
+    color: #ffffff;
+    font-size: larger;
 
     background: #000000;
     border-radius: 5px;
