@@ -3,34 +3,23 @@
 {% block content %}
     <title>Заявка на проект</title>
     <h1>Заявка на проект</h1>
-    <form method="post" action="postcreate/">
-        {% csrf_token %}
-        <select name="teacher" class="js-chosen" id="region_id" placeholder="Выберите учителя">
-            {% for teacher in teachers %}
-              <option value="{{ teacher.id }}">{{ teacher.fullName }}</option>
-            {% endfor %}
-        </select>
+    <form method="post" action="postcreate/">{% csrf_token %}
+        <div class="form-group">
+           <select class="select2" name="city" placeholder="Выберите город" multiple="multiple" style="width: 100%;">
+                {% for teacher in teachers %}
+                  <option value="{{ teacher.id }}">{{ teacher.fullName }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/chosen/chosen.min.css">
-        
-        <style type="text/css">
-            .select_wrp {
-                width: 300px;
-                margin: 0 auto;
-            }
-        </style>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/chosen.jquery.min.js"></script>
+        <link rel="stylesheet" href="/projects/select2css">
+        <script type="text/javascript" src="/projects/jquery"></script>
+        <script type="text/javascript" src="/projects/serchscript"></script>
 
         <script>
-        $(document).ready(function(){
-	        $('.js-chosen').chosen({
-		    width: '100%',
-		    no_results_text: 'Совпадений не найдено',
-		    placeholder_text_single: 'Выберите учителя'
-	        });
-        });
+            $(function () {
+              $('.select2').select2()
+            });
         </script>
 
         <p>Название:<br> <input name="name" minlength="1"/></p>
