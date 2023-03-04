@@ -34,7 +34,7 @@ function exit() {
     $('.back-form').css({ 'display': 'none' });
     $('.input').val('');
     $('#group-p').html('1');
-    $('#role1').click();
+    $('#id_role_0').click();
     $('.input').removeClass('error');
 
     $('.new-user-p').html('Создание пользователя')
@@ -46,15 +46,11 @@ let role = 'Ученик';
 
 $('.input-role').on('click', function () {
 
-    if (this.id == 'role1') {
-        $('#group-p').removeClass('hidden');
-        $('#group-p').addClass('n-hidden');
-        $('#group-p').html('1');
+    if (this.id == 'id_role_0') {
+        $('.block').css({'display' : 'none'});
     } else {
-        $('#group-p').removeClass('n-hidden');
-        $('#group-p').addClass('hidden');
+        $('.block').css({'display' : 'block'});
         $('#group-list').css({ 'display': 'none' });
-        $('#group-p').html(' ');
     }
 
     role = this.value;
@@ -67,8 +63,8 @@ function create() {
     let name = $('.input-name').val().trim();
     let surname = $('.input-surname').val().trim();
     let pat = $('.input-patronymic').val().trim();
-    // let login = $('.input-login').val().trim();
-    // let password = $('.input-password').val().trim();
+    let login = $('.input-login').val().trim();
+    let password = $('.input-password').val().trim();
     let group = $('#group-p').html();
 
     let errors = input_errors();
@@ -79,6 +75,8 @@ function create() {
             td_fio = document.createElement('td'),
             td_group = document.createElement('td'),
             td_role = document.createElement('td'),
+            td_login = document.createElement('td'),
+            td_password = document.createElement('td'),
             td_func = document.createElement('td'),
             span_surname = document.createElement('span'),
             span_name = document.createElement('span'),
@@ -95,6 +93,8 @@ function create() {
         tr.append(td_fio);
         tr.append(td_group);
         tr.append(td_role);
+        tr.append(td_login);
+        tr.append(td_password);
         tr.append(td_func);
 
         td_fio.append(span_surname);
@@ -113,12 +113,16 @@ function create() {
         $(del).attr('class', 'delete');
         $(change).addClass('table-btn');
         $(del).addClass('table-btn');
+        $(td_login).addClass('hidden');
+        $(td_password).addClass('hidden');
 
         $(span_surname).html(surname + " ");
         $(span_name).html(name + " ");
         $(span_pat).html(pat);
         $(td_group).html(group);
         $(td_role).html(role);
+        $(td_login).html(login);
+        $(td_password).html(password);
 
         exit();
         change_fn();
@@ -133,20 +137,28 @@ let tr;
 function change_fn() {
     $('.change').on('click', function () {
         tr = this.parentNode.parentNode;
-        let surname, name, pat, group, role;
+        let surname, name, pat, group, role, login, password, id;
         if (tr.childNodes.length == 4) {
             surname = tr.childNodes[0].childNodes[0].innerHTML;
             name = tr.childNodes[0].childNodes[1].innerHTML;
             pat = tr.childNodes[0].childNodes[2].innerHTML;
             group = tr.childNodes[1].innerHTML;
             role = tr.childNodes[2].innerHTML;
+            login = tr.childNodes[3].innerHTML;
+            password = tr.childNodes[4].innerHTML;
+            id = $(tr).attr('id');
         } else {
             surname = tr.childNodes[1].childNodes[1].innerHTML;
             name = tr.childNodes[1].childNodes[3].innerHTML;
             pat = tr.childNodes[1].childNodes[5].innerHTML;
             group = tr.childNodes[3].innerHTML;
             role = tr.childNodes[5].innerHTML;
+            login = tr.childNodes[7].innerHTML;
+            password = tr.childNodes[9].innerHTML;
+            id = $(tr).attr('id');
         }
+
+        console.log(group);
 
         $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');
@@ -157,12 +169,16 @@ function change_fn() {
         $('.input-surname').val(surname);
         $('.input-name').val(name);
         $('.input-patronymic').val(pat);
+        $('.input-login').val(login);
+        $('.input-password').val(password);
         $('#group-p').html(group);
+        $('.form-group').val(group);
+        $('.form-id').val(id);
 
         if (role == 'Учитель') {
-            $('#role2').click();
+            $('#id_role_1').click();
         } else if (role == 'Администратор') {
-            $('#role3').click();
+            $('#id_role_2').click();
         }
 
     });
@@ -170,37 +186,48 @@ function change_fn() {
 change_fn();
 
 function chang() {
-
     let errors = input_errors();
     if (!errors) {
-        let span_surname, span_name, span_pat, td_group, td_role;
+        let span_surname, span_name, span_pat, td_group, td_role, td_login, td_password;
         if (tr.childNodes.length == 4) {
             span_surname = tr.childNodes[0].childNodes[0];
             span_name = tr.childNodes[0].childNodes[1];
             span_pat = tr.childNodes[0].childNodes[2];
             td_group = tr.childNodes[1];
             td_role = tr.childNodes[2];
+            td_login = tr.childNodes[3];
+            td_password = tr.childNodes[4];
         } else {
             span_surname = tr.childNodes[1].childNodes[1];
             span_name = tr.childNodes[1].childNodes[3];
             span_pat = tr.childNodes[1].childNodes[5];
             td_group = tr.childNodes[3];
             td_role = tr.childNodes[5];
+            td_login = tr.childNodes[7];
+            td_password = tr.childNodes[9];
         }
 
         let name = $('.input-name').val().trim();
         let surname = $('.input-surname').val().trim();
         let pat = $('.input-patronymic').val().trim();
-        // let login = $('.input-login').val().trim();
-        // let password = $('.input-password').val().trim();
+        let login = $('.input-login').val().trim();
+        let password = $('.input-password').val().trim();
         let group = $('#group-p').html();
+
+        if (role != "Ученик") {
+            $('.form-group').val('0');
+            $('.table-td-group').css({'opacity' : '0'});
+        } else {
+            $('.form-group').val(group);
+            $('.table-td-group').css({'opacity' : '1'});
+        }
 
         $(span_surname).html(surname + " ");
         $(span_name).html(name + " ");
         $(span_pat).html(pat);
         $(td_group).html(group);
         $(td_role).html(role);
-
-        exit();
+        $(td_login).html(login);
+        $(td_password).html(password);
     }
 }

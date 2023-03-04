@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    {% block content %}
     <header class="header">
         <a href="#" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
@@ -107,18 +108,24 @@
                     <td class="table-group">Группа</td>
                     <td class="table-role">Роль</td>
                     <td class="func">
-                        <button class="new-user table-btn" onclick="n_user()"></button>
+                        <button class="new-user table-btn"></button>
                     </td>
                 </tr>
                 {% for user in users %}
-                <tr class="table-user">
+                <tr class="table-user" id="{{ user.id }}">
                     <td>
                         <span class="surname">{{ user.last_name }}</span>
                         <span class="name">{{ user.first_name }}</span>
                         <span class="patronymic">{{ user.middle_name }}</span>
                     </td>
-                    <td>{{ user.group }}</td>
+                    <td class="table-td-group">
+                        {% if user.role == "Ученик" %}
+                            {{ user.group }}
+                        {% endif %}
+                    </td>
                     <td>{{ user.role }}</td>
+                    <td class="table-hidden">{{ user.username }}</td>
+                    <td class="table-hidden">{{ user.password }}</td>
                     <td class="func">
                         <button class="change table-btn"></button>
                         <button class="delete table-btn"></button>
@@ -129,31 +136,27 @@
         </table>
     </main>
 
-    <form class="new-user-block" method="POST" id="form">
+    <form class="new-user-block" method="POST" id="form" action="{% url 'admin_menu' %}">
         {% csrf_token %}
         <p class="new-user-p">Создание пользователя</p>
         <div class="new-user-main">
             <div class="inputs">
-                <input class="input input-surname" type="text" placeholder="Фамилия">
-                <input class="input input-name" type="text" placeholder="Имя">
-                <input class="input input-patronymic" type="text" placeholder="Отчество">
-                <input class="input input-login" type="text" placeholder="Логин">
-                <input class="input input-password" type="text" placeholder="Пароль">
+                {{ user_update_form.last_name }}
+                {{ user_update_form.first_name }}
+                {{ user_update_form.middle_name }}
+                {{ user_update_form.username }}
+                {{ user_update_form.password }}
+                {{ user_update_form.user_id }}
+                {{ user_update_form.group }}
             </div>
             <div class="lists">
                 <div class="new-user-role">
+                    {% for radio in user_update_form.role %}
                     <div>
-                        <label class="role-name" for="role1">Ученик</label>
-                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                        <label class="role-name" for="role1">{{ radio.choice_label }}</label>
+                        {{ radio.tag }}
                     </div>
-                    <div>
-                        <label class="role-name" for="role2">Учитель</label>
-                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
-                    </div>
-                    <div>
-                        <label class="role-name" for="role3">Админ</label>
-                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="new-user-group">
@@ -185,17 +188,20 @@
                             <li class="group-li">26</li>
                             <li class="group-li">27</li>
                         </ul>
+                        <div class="block"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="new-user-btns">
             <button class="new-user-btn exit" onclick="exit()" type="button">Отмена</button>
-            <button class="new-user-btn create" onclick="create()" type="button">Создать</button>
+            <button class="new-user-btn create" onclick="create()" type="submit">Создать</button>
         </div>
     </form>
 
     <div class="back-form"></div>
+
+    {% endblock %}
 
     <script src="{% static 'js/admin_menu/admin.js' %}"></script>
     <script src="{% static 'js/global/list.js' %}"></script>
