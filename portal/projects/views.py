@@ -3,12 +3,26 @@ import os
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.urls import reverse
-
 from management.models import User
 from projects.models import Project
 
 def index(request):
-    return render(request, "projects/index.html")
+    id = int(request.GET.get("id", None))
+    if id is None:
+        return render(request, "projects/index.html")
+    try:
+        project = Project.objects.get(id=id)
+        context = { "name" : project.name,
+                    "teacher" : project.teacher.fullName(),
+                    "student" : project.student.fullName(),
+                    "status" : project.getStatus(),
+                    "Description" : project.description}
+        return render(request, "projects/project_page.html", context=context)
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
 
 def account(request):
     return HttpResponse("Профиль")
@@ -22,9 +36,6 @@ def jslibs(request):
     elif request.path == reverse("jquery"):
         file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\jquery\jquery.min.js"
         filename = "jquery.min.js"
-    elif request.path == reverse("selec2css"):
-        file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\select2\css\select2.min.css"
-        filename = "select2.min.css"
     try:
         with open(file_location, 'r', encoding='utf-8') as f:
             file_data = f.read()
@@ -79,6 +90,8 @@ def postcreate(request):
         project = Project.objects.create(name = name, teacher = teacher, student = request.user)
         project.setStatus("send request")
         return render(request, "projects/success.html")
+    except User.DoesNotExist:
+       return render(request, "WrongData.html")
     except BaseException:
         return render(request, "FatalError.html")
 

@@ -5,6 +5,7 @@ class Project(models.Model):
     student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="students")
     teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="teachers")
     name = models.CharField(max_length=30)
+    description = models.CharField(max_length=1000, null=True)
     _statuses = ["send request", "on work", "send to verification", "done"]
     _status = models.CharField(max_length=30)
     def setStatus(self, n):
@@ -12,5 +13,5 @@ class Project(models.Model):
             self._status = n
             self.save()
     def getStatus(self):
-        return self.status
+        return self._status
 
