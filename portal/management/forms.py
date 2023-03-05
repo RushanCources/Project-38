@@ -32,3 +32,24 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username','first_name', 'last_name', 'middle_name', 'group', 'email')
+
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'input input-name', 'placeholder' : 'Имя'}))
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'input input-surname', 'placeholder' : 'Фамилия'}))
+    middle_name = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'input input-patronymic', 'placeholder' : 'Отчество'}))
+    username = forms.CharField(max_length=35, required=True, widget=forms.TextInput(attrs={'class': 'input input-login', 'placeholder' : 'Логин'}))
+    password = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'input input-password', 'placeholder' : 'Пароль'}))
+    group = forms.IntegerField(required=True,min_value=0,max_value=27,widget=forms.NumberInput(attrs={'class' : 'form-group', 'value' : '1'}))
+    user_id = forms.IntegerField(required=True, widget=forms.NumberInput(attrs={'class': 'form-id'}))    
+
+    choice = [
+        ('Ученик', 'Ученик'),
+        ('Учитель', 'Учитель'),
+        ('Администратор', 'Администратор'),
+        ]
+
+    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class' : 'input-role'}), choices = choice);    
+
+    class Meta:
+        model = User
+        fields = ('last_name', 'first_name', 'middle_name', 'username', 'password', 'group', 'role', 'user_id')

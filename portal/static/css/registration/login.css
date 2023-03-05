@@ -126,3 +126,16 @@ a {
     color: #000;
     font-size: 16px;
 }
+
+/* for token_page.html */
+
+.token {
+    padding: 28px 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 350px;
+    background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
+    border-radius: 5px;
+}
