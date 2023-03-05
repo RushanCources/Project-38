@@ -116,7 +116,7 @@
                     <td class="table-group">Группа</td>
                     <td class="table-role">Роль</td>
                     <td class="func">
-                        <button class="new-user table-btn" onclick="n_user()"></button>
+                        <button class="new-user table-btn"></button>
                     </td>
                 </tr>
                 {% for user in users %}
@@ -219,6 +219,8 @@
     </div>
 
     <div class="back-form"></div>
+
+    {% endblock %}
 
     <script src="{% static 'js/admin_menu/admin.js' %}"></script>
     <script src="{% static 'js/global/list.js' %}"></script>

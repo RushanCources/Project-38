@@ -91,6 +91,8 @@ function change_fn() {
             id = $(tr).attr('id');
         }
 
+        console.log(group);
+
         $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');
         $('.create').attr('onclick', 'chang()');
