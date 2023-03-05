@@ -60,7 +60,74 @@ let form = document.querySelector('.new-user-block');
 let inputs = document.querySelectorAll('.input');
 
 function create() {
-    $('.form-id').val('-1');
+    let name = $('.input-name').val().trim();
+    let surname = $('.input-surname').val().trim();
+    let pat = $('.input-patronymic').val().trim();
+    let login = $('.input-login').val().trim();
+    let password = $('.input-password').val().trim();
+    let group = $('#group-p').html();
+
+    let errors = input_errors();
+
+    if (!errors) {
+
+        let tr = document.createElement('tr'),
+            td_fio = document.createElement('td'),
+            td_group = document.createElement('td'),
+            td_role = document.createElement('td'),
+            td_login = document.createElement('td'),
+            td_password = document.createElement('td'),
+            td_func = document.createElement('td'),
+            span_surname = document.createElement('span'),
+            span_name = document.createElement('span'),
+            span_pat = document.createElement('span'),
+            change = document.createElement('button'),
+            del = document.createElement('button');
+
+        let el = document.querySelector('tbody');
+        let header = document.querySelector('.table-names');
+
+        el.append(tr);
+        el.prepend(header);
+
+        tr.append(td_fio);
+        tr.append(td_group);
+        tr.append(td_role);
+        tr.append(td_login);
+        tr.append(td_password);
+        tr.append(td_func);
+
+        td_fio.append(span_surname);
+        td_fio.append(span_name);
+        td_fio.append(span_pat);
+
+        td_func.append(change);
+        td_func.append(del);
+
+        $(tr).attr('class', 'table-user');
+        $(td_func).attr('class', 'func');
+        $(span_surname).attr('class', 'surname');
+        $(span_name).attr('class', 'name');
+        $(span_pat).attr('class', 'patronymic');
+        $(change).attr('class', 'change');
+        $(del).attr('class', 'delete');
+        $(change).addClass('table-btn');
+        $(del).addClass('table-btn');
+        $(td_login).addClass('hidden');
+        $(td_password).addClass('hidden');
+
+        $(span_surname).html(surname + " ");
+        $(span_name).html(name + " ");
+        $(span_pat).html(pat);
+        $(td_group).html(group);
+        $(td_role).html(role);
+        $(td_login).html(login);
+        $(td_password).html(password);
+
+        exit();
+        change_fn();
+    }
+
 }
 
 //Редактирование пользователя
@@ -90,6 +157,8 @@ function change_fn() {
             password = tr.childNodes[9].innerHTML;
             id = $(tr).attr('id');
         }
+
+        console.log(group);
 
         $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');

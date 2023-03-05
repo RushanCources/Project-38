@@ -400,28 +400,3 @@ body {
 .form-group {
     display: none;
 }
-
-/* delete_page */
-
-.delete_page {
-    position: absolute;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 45px;
-    min-height: 300px;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 40%);
-}
-
-.delete-btns {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
