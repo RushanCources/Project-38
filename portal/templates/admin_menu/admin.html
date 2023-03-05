@@ -6,23 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
-    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     <link rel="icon" href="{% static 'img/global/icon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    {% if user.is_authenticated %}
+        <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
+        <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
+    {% endif %}
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="{% static 'js/global/jquery.js' %}"></script>
     <title>Администрирование</title>
 </head>
 
 <body>
+    {% block content %}
+
+    {% if user.is_authenticated %}
     <header class="header">
-        <a href="#" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="#">Главная</a>
+                    <a href="{% url 'home' %}">Главная</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Объявления</a>
@@ -35,10 +44,10 @@
                 </li>
             </ul>
         </nav>
-        <div class="user">
-            <p class="username">User Login</p>
+        <a class="user" href="{% url 'profile' %}">
+            <p class="username">{{ user.username }}</p>
             <div class="avatar"></div>
-        </div>
+        </a>
     </header>
 
     <main class="main">
@@ -111,14 +120,20 @@
                     </td>
                 </tr>
                 {% for user in users %}
-                <tr class="table-user">
+                <tr class="table-user" id="{{ user.id }}">
                     <td>
                         <span class="surname">{{ user.last_name }}</span>
                         <span class="name">{{ user.first_name }}</span>
                         <span class="patronymic">{{ user.middle_name }}</span>
                     </td>
-                    <td>{{ user.group }}</td>
+                    <td class="table-td-group">
+                        {% if user.role == "Ученик" %}
+                            {{ user.group }}
+                        {% endif %}
+                    </td>
                     <td>{{ user.role }}</td>
+                    <td class="table-hidden">{{ user.username }}</td>
+                    <td class="table-hidden">{{ user.password }}</td>
                     <td class="func">
                         <button class="change table-btn"></button>
                         <button class="delete table-btn"></button>
@@ -129,31 +144,27 @@
         </table>
     </main>
 
-    <form class="new-user-block" method="POST" id="form">
+    <form class="new-user-block" method="POST" id="form" action="{% url 'admin_menu' %}">
         {% csrf_token %}
         <p class="new-user-p">Создание пользователя</p>
         <div class="new-user-main">
             <div class="inputs">
-                <input class="input input-surname" type="text" placeholder="Фамилия">
-                <input class="input input-name" type="text" placeholder="Имя">
-                <input class="input input-patronymic" type="text" placeholder="Отчество">
-                <input class="input input-login" type="text" placeholder="Логин">
-                <input class="input input-password" type="text" placeholder="Пароль">
+                {{ user_update_form.last_name }}
+                {{ user_update_form.first_name }}
+                {{ user_update_form.middle_name }}
+                {{ user_update_form.username }}
+                {{ user_update_form.password }}
+                {{ user_update_form.user_id }}
+                {{ user_update_form.group }}
             </div>
             <div class="lists">
                 <div class="new-user-role">
+                    {% for radio in user_update_form.role %}
                     <div>
-                        <label class="role-name" for="role1">Ученик</label>
-                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                        <label class="role-name" for="role1">{{ radio.choice_label }}</label>
+                        {{ radio.tag }}
                     </div>
-                    <div>
-                        <label class="role-name" for="role2">Учитель</label>
-                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
-                    </div>
-                    <div>
-                        <label class="role-name" for="role3">Админ</label>
-                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="new-user-group">
@@ -185,20 +196,44 @@
                             <li class="group-li">26</li>
                             <li class="group-li">27</li>
                         </ul>
+                        <div class="block"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="new-user-btns">
-            <button class="new-user-btn exit" onclick="exit()" type="button">Отмена</button>
-            <button class="new-user-btn create" onclick="create()" type="button">Создать</button>
+            <button class="btn exit" onclick="exit()" type="button">Отмена</button>
+            <button class="btn create" onclick="create()" type="submit">Создать</button>
         </div>
     </form>
+
+    <div class="delete_page">
+        <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
+        <p>Пользователь: <span class="delete-fio">Кабанин Денис Андреевич</span></p>
+        <div class="delete-btns">   
+            <button class="btn exit" type="submit" onclick="del_exit()">Отмена</button>
+            <button class="btn delete-btn" type="submit">Скрыть</button>
+            <button class="btn delete-btn" type="submit">Удалить</button>
+            <input type="number" class="user-id" style="position: absolute; top: 0;">
+        </div>
+    </div>
 
     <div class="back-form"></div>
 
     <script src="{% static 'js/admin_menu/admin.js' %}"></script>
     <script src="{% static 'js/global/list.js' %}"></script>
+
+    {% else %}
+
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+        <div class="div-error">
+            <p class="hi">Йоу, мэн, ты кто?</p>
+            <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
+            <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
+            <a href="{% url 'login' %}">Войти</a>
+        </div>
+    {% endif %}    
+    {% endblock %}
 </body>
 
 </html>

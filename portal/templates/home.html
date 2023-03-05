@@ -20,7 +20,7 @@
     {% block content %}
 
     {% if user.is_authenticated %}
-    <a href="{% url 'account' %}">Профиль</a>
+    <a href="{% url 'profile' %}">Профиль</a>
     <a href="{% url 'logout' %}">Выйти</a>
     {% else %}
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
