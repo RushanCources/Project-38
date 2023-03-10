@@ -1,14 +1,17 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib import messages
+from .forms import UserRegistrationForm
 
-def index(request):
-    text = "Здесь будет администрирование"
-    title = "Панель админа"
-    data = {"header" : title, "text" : text}
-    return render(request, "index.html", context=data)
 
-def front(r):
-    text = "здесь пока что ничего нет"
-    title = "Стартовая страница"
-    data = {"header" : title, "text" : text}
-    return render(r, "index.html", context=data)
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            messages.success(request, 'Аккаунт успешно создан')
+            return redirect('register')
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'user_form': user_form})

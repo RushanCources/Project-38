@@ -146,5 +146,6 @@ body {
 .lst{
     grid-area: 2/8/9/9;
     margin-left: 75%;
+    
     width: 110%;
 }
