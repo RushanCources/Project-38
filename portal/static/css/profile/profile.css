@@ -122,7 +122,7 @@ body {
     padding-right: 3px;
 }
 
-.div-group {
+.list-div {
     margin: 17px 0;
     padding: 0 17px;
     padding-right: 0;
@@ -138,11 +138,11 @@ body {
 }
 
 
-.group-numbers {
+.list-names {
     position: relative;
 }
 
-.group-p {
+.list-p {
     padding: 10px 18px;
     padding-right: 35px;
     height: 100%;
@@ -151,7 +151,7 @@ body {
     border-left: 1px solid #E3E3E3;
 }
 
-.group {
+.list {
     display: none;
     list-style: none;
     position: absolute;
@@ -164,7 +164,7 @@ body {
     background: #fff;
 }
 
-.group-li {
+.list-li {
     padding: 9px 8px;
     font-size: 14px;
     line-height: 16px;
@@ -173,7 +173,7 @@ body {
     cursor: pointer;
 }
 
-.group-li:hover {
+.list-li:hover {
     background: #ccc;
 }
 

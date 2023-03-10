@@ -11,10 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {% if user.is_authenticated %}
-        <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
-        <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     {% else %}
-        <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
     {% endif %}
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -37,7 +37,7 @@
                     <a href="#">Объявления</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Список тем</a>
+                    <a href="{% url 'theme_list' %}">Список тем</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Управление проектом</a>
@@ -58,53 +58,49 @@
                 <button class="search-button"></button>
             </div>
             <div class="filter">
-                <div class="filter-div">
-                    <p class="filter-name">Группа:</p>
-                    <ul class="list">
-                        <li class="item">
-                            <p class="group-p">Не указано</p>
-                            <ul class="group">
-                                <li class="group-li">Не указано</li>
-                                <li class="group-li">1</li>
-                                <li class="group-li">2</li>
-                                <li class="group-li">3</li>
-                                <li class="group-li">4</li>
-                                <li class="group-li">5</li>
-                                <li class="group-li">6</li>
-                                <li class="group-li">7</li>
-                                <li class="group-li">10</li>
-                                <li class="group-li">11</li>
-                                <li class="group-li">12</li>
-                                <li class="group-li">13</li>
-                                <li class="group-li">14</li>
-                                <li class="group-li">15</li>
-                                <li class="group-li">16</li>
-                                <li class="group-li">17</li>
-                                <li class="group-li">20</li>
-                                <li class="group-li">21</li>
-                                <li class="group-li">22</li>
-                                <li class="group-li">23</li>
-                                <li class="group-li">24</li>
-                                <li class="group-li">25</li>
-                                <li class="group-li">26</li>
-                                <li class="group-li">27</li>
-                            </ul>
-                        </li>
-                    </ul>
+                <div class="div-list">
+                    <p class="list-name">Группа:</p>
+                    <div class="list-names">
+                        <p class="list-p">Не указано</p>
+                        <ul class="list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">1</li>
+                            <li class="list-li">2</li>
+                            <li class="list-li">3</li>
+                            <li class="list-li">4</li>
+                            <li class="list-li">5</li>
+                            <li class="list-li">6</li>
+                            <li class="list-li">7</li>
+                            <li class="list-li">10</li>
+                            <li class="list-li">11</li>
+                            <li class="list-li">12</li>
+                            <li class="list-li">13</li>
+                            <li class="list-li">14</li>
+                            <li class="list-li">15</li>
+                            <li class="list-li">16</li>
+                            <li class="list-li">17</li>
+                            <li class="list-li">20</li>
+                            <li class="list-li">21</li>
+                            <li class="list-li">22</li>
+                            <li class="list-li">23</li>
+                            <li class="list-li">24</li>
+                            <li class="list-li">25</li>
+                            <li class="list-li">26</li>
+                            <li class="list-li">27</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="filter-div">
-                    <p class="filter-name">Роль:</p>
-                    <ul class="list">
-                        <li class="item">
-                            <p class="group-p">Не указано</p>
-                            <ul class="group sub-list">
-                                <li class="group-li">Не указано</li>
-                                <li class="group-li">Ученик</li>
-                                <li class="group-li">Учитель</li>
-                                <li class="group-li">Администратор</li>
-                            </ul>
-                        </li>
-                    </ul>
+                <div class="div-list">
+                    <p class="list-name">Роль:</p>
+                    <div class="list-names">
+                        <p class="list-p">Не указано</p>
+                        <ul class="list sub-list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">Ученик</li>
+                            <li class="list-li">Учитель</li>
+                            <li class="list-li">Администратор</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,7 +124,7 @@
                     </td>
                     <td class="table-td-group">
                         {% if user.role == "Ученик" %}
-                            {{ user.group }}
+                        {{ user.group }}
                         {% endif %}
                     </td>
                     <td>{{ user.role }}</td>
@@ -168,33 +164,33 @@
                 </div>
 
                 <div class="new-user-group">
-                    <p class="group-name">Группа:</p>
-                    <div class="list">
-                        <p class="group-p n-hidden" id="group-p">1</p>
-                        <ul class="group" id="group-list">
-                            <li class="group-li">1</li>
-                            <li class="group-li">2</li>
-                            <li class="group-li">3</li>
-                            <li class="group-li">4</li>
-                            <li class="group-li">5</li>
-                            <li class="group-li">6</li>
-                            <li class="group-li">7</li>
-                            <li class="group-li">10</li>
-                            <li class="group-li">11</li>
-                            <li class="group-li">12</li>
-                            <li class="group-li">13</li>
-                            <li class="group-li">14</li>
-                            <li class="group-li">15</li>
-                            <li class="group-li">16</li>
-                            <li class="group-li">17</li>
-                            <li class="group-li">20</li>
-                            <li class="group-li">21</li>
-                            <li class="group-li">22</li>
-                            <li class="group-li">23</li>
-                            <li class="group-li">24</li>
-                            <li class="group-li">25</li>
-                            <li class="group-li">26</li>
-                            <li class="group-li">27</li>
+                    <p class="list-name">Группа:</p>
+                    <div class="list-names">
+                        <p class="list-p n-hidden" id="group-p">1</p>
+                        <ul class="list" id="group-list">
+                            <li class="list-li">1</li>
+                            <li class="list-li">2</li>
+                            <li class="list-li">3</li>
+                            <li class="list-li">4</li>
+                            <li class="list-li">5</li>
+                            <li class="list-li">6</li>
+                            <li class="list-li">7</li>
+                            <li class="list-li">10</li>
+                            <li class="list-li">11</li>
+                            <li class="list-li">12</li>
+                            <li class="list-li">13</li>
+                            <li class="list-li">14</li>
+                            <li class="list-li">15</li>
+                            <li class="list-li">16</li>
+                            <li class="list-li">17</li>
+                            <li class="list-li">20</li>
+                            <li class="list-li">21</li>
+                            <li class="list-li">22</li>
+                            <li class="list-li">23</li>
+                            <li class="list-li">24</li>
+                            <li class="list-li">25</li>
+                            <li class="list-li">26</li>
+                            <li class="list-li">27</li>
                         </ul>
                         <div class="block"></div>
                     </div>
@@ -210,7 +206,7 @@
     <div class="delete_page">
         <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
         <p>Пользователь: <span class="delete-fio">Кабанин Денис Андреевич</span></p>
-        <div class="delete-btns">   
+        <div class="delete-btns">
             <button class="btn exit" type="submit" onclick="del_exit()">Отмена</button>
             <button class="btn delete-btn" type="submit">Скрыть</button>
             <button class="btn delete-btn" type="submit">Удалить</button>
@@ -225,14 +221,14 @@
 
     {% else %}
 
-        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-        <div class="div-error">
-            <p class="hi">Йоу, мэн, ты кто?</p>
-            <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
-            <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
-            <a href="{% url 'login' %}">Войти</a>
-        </div>
-    {% endif %}    
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <div class="div-error">
+        <p class="hi">Йоу, мэн, ты кто?</p>
+        <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
+        <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
+        <a href="{% url 'login' %}">Войти</a>
+    </div>
+    {% endif %}
     {% endblock %}
 </body>
 
