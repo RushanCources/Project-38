@@ -5,16 +5,16 @@
     <h1>Заявка на проект</h1>
     <form method="post" action="postcreate/">{% csrf_token %}
         <div class="form-group">
-           <select class="select2" name="city" placeholder="Выберите город" multiple="multiple" style="width: 100%;">
+           <select class="select2 form-control" name="teacher" style="width: 100%;">
                 {% for teacher in teachers %}
                   <option value="{{ teacher.id }}">{{ teacher.fullName }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <link rel="stylesheet" href="/projects/select2css">
-        <script type="text/javascript" src="/projects/jquery"></script>
-        <script type="text/javascript" src="/projects/serchscript"></script>
+        <link rel="stylesheet" href="{% url 'select2css' %}">
+        <script type="text/javascript" src="{% url 'jquery' %}"></script>
+        <script type="text/javascript" src="{% url 'select2' %}"></script>
 
         <script>
             $(function () {

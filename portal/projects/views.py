@@ -7,16 +7,18 @@ from management.models import User
 from projects.models import Project
 
 def index(request):
-    id = int(request.GET.get("id", None))
-    if id is None:
+    pId = request.GET.get("id", None)
+    if pId is None:
         return render(request, "projects/index.html")
     try:
-        project = Project.objects.get(id=id)
+        pId = int(pId)
+        project = Project.objects.get(id=pId)
         context = { "name" : project.name,
                     "teacher" : project.teacher.fullName(),
                     "student" : project.student.fullName(),
                     "status" : project.getStatus(),
-                    "Description" : project.description}
+                    "Description" : project.description,
+                    "id" : pId}
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
@@ -52,7 +54,7 @@ def jslibs(request):
 def csslibs(request):
     file_location=""
     filename=""
-    if request.path == reverse("selec2css"):
+    if request.path == reverse("select2css"):
         file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\select2\css\select2.min.css"
         filename = "select2.min.css"
     try:
@@ -93,6 +95,46 @@ def postcreate(request):
     except User.DoesNotExist:
        return render(request, "WrongData.html")
     except BaseException:
+        return render(request, "FatalError.html")
+
+def correctProject(request):
+    if not request.user.is_authenticated:
+        return render(request, "NotEnoughPermissions.html")
+    pId = request.POST.get("project", -1)
+    print(pId)
+    if pId == -1:
+        return render(request, "WrongData.html")
+    try:
+        pId = int(pId)
+        project = Project.objects.get(id = pId)
+        teacherId = project.teacher.id
+        studentId = project.student.id
+        if request.user.id != teacherId and request.user.id != studentId:
+            return render(request, "NotEnoughPermissions.html")
+        name = request.POST.get("name", -1)
+        description = request.POST.get("description", -1)
+        print(name)
+        print(description)
+        if name == -1 and description == -1:
+            return render(request, "WrongData.html")
+        if name != -1:
+            project.name = name
+            project.save()
+        elif description != -1:
+            project.description = description
+            project.save()
+        project = Project.objects.get(id=pId)
+        context = {"name": project.name,
+                   "teacher": project.teacher.fullName(),
+                   "student": project.student.fullName(),
+                   "status": project.getStatus(),
+                   "description": project.description,
+                   "id": pId}
+        return render(request, "projects/project_page.html", context=context)
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 

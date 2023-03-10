@@ -1,10 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <title>{{ name }}</title>
-    <h1>{{name}}</h1>
+<title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
+    <form method="POST" action="{% url 'correctProject' %}" id="fname">
+        {% csrf_token %}
+        <input type="hidden" name="project" value={{id}}>
+        <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
+    </form>
+    {% load static %}
+    <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
+        <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
+    </button>
     <div>{{teacher}}</div>
     <div>{{student}}</div>
     <div>{{status}}</div>
-    <div>{{description}}</div>
+    <form method="POST" action="{% url 'correctProject' %}" id="fdescription">
+        {% csrf_token %}
+        <input type="hidden" name="project" value={{id}}>
+        <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
+    </form>
+    {% load static %}
+    <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
+        <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
+    </button>
+    <script>
+
+        function edit(elem, id){
+            let f = document.getElementById(id);
+            f.disabled = false;
+            elem.setAttribute( "onclick", "return save('"+id+"')");
+            {% load static %}
+            elem.childNodes[1].src = "{% static 'tick.png' %}";
+            elem.style.backgroundColor = "#2DA44E";
+            }
+
+        function save(id){
+            let f = document.getElementById(id);
+            let form = document.getElementById("f"+id);
+            alert(id);
+            form.submit();
+            }
+    </script>
 {% endblock %}
