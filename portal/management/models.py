@@ -6,8 +6,12 @@ class User(AbstractUser):
     role = models.TextField(max_length=15, default="Ученик")
     group = models.IntegerField(null=True)
     def __init__(self, *args, **kwargs):
-        super(User,self).__init__(*args, **kwargs)
-        self._meta.get_field('username').verbose_name="Логин"
-        self._meta.get_field('password').verbose_name="Пароль"
+        super(User, self).__init__(*args, **kwargs)
+        self._meta.get_field('username').verbose_name = "Логин"
+        self._meta.get_field('password').verbose_name = "Пароль"
 
+class Student(User):
+    role = "Ученик"
 
+class Teacher(User):
+    role = "Учитель"
