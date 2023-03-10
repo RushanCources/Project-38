@@ -1,20 +1,41 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+{% load static%}
+<html lang="ru">
 
-{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
-    <h1>Регистрация</h1>
+    <link rel="stylesheet" href="{% static 'css/registration/login.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+</head>
+
+<body>
+
+    {% block content %}
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
 
     {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-    {% endif %}    
+    <ul class="errorlist">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
-    <form action={% url 'register' %} method="post">
-        {{ user_form.as_p }}
+    <form action="{% url 'register' %}" method="post" class="form">
+        <h1 class="title">Регистрация</h1>
+        <div class="form-div">
+            {{ user_form.as_div }}
+        </div>
         {% csrf_token %}
-        <p><input type="submit" class="btn btn-success" value="Создать аккаунт"></p>
+        <input type="submit" class="btn btn-success" value="Создать аккаунт">
     </form>
-{% endblock %}
+    {% endblock %}
+</body>
+
+</html>
