@@ -23,7 +23,7 @@
         </div>
     </header>
 
-    <main class="main">
+    <form class="main" action="{% url 'postcreate' %}" method="POST" >
         <div class="formPZ">
             <h1 class="h1">Подача заявки</h1>
             <div class="form nng"><h3 class="h3 nng">Название</h3><input class="wf" placeholder="Ваше название"></input></div>
@@ -101,8 +101,8 @@
             </div>
             <div class="form files"><h3 class="h3 files">Приложите файлы</h3><input type="file" multiple="multiple" class="wf"></input></div>
             <div class="zero"></div>
-            <button class="form but">Подать заявку</button>
+            <button class="form but" type="submit">Подать заявку</button>
         </div>
-    </main>
+    </form>
 
 </body>
