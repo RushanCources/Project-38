@@ -29,47 +29,6 @@ def index(request):
 def account(request):
     return HttpResponse("Профиль")
 
-def jslibs(request):
-    file_location=""
-    filename = ""
-    if request.path == reverse("select2"):
-        file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\select2\js\select2.full.min.js"
-        filename = "select2.full.min.js"
-    elif request.path == reverse("jquery"):
-        file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\jquery\jquery.min.js"
-        filename = "jquery.min.js"
-    try:
-        with open(file_location, 'r', encoding='utf-8') as f:
-            file_data = f.read()
-
-        # sending response
-        response = HttpResponse(file_data, content_type='text/javascript')
-        response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
-
-    except IOError:
-        # handle file not exist case here
-        response = HttpResponseNotFound('<h1>File not exist</h1>')
-    return response
-
-def csslibs(request):
-    file_location=""
-    filename=""
-    if request.path == reverse("select2css"):
-        file_location = os.getcwd()[0:-7]+r"\Assets LTE\plugins\select2\css\select2.min.css"
-        filename = "select2.min.css"
-    try:
-        with open(file_location, 'r', encoding='utf-8') as f:
-            file_data = f.read()
-
-        # sending response
-        response = HttpResponse(file_data, content_type='text/css')
-        response['Content-Disposition'] = 'attachment; filename="'+filename+'"'
-
-    except IOError:
-        # handle file not exist case here
-        response = HttpResponseNotFound('<h1>File not exist</h1>')
-    return response
-
 def create(request):
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
