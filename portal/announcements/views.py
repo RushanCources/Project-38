@@ -10,7 +10,7 @@ def index(request):
     text = "Здесь будет доска обьявлений"
     title = "Доска объявлений"
     data = {"header" : title, "text" : text}
-    return render(request, "announcements/index.html", context=data)
+    return render(request, 'dec/dec.html')
 
 
 @allowed_users(allowed_roles=['Teacher', 'admin'])
