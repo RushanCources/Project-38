@@ -26,6 +26,5 @@ urlpatterns = [
     path('subjects', v3.index, name='subjects'),
     path('projects/', include('projects.urls')),
     path('', TemplateView.as_view(template_name = 'home.html'), name='home'),
-    path('account/', v4.account, name='account'),
     #path('admin/', admin.site.urls),
 ]
