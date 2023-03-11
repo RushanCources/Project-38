@@ -1,7 +1,7 @@
 import os
 
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from management.models import User
 from projects.models import Project
@@ -17,7 +17,7 @@ def index(request):
                     "teacher" : project.teacher.fullName(),
                     "student" : project.student.fullName(),
                     "status" : project.getStatus(),
-                    "Description" : project.description,
+                    "description" : project.description,
                     "id" : pId}
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
@@ -113,8 +113,6 @@ def correctProject(request):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
-        print(name)
-        print(description)
         if name == -1 and description == -1:
             return render(request, "WrongData.html")
         if name != -1:
@@ -130,7 +128,7 @@ def correctProject(request):
                    "status": project.getStatus(),
                    "description": project.description,
                    "id": pId}
-        return render(request, "projects/project_page.html", context=context)
+        return redirect(reverse("projects")+"?id="+str(pId))
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:

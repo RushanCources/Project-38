@@ -7,8 +7,8 @@
         <input type="hidden" name="project" value={{id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
-    {% load static %}
     <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
+    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <div>{{teacher}}</div>
@@ -19,8 +19,9 @@
         <input type="hidden" name="project" value={{id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
-    {% load static %}
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
+
+    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <script>
@@ -37,7 +38,6 @@
         function save(id){
             let f = document.getElementById(id);
             let form = document.getElementById("f"+id);
-            alert(id);
             form.submit();
             }
     </script>
