@@ -1,0 +1,141 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+img {
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.logo {
+    display: inline-block;
+    margin-top: 40px;
+    margin-left: 10%;
+}
+
+.form {
+    padding: 28px 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 350px;
+    min-height: 400px;
+    background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
+    border-radius: 5px;
+}
+
+.title {
+    margin: 0;
+    color: #fff;
+    font-size: 24px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.form-div {
+    margin: 35px 0;
+}
+
+.form-div > div:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.input-p, label {
+    display: block;
+    padding-bottom: 6px;
+    color: #fff;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.form-div input {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 13px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.buttons {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 100%;
+    padding: 13px;
+    color: #fff;
+    background: #000;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.register {
+    margin-top: 10px;
+    color: #fff;
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.error {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: red;
+    animation: error 2s ease-in 3; 
+}
+
+@keyframes error {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.errorlist {
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #000;
+    font-size: 16px;
+}
+
+/* for token_page.html */
+
+.token {
+    padding: 28px 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 350px;
+    background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
+    border-radius: 5px;
+}

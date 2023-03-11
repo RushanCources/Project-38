@@ -1,14 +1,41 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 
-{% block content %}
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная страница</title>
-    <h1>Добро пожаловать!</h1>
+    <link rel="stylesheet" href="{% static 'css/home_page/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+</head>
+
+<body>
+
+    {% block content %}
 
     {% if user.is_authenticated %}
-        <a href="{% url 'account' %}">Профиль</a>
-        <a href="{% url 'logout' %}">Выйти</a>
+    <a href="{% url 'profile' %}">Профиль</a>
+    <a href="{% url 'logout' %}">Выйти</a>
     {% else %}
-        <a href="{% url 'login' %}">Авторизация</a>
-        <a href="{% url 'register' %}">Регистрация</a>
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <div class="main">
+        <div class="content">
+            <h1 class="text">Выполнение проекта должно быть не только увлекательным, <span class="bold_text">но и удобным!</span></h1>
+            <span class="sub-title">Присоединяйся к нам и сделай организацию своего проета проще!</span>
+            <button class="button"><a href="{% url 'login' %}">ВОЙТИ</a></button>
+        </div>
+        <div class="img">
+            <img src="{% static 'img/home_page/1.jpg' %}" alt="Главная картинка">
+        </div>
+    </div>
     {% endif %}
-{% endblock %}
+    {% endblock %}
+</body>
+
+</html>
