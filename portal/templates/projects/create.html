@@ -12,17 +12,20 @@
             </select>
         </div>
 
-        <link rel="stylesheet" href="{% static 'select2css' %}">
-        <script type="text/javascript" src="{% url 'jquery' %}"></script>
-        <script type="text/javascript" src="{% url 'select2' %}"></script>
+
+        <p>Название:<br> <input name="name" minlength="1"/></p>
+        <input type="submit" value="Send" />
+    </form>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'select2\css\select2.min.css' %}">
+        {% load static %}
+        <script type="text/javascript" src="{% static 'jquery\jquery.min.js' %}"></script>
+        {% load static %}
+        <script type="text/javascript" src="{% static 'select2\js\select2.full.min.js' %}"></script>
 
         <script>
             $(function () {
               $('.select2').select2()
             });
         </script>
-
-        <p>Название:<br> <input name="name" minlength="1"/></p>
-        <input type="submit" value="Send" />
-    </form>
 {% endblock %}
