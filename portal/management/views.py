@@ -33,7 +33,7 @@ def admin_menu(request):
                 new_user.save()
             else:    
                 user = User.objects.get(id = user_id)
-                    
+                   
                 user.first_name = user_update_form.cleaned_data['first_name']
                 user.last_name = user_update_form.cleaned_data['last_name']
                 user.middle_name = user_update_form.cleaned_data['middle_name']
