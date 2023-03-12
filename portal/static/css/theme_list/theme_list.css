@@ -128,6 +128,7 @@ body {
 
 .list {
     display: none;
+    z-index: 2;
     list-style: none;
     position: absolute;
     width: 100%;
@@ -135,6 +136,7 @@ body {
     overflow-y: auto;
     padding: 0;
     margin: 0;
+    margin-top: 2px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
     background: #fff;
 }
@@ -160,7 +162,6 @@ body {
 
 .btn {
     padding: 8px 30px;
-    background: transparent;
     outline: none;
     border: none;
     font-size: 20px;
@@ -187,12 +188,11 @@ body {
     display: flex;
     position: relative;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+    padding: 25px;
+    padding-top: 35px;
     width: 1200px;
-    height: 200px;
+    max-height: 200px;
     border-radius: 10px;
-    background: #051A3F;
     color: #fff;
 }
 
@@ -200,11 +200,20 @@ body {
     margin-bottom: 20px;
 }
 
+.theme-block-open {
+    max-height: none;
+    min-height: 200px;
+}
+
+.theme-block-close {
+    max-height: 200px;
+    min-height: 0;
+}
+
 .theme-subject {
     position: absolute;
     top: 10px;
     right: 10px;
-    color: #3A4E71;
     font-weight: 700;
     font-size: 24px;
     line-height: 28px;
@@ -247,7 +256,7 @@ body {
     max-width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: flex-start;
 }
 
@@ -262,7 +271,7 @@ body {
 .theme-descr {
     margin: 0;
     margin-bottom: 7px;
-    max-height: 75px;
+    min-height: 74px;
     overflow: hidden;
     font-size: 15px;
     line-height: 18px;
@@ -280,11 +289,57 @@ body {
     line-height: 16px;
 }
 
+.theme-btn-take {
+    display: none;
+    margin-top: 20px;
+    margin-left: auto;
+    padding: 6px 15px;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.theme-btn-take:active {
+    background-color: rgba(255,255,255,.8);
+}
+
 .author, .teacher {
+    margin: 0;
+    margin-bottom: 15px;
     font-size: 16px;
     line-height: 18px;
 }
 
-.author span, .teacher span {
+.author a, .teacher a {
     font-weight: 700;
+}
+
+/* subjects colors... */
+
+.sub1 {
+    background: linear-gradient(248deg, #051a3f 44%, #07204d 98%);
+}
+
+.sub1 > span {
+    color: #3A4E71;
+}
+
+.sub1 .theme-btn-take {
+    color:#051a3f;
+}
+
+.sub2 {
+    background: linear-gradient(248deg, #4e9e56 44%, rgba(92,185,101,1) 98%);
+}
+
+.sub2 > span {
+    color: #3A713F;
+}
+
+.sub2 .theme-btn-take {
+    color:#4e9e56;
 }
