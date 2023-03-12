@@ -48,8 +48,10 @@ $('.input-role').on('click', function () {
 
     if (this.id == 'id_role_0') {
         $('.block').css({'display' : 'none'});
+        $('.list-p').css({'visibility' : 'visible'});
     } else {
         $('.block').css({'display' : 'block'});
+        $('.list-p').css({'visibility' : 'hidden'});
         $('#group-list').css({ 'display': 'none' });
     }
 
@@ -90,8 +92,6 @@ function change_fn() {
             password = tr.childNodes[9].innerHTML;
             id = $(tr).attr('id');
         }
-
-        console.log(group);
 
         $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');

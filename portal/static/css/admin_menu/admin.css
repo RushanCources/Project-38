@@ -82,14 +82,14 @@ body {
     padding-right: 40px;
 }
 
-.filter-div {
+.div-list {
     width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.filter-name, .group-name {
+.list-name{
     margin: 0;
     width: 50%;
     background: #1f3f76;
@@ -102,7 +102,7 @@ body {
     border-bottom-left-radius: 5px;
 }
 
-.list {
+.list-names {
     position: relative;
     margin: 0;
     padding: 0;
@@ -110,7 +110,7 @@ body {
     list-style: none;
 }
 
-.group{
+.list{
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -122,7 +122,7 @@ body {
     background: #fff;
 }
 
-.group-p {
+.list-p {
     margin: 0;
     padding: 9px 8px;
     border: 1px solid #1f3f76;
@@ -142,22 +142,18 @@ body {
 .block {
     display: none;
     position: absolute;
-    top: 1px;
-    left: 1px;
-    bottom: 1px;
-    right: 1px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     background: #F5F5F5;
     pointer-events: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    border: 1px solid transparent;
+    border: 1px solid #1f3f76;
 }
 
-.list li {
-    list-style: none;
-}
-
-.group-li {
+.list-li {
     padding: 9px 8px;
     font-size: 14px;
     line-height: 16px;
@@ -166,7 +162,7 @@ body {
     cursor: pointer;
 }
 
-.group-li:hover {
+.list-li:hover {
     background: #ccc;
 }
 

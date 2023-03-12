@@ -1,8 +1,5 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
-def index(request):
-    return HttpResponse("Что-то")
+def theme_list(request):
+    return render(request, 'theme_list/theme_list.html') 
 
-def account(request):
-    return HttpResponse("Профиль")

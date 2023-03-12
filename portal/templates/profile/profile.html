@@ -18,27 +18,27 @@
 
 <body>
     <header class="header">
-        <a href="#" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="#">Главная</a>
+                    <a href="{% url 'home' %}">Главная</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Объявления</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Список тем</a>
+                    <a href="{% url 'theme_list' %}">Список тем</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Управление проектом</a>
                 </li>
             </ul>
         </nav>
-        <div class="user">
-            <p class="username">User Login</p>
+        <a class="user" href="{% url 'profile' %}">
+            <p class="username">{{ user.username }}</p>
             <div class="avatar"></div>
-        </div>
+        </a>
     </header>
 
     <main class="main">
@@ -55,38 +55,38 @@
                         <span class="time-p">На сайте с</span>
                         <time class="time" datetime="2023-01-15 19:40">15.01.2023</time>
                     </div>
-                    <div class="div-group">
-                        <div class="group-name">Группа</div>
-                        <div class="group-numbers">
-                            <div class="group-p">14</div>
-                            <ul class="group">
-                                <li class="group-li">1</li>
-                                <li class="group-li">2</li>
-                                <li class="group-li">3</li>
-                                <li class="group-li">4</li>
-                                <li class="group-li">5</li>
-                                <li class="group-li">6</li>
-                                <li class="group-li">7</li>
-                                <li class="group-li">10</li>
-                                <li class="group-li">11</li>
-                                <li class="group-li">12</li>
-                                <li class="group-li">13</li>
-                                <li class="group-li">14</li>
-                                <li class="group-li">15</li>
-                                <li class="group-li">16</li>
-                                <li class="group-li">17</li>
-                                <li class="group-li">20</li>
-                                <li class="group-li">21</li>
-                                <li class="group-li">22</li>
-                                <li class="group-li">23</li>
-                                <li class="group-li">24</li>
-                                <li class="group-li">25</li>
-                                <li class="group-li">26</li>
-                                <li class="group-li">27</li>
+                    <div class="list-div">
+                        <div class="list-name">Группа</div>
+                        <div class="list-names">
+                            <div class="list-p">{{ user.group }}</div>
+                            <ul class="list">
+                                <li class="list-li">1</li>
+                                <li class="list-li">2</li>
+                                <li class="list-li">3</li>
+                                <li class="list-li">4</li>
+                                <li class="list-li">5</li>
+                                <li class="list-li">6</li>
+                                <li class="list-li">7</li>
+                                <li class="list-li">10</li>
+                                <li class="list-li">11</li>
+                                <li class="list-li">12</li>
+                                <li class="list-li">13</li>
+                                <li class="list-li">14</li>
+                                <li class="list-li">15</li>
+                                <li class="list-li">16</li>
+                                <li class="list-li">17</li>
+                                <li class="list-li">20</li>
+                                <li class="list-li">21</li>
+                                <li class="list-li">22</li>
+                                <li class="list-li">23</li>
+                                <li class="list-li">24</li>
+                                <li class="list-li">25</li>
+                                <li class="list-li">26</li>
+                                <li class="list-li">27</li>
                             </ul>
                         </div>
                     </div>
-                    <button class="btn exit"><a href="{% url 'home' %}">Выйти</a></button>
+                    <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
                 </section>
                 <section class="section theme-list">
                     <h2 class="theme-list-title">Список выбранных тем</h2>
@@ -96,23 +96,23 @@
             <section class="section info">
                 <div class="div-input">
                     <span class="span">Фамилия</span>
-                    <input class="input" type="text" value="Кокорин">
+                    <input class="input" type="text" value="{{ user.last_name }}">
                 </div>
                 <div class="div-input">
                     <span class="span">Имя</span>
-                    <input class="input" type="text" value="Петр">
+                    <input class="input" type="text" value="{{ user.first_name }}">
                 </div>
                 <div class="div-input">
                     <span class="span">Отчетво</span>
-                    <input class="input" type="text" value="Алексеевич">
+                    <input class="input" type="text" value="{{ user.middle_name }}">
                 </div>
                 <div class="div-input">
                     <span class="span">Логин</span>
-                    <input class="input" type="text" value="Admin">
+                    <input class="input" type="text" value="{{ user.username }}">
                 </div>
                 <div class="div-input">
                     <span class="span">Эл. почта</span>
-                    <input class="input" type="text" value="petyaPro2006@gmail.ru">
+                    <input class="input" type="text" value="{{ user.email }}">
                 </div>
                 <div class="line"></div>
                 <div class="div-input">
