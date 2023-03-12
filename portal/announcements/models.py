@@ -21,5 +21,6 @@ class Announcement(TimeStampMixin):
     is_pinned = models.BooleanField(default=False)
     date_of_expiring = models.DateTimeField(null=True)
     tags = models.ManyToManyField(Tag)
+    image_urls = models.TextField(blank=True)
 
 

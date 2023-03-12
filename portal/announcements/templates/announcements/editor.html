@@ -5,7 +5,7 @@
     <title>Редактор объявлений</title>
 </head>
 <body>
-<form method="post" action="editannouncement/{{ announcement.id }}">
+<form method="post" action="editannouncement/{{ announcement.id }}" enctype="multipart/form-data">
     {% csrf_token %}
     <p>Имя объявления:<br> <input name="title" value="{{ announcement.title }}" /></p>
     <p>Текст объявления:<br> <input name="body" value="{{ announcement.body }}" /></p>
@@ -25,6 +25,11 @@
     <b>Тэги (Каждый на отдельной строке):</b>
     <p><textarea name="tags">{% for tag in announcement.tags.all %}
 {{ tag.name }}{% endfor %}</textarea></p>
+    <b>Редактировать изображения: </b>
+    {% for image_url in old_images %}
+    <img src="{{ image_url }}" width="200" height="200">
+    {% endfor %}
+    <p><input type="file" name="images" id="images" multiple></p>
     <input type="submit" value="Изменить" />
 </form>
 </body>

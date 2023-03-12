@@ -5,7 +5,7 @@
     <title>Редактор объявлений</title>
 </head>
 <body>
-<form method="post" action="createannouncement">
+<form method="post" action="createannouncement" enctype="multipart/form-data">
     {% csrf_token %}
     <p>Имя объявления:<br> <input name="title" /></p>
     <p>Текст объявления:<br> <input name="body" /></p>
@@ -19,6 +19,8 @@
     <p><input type="date" name="date_of_expiring"></p>
     <b>Тэги (Каждый на отдельной строке):</b>
     <p><textarea name="tags"></textarea></p>
+    <b>Прикрепить изображения: </b>
+    <p><input type="file" name="images" id="images" multiple></p>
     <input type="submit" value="Разместить" />
 </form>
 </body>
