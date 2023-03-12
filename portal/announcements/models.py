@@ -21,6 +21,10 @@ class Announcement(TimeStampMixin):
     is_pinned = models.BooleanField(default=False)
     date_of_expiring = models.DateTimeField(null=True)
     tags = models.ManyToManyField(Tag)
-    image_urls = models.TextField(blank=True)
+
+
+class Image(models.Model):
+    announcement = models.ForeignKey(Announcement, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='announcement_images', blank=True, null=True)
 
 

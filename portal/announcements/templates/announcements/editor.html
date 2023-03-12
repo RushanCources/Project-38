@@ -26,10 +26,15 @@
     <p><textarea name="tags">{% for tag in announcement.tags.all %}
 {{ tag.name }}{% endfor %}</textarea></p>
     <b>Редактировать изображения: </b>
-    {% for image_url in old_images %}
-    <img src="{{ image_url }}" width="200" height="200">
-    {% endfor %}
-    <p><input type="file" name="images" id="images" multiple></p>
+    {% if announcement.images.all %}
+        <h5>Удалить изображения: </h5>
+        {% for image in announcement.images.all %}
+            <img src="{{ image.image.url }}" width="200" height="200">
+            <input type="checkbox" name="images_to_delete" value="{{ image.id }}">
+        {% endfor %}
+    {% endif %}
+    <h5>Добавить изображения: </h5>
+    <p><input type="file" name="images_to_add" id="images_to_add" multiple></p>
     <input type="submit" value="Изменить" />
 </form>
 </body>
