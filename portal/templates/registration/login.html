@@ -1,17 +1,45 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
 
-{% block content %}
-    <title>Авторизация</title>
-    <h1>Авторизация</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'css/registration/login.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+</head>
 
+<body>
+    {% block content %}
     {% if form.errors %}
-        <p>Неправильный логин или пароль</p>
+    <p class="error">Неправильный логин или пароль</p>
     {% endif %}
 
-    <form action="{% url 'login' %}" method="post">
-        <p>Логин:</p>{{ form.username }}
-        <p>Пароль:</p>{{ form.password }}
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <form action="{% url 'login' %}" method="post" class="form">
         {% csrf_token %}
-        <button type="submit" class="btn btn-success">Войти</button>
+        <h1 class="title">Добро пожаловать!</h1>
+        <div class="form-div">
+            <div>
+                <span class="input-p">Логин:</span>
+                {{ form.username }}
+            </div>
+            <div>
+                <span class="input-p">Пароль:</span>
+                {{ form.password }}
+            </div>
+        </div>
+        <div class="buttons">
+            <button type="submit" class="btn btn-success">Войти</button>
+            <a href="{% url 'token_page' %}" class="register">Регистрация</a>
+        </div>
     </form>
-{% endblock %}
+    {% endblock %}
+</body>
+
+</html>

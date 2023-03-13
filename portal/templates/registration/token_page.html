@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Начало регистрации</title>
+    <link rel="stylesheet" href="{% static 'css/registration/login.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+</head>
+
+<body>
+    {% block content %}
+    {% if form.errors %}
+    <p class="error">Такого токена не существует!</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <form method="post" class="token">
+        {% csrf_token %}
+        <h1 class="title">Вставьте токен для регистрации!</h1>
+        <div class="form-div">
+            <div>
+                <span class="input-p">Ваш токен:</span>
+                <input type="text">
+            </div>
+        </div>
+        <button type="submit" class="btn">Продолжить</button>
+    </form>
+    {% endblock %}
+</body>
+
+</html>

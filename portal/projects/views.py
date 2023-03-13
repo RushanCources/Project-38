@@ -7,6 +7,9 @@ from django.urls import reverse
 from management.models import User
 from projects.models import Project
 
+def theme_list(request):
+    return render(request, 'theme_list/theme_list.html') 
+
 def index(request):
     return render(request, "projects/index.html")
 
