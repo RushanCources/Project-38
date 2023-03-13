@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор объявлений</title>
+</head>
+<body>
+<form method="post" action="createannouncement">
+    {% csrf_token %}
+    <p>Имя объявления:<br> <input name="title" /></p>
+    <p>Текст объявления:<br> <input name="body" /></p>
+    <b>Закреплять объявления?</b>
+    <p><select name="is_pinned">
+    <option selected value="1">Да</option>
+    <option value="">Нет</option>
+    </select>
+    </p>
+    <b>Дата исчезновения объявления:</b>
+    <p><input type="date" name="date_of_expiring"></p>
+    <b>Тэги (Каждый на отдельной строке):</b>
+    <p><textarea name="tags"></textarea></p>
+    <input type="submit" value="Разместить" />
+</form>
+</body>
+</html>
