@@ -14,8 +14,5 @@ class User(AbstractUser):
         self._meta.get_field('username').verbose_name = "Логин"
         self._meta.get_field('password').verbose_name = "Пароль"
 
-class Student(User):
-    role = "Ученик"
-
-class Teacher(User):
-    role = "Учитель"
+    def fullName(self):
+        return self.last_name + " " + self.first_name + " " + self.middle_name
