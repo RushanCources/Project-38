@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
     <link rel="icon" href="{% static 'img/global/icon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,13 +37,13 @@
                     <a href="{% url 'home' %}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Объявления</a>
+                    <a href="{% url 'announcements' %}">Объявления</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'theme_list' %}">Список тем</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Управление проектом</a>
+                    <a href="{% url 'theme_list' %}">Управление проектом</a>
                 </li>
             </ul>
         </nav>
