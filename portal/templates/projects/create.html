@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     <link rel="stylesheet" href="{%static 'css/projects/fl.css' %}">
     <link rel="icon" href="img/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,11 +18,27 @@
 
 <body>
     <header class="header">
-        <a href="#" class="logo"><img src="img/icon.png" alt="Логотип сайта"></a>
-        <div class="user">
-            <p class="username">Петя Кокорин</p>
-            <div class="avatar"></div>
-        </div>
+      <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="{% url 'home' %}">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Объявления</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Список тем</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Управление проектом</a>
+          </li>
+        </ul>
+      </nav>
+      <a class="user" href="{% url 'profile' %}">
+        <p class="username">{{ user.username }}</p>
+        <div class="avatar"></div>
+      </a>
     </header>
 
     <form class="main" action="{% url 'postcreate' %}" method="POST" >
