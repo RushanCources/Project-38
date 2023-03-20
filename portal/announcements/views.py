@@ -86,7 +86,6 @@ def editannouncement(request, id):
         images_to_add = request.FILES.getlist('images_to_add')
         files_to_add = request.FILES.getlist('files_to_add')
         files_to_delete = request.POST.getlist('files_to_delete')
-        print(files_to_add, files_to_delete)
 
         my_tags = []
 
