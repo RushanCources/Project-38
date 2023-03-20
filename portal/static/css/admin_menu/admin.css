@@ -1,42 +1,14 @@
-html {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-  }
-  
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
-  
-a {
-    color: inherit;
-    text-decoration: none;
-}
-  
-img {
-    max-width: 100%;
-}
-  
-body {
-    margin: 0;
-    font-family: 'Roboto', Verdana, sans-serif;
-    min-width: 100%;
-    min-height: 100%;
-    background-color: #E8F1FF;
-}
-
 .main {
+    min-width: 60%;
     max-width: 1200px;
-    margin: 0 auto;
     margin-top: 50px;
 }
 
 .main-nav {
     position: relative;
     display: block;
-    width: 50%;
+    max-width: 600px;
+    min-width: 50%;
     margin: 0 auto;
 }
 
