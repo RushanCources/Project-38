@@ -1,32 +1,3 @@
-html, body {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-  }
-  
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
-  
-a {
-    color: inherit;
-    text-decoration: none;
-}
-  
-img {
-    max-width: 100%;
-}
-  
-body {
-    margin: 0;
-    font-family: 'Roboto', Verdana, sans-serif;
-    min-width: 100%;
-    min-height: 100%;
-    background-color: #E8F1FF;
-}
-
 .btn {
     padding: 10px 30px;
     background: transparent;
