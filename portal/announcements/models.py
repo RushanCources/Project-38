@@ -28,3 +28,6 @@ class Image(models.Model):
     image = models.ImageField(upload_to='announcement_images', blank=True, null=True)
 
 
+class File(models.Model):
+    announcement = models.ForeignKey(Announcement, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='announcement_files', blank=True, null=True)

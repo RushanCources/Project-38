@@ -3,8 +3,7 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date, datetime
 from .decorators import allowed_users
-from .models import Tag
-from .models import Image
+from .models import Tag, Image, File
 
 
 def index(request):
@@ -32,6 +31,7 @@ def createannouncement(request):
     author = request.user
     tags_str = request.POST.get("tags")
     images = request.FILES.getlist('images')
+    files = request.FILES.getlist('files')
 
     my_tags = []
 
@@ -48,6 +48,9 @@ def createannouncement(request):
 
     for image in images:
         Image.objects.create(announcement=announcement, image=image)
+
+    for file in files:
+        File.objects.create(announcement=announcement, file=file)
 
     return HttpResponsePermanentRedirect('/announcements')
 
@@ -81,6 +84,9 @@ def editannouncement(request, id):
         if is_pinned == '': is_pinned = 0
         images_to_delete = request.POST.getlist('images_to_delete')
         images_to_add = request.FILES.getlist('images_to_add')
+        files_to_add = request.FILES.getlist('files_to_add')
+        files_to_delete = request.POST.getlist('files_to_delete')
+        print(files_to_add, files_to_delete)
 
         my_tags = []
 
@@ -93,6 +99,14 @@ def editannouncement(request, id):
 
         for image in images_to_add:
             Image.objects.create(announcement=announcement, image=image)
+
+        for file_id in files_to_delete:
+            file = File.objects.get(pk=file_id)
+            file.file.delete()
+            file.delete()
+
+        for file in files_to_add:
+            File.objects.create(announcement=announcement, file=file)
 
         for name in tags_list:
             tag_exm = Tag(name=name)

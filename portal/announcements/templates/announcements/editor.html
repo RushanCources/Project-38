@@ -35,6 +35,17 @@
     {% endif %}
     <h5>Добавить изображения: </h5>
     <p><input type="file" name="images_to_add" id="images_to_add" multiple></p>
+    <b>Редактировать файлы: </b>
+    {% if announcement.files.all %}
+        <h5>Удалить файлы: </h5>
+        {% for file in announcement.files.all %}
+            <a href="{{ file.file.url }}" download="">{{ file.file }}</a>
+            <input type="checkbox" name="files_to_delete" value="{{ file.id }}">
+            <br></br>
+        {% endfor %}
+    {% endif %}
+    <h5>Добавить файлы: </h5>
+    <p><input type="file" name="files_to_add" id="files_to_add" multiple></p>
     <input type="submit" value="Изменить" />
 </form>
 </body>
