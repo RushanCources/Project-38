@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="jquery.js"></script>
     {% if user.is_authenticated %}
-    <link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dec/Dec/dec.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     {% else %}
     <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
@@ -31,10 +31,10 @@
                     <a href="{% url 'home' %}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Объявления</a>
+                    <a href="{% url 'announcements' %}">Объявления</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Список тем</a>
+                    <a href="{%url 'theme_list'%}">Список тем</a>
                 </li>
                 <li class="nav-item">
                     <a href="#">Управление проектом</a>
