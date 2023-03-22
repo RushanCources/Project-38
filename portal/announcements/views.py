@@ -1,16 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponsePermanentRedirect
 from .models import Announcement
-from datetime import date, datetime
+from datetime import date
 from .decorators import allowed_users
-from .models import Tag, Image, File
+from .models import Image, File
 
 
 def index(request):
-    text = "Здесь будет доска обьявлений"
-    title = "Доска объявлений"
-    data = {"header" : title, "text" : text}
-    return render(request, 'dec/dec.html')
+
+    group = None
+    superuser = False
+
+    if request.user.groups.exists():
+        group = request.user.groups.all()[0].name
+    if group in ['Teacher', 'admin']:
+        superuser = True
+
+    data = {'superuser': superuser}
+
+    return render(request, 'dec/dec.html', context=data)
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
@@ -29,22 +37,12 @@ def createannouncement(request):
     is_pinned = request.POST.get("is_pinned")
     de = request.POST.get("date_of_expiring")
     author = request.user
-    tags_str = request.POST.get("tags")
     images = request.FILES.getlist('images')
     files = request.FILES.getlist('files')
 
-    my_tags = []
-
-    tags_list = tags_str.split('\r\n')
     de = de.split("-")
 
-    for name in tags_list:
-        tag_exm = Tag(name=name)
-        tag_exm.save()
-        my_tags.append(tag_exm)
-
     announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])), author=author)
-    announcement.tags.add(*my_tags)
 
     for image in images:
         Image.objects.create(announcement=announcement, image=image)
@@ -80,16 +78,11 @@ def editannouncement(request, id):
         de = request.POST.get("date_of_expiring").split("-")
         date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
         is_pinned = request.POST.get("is_pinned")
-        tags_str = request.POST.get("tags")
         if is_pinned == '': is_pinned = 0
         images_to_delete = request.POST.getlist('images_to_delete')
         images_to_add = request.FILES.getlist('images_to_add')
         files_to_add = request.FILES.getlist('files_to_add')
         files_to_delete = request.POST.getlist('files_to_delete')
-
-        my_tags = []
-
-        tags_list = tags_str.split('\r\n')
 
         for image_id in images_to_delete:
             image = Image.objects.get(pk=image_id)
@@ -107,16 +100,10 @@ def editannouncement(request, id):
         for file in files_to_add:
             File.objects.create(announcement=announcement, file=file)
 
-        for name in tags_list:
-            tag_exm = Tag(name=name)
-            tag_exm.save()
-            my_tags.append(tag_exm)
-
         announcement.title = request.POST.get("title")
         announcement.body = request.POST.get("body")
         announcement.is_pinned = is_pinned
         announcement.date_of_expiring = date_of_expiring
-        announcement.tags.set(my_tags)
 
         announcement.save()
 
