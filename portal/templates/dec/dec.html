@@ -9,20 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="jquery.js"></script>
+    <script src="js/global/jquery.js"></script>
     {% if user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'css/dec/Dec/dec.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     {% else %}
     <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
     {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Announcements</title>
 </head>
 <body>
 
-    {% block content %}
-
+{% if user.is_authenticated %}
     <header class="header">
         <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
@@ -51,11 +49,6 @@
         
         <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
             <!-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера -->
-            <div class="Fmain" id="Fmain">
-
-            </div>
-            <!-- F->FSL + other=Fother-->
-            <div class="Fother" id="Fother1">
                 <div class="flex" id="flex1"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex2"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex3"><div class="IB" id="IB"></div></div>
@@ -68,9 +61,17 @@
                 <div class="flex" id="flex10"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex11"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex12"><div class="IB" id="IB"></div></div>
-            </div>
         </div>
     </main>
-    {% endblock %}
+ {% else %}
+
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <div class="div-error">
+        <p class="hi">Йоу, мэн, ты кто?</p>
+        <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
+        <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
+        <a href="{% url 'login' %}">Войти</a>
+    </div>
+ {% endif %}
 </body>
 </html>
