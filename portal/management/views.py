@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
-from .forms import UserRegistrationForm, UserUpdateForm
+from .forms import UserRegistrationForm
 from .models import User, Tokens
  
 def register(request):
@@ -29,39 +29,42 @@ def token_page(request):
 
 def admin_menu(request):
     users=User.objects.all()
-    if request.method == 'POST':
-        user_update_form = UserUpdateForm(request.POST)
+    if request.method == "POST":
+        user_id = request.POST.get('user_id_edit')
+        first_name = request.POST.get('name_input')
+        last_name = request.POST.get('surname_input')
+        middle_name = request.POST.get('patronymic_input')
+        username = request.POST.get('login_input')
+        group = request.POST.get('group_input')
+        role = request.POST.get('role')
 
-        if user_update_form.is_valid():
-            user_id = user_update_form.cleaned_data.get("user_id")
+        if user_id == -1:
+            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role)
+            new_user.set_password(request.POST.get('password'))
+            new_user.save()
+        
+        else:
+            user = User.objects.get(id=user_id)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.middle_name = middle_name
+            user.username = username
+            user.group = group
+            user.role = role
+            if role == "Администратор":
+                user.group = 0
+                user.is_superuser = True
+            elif role == "Учитель":
+                user.group = 0
+            else:
+                user.is_superuser = False
 
-            if user_id == -1:
-                new_user = user_update_form.save(commit=False)
-                new_user.set_password(user_update_form.cleaned_data['password'])
-                new_user.save()
-            else:    
-                user = User.objects.get(id = user_id)
-                   
-                user.first_name = user_update_form.cleaned_data['first_name']
-                user.last_name = user_update_form.cleaned_data['last_name']
-                user.middle_name = user_update_form.cleaned_data['middle_name']
-                user.username = user_update_form.cleaned_data['username']
-                user.group = user_update_form.cleaned_data['group']
-                user.role = user_update_form.cleaned_data['role']
+            user.save()
+        
+        return redirect('admin_menu')
+    
 
-                if user.role == 'Администратор':
-                    user.is_superuser = True
-                    group = 0
-                else: 
-                    user.is_superuser = False
-
-                user.save() 
-            
-            return redirect('admin_menu')
-    else:
-        user_update_form = UserUpdateForm() 
-
-    return render(request, 'admin_menu/admin.html', context={"users" : users, "user_update_form" : user_update_form})
+    return render(request, 'admin_menu/admin.html', context={"users" : users})
 
 def profile(request):
     users=User.objects.all()
