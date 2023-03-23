@@ -1,33 +1,10 @@
-//Код для проверки заполненности полей. Используется в создании и редактировании пользователя
-
-function input_errors() {
-    let alrt = 1;
-    let errors = true;
-
-    inputs.forEach(function (input) {
-        if (input.value === '') {
-            input.classList.add('error');
-            if (alrt == 1) {
-                errors = true;
-                alert('Заполните все поля!');
-                alrt--;
-            }
-
-        } else {
-            input.classList.remove('error');
-            errors = false;
-        }
-    });
-
-    return errors;
-}
-
 //Создание нового пользователя
 
 function n_user() {
     $('.new-user-block').css({ 'display': 'block' });
     $('.back-form').css({ 'display': 'block' });
-    $('.input-password').css({'display':'block'});
+    $('.input-password').css({ 'display': 'block' });
+    $('.input-password').attr('required', true);
 }
 
 function exit() {
@@ -88,7 +65,8 @@ function change_fn() {
 
         n_user();
 
-        $('.input-password').css({'display':'none'});
+        $('.input-password').css({ 'display': 'none' });
+        $('.input-password').attr('required', false);
         $('.input-surname').val(surname);
         $('.input-name').val(name);
         $('.input-patronymic').val(pat);
@@ -98,9 +76,9 @@ function change_fn() {
         $('.form-id').val(id);
 
         if (role == 'Учитель') {
-            $('#id_role_1').click();
+            $('#role2').click();
         } else if (role == 'Администратор') {
-            $('#id_role_2').click();
+            $('#role3').click();
         }
 
     });
@@ -108,36 +86,14 @@ function change_fn() {
 change_fn();
 
 function chang() {
-    let errors = input_errors();
-    if (!errors) {
-        let span_surname, span_name, span_pat, td_group, td_role, td_login, td_password;
-        span_surname = tr.childNodes[3].childNodes[1];
-        span_name = tr.childNodes[3].childNodes[3];
-        span_pat = tr.childNodes[3].childNodes[5];
-        td_group = tr.childNodes[5];
-        td_role = tr.childNodes[7];
-        td_login = tr.childNodes[9];
+    let group = $('#group-p').html();
 
-        let name = $('.input-name').val().trim();
-        let surname = $('.input-surname').val().trim();
-        let pat = $('.input-patronymic').val().trim();
-        let login = $('.input-login').val().trim();
-        let group = $('#group-p').html();
-
-        if (role != "Ученик") {
-            $('.form-group').val('0');
-            $('.table-td-group').css({ 'opacity': '0' });
-        } else {
-            $('.form-group').val(group);
-            $('.table-td-group').css({ 'opacity': '1' });
-        }
-
-        $(span_surname).html(surname + " ");
-        $(span_name).html(name + " ");
-        $(span_pat).html(pat);
-        $(td_group).html(group);
-        $(td_role).html(role);
-        $(td_login).html(login);
+    if (role != "Ученик") {
+        $('.form-group').val('0');
+        $('.table-td-group').css({ 'opacity': '0' });
+    } else {
+        $('.form-group').val(group);
+        $('.table-td-group').css({ 'opacity': '1' });
     }
 }
 

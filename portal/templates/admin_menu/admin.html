@@ -102,22 +102,29 @@
     <p class="new-user-p">Создание пользователя</p>
     <div class="new-user-main">
         <div class="inputs">
-            {{ user_update_form.last_name }}
-            {{ user_update_form.first_name }}
-            {{ user_update_form.middle_name }}
-            {{ user_update_form.username }}
-            {{ user_update_form.password }}
-            {{ user_update_form.user_id }}
-            {{ user_update_form.group }}
+            {% csrf_token %}
+            <input class="input input-surname" type="text" placeholder="Фамилия" name="surname_input" required>
+            <input class="input input-name" type="text" placeholder="Имя" name="name_input" required>
+            <input class="input input-patronymic" type="text" placeholder="Отчество" name="patronymic_input" required>
+            <input class="input input-login" type="text" placeholder="Логин" name="login_input" required>
+            <input type="text" class="input input-password" placeholder="Пароль" name="password_input">
+            <input type="number" class="form-id" name="user_id_edit" required>
+            <input type="text" class="form-group" value="1" name="group_input" required>
         </div>
         <div class="lists">
             <div class="new-user-role">
-                {% for radio in user_update_form.role %}
                 <div>
-                    <label class="role-name" for="role1">{{ radio.choice_label }}</label>
-                    {{ radio.tag }}
+                    <label class="role-name" for="role1">Ученик</label>
+                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                    </div>
+                    <div>
+                        <label class="role-name" for="role2">Учитель</label>
+                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
+                    </div>
+                    <div>
+                        <label class="role-name" for="role3">Админ</label>
+                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
                 </div>
-                {% endfor %}
             </div>
 
             <div class="new-user-group">
