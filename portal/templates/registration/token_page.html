@@ -16,8 +16,10 @@
 
 <body>
     {% block content %}
-    {% if form.errors %}
-    <p class="error">Такого токена не существует!</p>
+    {% if messages %}
+        {% for message in messages %}
+        <p class="error">{{ message }}</p>
+        {% endfor %}
     {% endif %}
 
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
@@ -27,7 +29,7 @@
         <div class="form-div">
             <div>
                 <span class="input-p">Ваш токен:</span>
-                <input type="text">
+                <input type="text" name="token">
             </div>
         </div>
         <button type="submit" class="btn">Продолжить</button>

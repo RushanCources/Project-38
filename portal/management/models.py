@@ -12,6 +12,9 @@ class User(AbstractUser):
 
     def fullName(self):
         return self.last_name + " " + self.first_name + " " + self.middle_name
+
+class Tokens(models.Model):
+    token = models.TextField(max_length=16)
     
 class Student(User):
     role = "Ученик"
