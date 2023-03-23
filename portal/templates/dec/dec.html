@@ -1,3 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/Dec/dec.css' %}">
+<title>Объявления</title>
+{% endblock head %}
+{% block content %}
+
+<main class="main">
+
+    <div class="main-nav">
+        <div class="search">
+            <input class="search-input" type="text" placeholder="Поиск...">
+            <button class="search-button"></button>
+        </div>
+    </div>
+
+    <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
+        <!-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера -->
+        <div class="flex" id="flex1"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex2"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex3"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex4"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex5"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex6"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex7"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex8"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex9"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex10"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex11"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex12"><div class="IB" id="IB"></div></div>
+    </div>
+</main>
+{% endblock content %}
+
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +84,15 @@
 
     <main class="main">
         
-        <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
-            <!-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера -->
+        <div class="main-nav">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="Поиск...">
+                <button class="search-button"></button>
+            </div>
+        </div>
+
+        <div class="FSL" id="FSL"> <-- FSL==Facking Scroll List ->
+            <-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера ->
                 <div class="flex" id="flex1"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex2"><div class="IB" id="IB"></div></div>
                 <div class="flex" id="flex3"><div class="IB" id="IB"></div></div>
@@ -74,4 +118,4 @@
     </div>
  {% endif %}
 </body>
-</html>
+</html> -->

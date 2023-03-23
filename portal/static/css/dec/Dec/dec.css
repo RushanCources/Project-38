@@ -27,7 +27,7 @@ body {
     background-color: #E8F1FF;
 }
 
-.header {
+/* .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,6 +61,21 @@ body {
     border-radius: 50%;
     background: #168cd1 url('img/avatar.png') no-repeat center center;
     background-size: 75%;
+} */
+
+.main-nav {
+    position: relative;
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.search {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main {
@@ -133,7 +148,7 @@ body {
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     border: none;
-    background: #1f3f76 url('img/search.svg') no-repeat 40% center;
+    background: #1f3f76 url('../../img/announcements/search.svg') no-repeat 40% center;
     cursor: pointer;
 
 }
