@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date
 from .decorators import allowed_users
-from .models import Image, File
+from .models import File
 
 
 def index(request):
@@ -37,15 +37,12 @@ def createannouncement(request):
     is_pinned = request.POST.get("is_pinned")
     de = request.POST.get("date_of_expiring")
     author = request.user
-    images = request.FILES.getlist('images')
     files = request.FILES.getlist('files')
+    image_url = request.POST.get("image_url")
 
     de = de.split("-")
 
-    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])), author=author)
-
-    for image in images:
-        Image.objects.create(announcement=announcement, image=image)
+    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])), author=author, image_url=image_url)
 
     for file in files:
         File.objects.create(announcement=announcement, file=file)
@@ -79,18 +76,9 @@ def editannouncement(request, id):
         date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
         is_pinned = request.POST.get("is_pinned")
         if is_pinned == '': is_pinned = 0
-        images_to_delete = request.POST.getlist('images_to_delete')
-        images_to_add = request.FILES.getlist('images_to_add')
         files_to_add = request.FILES.getlist('files_to_add')
         files_to_delete = request.POST.getlist('files_to_delete')
-
-        for image_id in images_to_delete:
-            image = Image.objects.get(pk=image_id)
-            image.image.delete()
-            image.delete()
-
-        for image in images_to_add:
-            Image.objects.create(announcement=announcement, image=image)
+        image_url = request.POST.get('image_url')
 
         for file_id in files_to_delete:
             file = File.objects.get(pk=file_id)
@@ -104,6 +92,7 @@ def editannouncement(request, id):
         announcement.body = request.POST.get("body")
         announcement.is_pinned = is_pinned
         announcement.date_of_expiring = date_of_expiring
+        announcement.image_url = image_url
 
         announcement.save()
 

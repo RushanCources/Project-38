@@ -30,8 +30,8 @@
             <input type="checkbox" name="images_to_delete" value="{{ image.id }}">
         {% endfor %}
     {% endif %}
-    <h5>Добавить изображения: </h5>
-    <p><input type="file" name="images_to_add" id="images_to_add" multiple></p>
+    <h5>Редактировать обложку: </h5>
+    <p><input type="text" name="image_url" id="image_url"></p>
     <b>Редактировать файлы: </b>
     {% if announcement.files.all %}
         <h5>Удалить файлы: </h5>
