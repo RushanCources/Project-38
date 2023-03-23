@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/Dec/dec.css' %}">
+<title>Объявления</title>
+{% endblock head %}
+{% block content %}
+
+<main class="main">
+
+    <div class="main-nav">
+        <div class="search">
+            <input class="search-input" type="text" placeholder="Поиск...">
+            <button class="search-button"></button>
+        </div>
+    </div>
+
+    <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
+        <!-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера -->
+        <div class="flex" id="flex1"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex2"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex3"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex4"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex5"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex6"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex7"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex8"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex9"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex10"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex11"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex12"><div class="IB" id="IB"></div></div>
+    </div>
+</main>
+{% endblock content %}
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" href="{% static 'img/global/icon.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="js/global/jquery.js"></script>
+    {% if user.is_authenticated %}
+    <link rel="stylesheet" href="{% static 'css/dec/Dec/dec.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
+    {% else %}
+    <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
+    {% endif %}
+    <title>Announcements</title>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+    <header class="header">
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'announcements' %}">Объявления</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{%url 'theme_list'%}">Список тем</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Управление проектом</a>
+                </li>
+            </ul>
+        </nav>
+        <a class="user" href="{% url 'profile' %}">
+            <p class="username">{{ user.username }}</p>
+            <div class="avatar"></div>
+        </a>
+    </header>
+
+    <main class="main">
+        
+        <div class="main-nav">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="Поиск...">
+                <button class="search-button"></button>
+            </div>
+        </div>
+
+        <div class="FSL" id="FSL"> <-- FSL==Facking Scroll List ->
+            <-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера ->
+                <div class="flex" id="flex1"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex2"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex3"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex4"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex5"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex6"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex7"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex8"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex9"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex10"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex11"><div class="IB" id="IB"></div></div>
+                <div class="flex" id="flex12"><div class="IB" id="IB"></div></div>
+        </div>
+    </main>
+ {% else %}
+
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <div class="div-error">
+        <p class="hi">Йоу, мэн, ты кто?</p>
+        <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
+        <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
+        <a href="{% url 'login' %}">Войти</a>
+    </div>
+ {% endif %}
+</body>
+</html> -->
