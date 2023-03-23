@@ -63,15 +63,18 @@
 <table class="table">
     <tbody>
         <tr class="table-names">
+            <td>id</td>
             <td class="table-username">ФИО</td>
             <td class="table-group">Группа</td>
             <td class="table-role">Роль</td>
+            <td>Логин</td>
             <td class="func">
                 <button class="new-user table-btn" onclick="n_user()"></button>
             </td>
         </tr>
         {% for user in users %}
-        <tr class="table-user" id="{{ user.id }}">
+        <tr class="table-user">
+            <td>{{ user.id }}</td>
             <td>
                 <span class="surname">{{ user.last_name }}</span>
                 <span class="name">{{ user.first_name }}</span>
@@ -83,7 +86,7 @@
                 {% endif %}
             </td>
             <td>{{ user.role }}</td>
-            <td class="table-hidden">{{ user.username }}</td>
+            <td>{{ user.username }}</td>
             <td class="table-hidden">{{ user.password }}</td>
             <td class="func">
                 <button class="change table-btn"></button>

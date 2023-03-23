@@ -361,11 +361,7 @@
     pointer-events: none;
 }
 
-.form-id {
-    display: none;
-}
-
-.form-group {
+.form-id, .form-group, .input-password {
     display: none;
 }
 
