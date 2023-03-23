@@ -1,137 +1,100 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
-    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
-    <link rel="icon" href="{% static 'img/global/icon.png' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="{% static 'js/global/jquery.js' %}"></script>
-    <title>username</title>
-</head>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/profile/profile.css' %}">
+<title>{{ user.username }} - профиль</title>
+{% endblock head %}
 
-<body>
-    <header class="header">
-        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="{% url 'home' %}">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'announcements' %}">Объявления</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'theme_list' %}">Список тем</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Управление проектом</a>
-                </li>
-            </ul>
-        </nav>
-        <a class="user" href="{% url 'profile' %}">
-            <p class="username">{{ user.username }}</p>
-            <div class="avatar"></div>
-        </a>
-    </header>
 
-    <main class="main">
-        <h1 class="h1">Профиль</h1>
-        <div class="main-div">
-            <div>
-                <section class="section main-info">
-                    <div class="avatar-image">
-                        <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
-                        <button class="pencil"></button>
-                    </div>
-                    <div class="role-date">
-                        <p class="role">Ученик</p>
-                        <span class="time-p">На сайте с</span>
-                        <time class="time" datetime="2023-01-15 19:40">15.01.2023</time>
-                    </div>
-                    <div class="list-div">
-                        <div class="list-name">Группа</div>
-                        <div class="list-names">
-                            <div class="list-p">{{ user.group }}</div>
-                            <ul class="list">
-                                <li class="list-li">1</li>
-                                <li class="list-li">2</li>
-                                <li class="list-li">3</li>
-                                <li class="list-li">4</li>
-                                <li class="list-li">5</li>
-                                <li class="list-li">6</li>
-                                <li class="list-li">7</li>
-                                <li class="list-li">10</li>
-                                <li class="list-li">11</li>
-                                <li class="list-li">12</li>
-                                <li class="list-li">13</li>
-                                <li class="list-li">14</li>
-                                <li class="list-li">15</li>
-                                <li class="list-li">16</li>
-                                <li class="list-li">17</li>
-                                <li class="list-li">20</li>
-                                <li class="list-li">21</li>
-                                <li class="list-li">22</li>
-                                <li class="list-li">23</li>
-                                <li class="list-li">24</li>
-                                <li class="list-li">25</li>
-                                <li class="list-li">26</li>
-                                <li class="list-li">27</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
-                </section>
-                <section class="section theme-list">
-                    <h2 class="theme-list-title">Список выбранных тем</h2>
-                    <p>Какая-то тема</p>
-                </section>
+{% block content %}
+<h1 class="h1">Профиль</h1>
+<div class="main-div">
+    <div>
+        <section class="section main-info">
+            <div class="avatar-image">
+                <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
+                <button class="pencil"></button>
             </div>
-            <section class="section info">
-                <div class="div-input">
-                    <span class="span">Фамилия</span>
-                    <input class="input" type="text" value="{{ user.last_name }}">
+            <div class="role-date">
+                <p class="role">Ученик</p>
+                <span class="time-p">На сайте с</span>
+                <time class="time" datetime="2023-01-15 19:40">15.01.2023</time>
+            </div>
+            <div class="list-div">
+                <div class="list-name">Группа</div>
+                <div class="list-names">
+                    <div class="list-p">{{ user.group }}</div>
+                    <ul class="list">
+                        <li class="list-li">1</li>
+                        <li class="list-li">2</li>
+                        <li class="list-li">3</li>
+                        <li class="list-li">4</li>
+                        <li class="list-li">5</li>
+                        <li class="list-li">6</li>
+                        <li class="list-li">7</li>
+                        <li class="list-li">10</li>
+                        <li class="list-li">11</li>
+                        <li class="list-li">12</li>
+                        <li class="list-li">13</li>
+                        <li class="list-li">14</li>
+                        <li class="list-li">15</li>
+                        <li class="list-li">16</li>
+                        <li class="list-li">17</li>
+                        <li class="list-li">20</li>
+                        <li class="list-li">21</li>
+                        <li class="list-li">22</li>
+                        <li class="list-li">23</li>
+                        <li class="list-li">24</li>
+                        <li class="list-li">25</li>
+                        <li class="list-li">26</li>
+                        <li class="list-li">27</li>
+                    </ul>
                 </div>
-                <div class="div-input">
-                    <span class="span">Имя</span>
-                    <input class="input" type="text" value="{{ user.first_name }}">
-                </div>
-                <div class="div-input">
-                    <span class="span">Отчетво</span>
-                    <input class="input" type="text" value="{{ user.middle_name }}">
-                </div>
-                <div class="div-input">
-                    <span class="span">Логин</span>
-                    <input class="input" type="text" value="{{ user.username }}">
-                </div>
-                <div class="div-input">
-                    <span class="span">Эл. почта</span>
-                    <input class="input" type="text" value="{{ user.email }}">
-                </div>
-                <div class="line"></div>
-                <div class="div-input">
-                    <span class="span">Новый пароль</span>
-                    <input class="input" type="password">
-                </div>
-                <div class="div-input">
-                    <span class="span">Текущий пароль</span>
-                    <input class="input" type="password">
-                </div>
-                <div class="div-input">
-                    <span class="span">Повторите пароль</span>
-                    <input class="input" type="password">
-                </div>
-                <button class="btn save">Сохранить</button>
-            </section>
+            </div>
+            <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
+        </section>
+        <section class="section theme-list">
+            <h2 class="theme-list-title">Список выбранных тем</h2>
+            <p>Какая-то тема</p>
+        </section>
+    </div>
+    <section class="section info">
+        <div class="div-input">
+            <span class="span">Фамилия</span>
+            <input class="input" type="text" value="{{ user.last_name }}">
         </div>
-    </main>
-    <script src="{% static 'js/global/list.js' %}"></script>
-</body>
-
-</html>
+        <div class="div-input">
+            <span class="span">Имя</span>
+            <input class="input" type="text" value="{{ user.first_name }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Отчетво</span>
+            <input class="input" type="text" value="{{ user.middle_name }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Логин</span>
+            <input class="input" type="text" value="{{ user.username }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Эл. почта</span>
+            <input class="input" type="text" value="{{ user.email }}">
+        </div>
+        <div class="line"></div>
+        <div class="div-input">
+            <span class="span">Новый пароль</span>
+            <input class="input" type="password">
+        </div>
+        <div class="div-input">
+            <span class="span">Текущий пароль</span>
+            <input class="input" type="password">
+        </div>
+        <div class="div-input">
+            <span class="span">Повторите пароль</span>
+            <input class="input" type="password">
+        </div>
+        <button class="btn save">Сохранить</button>
+    </section>
+</div>
+<script src="{% static 'js/global/list.js' %}"></script>
+{% endblock content %}
