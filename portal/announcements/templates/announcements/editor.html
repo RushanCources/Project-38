@@ -1,3 +1,4 @@
+<!-- Временный файл. Нужен для проверки работы -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +32,7 @@
         {% endfor %}
     {% endif %}
     <h5>Редактировать обложку: </h5>
-    <p><input type="text" name="image_url" id="image_url"></p>
+    <p><input type="text" name="image_url" id="image_url" value="{{ announcement.image_url }}"></p>
     <b>Редактировать файлы: </b>
     {% if announcement.files.all %}
         <h5>Удалить файлы: </h5>

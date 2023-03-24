@@ -13,17 +13,11 @@ class Command(BaseCommand):
         for announcement in announcements:
             if announcement.date_of_expiring <= now:
 
-                announcement.tags.all().delete()
-                images = announcement.images.all()
                 files = announcement.files.all()
-
-                for image in images:
-                    image.image.delete()
-                    image.delete()
 
                 for file in files:
                     file.file.delete()
                     file.delete()
 
-                self.stdout.write(self.style.SUCCESS(f'Successfully deleted announcement with id {announcement.id} and its related images, files and tags.'))
+                self.stdout.write(self.style.SUCCESS(f'Successfully deleted announcement with id {announcement.id} and its related image and files.'))
                 announcement.delete()
