@@ -110,5 +110,6 @@ def search(request):
         announcements = Announcement.objects.all()
     context = {
         'announcements': announcements,
+        'search_value': query,
     }
-    return render(request, 'dec/dec.html', context={'search_value': query})
+    return render(request, 'dec/dec.html', context=context)
