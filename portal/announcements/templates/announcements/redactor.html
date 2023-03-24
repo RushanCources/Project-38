@@ -8,20 +8,7 @@
 <body>
 <form method="post" action="createannouncement" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>Имя объявления:<br> <input name="title" /></p>
-    <p>Текст объявления:<br> <input name="body" /></p>
-    <b>Закреплять объявления?</b>
-    <p><select name="is_pinned">
-    <option selected value="1">Да</option>
-    <option value="">Нет</option>
-    </select>
-    </p>
-    <b>Дата исчезновения объявления:</b>
-    <p><input type="date" name="date_of_expiring"></p>
-    <b>Выбрать обложку: </b>
-    <p><input type="text" name="image_url" id="image_url"></p>
-    <b>Прикрепить файлы: </b>
-    <p><input type="file" name="files" id="files" multiple></p>
+    {{ form.as_p }}
     <input type="submit" value="Разместить" />
 </form>
 </body>

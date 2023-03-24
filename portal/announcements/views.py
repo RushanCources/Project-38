@@ -5,6 +5,10 @@ from .models import Announcement
 from datetime import date
 from .decorators import allowed_users
 from .models import File
+from .forms import AnnouncementForm
+
+
+# Добавить проверку форм при удалении тестовых шаблонов
 
 
 def index(request):
@@ -24,7 +28,8 @@ def index(request):
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
-    return render(request, "announcements/redactor.html")
+    form = AnnouncementForm()
+    return render(request, "announcements/redactor.html", context={'form': form})
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
@@ -54,9 +59,22 @@ def createannouncement(request):
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def editor(request, id):
     try:
-        data = {'announcement': Announcement.objects.get(id=id),
-                'date_of_expiring': str(Announcement.objects.get(id=id).date_of_expiring)[:10],
-                }
+        announcement = Announcement.objects.get(id=id)
+        initial_data = {
+            'title': announcement.title,
+            'body': announcement.body,
+            'is_pinned': announcement.is_pinned,
+            'date_of_expiring': str(Announcement.objects.get(id=id).date_of_expiring)[:10],
+            'image_url': announcement.image_url,
+        }
+
+        form = AnnouncementForm(initial=initial_data)
+
+        data = {
+            'form': form,
+            'announcement_id': id,
+            'announcement': announcement,
+        }
 
         return render(request, 'announcements/editor.html', context=data)
 
@@ -75,14 +93,14 @@ def editannouncement(request, id):
         announcement = Announcement.objects.get(id=id)
         de = request.POST.get("date_of_expiring").split("-")
         date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
-        is_pinned = request.POST.get("is_pinned")
-        if is_pinned == '': is_pinned = 0
-        files_to_add = request.FILES.getlist('files_to_add')
-        files_to_delete = request.POST.getlist('files_to_delete')
+        is_pinned = request.POST.get("is_pinned", False)
+        if is_pinned : is_pinned = True
+        files_to_add = request.FILES.getlist('files')
+        files_to_delete = request.POST.getlist('file_id_to_delete[]')
         image_url = request.POST.get('image_url')
 
         for file_id in files_to_delete:
-            file = File.objects.get(pk=file_id)
+            file = File.objects.get(pk=int(file_id))
             file.file.delete()
             file.delete()
 
@@ -101,6 +119,7 @@ def editannouncement(request, id):
 
     except Announcement.DoesNotExist:
         HttpResponse('Объявление не найдено')
+
 
 def search(request):
     query = request.GET.get('q')

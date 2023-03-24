@@ -8,42 +8,14 @@
 <body>
 <form method="post" action="editannouncement/{{ announcement.id }}" enctype="multipart/form-data">
     {% csrf_token %}
-    <p>Имя объявления:<br> <input name="title" value="{{ announcement.title }}" /></p>
-    <p>Текст объявления:<br> <input name="body" value="{{ announcement.body }}" /></p>
-    <b>Закреплять объявления?</b>
-    <p><select name="is_pinned">
-        {% if announcement.is_pinned == 1 %}
-        <option selected value="1">Да</option>
-        <option value="">Нет</option>
-        {% else %}
-        <option selected value="">Нет</option>
-        <option value="1">Да</option>
-        {% endif %}
-    </select>
-    </p>
-    <b>Дата исчезновения объявления:</b>
-    <p><input type="date" name="date_of_expiring" value="{{ date_of_expiring }}"></p>
-    <b>Редактировать изображения: </b>
-    {% if announcement.images.all %}
-        <h5>Удалить изображения: </h5>
-        {% for image in announcement.images.all %}
-            <img src="{{ image.image.url }}" width="200" height="200">
-            <input type="checkbox" name="images_to_delete" value="{{ image.id }}">
-        {% endfor %}
-    {% endif %}
-    <h5>Редактировать обложку: </h5>
-    <p><input type="text" name="image_url" id="image_url" value="{{ announcement.image_url }}"></p>
-    <b>Редактировать файлы: </b>
-    {% if announcement.files.all %}
-        <h5>Удалить файлы: </h5>
-        {% for file in announcement.files.all %}
-            <a href="{{ file.file.url }}" download="">{{ file.file }}</a>
-            <input type="checkbox" name="files_to_delete" value="{{ file.id }}">
-            <br></br>
-        {% endfor %}
-    {% endif %}
-    <h5>Добавить файлы: </h5>
-    <p><input type="file" name="files_to_add" id="files_to_add" multiple></p>
+    {{ form.as_p }}
+    <p>Удалить файлы:</p>
+    {% for file in announcement.files.all %}
+    <div class="file-item">
+        <a href="{{ file.file.url }}">{{ file.file }}</a>
+        <input type="checkbox" name="file_id_to_delete[]" value="{{ file.id }}">
+    </div>
+    {% endfor %}
     <input type="submit" value="Изменить" />
 </form>
 </body>
