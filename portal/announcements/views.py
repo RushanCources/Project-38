@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date
@@ -100,3 +101,14 @@ def editannouncement(request, id):
 
     except Announcement.DoesNotExist:
         HttpResponse('Объявление не найдено')
+
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        announcements = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+    else:
+        announcements = Announcement.objects.all()
+    context = {
+        'announcements': announcements,
+    }
+    return render(request, 'dec/dec.html', context={'search_value': query})

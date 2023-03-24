@@ -70,14 +70,6 @@ body {
     margin: 0 auto;
 }
 
-.search {
-    margin-bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .main {
     /* max-width: 1200px; */
     margin: 0 auto;

@@ -6,5 +6,6 @@ urlpatterns = [
     path('redactor', views.redactor, name='redactor'),
     path('createannouncement', views.createannouncement, name='createannouncement'),
     path('editor/<int:id>', views.editor, name='editor'),
-    path('editor/editannouncement/<int:id>', views.editannouncement, name='editannouncement')
+    path('editor/editannouncement/<int:id>', views.editannouncement, name='editannouncement'),
+    path('search', views.search, name='search'),
 ]
