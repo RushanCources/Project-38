@@ -24,12 +24,12 @@ let role = 'Ученик';
 
 $('.input-role').on('click', function () {
 
-    if (this.id == 'id_role_0') {
+    if (this.id == 'role1') {
         $('.block').css({ 'display': 'none' });
-        $('.list-p').css({ 'visibility': 'visible' });
+        $('#group-p').css({ 'visibility': 'visible' });
     } else {
         $('.block').css({ 'display': 'block' });
-        $('.list-p').css({ 'visibility': 'hidden' });
+        $('#group-p').css({ 'visibility': 'hidden' });
         $('#group-list').css({ 'display': 'none' });
     }
 

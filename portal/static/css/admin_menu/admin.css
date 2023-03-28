@@ -201,7 +201,6 @@
     padding: 20px 45px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,.4);
 }
 
 .back-form {
@@ -212,6 +211,7 @@
     z-index: 2;
     width: 100vw;
     height: 100vh;
+    background: #00000072;
 
 }
 
@@ -381,7 +381,6 @@
     transform: translate(-50%,-50%);
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 40%);
 }
 
 .delete-btns {
