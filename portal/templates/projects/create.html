@@ -7,11 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{%static 'css/projects/fl.css' %}">
     <link rel="icon" href="img/icon.png">
+    <link rel="stylesheet" href="{%static 'select2\css\select2.min.css' %}">
+    <script type="text/javascript" src="{%static 'jquery\jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{%static 'select2\js\select2.min.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="jquery.js"></script>
     <title>Управление проектами</title>
+            <script>
+        $(document).ready(function(){
+	        $('.js-chosen').chosen({
+		    width: '100%',
+		    no_results_text: 'Совпадений не найдено',
+		    placeholder_text_single: 'Выберите учителя'
+	        });
+        });
+            $(function () {
+              $('.select2').select2()
+            });
+        </script>
 </head>
 
 <body>
@@ -24,72 +39,65 @@
     </header>
 
     <form class="main" action="{% url 'postcreate' %}" method="POST" >
+        {% csrf_token %}
         <div class="formPZ">
             <h1 class="h1">Подача заявки</h1>
             <div class="form nng"><h3 class="h3 nng">Название</h3><input class="wf" placeholder="Ваше название"></input></div>
             <div class="form desc"><h3 class="h3 desc">Описание</h3><textarea class="wf ta" placeholder="Опишите вашу работу: Тема, Цель, Причина, Актуальность.
 Это не обязательно, но очень поможет учителю понять вашу работу"></textarea></div>
             <div class="form tea"><h3 class="h3 tea">Учитель</h3>
-                <select name="tch" id="selTea" class="wf sel" required>
-                    <optgroup label="Информатика">
-                        <option value="1" class="opG opt">Попова Наталья Львовна</option>
-                        <option value="2" class="opG opt">Быстрова </option>
-                        <option value="3" class="opG opt">Худяков </option>
-                    </optgroup>
-                    <optgroup label="Математика">
-                        <option value="1" class="opG opt">Жук Ирина Александровна</option>
-                        <option value="2" class="opG opt"></option>
-                        <option value="3" class="opG opt"></option>
-                        <option value="4" class="opG opt"></option>
-                    </optgroup>
+                <select name="teacher" id="selTea" class="wf sel select2" required>
+                    {% for teacher in teachers %}
+                        <option value="{{ teacher.id }}" class="opG opt">{{ teacher.fullName }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form subj"><h3 class="h3 subj">Предмет</h3>
                 <select name="subj" id="selSubj" class="wf sel" required>
                     <optgroup label="Математические">
-                        <option value="1" class="opG opt">Математика</option>
-                        <option value="2" class="opG opt">Алгебра</option>
-                        <option value="3" class="opG opt">Геометрия</option>
-                        <option value="4" class="opG opt">Теория вероятностей и статистика</option>
-                        <option value="5" class="opG opt">Информатика</option>
+                        <option class="opG opt">Математика</option>
+                        <option class="opG opt">Алгебра</option>
+                        <option class="opG opt">Геометрия</option>
+                        <option class="opG opt">Теория вероятностей и статистика</option>
+                        <option class="opG opt">Информатика</option>
                     </optgroup>
                     <optgroup label="Естественно-научные">
-                        <option value="1" class="opG opt">География</option>
-                        <option value="2" class="opG opt">Биология</option>
-                        <option value="3" class="opG opt">Физика</option>
-                        <option value="4" class="opG opt">Химия</option>
-                        <option value="5" class="opG opt">Основы безопасности жизнедеятельности</option>
-                        <option value="6" class="opG opt">Естествознание</option>
-                        <option value="7" class="opG opt">Экология</option>
-                        <option value="8" class="opG opt">Астрономия</option>
+                        <option class="opG opt">География</option>
+                        <option class="opG opt">Биология
+                        <option class="opG opt">Физика</option>
+                        <option class="opG opt">Химия</option>
+                        <option class="opG opt">Основы безопасности жизнедеятельности</option>
+                        <option class="opG opt">Естествознание</option>
+                        <option class="opG opt">Экология</option>
+                        <option class="opG opt">Астрономия</option>
                     </optgroup>
                     <optgroup label="Общественно-научные">
-                        <option value="1" class="opG opt">История</option>
-                        <option value="2" class="opG opt">Обществознание</option>
-                        <option value="3" class="opG opt">Экономика</option>
-                        <option value="4" class="opG opt">Право</option>
-                        <option value="5" class="opG opt">Разговоры о важном</option>
-                        <option value="6" class="opG opt">Краеведение</option>
-                        <option value="7" class="opG opt">Основы религиозных культур и светской этики</option>
+                        <option class="opG opt">История</option>
+                        <option class="opG opt">Обществознание</option>
+                        <option class="opG opt">Экономика</option>
+                        <option class="opG opt">Право</option>
+                        <option class="opG opt">Разговоры о важном</option>
+                        <option class="opG opt">Краеведение</option>
+                        <option class="opG opt">Основы религиозных культур и светской этики</option>
                     </optgroup>
                     <optgroup label="Гуманитарные">
-                        <option value="1" class="opG opt">Родная литература</option>
-                        <option value="2" class="opG opt">Русский язык</option>
-                        <option value="3" class="opG opt">Литература</option>
-                        <option value="4" class="opG opt">Иностранный язык(Английский)</option>
-                        <option value="5" class="opG opt">Иностранный язык(Французский)</option>
-                        <option value="6" class="opG opt">Иностранный язык(Немецкий)</option>
+                        <option class="opG opt">Родная литература</option>
+                        <option class="opG opt">Русский язык</option>
+                        <option class="opG opt">Литература</option>
+                        <option class="opG opt">Иностранный язык(Английский)</option>
+                        <option class="opG opt">Иностранный язык(Французский)</option>
+                        <option class="opG opt">Иностранный язык(Немецкий)</option>
                     </optgroup>
                     <optgroup label="Трудовое обучение">
-                        <option value="1" class="opG opt">Труд</option>
-                        <option value="2" class="opG opt">Технология</option>
-                        <option value="3" class="opG opt">Черчение</option>
-                        <option value="4" class="opG opt">Индивидуальный проект</option>
+                        <option class="opG opt">Труд</option>
+                        <option class="opG opt">Технология</option>
+                        <option class="opG opt">Черчение</option>
+                        <option class="opG opt">Индивидуальный проект</option>
                     </optgroup>
-                    <option value="1" class="opG opt">Физическая культура</option>
-                    <option value="2" class="opG opt">Музыка</option>
-                    <option value="3" class="opG opt">Изобразительное искусство</option>
-                    <option value="4" class="opG opt">Другая научная область/предмет</option>
+                    <option class="opG opt">Физическая культура</option>
+                    <option class="opG opt">Музыка</option>
+                    <option class="opG opt">Изобразительное искусство</option>
+                    <option class="opG opt">Другая научная область/предмет</option>
                         <!-- <option value="1" class="opG opt"></option>
                         <option value="2" class="opG opt"></option>
                         <option value="3" class="opG opt"></option>

@@ -10,14 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='user',
-            name='middle_name',
-            field=models.TextField(max_length=35, null=True),
-        ),
-        migrations.AddField(
-            model_name='user',
-            name='role',
-            field=models.TextField(max_length=15, null=True),
-        ),
     ]
