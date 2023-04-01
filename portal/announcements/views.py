@@ -9,21 +9,37 @@ from .forms import AnnouncementForm
 
 
 # Добавить проверку форм при удалении тестовых шаблонов
+# В функию index надо передавать anid - максимальное количество следующих объявлений на странице, начиная с 40
+# Функция redactor отвечает за рендер шаблона редактора со всеми формами
+# Функция createannouncement Создает объявление
+# Функция editor отвечает за рендер шаблона эдитора объявлений со всеми формами и прошлыми данными
+# Функция editannouncement отвечает за редактирование объявления
+# Функция search отвечает за поиск
 
 
-def index(request):
+def index(request, anid=None):
 
     group = None
     superuser = False
-    announcements = Announcement.objects.all()
+    ann_list = []
+    anns = Announcement.objects.all()
+
+    if request.method == 'GET' and anid != None:
+        for ann in range(anid-20, anid):
+            try:
+                ann_list.append(anns[ann])
+            except IndexError:
+                break
+    else:
+        for ann in range(anns.count()):
+            ann_list.append(anns[ann])
 
     if request.user.groups.exists():
         group = request.user.groups.all()[0].name
     if group in ['Teacher', 'admin']:
         superuser = True
 
-    data = {'superuser': superuser,
-            'announcements': announcements}
+    data = {'superuser': superuser, 'announcements': ann_list}
 
     return render(request, 'dec/dec.html', context=data)
 
@@ -123,14 +139,28 @@ def editannouncement(request, id):
         HttpResponse('Объявление не найдено')
 
 
-def search(request):
+def search(request, anid=None):
+
     query = request.GET.get('q')
+    ann_list = []
+
     if query:
-        announcements = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        anns = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        if request.method == 'GET' and anid != None:
+            for ann in range(anid - 20, anid):
+                try:
+                    ann_list.append(anns[ann])
+                except IndexError:
+                    break
+        else:
+            for ann in range(anns.count()):
+                ann_list.append(anns[ann])
     else:
-        announcements = Announcement.objects.all()
+        anns = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        for ann in range(anns.count()):
+            ann_list.append(anns[ann])
     context = {
-        'announcements': announcements,
+        'announcements': ann_list,
         'search_value': query,
     }
     return render(request, 'dec/dec.html', context=context)
