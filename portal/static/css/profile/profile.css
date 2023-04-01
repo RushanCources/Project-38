@@ -260,6 +260,7 @@
 
 .new-avatar-div {
     position: fixed;
+    display: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -323,7 +324,7 @@
 }
 
 .back-form {
-    /* display: none; */
+    display: none;
     top: 0;
     left: 0;
     position: fixed;

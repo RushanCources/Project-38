@@ -50,7 +50,7 @@ let tr;
 function change_fn() {
     $('.change').on('click', function () {
         tr = this.parentNode.parentNode;
-        let surname, name, pat, group, role, login, id;
+        let surname, name, pat, group, role, login, email, id;
         id = tr.childNodes[1].innerHTML;
         surname = tr.childNodes[3].childNodes[1].innerHTML;
         name = tr.childNodes[3].childNodes[3].innerHTML;
@@ -58,6 +58,7 @@ function change_fn() {
         group = tr.childNodes[5].innerHTML.trim();
         role = tr.childNodes[7].innerHTML;
         login = tr.childNodes[9].innerHTML;
+        email = tr.childNodes[11].innerHTML;
 
         $('.new-user-p').html('Редактирование пользователя');
         $('.create').html('Редактировать');
@@ -70,7 +71,8 @@ function change_fn() {
         $('.input-surname').val(surname);
         $('.input-name').val(name);
         $('.input-patronymic').val(pat);
-        $('.input-login').val(login)
+        $('.input-login').val(login);
+        $('.input-email').val(email);
         $('#group-p').html(group);
         $('.form-group').val(group);
         $('.form-id').val(id);
