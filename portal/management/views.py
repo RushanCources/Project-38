@@ -37,12 +37,14 @@ def admin_menu(request):
         username = request.POST.get('login_input')
         group = request.POST.get('group_input')
         role = request.POST.get('role')
+        email = request.POST.get('email_input')
 
-        if user_id == -1:
-            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role)
-            new_user.set_password(request.POST.get('password'))
+        if user_id == "-1":
+            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role, email = email, password = 0)
+            new_user.set_password(request.POST.get('password_input'))
             new_user.save()
-        
+            return redirect('admin_menu')
+            
         else:
             user = User.objects.get(id=user_id)
             user.first_name = first_name
@@ -51,6 +53,7 @@ def admin_menu(request):
             user.username = username
             user.group = group
             user.role = role
+            user.email = email
             if role == "Администратор":
                 user.group = 0
                 user.is_superuser = True
@@ -60,9 +63,8 @@ def admin_menu(request):
                 user.is_superuser = False
 
             user.save()
-        
-        return redirect('admin_menu')
-    
+            
+            return redirect('admin_menu')
 
     return render(request, 'admin_menu/admin.html', context={"users" : users})
 
