@@ -15,13 +15,15 @@ def index(request):
 
     group = None
     superuser = False
+    announcements = Announcement.objects.all()
 
     if request.user.groups.exists():
         group = request.user.groups.all()[0].name
     if group in ['Teacher', 'admin']:
         superuser = True
 
-    data = {'superuser': superuser}
+    data = {'superuser': superuser,
+            'announcements': announcements}
 
     return render(request, 'dec/dec.html', context=data)
 
