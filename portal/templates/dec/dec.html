@@ -21,7 +21,13 @@
     <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
         {% for announcement in announcements %}
         <!-- Экземпляр для отображения. При подключении бекэнда надо сделать подгрузку div'ов с сервера -->
-        <div class="flex" id="flex{{ announcement.id }}"><div class="IB" id="IB"></div></div>
+        <div class="flex" id="flex{{ announcement.id }}">
+        <button class="btn bold" type="submit" onclick=""></button>
+        <button class="btn italic" type="submit" onclick=""></button>
+            <div class="IB" id="IB"><!--сюды фотку-->
+
+            </div>
+        </div>
         {% endfor %}
     </div>
 <!-- </main> -->
