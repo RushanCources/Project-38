@@ -276,7 +276,7 @@
     flex-direction: column;
 }
 
-.new-user-p, .delete-p {
+.new-user-p, .delete-p, .token-p {
     margin: 0;
     padding: 10px 0;
     text-align: center;
@@ -330,16 +330,16 @@
     color: #fff;
 }
 
-.create, .delete-btn {
+.create, .delete-btn, .btn-token-create {
     background-color: #1f3f76;
     color: #fff;
 }
 
-.create:hover, .delete-btn:hover {
+.create:hover, .delete-btn:hover, .btn-token-create:hover {
     background: #142b53;
 }
 
-.create:active, .delete-btn:active {
+.create:active, .delete-btn:active, .btn-token-create:active {
     background-color: #F5F5F5;
     color: #1f3f76;
 }
@@ -387,4 +387,61 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+/* tokens */
+
+.btn-token {
+    position: absolute;
+    top: 0;
+    right: -40%;
+    background: #1f3f76;
+    color: #fff;
+}
+
+.btn-token:hover {
+    background-color: #224581;
+}
+
+.btn-token:active {
+    background-color: #142b53;
+}
+
+.create-tokens {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 45px;
+    min-height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 5px;
+}
+
+.token-span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.token-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.token-input {
+    display: block;
+    width: 40%;
+    margin: 50px auto;
+    padding: 5px 15px;
+    border: 2px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
 }

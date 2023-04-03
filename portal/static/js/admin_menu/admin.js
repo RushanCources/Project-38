@@ -121,3 +121,15 @@ $('.delete').on('click', function () {
     $('.delete_page').css({ 'display': 'flex' });
     $('.back-form').css({ 'display': 'block' });
 });
+
+// Токены
+
+function token_open() {
+    $('.create-tokens').css({ 'display': 'block' });
+    $('.back-form').css({ 'display': 'block' });
+}
+
+function tok_exit() {
+    $('.create-tokens').css({ 'display': 'none' });
+    $('.back-form').css({ 'display': 'none' });
+}
