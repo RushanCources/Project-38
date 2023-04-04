@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/theme_list/theme_list.css' %}">
+<title>Список тем</title>
+{% endblock head %}
+
+{% block content %}
+
+<div class="filters">
+    <form class="container" method="POST" action="https://jsonplaceholder.typicode.com/posts">
+        <div class="left">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="Поиск...">
+                <button class="search-button"></button>
+            </div>
+            <div class="checkboxes">
+                <div>
+                    <input type="checkbox" id="open" class="checkbox" name="open">
+                    <label class="checkbox-name" for="open">Свободно</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="close" class="checkbox" name="close">
+                    <label class="checkbox-name" for="close">Занято</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
+                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
+                </div>
+            </div>
+            <div class="lists">
+                <div class="div-list">
+                    <div class="list-name">Учитель</div>
+                    <div class="list-names">
+                        <div class="list-p" name="teacher">Не указано</div>
+                        <ul class="list list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="div-list">
+                    <div class="list-name">Предмет</div>
+                    <div class="list-names">
+                        <div class="list-p" name="subject">Не указано</div>
+                        <ul class="list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <button class="btn new_theme">Новая тема</button>
+            <button class="btn filter_btn" type="submit">Применить</button>
+        </div>
+    </form>
+</div>
+
+<div class="themes">
+    <div class="theme-block theme-block-close sub1">
+        <span class="theme-subject">Английский язык</span>
+        <div class="info">
+            <p class="author">Автор: <a href="#">Кто-то</a></p>
+            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
+            <span class="teg teg-open" title="Данная тема ещё не занята">Свободно</span>
+        </div>
+        <div class="descr">
+            <h2 class="theme-name">Название какой-то темы</h2>
+            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
+                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
+                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
+                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
+                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <button class="theme-btn">Подробнее</button>
+            <button class="theme-btn-take">Взяться за проект</button>
+        </div>
+    </div>
+
+    <div class="theme-block theme-block-close sub2">
+        <span class="theme-subject">Алгебра</span>
+        <div class="info">
+            <p class="author">Автор: <a href="#">Кто-то</a></p>
+            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
+            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
+        </div>
+        <div class="descr">
+            <h2 class="theme-name">Название какой-то темы</h2>
+            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
+                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
+                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
+                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
+                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <button class="theme-btn">Подробнее</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/global/list.js' %}"></script>
+<script src="{% static 'js/theme_list/theme_list.js' %}"></script>
+
+{% endblock content %}

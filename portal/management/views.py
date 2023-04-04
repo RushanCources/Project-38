@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
 from .forms import UserRegistrationForm, UserUpdateForm
-from .models import User
+from .models import User, Tokens
  
 def register(request):
     if request.method == 'POST':
@@ -17,7 +17,15 @@ def register(request):
     return render(request, 'registration/register.html', {'user_form': user_form})
 
 def token_page(request):
-    return render(request, 'registration/token_page.html')    
+    if request.method == "POST":
+        token = request.POST.get("token")
+        if Tokens.objects.filter(token=token).exists():
+            temp_token = Tokens.objects.get(token=token).delete()
+            return redirect('register')
+        else:
+            messages.error(request, 'Неправильный токен!')
+    
+    return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
     users=User.objects.all()
@@ -33,7 +41,6 @@ def admin_menu(request):
                 new_user.save()
             else:    
                 user = User.objects.get(id = user_id)
-
                 first_name = user_update_form.cleaned_data.get("first_name")
                 last_name = user_update_form.cleaned_data.get("last_name")
                 middle_name = user_update_form.cleaned_data.get("middle_name")

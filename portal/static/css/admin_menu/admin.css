@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html {
     box-sizing: border-box;
     width: 100%;
@@ -30,13 +31,23 @@ body {
 .main {
     max-width: 1200px;
     margin: 0 auto;
+=======
+.main {
+    min-width: 60%;
+    max-width: 1200px;
+>>>>>>> origin/main
     margin-top: 50px;
 }
 
 .main-nav {
     position: relative;
     display: block;
+<<<<<<< HEAD
     width: 50%;
+=======
+    max-width: 600px;
+    min-width: 50%;
+>>>>>>> origin/main
     margin: 0 auto;
 }
 
@@ -82,14 +93,22 @@ body {
     padding-right: 40px;
 }
 
+<<<<<<< HEAD
 .filter-div {
+=======
+.div-list {
+>>>>>>> origin/main
     width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+<<<<<<< HEAD
 .filter-name, .group-name {
+=======
+.list-name{
+>>>>>>> origin/main
     margin: 0;
     width: 50%;
     background: #1f3f76;
@@ -102,7 +121,11 @@ body {
     border-bottom-left-radius: 5px;
 }
 
+<<<<<<< HEAD
 .list {
+=======
+.list-names {
+>>>>>>> origin/main
     position: relative;
     margin: 0;
     padding: 0;
@@ -110,7 +133,11 @@ body {
     list-style: none;
 }
 
+<<<<<<< HEAD
 .group{
+=======
+.list{
+>>>>>>> origin/main
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -122,7 +149,7 @@ body {
     background: #fff;
 }
 
-.group-p {
+.list-p {
     margin: 0;
     padding: 9px 8px;
     border: 1px solid #1f3f76;
@@ -142,22 +169,19 @@ body {
 .block {
     display: none;
     position: absolute;
-    top: 1px;
-    left: 1px;
-    bottom: 1px;
-    right: 1px;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     background: #F5F5F5;
     pointer-events: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    border: 1px solid transparent;
+    border: 1px solid #1f3f76;
 }
 
-.list li {
-    list-style: none;
-}
-
-.group-li {
+.list-li {
     padding: 9px 8px;
     font-size: 14px;
     line-height: 16px;
@@ -166,7 +190,7 @@ body {
     cursor: pointer;
 }
 
-.group-li:hover {
+.list-li:hover {
     background: #ccc;
 }
 
