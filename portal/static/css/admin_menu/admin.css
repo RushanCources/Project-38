@@ -1,14 +1,53 @@
+<<<<<<< HEAD
+html {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+  }
+  
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+  
+a {
+    color: inherit;
+    text-decoration: none;
+}
+  
+img {
+    max-width: 100%;
+}
+  
+body {
+    margin: 0;
+    font-family: 'Roboto', Verdana, sans-serif;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #E8F1FF;
+}
+
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+=======
 .main {
     min-width: 60%;
     max-width: 1200px;
+>>>>>>> origin/main
     margin-top: 50px;
 }
 
 .main-nav {
     position: relative;
     display: block;
+<<<<<<< HEAD
+    width: 50%;
+=======
     max-width: 600px;
     min-width: 50%;
+>>>>>>> origin/main
     margin: 0 auto;
 }
 
@@ -54,14 +93,22 @@
     padding-right: 40px;
 }
 
+<<<<<<< HEAD
+.filter-div {
+=======
 .div-list {
+>>>>>>> origin/main
     width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+<<<<<<< HEAD
+.filter-name, .group-name {
+=======
 .list-name{
+>>>>>>> origin/main
     margin: 0;
     width: 50%;
     background: #1f3f76;
@@ -74,7 +121,11 @@
     border-bottom-left-radius: 5px;
 }
 
+<<<<<<< HEAD
+.list {
+=======
 .list-names {
+>>>>>>> origin/main
     position: relative;
     margin: 0;
     padding: 0;
@@ -82,7 +133,11 @@
     list-style: none;
 }
 
+<<<<<<< HEAD
+.group{
+=======
 .list{
+>>>>>>> origin/main
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -114,6 +169,7 @@
 .block {
     display: none;
     position: absolute;
+
     top: 0;
     left: 0;
     bottom: 0;
