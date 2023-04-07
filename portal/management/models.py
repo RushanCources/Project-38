@@ -16,9 +16,3 @@ class User(AbstractUser):
 
 class Tokens(models.Model):
     token = models.TextField(max_length=16)
-    
-class Student(User):
-    role = "Ученик"
-
-class Teacher(User):
-    role = "Учитель"

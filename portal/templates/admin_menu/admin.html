@@ -9,8 +9,9 @@
 
 <div class="main-nav">
     <div class="search">
-        <input class="search-input" type="text" placeholder="Поиск...">
-        <button class="search-button"></button>
+        {% csrf_token %}
+        <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
+        <input class="search-button" type="button" name="search_butt" value="">
     </div>
     <div class="filter">
         <div class="div-list">
@@ -175,21 +176,23 @@
     <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
     <p>Пользователь: <span class="delete-fio">Кабанин Денис Андреевич</span></p>
     <div class="delete-btns">
-        <button class="btn exit" type="submit" onclick="del_exit()">Отмена</button>
-        <button class="btn delete-btn" type="submit">Скрыть</button>
-        <button class="btn delete-btn" type="submit">Удалить</button>
-        <input type="number" class="user-id" style="position: absolute; top: 0;">
+        <button class="btn exit" type="button" onclick="del_exit()">Отмена</button>
+        <input class="btn delete-btn" type="submit" name="delete_butt" value="Удалить">
+        <input class="btn delete-btn" type="submit" name="deactivate_butt" value="Скрыть">
+        {% csrf_token %}
+        <input type="number" class="user-id" style="position: absolute; top: 0;" name="user_id_delete">
     </div>
 </form>
 
 <form class="create-tokens" method="POST" action="#">
     <p class="token-p">Создание токенов</p>
-    <span class="token-span">Напишите в поле количество тоеков, которое хотите создать.</span>
-    <input type="number" class="token-input" min="1" max="1000" required />
+    <span class="token-span">Напишите в поле количество токенов, которое хотите создать.</span>
+    {% csrf_token %}
+    <input type="number" class="token-input" name="token_value" min="1" max="1000" required />
 
     <div class="token-btns">
         <button class="btn exit" type="button" onclick="tok_exit()">Отмена</button>
-        <button class="btn btn-token-create" type="submit">Создать</button>
+        <input class="btn btn-token-create" type="submit" name="accept_token">
     </div>
 </form>
 
