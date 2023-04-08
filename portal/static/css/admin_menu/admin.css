@@ -6,15 +6,14 @@
 
 .main-nav {
     position: relative;
-    display: block;
-    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
     min-width: 50%;
     margin: 0 auto;
 }
 
 .search{
     margin-bottom: 20px;
-    /* max-width: 600px; */
     width: 100%;
     display: flex;
     justify-content: center;
