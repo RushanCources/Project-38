@@ -1,3 +1,6 @@
+import string
+import random
+
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
 from .forms import UserRegistrationForm
@@ -28,9 +31,11 @@ def token_page(request):
     return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
-    users=User.objects.all()
+    filter_users=User.objects.filter(deactivate = 0)
     if request.method == "POST":
         user_id = request.POST.get('user_id_edit')
+        user_id_delete = request.POST.get('user_id_delete')
+        token_value = request.POST.get('token_value')
         first_name = request.POST.get('name_input')
         last_name = request.POST.get('surname_input')
         middle_name = request.POST.get('patronymic_input')
@@ -38,9 +43,40 @@ def admin_menu(request):
         group = request.POST.get('group_input')
         role = request.POST.get('role')
         email = request.POST.get('email_input')
+        search_names = request.POST.get('search_names')
+
+        if request.POST.get('delete_butt'):
+            user=User.objects.get(id = user_id_delete).delete()
+            return redirect('admin_menu')
+
+        if request.POST.get('deactivate_butt'):
+            user=User.objects.get(id = user_id_delete)
+            user.deactivate = True
+            user.save()
+            return redirect('admin_menu')
+        
+        if request.POST.get('accept_token'):
+            last_token = Tokens.objects.last()
+            if last_token is None:
+                new_id = 1
+            else:
+                new_id = last_token.pk + 1
+            for i in range(int(token_value)):
+                token = Tokens.objects.create(token = generate_alphanum_random_string(16), id = new_id + i)
+                token.save()
+            return redirect('admin_menu')
+        
+        if request.POST.get('search_butt'):
+            filter_users = User.objects.filter()
+            return redirect('admin_menu')
 
         if user_id == "-1":
-            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role, email = email, password = 0)
+            last_user = User.objects.last()
+            if last_user is None:
+                new_id = 1
+            else:
+                new_id = last_user.pk + 1
+            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role, email = email, password = 0, id = new_id)
             new_user.set_password(request.POST.get('password_input'))
             new_user.save()
             return redirect('admin_menu')
@@ -66,9 +102,14 @@ def admin_menu(request):
             
             return redirect('admin_menu')
 
-    return render(request, 'admin_menu/admin.html', context={"users" : users})
+    return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
 
 def profile(request):
-    users=User.objects.all()
-    return render(request, 'profile/profile.html', context={"users" : users})    
+    return render(request, 'profile/profile.html')    
+
+
+def generate_alphanum_random_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    rand_string = ''.join(random.sample(letters_and_digits, length))
+    return rand_string
 
