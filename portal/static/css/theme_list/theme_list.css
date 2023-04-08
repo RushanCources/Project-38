@@ -227,7 +227,7 @@
 }
 
 .descr {
-    max-width: 70%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -261,6 +261,10 @@
     font-weight: 700;
     font-size: 14px;
     line-height: 16px;
+}
+
+.theme-btn-hidden {
+    display: none;
 }
 
 .theme-btn-take {
