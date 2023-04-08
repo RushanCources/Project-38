@@ -1,6 +1,7 @@
 import string
 import random
 
+from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
 from .forms import UserRegistrationForm
@@ -105,6 +106,19 @@ def admin_menu(request):
     return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
 
 def profile(request):
+    if request.method == "POST":
+        new_password = request.POST.get('new_password')
+        old_password = request.POST.get('old_password')
+        repeat_password = request.POST.get('repeat_password')
+        username = request.POST.get('username_inp')
+        if request.POST.get('submit_changes'):
+            if request.user.check_password(old_password):
+                if new_password == repeat_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    new_user = authenticate(request, username=username, password=new_password)
+                    login(request, new_user)
+                    return redirect('profile')
     return render(request, 'profile/profile.html')    
 
 
