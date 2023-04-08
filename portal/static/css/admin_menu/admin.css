@@ -6,9 +6,8 @@
 
 .main-nav {
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
+    display: block;
+    max-width: 600px;
     min-width: 50%;
     margin: 0 auto;
 }
@@ -126,6 +125,7 @@
 .block {
     display: none;
     position: absolute;
+
     top: 0;
     left: 0;
     bottom: 0;
