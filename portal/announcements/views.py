@@ -47,7 +47,7 @@ def index(request, anid=None):
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
     form = AnnouncementForm()
-    return render(request, "announcements/redactor.html", context={'form': form})
+    return render(request, "dec/red.html", context={'form': form})
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])

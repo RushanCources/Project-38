@@ -5,12 +5,12 @@ from .models import Announcement
 
 
 class AnnouncementForm(forms.Form):
-    title = forms.CharField(label='Имя объявления')
-    body = forms.CharField(label='Текст', widget=forms.Textarea)
-    is_pinned = forms.BooleanField(label='Закрепить?', required=False)
-    date_of_expiring = forms.DateField(label='Дата исчезновния объявления', widget=forms.DateInput(attrs={'type': 'date'}))
+    title = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'class': '', 'placeholder' : 'Имя объявления'}))
+    body = forms.CharField(label='', widget=forms.Textarea)
+    is_pinned = forms.BooleanField(label='Закрепить', required=False)
+    date_of_expiring = forms.DateField(label='Дата исчезновния объявления', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     image_url = forms.FilePathField(label='Выбрать обложку', path='static/img/announcements/covers', required=False)
-    files = forms.FileField(label='Добавить файлы', widget=forms.FileInput(attrs={'multiple': True}), required=False)
+    files = forms.FileField(label='Прикрепить файлы', widget=forms.FileInput(attrs={'multiple': True}), required=False)
     file_id_to_delete = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 
     def clean_date_of_expiring(self):

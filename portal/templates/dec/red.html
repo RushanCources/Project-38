@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
+<title>Редактор Объявления</title>
+{% endblock head %}
+{% block content %}
+
+{% csrf_token %}
+{{ form.as_div }}
+<input type="submit" value="Разместить" />
+
+{% endblock content %}
