@@ -1,6 +1,3 @@
-html, body{
-    /* overflow: hidden; */
-}
 .grid1{
     display: grid;
     /* grid-template-areas:

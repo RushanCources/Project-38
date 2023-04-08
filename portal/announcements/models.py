@@ -2,10 +2,6 @@ from django.db import models
 from django.conf import settings
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-
-
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -20,6 +16,9 @@ class Announcement(TimeStampMixin):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_pinned = models.BooleanField(default=False)
     date_of_expiring = models.DateTimeField(null=True)
-    tags = models.ManyToManyField(Tag)
+    image_url = models.FilePathField(null=True, path='/static/img/announcement_images')
 
 
+class File(models.Model):
+    announcement = models.ForeignKey(Announcement, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to='announcement_files', blank=True, null=True)
