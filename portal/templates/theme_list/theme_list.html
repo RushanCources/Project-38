@@ -1,201 +1,138 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="icon" href="{% static 'img/global/icon.png' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/theme_list/theme_list.css' %}">
+<title>Список тем</title>
+{% endblock head %}
 
-    {% if user.is_authenticated %}
-    <link rel="stylesheet" href="{% static 'css/theme_list/theme_list.css' %}">
-    <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
-    <link rel="stylesheet" href="{% static 'css/global/footer.css' %}">
-    <script src="{% static 'js/global/jquery.js' %}"></script>
-    <title>Список тем</title>
-    {% else %}
-    <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
-    <title>Who?</title>
-    {% endif %}
+{% block content %}
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-
-<body>
-    {% block content %}
-
-    {% if user.is_authenticated %}
-    <header class="header">
-        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="{% url 'home' %}">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Объявления</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'theme_list' %}">Список тем</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Управление проектом</a>
-                </li>
-            </ul>
-        </nav>
-        <a class="user" href="{% url 'profile' %}">
-            <p class="username">{{ user.username }}</p>
-            <div class="avatar"></div>
-        </a>
-    </header>
-
-    <main class="main">
-        <div class="filters">
-            <form class="container" method="POST" action="https://jsonplaceholder.typicode.com/posts">
-                <div class="left">
-                    <div class="search">
-                        <input class="search-input" type="text" placeholder="Поиск...">
-                        <button class="search-button"></button>
-                    </div>
-                    <div class="checkboxes">
-                        <div>
-                            <input type="checkbox" id="open" class="checkbox" name="open">
-                            <label class="checkbox-name" for="open">Свободно</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="close" class="checkbox" name="close">
-                            <label class="checkbox-name" for="close">Занято</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="past_year" class="checkbox" name="past_year">
-                            <label class="checkbox-name" for="past_year">Прошлых лет</label>
-                        </div>
-                    </div>
-                    <div class="lists">
-                        <div class="div-list">
-                            <div class="list-name">Учитель</div>
-                            <div class="list-names">
-                                <div class="list-p" name="teacher">Не указано</div>
-                                <ul class="list list">
-                                    <li class="list-li">Не указано</li>
-                                    <li class="list-li">учитель</li>
-                                    <li class="list-li">учитель</li>
-                                    <li class="list-li">учитель</li>
-                                    <li class="list-li">учитель</li>
-                                    <li class="list-li">учитель</li>
-                                    <li class="list-li">учитель</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="div-list">
-                            <div class="list-name">Предмет</div>
-                            <div class="list-names">
-                                <div class="list-p" name="subject">Не указано</div>
-                                <ul class="list">
-                                    <li class="list-li">Не указано</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                    <li class="list-li">Предмет</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+<div class="filters">
+    <form class="container" method="POST" action="https://jsonplaceholder.typicode.com/posts">
+        <div class="left">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="Поиск...">
+                <button class="search-button"></button>
+            </div>
+            <div class="checkboxes">
+                <div>
+                    <input type="checkbox" id="open" class="checkbox" name="open">
+                    <label class="checkbox-name" for="open">Свободно</label>
                 </div>
-                <div class="right">
-                    <button class="btn new_theme">Новая тема</button>
-                    <button class="btn filter_btn" type="submit">Применить</button>
+                <div>
+                    <input type="checkbox" id="close" class="checkbox" name="close">
+                    <label class="checkbox-name" for="close">Занято</label>
                 </div>
-            </form>
-        </div>
-
-        <div class="themes">
-            <div class="theme-block theme-block-close sub1">
-                <span class="theme-subject">Английский язык</span>
-                <div class="info">
-                    <p class="author">Автор: <a href="#">Кто-то</a></p>
-                    <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-                    <span class="teg teg-open" title="Данная тема ещё не занята">Свободно</span>
-                </div>
-                <div class="descr">
-                    <h2 class="theme-name">Название какой-то темы</h2>
-                    <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
-                    <button class="theme-btn">Подробнее</button>
-                    <button class="theme-btn-take">Взяться за проект</button>
+                <div>
+                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
+                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
                 </div>
             </div>
-
-            <div class="theme-block theme-block-close sub2">
-                <span class="theme-subject">Алгебра</span>
-                <div class="info">
-                    <p class="author">Автор: <a href="#">Кто-то</a></p>
-                    <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-                    <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
+            <div class="lists">
+                <div class="div-list">
+                    <div class="list-name">Учитель</div>
+                    <div class="list-names">
+                        <div class="list-p" name="teacher">Не указано</div>
+                        <ul class="list list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                            <li class="list-li">учитель</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="descr">
-                    <h2 class="theme-name">Название какой-то темы</h2>
-                    <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
-                    <button class="theme-btn">Подробнее</button>
+
+                <div class="div-list">
+                    <div class="list-name">Предмет</div>
+                    <div class="list-names">
+                        <div class="list-p" name="subject">Не указано</div>
+                        <ul class="list">
+                            <li class="list-li">Не указано</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                            <li class="list-li">Предмет</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
-
-    <footer class="footer">
-        <a href="{% url 'home' %}" class="long-logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-        <div class="footer-nav">
-            <ul class="footer-nav-list">
-                <li class="footer-nav-item">
-                    <a href="{% url 'home' %}">Главная</a>
-                </li>
-                <li class="footer-nav-item">
-                    <a href="#">Объявления</a>
-                </li>
-                <li class="footer-nav-item">
-                    <a href="{% url 'theme_list' %}">Список тем</a>
-                </li>
-                <li class="footer-nav-item">
-                    <a href="#">Управление проектом</a>
-                </li>
-            </ul>
+        <div class="right">
+            <button class="btn new_theme">Новая тема</button>
+            <button class="btn filter_btn" type="submit">Применить</button>
         </div>
-        <div class="footer-links">
-            <a href="#">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24.019 5.62318H19.9622C19.7966 5.62318 19.6341 5.66807 19.492 5.75308C19.3499 5.83809 19.2335 5.96003 19.1552 6.10594C19.1552 6.10594 17.5372 9.08578 17.0174 10.0895C15.6193 12.7894 14.7138 11.9418 14.7138 10.6887V6.36806C14.7138 6.00702 14.5704 5.66075 14.3151 5.40545C14.0598 5.15015 13.7135 5.00673 13.3525 5.00673H10.3023C9.8869 4.97584 9.47051 5.05166 9.09267 5.22699C8.71483 5.40231 8.38808 5.67132 8.14347 6.00846C8.14347 6.00846 9.69232 5.75804 9.69232 7.84498C9.69232 8.36248 9.71897 9.8512 9.74326 11.0998C9.74784 11.2839 9.69585 11.4648 9.59431 11.6183C9.49277 11.7719 9.34657 11.8905 9.17545 11.9583C9.00433 12.0261 8.81653 12.0398 8.6374 11.9974C8.45827 11.9551 8.29645 11.8588 8.17377 11.7216C6.92527 9.98517 5.8911 8.10428 5.09373 6.11979C5.02525 5.97134 4.91562 5.84565 4.77786 5.75763C4.64009 5.6696 4.47997 5.62294 4.31649 5.62318C3.43669 5.62318 1.67612 5.62318 0.630578 5.62318C0.529192 5.62249 0.429153 5.64642 0.339057 5.69293C0.248961 5.73943 0.171501 5.80711 0.113332 5.89015C0.0551628 5.97319 0.0180236 6.06912 0.005105 6.16968C-0.00781358 6.27024 0.00387467 6.37244 0.0391656 6.46749C1.15839 9.5375 5.97963 19.1852 11.4826 19.1852H13.7988C14.0415 19.1851 14.2742 19.0887 14.4458 18.9171C14.6174 18.7455 14.7138 18.5128 14.7138 18.2701V16.8715C14.7138 16.6961 14.7652 16.5244 14.8615 16.3778C14.9578 16.2312 15.095 16.1159 15.256 16.0463C15.417 15.9766 15.5949 15.9556 15.7678 15.9858C15.9406 16.016 16.1008 16.0961 16.2287 16.2162L19.001 18.821C19.25 19.0549 19.5788 19.1851 19.9204 19.1852H23.5609C25.3168 19.1852 25.3168 17.9667 24.3595 17.0239C23.6857 16.3604 21.2546 13.7979 21.2546 13.7979C21.0464 13.5822 20.9222 13.2992 20.9045 12.9999C20.8868 12.7007 20.9767 12.405 21.158 12.1662C21.9438 11.1321 23.2291 9.43933 23.7742 8.71416C24.5193 7.72298 25.8678 5.62318 24.019 5.62318Z" fill="black"/>
-                    </svg>
-                    
-            </a>
-            <a href="#">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24.9275 4.81448L21.1552 20.3809C20.8706 21.4795 20.1284 21.753 19.0737 21.2354L13.326 17.5293L10.5525 19.8633C10.2456 20.1319 9.9889 20.3565 9.39739 20.3565L9.81033 15.2344L20.4632 6.81155C20.9264 6.45023 20.3628 6.25003 19.7434 6.61136L6.57373 13.8672L0.904083 12.3145C-0.329176 11.9776 -0.351497 11.2354 1.16078 10.7178L23.3371 3.24222C24.3639 2.9053 25.2623 3.44241 24.9275 4.81448Z" fill="black"/>
-                    </svg>
-            </a>
+    </form>
+</div>
+
+<div class="themes">
+    <div class="theme-block theme-block-close sub1">
+        <span class="theme-subject">Английский язык</span>
+        <div class="info">
+            <p class="author">Автор: <a href="#">Кто-то</a></p>
+            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
+            <span class="teg teg-open" title="Данная тема ещё не занята">Свободно</span>
         </div>
-    </footer>
-
-    <script src="{% static 'js/global/list.js' %}"></script>
-    <script src="{% static 'js/theme_list/theme_list.js' %}"></script>
-
-    {% else %}
-
-    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-    <div class="div-error">
-        <p class="hi">Йоу, мэн, ты кто?</p>
-        <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
-        <p class="advice-p">Иди авторизуйся, пока не засмеяли</p>
-        <a href="{% url 'login' %}">Войти</a>
+        <div class="descr">
+            <h2 class="theme-name">Название какой-то темы</h2>
+            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
+                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
+                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
+                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
+                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <button class="theme-btn">Подробнее</button>
+            <button class="theme-btn-take">Взяться за проект</button>
+        </div>
     </div>
 
-    {% endif %}
-    {% endblock %}
-</body>
+    <div class="theme-block theme-block-close sub2">
+        <span class="theme-subject">Алгебра</span>
+        <div class="info">
+            <p class="author">Автор: <a href="#">Кто-то</a></p>
+            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
+            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
+        </div>
+        <div class="descr">
+            <h2 class="theme-name">Название какой-то темы</h2>
+            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
+                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
+                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
+                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
+                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <button class="theme-btn">Подробнее</button>
+        </div>
+    </div>
 
-</html>
+    <div class="theme-block theme-block-close sub2">
+        <span class="theme-subject">Subject</span>
+        <div class="info">
+            <p class="author">Автор: <a href="#">Кто-то</a></p>
+            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
+            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
+        </div>
+        <div class="descr">
+            <h2 class="theme-name">title</h2>
+            <p class="theme-descr">text</p>
+            <button class="theme-btn theme-btn-hidden">Подробнее</button>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/global/list.js' %}"></script>
+<script src="{% static 'js/theme_list/theme_list.js' %}"></script>
+
+{% endblock content %}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html {
     box-sizing: border-box;
     width: 100%;
@@ -30,13 +31,23 @@ body {
 .main {
     max-width: 1200px;
     margin: 0 auto;
+=======
+.main {
+    min-width: 60%;
+    max-width: 1200px;
+>>>>>>> origin/main
     margin-top: 50px;
 }
 
 .main-nav {
     position: relative;
     display: block;
+<<<<<<< HEAD
     width: 50%;
+=======
+    max-width: 600px;
+    min-width: 50%;
+>>>>>>> origin/main
     margin: 0 auto;
 }
 
@@ -82,14 +93,22 @@ body {
     padding-right: 40px;
 }
 
+<<<<<<< HEAD
+.filter-div {
+=======
 .div-list {
+>>>>>>> origin/main
     width: 48%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+<<<<<<< HEAD
+.filter-name, .group-name {
+=======
 .list-name{
+>>>>>>> origin/main
     margin: 0;
     width: 50%;
     background: #1f3f76;
@@ -102,7 +121,11 @@ body {
     border-bottom-left-radius: 5px;
 }
 
+<<<<<<< HEAD
+.list {
+=======
 .list-names {
+>>>>>>> origin/main
     position: relative;
     margin: 0;
     padding: 0;
@@ -110,7 +133,11 @@ body {
     list-style: none;
 }
 
+<<<<<<< HEAD
+.group{
+=======
 .list{
+>>>>>>> origin/main
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -142,6 +169,7 @@ body {
 .block {
     display: none;
     position: absolute;
+
     top: 0;
     left: 0;
     bottom: 0;
@@ -216,6 +244,40 @@ body {
     display: none;
 }
 
+/* Переключение страницы */
+
+.pages {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.pages-list {
+    display: flex;
+}
+
+.pages-item {
+    font-size: 18px;
+    color: #000;
+}
+
+.pages-item:not(:last-child) {
+    margin-right: 15px;
+}
+
+.pages-link > svg {
+    fill: inherit;
+}
+
+.pages-link {
+    transition: 0.3s color linear, 0.3s fill linear;
+}
+
+.pages-link:hover {
+    color: #1f3f76;
+    fill: #1f3f76;
+}
+
 /* Поле для добавления нового юзера */
 
 .new-user-block {
@@ -229,7 +291,6 @@ body {
     padding: 20px 45px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,.4);
 }
 
 .back-form {
@@ -240,6 +301,7 @@ body {
     z-index: 2;
     width: 100vw;
     height: 100vh;
+    background: #00000072;
 
 }
 
@@ -304,7 +366,7 @@ body {
     flex-direction: column;
 }
 
-.new-user-p, .delete-p {
+.new-user-p, .delete-p, .token-p {
     margin: 0;
     padding: 10px 0;
     text-align: center;
@@ -358,16 +420,16 @@ body {
     color: #fff;
 }
 
-.create, .delete-btn {
+.create, .delete-btn, .btn-token-create {
     background-color: #1f3f76;
     color: #fff;
 }
 
-.create:hover, .delete-btn:hover {
+.create:hover, .delete-btn:hover, .btn-token-create:hover {
     background: #142b53;
 }
 
-.create:active, .delete-btn:active {
+.create:active, .delete-btn:active, .btn-token-create:active {
     background-color: #F5F5F5;
     color: #1f3f76;
 }
@@ -389,11 +451,7 @@ body {
     pointer-events: none;
 }
 
-.form-id {
-    display: none;
-}
-
-.form-group {
+.form-id, .form-group, .input-password {
     display: none;
 }
 
@@ -413,11 +471,67 @@ body {
     transform: translate(-50%,-50%);
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 40%);
 }
 
 .delete-btns {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+/* tokens */
+
+.btn-token {
+    position: absolute;
+    top: 0;
+    right: -40%;
+    background: #1f3f76;
+    color: #fff;
+}
+
+.btn-token:hover {
+    background-color: #224581;
+}
+
+.btn-token:active {
+    background-color: #142b53;
+}
+
+.create-tokens {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 45px;
+    min-height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 5px;
+}
+
+.token-span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.token-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.token-input {
+    display: block;
+    width: 40%;
+    margin: 50px auto;
+    padding: 5px 15px;
+    border: 2px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
 }

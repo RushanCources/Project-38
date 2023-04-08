@@ -12,34 +12,73 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+    <script src="{% static 'js/global/jquery.js' %}"></script>
 </head>
 
 <body>
-    {% block content %}
-    {% if form.errors %}
-    <p class="error">Неправильный логин или пароль</p>
-    {% endif %}
+    <div class="content">
+        {% if form.errors %}
+        <p class="error">Неправильный логин или пароль</p>
+        {% endif %}
 
-    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-    <form action="{% url 'login' %}" method="post" class="form">
-        {% csrf_token %}
-        <h1 class="title">Добро пожаловать!</h1>
-        <div class="form-div">
-            <div>
-                <span class="input-p">Логин:</span>
-                {{ form.username }}
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+        <form action="{% url 'login' %}" method="post" class="form">
+            {% csrf_token %}
+            <h1 class="title">Добро пожаловать!</h1>
+            <div class="form-div">
+                <div>
+                    <span class="input-p">Логин:</span>
+                    {{ form.username }}
+                </div>
+                <div>
+                    <span class="input-p">Пароль:</span>
+                    {{ form.password }}
+                </div>
             </div>
-            <div>
-                <span class="input-p">Пароль:</span>
-                {{ form.password }}
+            <div class="buttons">
+                <button type="submit" class="btn btn-success">Войти</button>
+                <a href="{% url 'token_page' %}" class="register">Регистрация</a>
             </div>
-        </div>
-        <div class="buttons">
-            <button type="submit" class="btn btn-success">Войти</button>
-            <a href="{% url 'token_page' %}" class="register">Регистрация</a>
-        </div>
-    </form>
-    {% endblock %}
+        </form>
+    </div>
+    <div class="decorate">
+        <!-- хз какую анимацию сделать, эта не очень, знаю -->
+        <div class="kryg k1"></div>
+        <div class="kryg k2"></div>
+        <div class="kryg k3"></div>
+        <div class="kryg k4"></div>
+        <div class="kryg k5"></div>
+        <div class="kryg k6"></div>
+        <div class="kryg k7"></div>
+        <div class="kryg k8"></div>
+        <div class="kryg k9"></div>
+        <div class="kryg k10"></div>
+        <div class="kryg k11"></div>
+        <div class="kryg k12"></div>
+        <div class="kryg k13"></div>
+        <div class="kryg k14"></div>
+        <div class="kryg k15"></div>
+        <div class="kryg k16"></div>
+        <div class="kryg k17"></div>
+        <div class="kryg k18"></div>
+        <div class="kryg k19"></div>
+        <div class="kryg k20"></div>
+    </div>
+    <script>
+        for (let i = 1; i <=20; i++) {
+                let x = Math.round(Math.random() * 100) + '%';
+                let y = Math.round(Math.random() * 100) + '%';
+                $('.k' + i).css({'top': y, 'left' : x});
+            }
+
+        setInterval(function(){
+            for (let i = 1; i <=20; i++) {
+                let x = Math.round(Math.random() * 100) + '%';
+                let y = Math.round(Math.random() * 100) + '%';
+                $('.k' + i).css({'top': y, 'left' : x});
+            }
+        }, 5000);
+    </script>
 </body>
 
 </html>
