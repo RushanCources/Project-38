@@ -188,6 +188,40 @@
     display: none;
 }
 
+/* Переключение страницы */
+
+.pages {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.pages-list {
+    display: flex;
+}
+
+.pages-item {
+    font-size: 18px;
+    color: #000;
+}
+
+.pages-item:not(:last-child) {
+    margin-right: 15px;
+}
+
+.pages-link > svg {
+    fill: inherit;
+}
+
+.pages-link {
+    transition: 0.3s color linear, 0.3s fill linear;
+}
+
+.pages-link:hover {
+    color: #1f3f76;
+    fill: #1f3f76;
+}
+
 /* Поле для добавления нового юзера */
 
 .new-user-block {

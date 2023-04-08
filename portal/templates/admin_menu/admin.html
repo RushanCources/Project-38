@@ -100,6 +100,40 @@
     </tbody>
 </table>
 
+<div class="pages">
+    <ul class="pages-list">
+        <li class="pages-item">
+            <a href="#" class="pages-link arrow-left">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px">
+                    <g data-name="Layer 2">
+                        <path
+                            d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z" />
+                    </g>
+                    <g>
+                        <rect height="32" width="32" fill="none" />
+                    </g>
+                </svg>
+            </a>
+        </li>
+        <li class="pages-item"><a href="#" class="pages-link">1</a></li>
+        <li class="pages-item"><a href="#" class="pages-link">2</a></li>
+        <li class="pages-item"><a href="#" class="pages-link">3</a></li>
+        <li class="pages-item">
+            <a href="#" class="pages-link arrow-right">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px" style="transform: rotate(180deg);">
+                    <g data-name="Layer 2">
+                        <path
+                            d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z" />
+                    </g>
+                    <g>
+                        <rect height="32" width="32" fill="none" />
+                    </g>
+                </svg>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <form class="new-user-block" method="POST" id="form" action="{% url 'admin_menu' %}">
     {% csrf_token %}
     <p class="new-user-p">Создание пользователя</p>
@@ -119,15 +153,15 @@
             <div class="new-user-role">
                 <div>
                     <label class="role-name" for="role1">Ученик</label>
-                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
-                    </div>
-                    <div>
-                        <label class="role-name" for="role2">Учитель</label>
-                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
-                    </div>
-                    <div>
-                        <label class="role-name" for="role3">Админ</label>
-                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
+                    <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                </div>
+                <div>
+                    <label class="role-name" for="role2">Учитель</label>
+                    <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
+                </div>
+                <div>
+                    <label class="role-name" for="role3">Админ</label>
+                    <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
                 </div>
             </div>
 
