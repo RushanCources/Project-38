@@ -6,14 +6,16 @@
 
 .main-nav {
     position: relative;
-    display: block;
-    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
     min-width: 50%;
     margin: 0 auto;
 }
 
 .search{
     margin-bottom: 20px;
+    /* max-width: 600px; */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -42,7 +44,17 @@
     border: none;
     background: #1f3f76 url('../../img/admin_menu/search.svg') no-repeat 40% center;
     cursor: pointer;
+}
 
+.left-nav {
+    width: 80%;
+}
+
+.right-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 /* Выдвигающиеся списки */
@@ -136,6 +148,12 @@
 
 .list-li:hover {
     background: #ccc;
+}
+
+.input-filter {
+    height: 0px;
+    position: absolute;
+    opacity: 0;
 }
 
 /* Таблица */
@@ -425,19 +443,17 @@
 
 /* tokens */
 
-.btn-token {
-    position: absolute;
-    top: 0;
-    right: -40%;
+.btn-token, .btn-filter {
+    width: 100%;
     background: #1f3f76;
     color: #fff;
 }
 
-.btn-token:hover {
+.btn-token:hover, .btn-filter:hover {
     background-color: #224581;
 }
 
-.btn-token:active {
+.btn-token:active, .btn-filter:active {
     background-color: #142b53;
 }
 
