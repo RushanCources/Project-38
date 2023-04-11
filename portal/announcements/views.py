@@ -64,9 +64,12 @@ def createannouncement(request):
     files = request.FILES.getlist('files')
     image_url = request.POST.get("image_url")
 
-    de = de.split("-")
+    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), author=author, image_url=image_url)
 
-    announcement = Announcement.objects.create(title=str(title), body=str(body), is_pinned=bool(is_pinned), date_of_expiring=date(int(de[0]), int(de[1]), int(de[2])), author=author, image_url=image_url)
+    if de:
+        de = de.split("-")
+        announcement.date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
+        announcement.save()
 
     for file in files:
         File.objects.create(announcement=announcement, file=file)
@@ -110,7 +113,8 @@ def editannouncement(request, id):
 
         announcement = Announcement.objects.get(id=id)
         de = request.POST.get("date_of_expiring").split("-")
-        date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
+        if de != ['']:
+            date_of_expiring = date(int(de[0]), int(de[1]), int(de[2]))
         is_pinned = request.POST.get("is_pinned", False)
         if is_pinned : is_pinned = True
         files_to_add = request.FILES.getlist('files')
@@ -128,7 +132,10 @@ def editannouncement(request, id):
         announcement.title = request.POST.get("title")
         announcement.body = request.POST.get("body")
         announcement.is_pinned = is_pinned
-        announcement.date_of_expiring = date_of_expiring
+        if de != ['']:
+            announcement.date_of_expiring = date_of_expiring
+        else:
+            announcement.date_of_expiring = None
         announcement.image_url = image_url
 
         announcement.save()
@@ -145,7 +152,15 @@ def search(request, anid=None):
     ann_list = []
 
     if query:
-        anns = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+
+        query_words = query.split()
+        query_filter = Q()
+
+        for word in query_words:
+            query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(author__first_name__icontains=word) | Q(author__last_name__icontains=word)
+
+        anns = Announcement.objects.filter(query_filter)
+
         if request.method == 'GET' and anid != None:
             for ann in range(anid - 20, anid):
                 try:
@@ -156,7 +171,15 @@ def search(request, anid=None):
             for ann in range(anns.count()):
                 ann_list.append(anns[ann])
     else:
-        anns = Announcement.objects.filter(Q(title__icontains=query) | Q(body__icontains=query))
+        query_words = query.split()
+        query_filter = Q()
+
+        for word in query_words:
+            query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(
+                author__first_name__icontains=word) | Q(author__last_name__icontains=word)
+
+        anns = Announcement.objects.filter(query_filter)
+
         for ann in range(anns.count()):
             ann_list.append(anns[ann])
     context = {

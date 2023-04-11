@@ -7,8 +7,10 @@
 {% endblock head %}
 {% block content %}
 
-{% csrf_token %}
-{{ form.as_div }}
-<input type="submit" value="Разместить" />
+<form method="post" action="createannouncement" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <input type="submit" value="Разместить" />
+</form>
 
 {% endblock content %}
