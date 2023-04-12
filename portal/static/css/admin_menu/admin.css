@@ -1,3 +1,16 @@
+.btn {
+    padding: 10px 25px;
+    box-sizing: border-box;
+    border: 2px solid #1f3f76;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 5px;
+    background: #fff;
+    transition: 0.3s background;
+}
+
 .main {
     min-width: 60%;
     max-width: 1200px;
@@ -6,15 +19,13 @@
 
 .main-nav {
     position: relative;
-    display: flex;
-    justify-content: space-between;
     min-width: 50%;
     margin: 0 auto;
 }
 
 .search{
     margin-bottom: 20px;
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,28 +55,77 @@
     cursor: pointer;
 }
 
-.left-nav {
-    width: 80%;
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-.right-nav {
-    display: flex;
+/* tokens */
+
+.btn-token, .btn-filter {
+    background: #1f3f76;
+    color: #fff;
+}
+
+.btn-token:hover, .btn-filter:hover {
+    background-color: #224581;
+}
+
+.btn-token:active, .btn-filter:active {
+    background-color: #142b53;
+}
+
+.create-tokens {
+    position: fixed;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: center;
+    padding: 20px 45px;
+    min-height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 5px;
 }
 
-/* Выдвигающиеся списки */
+.token-span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.token-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.token-input {
+    display: block;
+    width: 40%;
+    margin: 50px auto;
+    padding: 5px 15px;
+    border: 2px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* фильтр */
 
 .filter {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding-right: 40px;
+    align-items: center;
 }
 
 .div-list {
-    width: 48%;
+    width: 30%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -153,6 +213,14 @@
     height: 0px;
     position: absolute;
     opacity: 0;
+}
+
+.filter-checkbox {
+    margin-left: 5px;
+}
+
+.label-checkbox {
+    cursor: pointer;
 }
 
 /* Таблица */
@@ -355,19 +423,6 @@
     justify-content: space-between;
 }
 
-.btn {
-    padding: 10px 25px;
-    box-sizing: border-box;
-    border: 2px solid #1f3f76;
-    outline: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 5px;
-    background: #fff;
-    transition: 0.3s background;
-}
-
 .exit {
     color: #1f3f76;
 }
@@ -440,57 +495,9 @@
     justify-content: space-between;
 }
 
-/* tokens */
-
-.btn-token, .btn-filter {
-    width: 100%;
-    background: #1f3f76;
-    color: #fff;
-}
-
-.btn-token:hover, .btn-filter:hover {
-    background-color: #224581;
-}
-
-.btn-token:active, .btn-filter:active {
-    background-color: #142b53;
-}
-
-.create-tokens {
-    position: fixed;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 45px;
-    min-height: 300px;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border-radius: 5px;
-}
-
-.token-span {
-    display: block;
-    font-size: 14px;
-    font-weight: 300;
-}
-
-.token-btns {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.token-input {
-    display: block;
-    width: 40%;
-    margin: 50px auto;
-    padding: 5px 15px;
-    border: 2px solid #1f3f76;
-    border-radius: 5px;
-    font-size: 18px;
-    text-align: center;
+.user-id {
+    height: 0;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
 }

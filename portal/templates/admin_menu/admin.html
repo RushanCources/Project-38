@@ -8,13 +8,15 @@
 {% block content %}
 
 <div class="main-nav">
-    <div class="left-nav">
+    <div class="top-nav">
         <form class="search" method="POST" action="#">
             {% csrf_token %}
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
             <input class="search-button" type="submit" name="search_butt" value="">
         </form>
-        <div class="filter">
+        <button class="btn btn-token" onclick="token_open()">Создать токены</button>
+    </div>    
+        <form class="filter" method="POST">
             <div class="div-list">
                 <p class="list-name">Группа:</p>
                 <div class="list-names">
@@ -59,18 +61,15 @@
                     </ul>
                 </div>
             </div>
+
             <input type="number" class="input-filter input-filter-group">
             <input type="text" class="input-filter input-filter-role">
-        </div>
-    </div>
-    <div class="right-nav">
-        <button class="btn btn-token" onclick="token_open()">Создать токены</button>
-        <form action="#" method="POST" class="filter-nav">
-            <input type="number" class="input-filter input-filter-group">
-            <input type="text" class="input-filter input-filter-role">
+            <label for="deactivate" class="label-checkbox">
+                Скрытые<input type="checkbox" id="deactivate" class="filter-checkbox">
+            </label>
             <input class="btn btn-filter" type="submit" value="Применить" />
+
         </form>
-    </div>
 </div>
 
 <table class="table">
@@ -219,13 +218,13 @@
 
 <form class="delete_page" method="POST" action="#">
     <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
-    <p>Пользователь: <span class="delete-fio">Кабанин Денис Андреевич</span></p>
+    <p>Пользователь: <span class="delete-fio"></span></p>
     <div class="delete-btns">
         <button class="btn exit" type="button" onclick="del_exit()">Отмена</button>
         <input class="btn delete-btn" type="submit" name="delete_butt" value="Удалить">
         <input class="btn delete-btn" type="submit" name="deactivate_butt" value="Скрыть">
         {% csrf_token %}
-        <input type="number" class="user-id" style="position: absolute; top: 0;" name="user_id_delete">
+        <input type="number" class="user-id" name="user_id_delete">
     </div>
 </form>
 
