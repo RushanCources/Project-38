@@ -187,3 +187,8 @@ def search(request, anid=None):
         'search_value': query,
     }
     return render(request, 'dec/dec.html', context=context)
+
+
+def announcement(request, id):
+    # нужно написать логику для открытия странички по id из db
+    return()
