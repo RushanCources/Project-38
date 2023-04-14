@@ -100,7 +100,7 @@ def editor(request, id):
         return render(request, 'announcements/editor.html', context=data)
 
     except Announcement.DoesNotExist:
-        return HttpResponse('Объявление не найдено')
+        return render(request, 'WrongData.html')
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
@@ -143,7 +143,7 @@ def editannouncement(request, id):
         return HttpResponsePermanentRedirect('/announcements')
 
     except Announcement.DoesNotExist:
-        HttpResponse('Объявление не найдено')
+        return render(request, 'WrongData.html')
 
 
 def search(request, anid=None):
@@ -190,5 +190,14 @@ def search(request, anid=None):
 
 
 def announcement(request, id):
-    # нужно написать логику для открытия странички по id из db
-    return()
+    try:
+        announcement = Announcement.objects.get(id=id)
+
+    except Announcement.DoesNotExist:
+        return render(request, 'WrongData.html')
+
+    context = {
+        'announcement': announcement,
+    }
+
+    return render(request, 'dec/ann.html', context=context)
