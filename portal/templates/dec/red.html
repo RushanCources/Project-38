@@ -2,15 +2,16 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
+<link rel="stylesheet" href="{% static 'css/dec/red.css' %}">
 <title>Редактор Объявления</title>
 {% endblock head %}
 {% block content %}
 
-<form method="post" action="createannouncement" enctype="multipart/form-data" class="form">
+<form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
     {% csrf_token %}
     {{ form.as_div }}
     <input type="submit" value="Разместить" />
+    <!-- <div></div> -->
 </form>
 
 {% endblock content %}
