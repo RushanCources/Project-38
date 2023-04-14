@@ -9,7 +9,13 @@
 
 <form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
     {% csrf_token %}
-    {{ form.as_div }}
+    {{ form.date_of_expiring }}
+    {{ form.title }}
+    {{ form.body }}
+    {{ form.is_pinned }}
+    {{ form.image_url }}
+    {{ form.files }} 
+    {{ form.file_id_to_delete }}
     <input type="submit" value="Разместить" />
     <!-- <div></div> -->
 </form>
