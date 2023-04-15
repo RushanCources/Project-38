@@ -334,3 +334,62 @@
     background: #00000072;
 
 }
+
+/* for teachers */
+
+.btn-teacher-profile {
+    display: block;
+    margin: 0 auto;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.btn-teacher-profile:hover {
+    background: #0d306d;
+}
+
+.btn-teacher-profile:active {
+    background: #3e5e96;
+}
+
+.info-teacher {
+    width: 790px;
+    display: none;
+}
+
+.teacher-projects {
+    width: 790px;
+    background-color: transparent;
+}
+
+.projects {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+.projects:not(:last-child) {
+    margin-bottom: 25px;
+}
+
+.btn-projects::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+}
+
+.btn-projects-open {
+    transform: rotate(45deg);
+    height: 80%;
+    cursor: pointer;
+}

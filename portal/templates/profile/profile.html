@@ -17,6 +17,7 @@
 {% block content %}
 <h1 class="h1">Профиль</h1>
 <div class="main-div">
+    {% if user.role != 'Учитель' %}
     <div>
         <section class="section main-info">
             <div class="role-div">
@@ -27,12 +28,10 @@
                     <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
                     <button class="pencil"></button>
                 </div>
-                {% if user.role == 'Ученик' %}
                 <div class="list-div">
                     <div class="list-name">Группа</div>
                     <div class="list-p">{{ user.group }}</div>
                 </div>
-                {% endif %}
                 <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
             </div>
         </section>
@@ -81,6 +80,89 @@
         </div>
         <button class="btn save">Сохранить</button>
     </section>
+    {% endif %}
+
+    {% if user.role == 'Учитель' %}
+    <div>
+        <section class="section main-info">
+            <div class="role-div">
+                {{user.role}}
+            </div>
+            <div class="content">
+                <div class="avatar-image">
+                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
+                    <button class="pencil"></button>
+                </div>
+                <button class="btn btn-teacher-profile">Редактировать профиль</button>
+                <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
+            </div>
+        </section>
+        <section class="section theme-list">
+        </section>
+    </div>
+    <section class="section teacher-projects">
+        <div class="projects now-project">
+            <button class="btn btn-projects">Текущие проекты</button>
+            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-projects-open">
+                <path
+                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                    fill="#000000"></path>
+            </svg>
+        </div>
+        <div class="projects new-project">
+            <button class="btn btn-projects">Новые заявки на проект</button>
+            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-projects-open">
+                <path
+                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                    fill="#000000"></path>
+            </svg>
+        </div>
+        <div class="projects past-project">
+            <button class="btn btn-projects">Завершенные проекты</button>
+            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-projects-open">
+        <path
+            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+            fill="#000000"></path>
+    </svg>
+        </div>
+    </section>
+    <section class="section info-teacher">
+        <div class="div-input">
+            <span class="span">Фамилия</span>
+            <input class="input" type="text" value="{{ user.last_name }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Имя</span>
+            <input class="input" type="text" value="{{ user.first_name }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Отчетво</span>
+            <input class="input" type="text" value="{{ user.middle_name }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Логин</span>
+            <input class="input" type="text" value="{{ user.username }}">
+        </div>
+        <div class="div-input">
+            <span class="span">Эл. почта</span>
+            <input class="input" type="text" value="{{ user.email }}">
+        </div>
+        <div class="line"></div>
+        <div class="div-input">
+            <span class="span">Новый пароль</span>
+            <input class="input" type="password">
+        </div>
+        <div class="div-input">
+            <span class="span">Текущий пароль</span>
+            <input class="input" type="password">
+        </div>
+        <div class="div-input">
+            <span class="span">Повторите пароль</span>
+            <input class="input" type="password">
+        </div>
+        <button class="btn save">Сохранить</button>
+    </section>
+    {% endif %}
 </div>
 <form class="new-avatar-div" method="POST" action="#">
     <h3 class="new-avatar-title">Загрузка новой фотографии</h3>
