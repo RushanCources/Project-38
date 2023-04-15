@@ -1,3 +1,5 @@
-.venv/
+.venv
+db.sqlite3
+portal/.venv
 portal/db.sqlite3
-portal/db.sqlite3
+*.sqlite3
