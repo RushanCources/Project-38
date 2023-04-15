@@ -25,7 +25,7 @@ from projects import views as v4
 urlpatterns = [
     path('announcements/', include('announcements.urls')),
     path('management/', include('management.urls')),
-    path('subjects', v3.index, name='subjects'),
+    path('subjects/', include('subjects.urls')),
     path('projects/', include('projects.urls')),
     path('', TemplateView.as_view(template_name = 'home.html'), name='home'),
     #path('admin/', admin.site.urls),
