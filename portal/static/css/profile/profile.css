@@ -17,13 +17,9 @@
 }
 
 .h1 {
-    padding-left: 10px;
-    margin: 0;
-    margin-bottom: 12px;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 38px;
-    color: #000000;
+    position: absolute;
+    opacity: 0;
+    height: 0;
 }
 
 .main-div {
@@ -45,6 +41,11 @@
     width: 400px;
     min-height: 450px;
     margin-bottom: 25px;
+}
+
+.main-info-fixed {
+    position: fixed;
+    top: 10px;
 }
 
 .role-div {
@@ -115,7 +116,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 80%;
     border-radius: 5px;
     border: 1px solid #E3E3E3;
     font-size: 16px;
@@ -355,7 +356,6 @@
 
 .info-teacher {
     width: 790px;
-    display: none;
 }
 
 .teacher-projects {
@@ -369,18 +369,32 @@
     background: #fff;
     border-radius: 30px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
-    padding: 5px 20px;
+    padding: 0 30px;
 }
 
-.projects:not(:last-child) {
+.projects {
     margin-bottom: 25px;
+}
+
+.now-project {
+    overflow: hidden;
+    transition: all 0.3s ease-in;
+}
+
+.btn-projects {
+    display: block;
+    padding: 20px 0;
+    font-weight: 700;
+    font-size: 20px;
 }
 
 .btn-projects::after {
     content: "";
     position: absolute;
+    z-index: 2;
     top: 0;
     left: 0;
     right: 0;
@@ -388,8 +402,119 @@
     border-radius: 30px;
 }
 
-.btn-projects-open {
+.btn-projects-icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 30px;
+    top: 20px;
     transform: rotate(45deg);
-    height: 80%;
+    background: url('../../img/profile/close.svg') no-repeat center center;
+    background-size: auto;
+    transition: transform 0.3s cubic-bezier(0, 1, 0, 1);
+}
+
+.projects-list {
+    width: 100%;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    overflow: hidden;
+    max-height: 0;
+}
+
+.ul-open {
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+    max-height: 2000px;
+    position: relative;
+    z-index: 3;
+}
+
+.project-item {
+    padding: 10px 10px;
+    position: relative;
+    background: url('../../img/profile/arrow-right.svg') no-repeat center right;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    transition: 0.3s background-color;
+}
+
+.project-item:last-child {
+    margin-bottom: 20px;
+}
+
+.project-item:hover {
+    background-color: #ebebeb;
+}
+
+.project-item:active {
+    background-color: #fff;
+}
+
+.project-name {
+    padding: 0;
+    font-size: 18px;
+    display: block;
+}
+
+.project-name::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.project-span {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.project-span:not(:last-child) {
+    margin-right: 2px;
+}
+
+.div-new-projects {
+    display: flex;
+    align-items: center;
+}
+
+.btn-new-projects {
+    margin-right: 10px;
+}
+
+.score-projects {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 12px;
+    color: #fff;
+    background: #ff1b24;
+    animation: score-projects infinite ease-in-out 3s;
+}
+
+@keyframes score-projects {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.more {
+    background: none;   
+    text-align: center;
+}
+
+.more-span {
+    color: #5A88FF;
     cursor: pointer;
 }
