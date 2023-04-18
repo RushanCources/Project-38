@@ -4,9 +4,10 @@ from projects import views
 urlpatterns = [
     path('', include('django.contrib.auth.urls'), name='project'),
     path('theme_list/', views.theme_list, name='theme_list'),
-    path('index/', views.index, name='index'),
-    path('create/', views.create, name='create'),
-    path('create/postcreate/', views.postcreate, name='postcreate'),
-    path('correctProject', views.correctProject, name='correctProject'),
-    path('createdata', views.create_data)
+    path('index/', views.index, name='projects'),
+    path('create/', views.send_create_form, name='create'),
+    path('create/postcreate/', views.create, name='postcreate'),
+    path('correctProject', views.correct_project, name='correctProject'),
+    path('create_data', views.create_data),
+    path('update_file', views.update_file, name='update_file'),
 ]

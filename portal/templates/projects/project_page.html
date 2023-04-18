@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
+{% load static %}
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
-    <form method="POST" action="{% url 'correctProject' %}" id="fname">
+    <form method="POST" action="{% url 'correctProject' %}" id="form">
         {% csrf_token %}
         <input type="hidden" name="project" value={{id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
     <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
-    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <div>{{teacher}}</div>
@@ -20,17 +21,23 @@
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
-
-    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <script>
+
+    {% for file in files %}
+        <div>
+            <div>{{file.name}}</div>
+            <form  method="POST" action=>
+            <input type="hidden" name="project" value={{id}}>
+
+
+
 
         function edit(elem, id){
             let f = document.getElementById(id);
             f.disabled = false;
             elem.setAttribute( "onclick", "return save('"+id+"')");
-            {% load static %}
             elem.childNodes[1].src = "{% static 'tick.png' %}";
             elem.style.backgroundColor = "#2DA44E";
             }

@@ -8,11 +8,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('management', '0003_alter_user_role'),
     ]
-
-    operations = [
-        migrations.AddField(
-            model_name='user',
-            name='group',
-            field=models.IntegerField(null=True),
-        ),
-    ]
