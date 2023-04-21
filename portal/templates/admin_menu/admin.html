@@ -17,6 +17,7 @@
         <button class="btn btn-token" onclick="token_open()">Создать токены</button>
     </div>    
         <form class="filter" method="POST">
+            {% csrf_token %}
             <div class="div-list">
                 <p class="list-name">Группа:</p>
                 <div class="list-names">
@@ -61,13 +62,12 @@
                     </ul>
                 </div>
             </div>
-
-            <input type="number" class="input-filter input-filter-group">
-            <input type="text" class="input-filter input-filter-role">
+            <input type="number" class="input-filter input-filter-group" name="group_filter">
+            <input type="text" class="input-filter input-filter-role" name="role_filter">
             <label for="deactivate" class="label-checkbox">
-                Скрытые<input type="checkbox" id="deactivate" class="filter-checkbox">
+                Скрытые<input type="checkbox" id="deactivate" class="filter-checkbox" name="deactivate_filter">
             </label>
-            <input class="btn btn-filter" type="submit" value="Применить" />
+            <input class="btn btn-filter" type="submit" value="Применить" name="filter_submit" />
 
         </form>
 </div>

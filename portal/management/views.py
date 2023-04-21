@@ -44,6 +44,9 @@ def admin_menu(request):
         role = request.POST.get('role')
         email = request.POST.get('email_input')
         search_names = request.POST.get('search_names')
+        role_filter = request.POST.get('role_filter')
+        group_filter = request.POST.get('group_filter')
+        deactivate_filter = request.POST.get('deactivate_filter')
 
         if request.POST.get('delete_butt'):
             user=User.objects.get(id = user_id_delete).delete()
@@ -66,9 +69,14 @@ def admin_menu(request):
                 token.save()
             return redirect('admin_menu')
         
-        if request.POST.get('search_butt'):
-            filter_users = User.objects.filter()
-            return redirect('admin_menu')
+        if request.POST.get('filter_submit'):
+            if role_filter !='' and group_filter !='':
+                filter_users=User.objects.filter(role = role_filter, group = group_filter)
+            if role_filter !='' and group_filter =='':
+                filter_users=User.objects.filter(role = role_filter)
+            if role_filter =='' and group_filter !='':
+                filter_users=User.objects.filter(group = group_filter)
+            return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
 
         if user_id == "-1":
             last_user = User.objects.last()
