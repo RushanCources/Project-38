@@ -1,5 +1,8 @@
+import os
+
 from django.db import models
 from django.db.models import FileField
+from django.dispatch import receiver
 
 from management.models import User
 
@@ -43,8 +46,8 @@ MAX_FILE_VERSION = 3
 
 
 class File(models.Model):
-    project = models.ForeignKey(Project, related_name='files', on_delete=models.CASCADE)
-    file = models.FileField(upload_to='project_files', blank=True, null=True)
+    project: Project = models.ForeignKey(Project, related_name='files', on_delete=models.CASCADE)
+    file = models.FileField(upload_to=f'project_files', blank=True, null=True)
     version = models.IntegerField(default=1)
     previous_file = models.ForeignKey('File', related_name="previous", null=True, on_delete=models.SET_NULL)
 
@@ -57,10 +60,11 @@ class File(models.Model):
             self.version += 1
             self.save()
 
-    def delete_object(self):
-        if self.version == MAX_FILE_VERSION:
-            self.delete()
-            return
-        elif self.previous_file is not None:
-            self.previous_file.delete_object()
-        self.delete()
+
+@receiver(models.signals.pre_delete, sender=File)
+def delete_file(sender, instance: File, *args, **kwargs):
+    print('ff', instance.version)
+    if instance.version != 1:
+        instance.version = -1
+    if instance.previous_file is not None:
+        instance.previous_file.delete()
