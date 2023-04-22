@@ -15,7 +15,9 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             messages.success(request,'Аккаунт успешно создан')
-            return redirect('register')
+            authenticate_user = authenticate(request, username = new_user.username, password=new_user.password)
+            login(request, authenticate_user)
+            return redirect('profile')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
@@ -111,7 +113,20 @@ def profile(request):
         old_password = request.POST.get('old_password')
         repeat_password = request.POST.get('repeat_password')
         username = request.POST.get('username_inp')
+        email = request.POST.get('email_inp')
+        first_name=request.POST.get('first_name_inp')
+        middle_name=request.POST.get('middle_name_inp')
+        last_name=request.POST.get('last_name_inp')
+        new_avatar = request.FILES.get('avatar_inp')
+
         if request.POST.get('submit_changes'):
+            request.user.email = email
+            request.user.first_name = first_name
+            request.user.middle_name = middle_name
+            request.user.last_name = last_name
+            request.user.username=username
+            request.user.save()
+
             if request.user.check_password(old_password):
                 if new_password == repeat_password:
                     request.user.set_password(new_password)
@@ -119,6 +134,12 @@ def profile(request):
                     new_user = authenticate(request, username=username, password=new_password)
                     login(request, new_user)
                     return redirect('profile')
+        
+
+        if request.POST.get('avatar_submit'):
+            request.user.avatar = new_avatar
+            request.user.save()
+            return ('profile')
     return render(request, 'profile/profile.html')    
 
 

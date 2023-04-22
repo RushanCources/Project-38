@@ -24,7 +24,7 @@
             </div>
             <div class="content">
                 <div class="avatar-image">
-                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
+                    <img class="img" src="{{ user.avatar.url }}" alt="Аватарка пользователя">
                     <button class="pencil"></button>
                 </div>
                 {% if user.role == 'Ученик' %}
@@ -85,7 +85,8 @@
         </form>
     </section>
 </div>
-<form class="new-avatar-div" method="POST" action="#">
+<form class="new-avatar-div" method="POST">
+    {% csrf_token %}
     <h3 class="new-avatar-title">Загрузка новой фотографии</h3>
     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-avatar-close">
         <path
@@ -99,9 +100,10 @@
                 fill="#103A84" />
         </svg>
         <div class="photo">
-            <input type="file" id="file-input" multiple>
+            <input type="file" id="file-input" name="file_inp" multiple>
             <label for="file-input">Выберите файл</label>
             <span>или перетащите его сюда</span>
+            <input type="submit" value="Загрузить" name="avatar_submit"/>
         </div>
     </div>
 </form>
