@@ -89,12 +89,12 @@ def check_post_request(request: HttpRequest, *need_values):
 
 
 def chek_what_user_have_acsess(request: HttpRequest, project: Project):
-    if request.user.id != project.teacher.id and request.user.id != Project.student.id:
+    if request.user.id != project.teacher.id and request.user.id != project.student.id:
         return render(request, "NotEnoughPermissions.html")
 
 
 def create(request: HttpRequest):
-    check_post_request('project', 'teacher', 'name', "subject")
+    check_post_request(request, 'project', 'teacher', 'name', "subject")
     teacher_id = request.POST.get("teacher")
     name = request.POST.get("name")
     try:
@@ -118,11 +118,12 @@ def create(request: HttpRequest):
 
 
 def correct_project(request: HttpRequest):
-    check_post_request('project')
+    check_post_request(request, 'project')
     project_id = request.POST.get("project")
     try:
         project_id = int(project_id)
         project = Project.objects.get(id=project_id)
+        print('aa')
         chek_what_user_have_acsess(request, project)
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
@@ -136,11 +137,12 @@ def correct_project(request: HttpRequest):
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
 def update_file(request: HttpRequest):
-    check_post_request('file_id', 'file', 'project')
+    check_post_request(request, 'file_id', 'file', 'project')
     if request.method != 'POST':
         return redirect(reverse("projects"))
     if not request.user.is_authenticated:
