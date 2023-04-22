@@ -24,15 +24,12 @@ def index(request: HttpRequest):
         files = File.objects.filter(project=project, version=1)
         names = [file.file.name.split('/')[-1] for file in files]
         files_and_names = zip(files, names)
-        for file in files:
-            print(file, file.__dict__)
-            print(file.file.__dict__)
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
-                   "id": pId,
+                   "project_id": pId,
                    'files_and_names': files_and_names
                    }
         return render(request, "projects/project_page.html", context=context)
@@ -166,20 +163,21 @@ def update_file(request: HttpRequest):
     except BaseException as e:
         return render(request, "FatalError.html")
 
-# def delete_file(request: HttpRequest):
-#     if request.method != 'POST':
-#         return redirect(reverse("projects"))
-#     if not request.user.is_authenticated:
-#         return render(request, "NotEnoughPermissions.html")
-#     file_id = request.POST.get('file_id')
-#     file = request.FILES.get('file')
-#     project_id = request.POST.get('project')
-#     if file is None or project_id is None:
-#         return render(request, "WrongData.html")
-#     try:
-#         project = Project.objects.get(id=project_id)
-#         teacher_id = project.teacher.id
-#         student_id = project.student.id
-#         if request.user.id != teacher_id and request.user.id != student_id:
-#             return render(request, "NotEnoughPermissions.html")
-#
+def delete_file(request: HttpRequest):
+    check_post_request(request, 'project', 'file_id')
+    file_id = request.POST.get('file_id')
+    project_id = request.POST.get('project')
+    try:
+        project = Project.objects.get(id=project_id)
+        chek_what_user_have_acsess(request, project)
+        file = File.objects.get(id=file_id)
+        file.delete_object()
+        return redirect(reverse("projects") + "?id=" + str(project_id))
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+
+
+

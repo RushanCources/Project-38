@@ -6,7 +6,7 @@
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
     <form method="POST" action="{% url 'correctProject' %}" id="form_name">
         {% csrf_token %}
-        <input type="hidden" name="project" value={{id}}>
+        <input type="hidden" name="project" value={{project_id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
     <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
@@ -17,7 +17,7 @@
     <div>{{status}}</div>
     <form method="POST" action="{% url 'correctProject' %}" id="form_description">
         {% csrf_token %}
-        <input type="hidden" name="project" value={{id}}>
+        <input type="hidden" name="project" value={{project_id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
@@ -28,7 +28,8 @@
         <div>
             <div>{{name}}</div>
             <form  method="POST" action="{% url 'update_file' %}">
-                <input type="hidden" name="project" value={{id}} />
+                {% csrf_token %}
+                <input type="hidden" name="project" value={{project_id}} />
                 <input type="hidden" name="file_id" value={{file.id}} />
                 <div>
                 <label for="input-file">Обновить файл</label>
@@ -36,6 +37,13 @@
                 <!-- В стили потом нужно для этой кнопки перенести два свойства display:none и visibility:hidden
                     с теми атрибутами, что сейчас прикручены напрямую -->
             </div>
+            </form>
+            <form  method="POST" action="{% url 'delete_file' %}">
+                {% csrf_token %}
+                <div>Удалить файл</div>
+                <input type="hidden" name="project" value={{project_id}} />
+                <input type="hidden" name="file_id" value={{file.id}} />
+                <input type="submit"/>
             </form>
         </div>
     {% endfor %}

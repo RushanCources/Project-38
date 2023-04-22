@@ -56,3 +56,11 @@ class File(models.Model):
             self.file = self.previous_file.file
             self.version += 1
             self.save()
+
+    def delete_object(self):
+        if self.version == MAX_FILE_VERSION:
+            self.delete()
+            return
+        elif self.previous_file is not None:
+            self.previous_file.delete_object()
+        self.delete()

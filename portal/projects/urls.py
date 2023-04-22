@@ -10,4 +10,5 @@ urlpatterns = [
     path('correctProject', views.correct_project, name='correctProject'),
     path('create_data', views.create_data),
     path('update_file', views.update_file, name='update_file'),
+    path('delete_file', views.delete_file, name='delete_file'),
 ]

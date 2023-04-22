@@ -30,7 +30,7 @@
     <form action="{% url 'register' %}" method="post" class="form">
         <h1 class="title">Регистрация</h1>
         <div class="form-div">
-            {{ user_form.as_div }}
+            {{ file_form.as_div }}
         </div>
         {% csrf_token %}
         <input type="submit" class="btn btn-success" value="Создать аккаунт">
