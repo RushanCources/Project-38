@@ -46,11 +46,13 @@ class File(models.Model):
     project = models.ForeignKey(Project, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='project_files', blank=True, null=True)
     version = models.IntegerField(default=1)
-    previous_file = models.ForeignKey('File', related_name="previous", on_delete=models.SET_NULL)
+    previous_file = models.ForeignKey('File', related_name="previous", null=True, on_delete=models.SET_NULL)
 
     def update_file(self):
         if self.version == MAX_FILE_VERSION:
             self.delete()
         elif self.previous_file is not None:
+            self.previous_file.update_file()
             self.file = self.previous_file.file
             self.version += 1
+            self.save()

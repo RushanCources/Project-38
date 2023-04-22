@@ -4,7 +4,7 @@
 {% block content %}
 {% load static %}
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
-    <form method="POST" action="{% url 'correctProject' %}" id="form">
+    <form method="POST" action="{% url 'correctProject' %}" id="form_name">
         {% csrf_token %}
         <input type="hidden" name="project" value={{id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
@@ -15,7 +15,7 @@
     <div>{{teacher}}</div>
     <div>{{student}}</div>
     <div>{{status}}</div>
-    <form method="POST" action="{% url 'correctProject' %}" id="fdescription">
+    <form method="POST" action="{% url 'correctProject' %}" id="form_description">
         {% csrf_token %}
         <input type="hidden" name="project" value={{id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
@@ -23,16 +23,20 @@
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
-    <script>
 
-    {% for file in files %}
+    {% for file, name in files_and_names %}
         <div>
-            <div>{{file.name}}</div>
-            <form  method="POST" action=>
-            <input type="hidden" name="project" value={{id}}>
+            <div>{{name}}</div>
+            <form  method="POST" action="{% url 'update_file' %}">
+                <div>Обновить файл</div>
+                <input type="hidden" name="project" value={{id}} />
+                <input type="hidden" name="file_id" value={{file.id}} />
+                <input type="file" name="file"/>
+            </form>
+        </div>
+    {% endfor %}
 
-
-
+    <script>
 
         function edit(elem, id){
             let f = document.getElementById(id);
@@ -44,7 +48,7 @@
 
         function save(id){
             let f = document.getElementById(id);
-            let form = document.getElementById("f"+id);
+            let form = document.getElementById("form_"+id);
             form.submit();
             }
     </script>
