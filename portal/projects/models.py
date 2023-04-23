@@ -62,7 +62,6 @@ class File(models.Model):
 
     def move_to_trash(self):
         if self.version == 1:
-            print("hgfh")
             self.version = -1
             if self.previous_file is not None:
                 self.previous_file.move_to_trash()

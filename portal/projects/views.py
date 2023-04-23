@@ -32,7 +32,6 @@ def index(request: HttpRequest):
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
-        print(e)
         return render(request, "FatalError.html")
 
 
@@ -80,7 +79,6 @@ def check_post_request(*need_values):
             for value in need_values:
                 request_value = request.POST.get(value, -1)
                 if request_value == -1:
-                    print(value)
                     return render(request, "WrongData.html")
             return func(request)
         return wrapper
@@ -136,7 +134,6 @@ def correct_project(request: HttpRequest):
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
-        print(e)
         return render(request, "FatalError.html")
 
 
@@ -173,7 +170,6 @@ def delete_file(request: HttpRequest):
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
-        print(e)
         return render(request, "FatalError.html")
 
 
@@ -190,7 +186,6 @@ def download_file(request: HttpRequest):
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
-        print(e)
         return render(request, "FatalError.html")
 
 
@@ -198,8 +193,6 @@ def download_file(request: HttpRequest):
 def upload_file(request: HttpRequest):
     project_id = request.POST.get("project_id")
     files = request.FILES.getlist("files")
-    print(files)
-    print(project_id)
     try:
         project = Project.objects.get(id=project_id)
         if check_what_user_have_access(request, project):
@@ -221,14 +214,11 @@ def get_trash(request: HttpRequest):
     try:
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=-1)
-        print(files)
         names = [file.file.name.split('/')[-1] for file in files]
-        print(names)
         files_and_names = zip(files, names)
         context = {"files": files_and_names}
         return render(request, "projects/trash.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
-        print(e)
         return render(request, "FatalError.html")
