@@ -1,13 +1,10 @@
-import os
-
-from django.http import HttpResponse, HttpResponseNotFound, FileResponse
+from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
 
 from management.models import User
 from projects.models import Project, File
-from projects.forms import FileForm
 
 
 def theme_list(request: HttpRequest):
@@ -15,23 +12,20 @@ def theme_list(request: HttpRequest):
 
 
 def index(request: HttpRequest):
-    pId = request.GET.get("id", None)
-    if pId is None:
+    project_id = request.GET.get("id", None)
+    if project_id is None:
         return render(request, "projects/index.html")
     try:
-        pId = int(pId)
-        project = Project.objects.get(id=pId)
+        project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
         names = [file.file.name.split('/')[-1] for file in files]
         files_and_names = zip(files, names)
-        for file in files:
-            print(file.id)
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
-                   "project_id": pId,
+                   "project_id": project_id,
                    'files_and_names': files_and_names
                    }
         return render(request, "projects/project_page.html", context=context)
@@ -146,7 +140,7 @@ def correct_project(request: HttpRequest):
         return render(request, "FatalError.html")
 
 
-@check_post_request('file_id', 'file')
+@check_post_request('file_id')
 def update_file(request: HttpRequest):
     file_id = request.POST.get('file_id')
     file = request.FILES.get('file')
@@ -174,7 +168,7 @@ def delete_file(request: HttpRequest):
         project = file.project
         if check_what_user_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        file.delete()
+        file.move_to_trash()
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
         return render(request, "WrongData.html")
@@ -183,9 +177,10 @@ def delete_file(request: HttpRequest):
         return render(request, "FatalError.html")
 
 
-@check_post_request('file')
 def download_file(request: HttpRequest):
     file_id = request.GET.get('file_id')
+    if file_id is None:
+        return render(request, "WrongData.html")
     try:
         file_object = File.objects.get(id=file_id)
         if check_what_user_have_access(request, file_object.project):
@@ -195,13 +190,16 @@ def download_file(request: HttpRequest):
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
+@check_post_request("project_id")
 def upload_file(request: HttpRequest):
     project_id = request.POST.get("project_id")
     files = request.FILES.getlist("files")
     print(files)
+    print(project_id)
     try:
         project = Project.objects.get(id=project_id)
         if check_what_user_have_access(request, project):
@@ -210,9 +208,27 @@ def upload_file(request: HttpRequest):
             file_object = File.objects.create(project=project, file=file, version=1)
             file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
-    except Project.DoseNotExist:
+    except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
         return render(request, "FatalError.html")
 
 
+def get_trash(request: HttpRequest):
+    project_id = request.GET.get('project_id')
+    if project_id is None:
+        return render(request, "WrongData.html")
+    try:
+        project = Project.objects.get(id=project_id)
+        files = File.objects.filter(project=project, version=-1)
+        print(files)
+        names = [file.file.name.split('/')[-1] for file in files]
+        print(names)
+        files_and_names = zip(files, names)
+        context = {"files": files_and_names}
+        return render(request, "projects/trash.html", context=context)
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        print(e)
+        return render(request, "FatalError.html")

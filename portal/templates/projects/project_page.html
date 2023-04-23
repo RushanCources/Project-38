@@ -23,7 +23,7 @@
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
-
+    <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
     {% for file, name in files_and_names %}
         <div>
             <div>{{name}}</div>

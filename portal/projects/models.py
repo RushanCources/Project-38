@@ -60,11 +60,16 @@ class File(models.Model):
             self.version += 1
             self.save()
 
+    def move_to_trash(self):
+        if self.version == 1:
+            print("hgfh")
+            self.version = -1
+            if self.previous_file is not None:
+                self.previous_file.move_to_trash()
+        self.save()
+
 
 @receiver(models.signals.pre_delete, sender=File)
 def delete_file(sender, instance: File, *args, **kwargs):
-    print('ff', instance.version)
-    if instance.version != 1:
-        instance.version = -1
     if instance.previous_file is not None:
         instance.previous_file.delete()
