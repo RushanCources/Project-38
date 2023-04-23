@@ -1,6 +1,9 @@
-from django.shortcuts import redirect, render
-from django.contrib import messages
-from .forms import UserRegistrationForm, UserUpdateForm
+import string
+import random
+
+from django.shortcuts import redirect, render 
+from django.contrib import messages 
+from .forms import UserRegistrationForm
 from .models import User, Tokens
 
 
@@ -31,48 +34,88 @@ def token_page(request):
 
 
 def admin_menu(request):
-    users = User.objects.all()
-    if request.method == 'POST':
-        user_update_form = UserUpdateForm(request.POST)
+    filter_users=User.objects.filter(deactivate = 0)
+    if request.method == "POST":
+        user_id = request.POST.get('user_id_edit')
+        user_id_delete = request.POST.get('user_id_delete')
+        token_value = request.POST.get('token_value')
+        first_name = request.POST.get('name_input')
+        last_name = request.POST.get('surname_input')
+        middle_name = request.POST.get('patronymic_input')
+        username = request.POST.get('login_input')
+        group = request.POST.get('group_input')
+        role = request.POST.get('role')
+        email = request.POST.get('email_input')
+        search_names = request.POST.get('search_names')
 
-        if user_update_form.is_valid():
-            user_id = user_update_form.cleaned_data.get("user_id")
-
-            if user_id == -1:
-                new_user = user_update_form.save(commit=False)
-                new_user.set_password(user_update_form.cleaned_data['password'])
-                new_user.save()
-            else:
-                user = User.objects.get(id=user_id)
-                first_name = user_update_form.cleaned_data.get("first_name")
-                last_name = user_update_form.cleaned_data.get("last_name")
-                middle_name = user_update_form.cleaned_data.get("middle_name")
-                username = user_update_form.cleaned_data.get("username")
-                group = user_update_form.cleaned_data.get("group")
-                role = user_update_form.cleaned_data.get("role")
-                # password = user_update_form.cleaned_data.get("password")
-
-                if role == 'Администратор':
-                    user.is_superuser = True
-                    group = 0
-                else:
-                    user.is_superuser = False
-
-                user.first_name = first_name
-                user.last_name = last_name
-                user.middle_name = middle_name
-                user.username = username
-                user.group = group
-                user.role = role
-                # user.password = password
-                # Изначально пароль выводится не дешифрованным, шакальным короче и таким же он передаётся  сюда, как проблему исправите, можно будет и пароль изменять
-                user.save()  # Сохраняется криво, хз в чём проблема, но работает через раз
-
+        if request.POST.get('delete_butt'):
+            user=User.objects.get(id = user_id_delete).delete()
             return redirect('admin_menu')
-    else:
-        user_update_form = UserUpdateForm()
 
-    return render(request, 'admin_menu/admin.html', context={"users": users, "user_update_form": user_update_form})
+        if request.POST.get('deactivate_butt'):
+            user=User.objects.get(id = user_id_delete)
+            user.deactivate = True
+            user.save()
+            return redirect('admin_menu')
+        
+        if request.POST.get('accept_token'):
+            last_token = Tokens.objects.last()
+            if last_token is None:
+                new_id = 1
+            else:
+                new_id = last_token.pk + 1
+            for i in range(int(token_value)):
+                token = Tokens.objects.create(token = generate_alphanum_random_string(16), id = new_id + i)
+                token.save()
+            return redirect('admin_menu')
+        
+        if request.POST.get('search_butt'):
+            filter_users = User.objects.filter()
+            return redirect('admin_menu')
+
+        if user_id == "-1":
+            last_user = User.objects.last()
+            if last_user is None:
+                new_id = 1
+            else:
+                new_id = last_user.pk + 1
+            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role, email = email, password = 0, id = new_id)
+            new_user.set_password(request.POST.get('password_input'))
+            new_user.save()
+            return redirect('admin_menu')
+            
+        else:
+            user = User.objects.get(id=user_id)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.middle_name = middle_name
+            user.username = username
+            user.group = group
+            user.role = role
+            user.email = email
+            if role == "Администратор":
+                user.group = 0
+                user.is_superuser = True
+            elif role == "Учитель":
+                user.group = 0
+            else:
+                user.is_superuser = False
+
+            user.save()
+            
+            return redirect('admin_menu')
+
+    return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
+
+
+def profile(request):
+    return render(request, 'profile/profile.html')    
+
+
+def generate_alphanum_random_string(length):
+    letters_and_digits = string.ascii_letters + string.digits
+    rand_string = ''.join(random.sample(letters_and_digits, length))
+    return rand_string
 
 
 def profile(request):

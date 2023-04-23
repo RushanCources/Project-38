@@ -9,8 +9,9 @@
 
 <div class="main-nav">
     <div class="search">
-        <input class="search-input" type="text" placeholder="Поиск...">
-        <button class="search-button"></button>
+        {% csrf_token %}
+        <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
+        <input class="search-button" type="button" name="search_butt" value="">
     </div>
     <div class="filter">
         <div class="div-list">
@@ -58,20 +59,25 @@
             </div>
         </div>
     </div>
+    <button class="btn btn-token" onclick="token_open()">Создать токены</button>
 </div>
 
 <table class="table">
     <tbody>
         <tr class="table-names">
+            <td>№</td>
             <td class="table-username">ФИО</td>
             <td class="table-group">Группа</td>
             <td class="table-role">Роль</td>
+            <td>Логин</td>
+            <td>Эл. Почта</td>
             <td class="func">
                 <button class="new-user table-btn" onclick="n_user()"></button>
             </td>
         </tr>
         {% for user in users %}
-        <tr class="table-user" id="{{ user.id }}">
+        <tr class="table-user">
+            <td>{{ user.id }}</td>
             <td>
                 <span class="surname">{{ user.last_name }}</span>
                 <span class="name">{{ user.first_name }}</span>
@@ -83,7 +89,8 @@
                 {% endif %}
             </td>
             <td>{{ user.role }}</td>
-            <td class="table-hidden">{{ user.username }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
             <td class="table-hidden">{{ user.password }}</td>
             <td class="func">
                 <button class="change table-btn"></button>
@@ -94,27 +101,69 @@
     </tbody>
 </table>
 
+<div class="pages">
+    <ul class="pages-list">
+        <li class="pages-item">
+            <a href="#" class="pages-link arrow-left">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px">
+                    <g data-name="Layer 2">
+                        <path
+                            d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z" />
+                    </g>
+                    <g>
+                        <rect height="32" width="32" fill="none" />
+                    </g>
+                </svg>
+            </a>
+        </li>
+        <li class="pages-item"><a href="#" class="pages-link">1</a></li>
+        <li class="pages-item"><a href="#" class="pages-link">2</a></li>
+        <li class="pages-item"><a href="#" class="pages-link">3</a></li>
+        <li class="pages-item">
+            <a href="#" class="pages-link arrow-right">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px" style="transform: rotate(180deg);">
+                    <g data-name="Layer 2">
+                        <path
+                            d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z" />
+                    </g>
+                    <g>
+                        <rect height="32" width="32" fill="none" />
+                    </g>
+                </svg>
+            </a>
+        </li>
+    </ul>
+</div>
+
 <form class="new-user-block" method="POST" id="form" action="{% url 'admin_menu' %}">
     {% csrf_token %}
     <p class="new-user-p">Создание пользователя</p>
     <div class="new-user-main">
         <div class="inputs">
-            {{ user_update_form.last_name }}
-            {{ user_update_form.first_name }}
-            {{ user_update_form.middle_name }}
-            {{ user_update_form.username }}
-            {{ user_update_form.password }}
-            {{ user_update_form.user_id }}
-            {{ user_update_form.group }}
+            {% csrf_token %}
+            <input class="input input-surname" type="text" placeholder="Фамилия" name="surname_input" required>
+            <input class="input input-name" type="text" placeholder="Имя" name="name_input" required>
+            <input class="input input-patronymic" type="text" placeholder="Отчество" name="patronymic_input" required>
+            <input class="input input-login" type="text" placeholder="Логин" name="login_input" required>
+            <input class="input input-email" type="email" placeholder="Email" name="email_input" required>
+            <input type="text" class="input input-password" placeholder="Пароль" name="password_input">
+            <input type="number" class="form-id" name="user_id_edit" required>
+            <input type="text" class="form-group" value="1" name="group_input" required>
         </div>
         <div class="lists">
             <div class="new-user-role">
-                {% for radio in user_update_form.role %}
                 <div>
-                    <label class="role-name" for="role1">{{ radio.choice_label }}</label>
-                    {{ radio.tag }}
+                    <label class="role-name" for="role1">Ученик</label>
+                        <input class="input-role" type="radio" name="role" id="role1" value="Ученик" checked>
+                    </div>
+                    <div>
+                        <label class="role-name" for="role2">Учитель</label>
+                        <input class="input-role" type="radio" name="role" id="role2" value="Учитель">
+                    </div>
+                    <div>
+                        <label class="role-name" for="role3">Админ</label>
+                        <input class="input-role" type="radio" name="role" id="role3" value="Администратор">
                 </div>
-                {% endfor %}
             </div>
 
             <div class="new-user-group">
@@ -157,16 +206,29 @@
     </div>
 </form>
 
-<div class="delete_page">
+<form class="delete_page" method="POST" action="#">
     <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
     <p>Пользователь: <span class="delete-fio">Кабанин Денис Андреевич</span></p>
     <div class="delete-btns">
-        <button class="btn exit" type="submit" onclick="del_exit()">Отмена</button>
-        <button class="btn delete-btn" type="submit">Скрыть</button>
-        <button class="btn delete-btn" type="submit">Удалить</button>
-        <input type="number" class="user-id" style="position: absolute; top: 0;">
+        <button class="btn exit" type="button" onclick="del_exit()">Отмена</button>
+        <input class="btn delete-btn" type="submit" name="delete_butt" value="Удалить">
+        <input class="btn delete-btn" type="submit" name="deactivate_butt" value="Скрыть">
+        {% csrf_token %}
+        <input type="number" class="user-id" style="position: absolute; top: 0;" name="user_id_delete">
     </div>
-</div>
+</form>
+
+<form class="create-tokens" method="POST" action="#">
+    <p class="token-p">Создание токенов</p>
+    <span class="token-span">Напишите в поле количество токенов, которое хотите создать.</span>
+    {% csrf_token %}
+    <input type="number" class="token-input" name="token_value" min="1" max="1000" required />
+
+    <div class="token-btns">
+        <button class="btn exit" type="button" onclick="tok_exit()">Отмена</button>
+        <input class="btn btn-token-create" type="submit" name="accept_token">
+    </div>
+</form>
 
 <div class="back-form"></div>
 

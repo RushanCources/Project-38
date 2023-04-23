@@ -20,4 +20,4 @@ https://drive.google.com/drive/u/1/folders/19XlSG-xq4rJ0MaNmI2GEjybwzIT6Gbi4
 
 
 
-Текущий этап - 1.
+Текущий этап - 2.
