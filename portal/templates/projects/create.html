@@ -38,12 +38,12 @@
         </div>
     </header>
 
-    <form class="main" action="{% url 'postcreate' %}" method="POST" >
+    <form class="main" action="{% url 'postcreate' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="formPZ">
             <h1 class="h1">Подача заявки</h1>
-            <div class="form nng"><h3 class="h3 nng">Название</h3><input class="wf" placeholder="Ваше название"></input></div>
-            <div class="form desc"><h3 class="h3 desc">Описание</h3><textarea class="wf ta" placeholder="Опишите вашу работу: Тема, Цель, Причина, Актуальность.
+            <div class="form nng"><h3 class="h3 nng">Название</h3><input name="name" class="wf" placeholder="Ваше название"></input></div>
+            <div class="form desc"><h3 class="h3 desc">Описание</h3><textarea name="description" class="wf ta" placeholder="Опишите вашу работу: Тема, Цель, Причина, Актуальность.
 Это не обязательно, но очень поможет учителю понять вашу работу"></textarea></div>
             <div class="form tea"><h3 class="h3 tea">Учитель</h3>
                 <select name="teacher" id="selTea" class="wf sel select2" required>
@@ -53,7 +53,7 @@
                 </select>
             </div>
             <div class="form subj"><h3 class="h3 subj">Предмет</h3>
-                <select name="subj" id="selSubj" class="wf sel" required>
+                <select name="subject" id="selSubj" class="wf sel" required>
                     <optgroup label="Математические">
                         <option class="opG opt">Математика</option>
                         <option class="opG opt">Алгебра</option>
@@ -107,7 +107,11 @@
                         <option value="7" class="opG opt"></option> -->
                 </select>
             </div>
-            <div class="form files"><h3 class="h3 files">Приложите файлы</h3><input type="file" multiple="multiple" class="wf"></input></div>
+            <div class="form files">
+                <h3 class="h3 files">Приложите файлы</h3>
+<!--                {{file_form.as_div}}-->
+                <input name="files" type="file" multiple="multiple" class="wf"/>
+            </div>
             <div class="zero"></div>
             <button class="form but" type="submit">Подать заявку</button>
         </div>
