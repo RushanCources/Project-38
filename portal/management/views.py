@@ -68,7 +68,20 @@ def admin_menu(request):
                 token = Tokens.objects.create(token = generate_alphanum_random_string(16), id = new_id + i)
                 token.save()
             return redirect('admin_menu')
-        
+
+        if request.POST.get('search_butt'):
+            count_users = User.objects.last().pk
+            if search_names != '':
+                for i in range(1,count_users):
+                    full_name = User.objects.get(id = i).first_name + User.objects.get(id = i).middle_name + User.objects.get(id = i).last_name
+                    if search_names.replace(" ", "").lower() in full_name.lower():
+                        new_filter_users += User.objects.get(id = i)
+            if new_filter_users != None:
+                return render(request, 'admin_menu/admin.html', context={"users" : new_filter_users})
+            else:
+                return redirect('admin_menu')
+
+
         if request.POST.get('filter_submit'):
             if role_filter !='' and group_filter !='':
                 filter_users=User.objects.filter(role = role_filter, group = group_filter)
@@ -89,7 +102,7 @@ def admin_menu(request):
             new_user.save()
             return redirect('admin_menu')
             
-        else:
+        if user_id != "-1":
             user = User.objects.get(id=user_id)
             user.first_name = first_name
             user.last_name = last_name
