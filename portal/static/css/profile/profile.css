@@ -17,13 +17,9 @@
 }
 
 .h1 {
-    padding-left: 10px;
-    margin: 0;
-    margin-bottom: 12px;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 38px;
-    color: #000000;
+    position: absolute;
+    opacity: 0;
+    height: 0;
 }
 
 .main-div {
@@ -45,6 +41,11 @@
     width: 400px;
     min-height: 450px;
     margin-bottom: 25px;
+}
+
+.main-info-fixed {
+    position: fixed;
+    top: 10px;
 }
 
 .role-div {
@@ -115,7 +116,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 80%;
     border-radius: 5px;
     border: 1px solid #E3E3E3;
     font-size: 16px;
@@ -259,12 +260,16 @@
 }
 
 .new-avatar-div {
+    width: 50%;
+    max-width: 600px;
     position: fixed;
     display: none;
+    flex-direction: column;
+    align-items: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 3;
+    z-index: 11;
     padding: 20px 45px;
     padding-bottom: 45px;
     border-radius: 5px;
@@ -273,9 +278,16 @@
 
 .new-avatar-title {
     margin: 0;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     font-size: 20px;
 
+}
+
+.new-avatar-disclaimer {
+    display: block;
+    margin-bottom: 25px;
+    color: #ff1b24;
+    font-size: 14px;
 }
 
 .new-avatar-close {
@@ -286,6 +298,7 @@
 }
 
 .upload-zone {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -299,6 +312,16 @@
 .upload-zone svg {
     margin-bottom: 20px;
     user-select: none;
+}
+
+.new-avatar {
+    display: none;
+    position: absolute;
+    z-index: 12;
+    width: 100%;
+    height: 100%;
+    background: no-repeat center center;
+    background-size: cover;
 }
 
 .photo {
@@ -323,14 +346,360 @@
     cursor: pointer;
 }
 
+.new-avatar-btn {
+    align-self: stretch;
+    margin-top: 25px;
+    background: #545d6d50;
+    color: #fff;
+    pointer-events: none;
+    transition: background 0.3s linear;
+}
+
+.new-avatar-btn:hover {
+    background: #0d306d;
+}
+
+.new-avatar-btn:active {
+    background: #3e5e96;
+}
+
+.active {
+    background: #103A84;
+    pointer-events: auto;
+}
+
 .back-form {
     display: none;
     top: 0;
     left: 0;
     position: fixed;
-    z-index: 2;
+    z-index: 10;
     width: 100vw;
     height: 100vh;
     background: #00000072;
+}
 
+/* for teachers */
+
+.btn-teacher-profile {
+    display: block;
+    margin: 0 auto;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.btn-teacher-profile:hover {
+    background: #0d306d;
+}
+
+.btn-teacher-profile:active {
+    background: #3e5e96;
+}
+
+.info-teacher {
+    width: 790px;
+}
+
+.teacher-projects {
+    width: 790px;
+    background-color: transparent;
+}
+
+.projects {
+    position: relative;
+    width: 100%;
+    background: #fff;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.projects {
+    margin-bottom: 25px;
+}
+
+.now-project {
+    overflow: hidden;
+    transition: all 0.3s ease-in;
+}
+
+.btn-projects {
+    display: block;
+    padding: 20px 0;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.btn-projects::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+}
+
+.btn-projects-icon {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 30px;
+    top: 20px;
+    transform: rotate(45deg);
+    background: url('../../img/profile/close.svg') no-repeat center center;
+    background-size: auto;
+    transition: transform 0.3s cubic-bezier(0, 1, 0, 1);
+}
+
+.projects-list {
+    width: 100%;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    overflow: hidden;
+    max-height: 0;
+}
+
+.ul-open {
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+    max-height: 2000px;
+    position: relative;
+    z-index: 3;
+}
+
+.project-item {
+    padding: 10px 10px;
+    position: relative;
+    background: url('../../img/profile/arrow-right.svg') no-repeat center right;
+    background-size: 30px 30px;
+    border-radius: 5px;
+    transition: 0.3s background-color;
+}
+
+.project-item:last-child {
+    margin-bottom: 20px;
+}
+
+.project-item:hover {
+    background-color: #ebebeb;
+}
+
+.project-item:active {
+    background-color: #fff;
+}
+
+.project-name {
+    padding: 0;
+    font-size: 18px;
+    display: block;
+}
+
+.project-name::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.project-span {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.project-span:not(:last-child) {
+    margin-right: 2px;
+}
+
+.div-new-projects {
+    display: flex;
+    align-items: center;
+}
+
+.btn-new-projects {
+    margin-right: 10px;
+}
+
+.score-projects {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 12px;
+    color: #fff;
+    background: #ff1b24;
+    animation: score-projects infinite ease-in-out 3s;
+}
+
+@keyframes score-projects {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.more {
+    background: none;   
+    text-align: center;
+}
+
+.more-span {
+    color: #5A88FF;
+    cursor: pointer;
+}
+
+/* projects-form */
+
+.projects-form {
+    position: fixed;
+    z-index: 11;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 35px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+    max-height: 80%;
+    overflow-y: scroll;
+    scrollbar-width: 0;
+}
+
+.projects-form::-webkit-scrollbar {
+    width: 0;
+}
+
+.project-title-form {
+    margin: 0;
+    margin-bottom: 15px;
+    padding: 0;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.now-projects-close, .new-projects-close {
+    position: absolute;
+    right: 35px;
+    cursor: pointer;
+}
+
+.project-main-info {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    cursor: default;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+.project-span-form:nth-last-child(2) {
+    margin-right: auto;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: #000000;
+    margin: 0 15px;
+}
+
+.paragraph {
+    margin: 0;
+    padding-left: 20px;
+    position: relative;
+    padding-top: 35px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #545d6d;
+}
+
+.paragraph:not(:last-child) {
+    margin-bottom: 50px;
+}
+
+.paragraph::before {
+    content: "";
+    font-size: 16px;
+    font-weight: 700;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #103A84;
+}
+
+.project-problem::before {
+    content: "Проблема:";
+}
+
+.project-relevance::before {
+    content: "Актуальность:";
+}
+
+.project-mark::before {
+    content: "Цель:";
+}
+
+.project-result::before {
+    content: "Ожидаемые результаты:";
+}
+
+.project-descr::before {
+    content: "Краткое описание:";
+}
+
+.task-list {
+    margin: 0;
+    position: relative;
+    padding-top: 35px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #545d6d;
+    margin-bottom: 50px;
+}
+
+.task-list::before {
+    content: "Задачи:";
+    font-size: 16px;
+    font-weight: 700;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #103A84;
+}
+
+.task-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.project-btn-form {
+    margin-top: 50px;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.project-btn-form:hover {
+    background: #0d306d;
+}
+
+.project-btn-form:active {
+    background: #3e5e96;
 }
