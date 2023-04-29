@@ -1,3 +1,16 @@
+// Фильтр
+
+$('.btn-filter').on('click', function() {
+    let group = $('#filter-group').html();
+    let role = $('#filter-role').html();
+
+    if (group === 'Не указано') group = null;
+    if (role === 'Не указано') role = null;
+
+    $('.input-filter-group').val(group);
+    $('.input-filter-role').val(role);
+});
+
 //Создание нового пользователя
 
 function n_user() {
