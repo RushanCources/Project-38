@@ -6,11 +6,6 @@ from django.http.request import HttpRequest
 from management.models import User
 from projects.models import Project, File
 
-
-def theme_list(request: HttpRequest):
-    return render(request, 'theme_list/theme_list.html')
-
-
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     if project_id is None:
