@@ -5,7 +5,8 @@ from django.shortcuts import redirect, render
 from django.contrib import messages 
 from .forms import UserRegistrationForm
 from .models import User, Tokens
- 
+
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -13,11 +14,12 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            messages.success(request,'Аккаунт успешно создан')
+            messages.success(request, 'Аккаунт успешно создан')
             return redirect('register')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
+
 
 def token_page(request):
     if request.method == "POST":
@@ -27,8 +29,9 @@ def token_page(request):
             return redirect('register')
         else:
             messages.error(request, 'Неправильный токен!')
-    
+
     return render(request, 'registration/token_page.html')
+
 
 def admin_menu(request):
     filter_users=User.objects.filter(deactivate = 0)
@@ -125,6 +128,7 @@ def admin_menu(request):
 
     return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
 
+
 def profile(request):
     return render(request, 'profile/profile.html')    
 
@@ -134,3 +138,7 @@ def generate_alphanum_random_string(length):
     rand_string = ''.join(random.sample(letters_and_digits, length))
     return rand_string
 
+
+def profile(request):
+    users = User.objects.all()
+    return render(request, 'profile/profile.html', context={"users": users})
