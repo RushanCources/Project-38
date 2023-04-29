@@ -17,7 +17,7 @@
 {% block content %}
 <h1 class="h1">Профиль</h1>
 <div class="main-div">
-    {% if user.role != 'Учитель' %}
+    {% if user.role == 'Ученик' %}
     <div>
         <section class="section main-info">
             <div class="role-div">
@@ -82,7 +82,7 @@
     </section>
     {% endif %}
 
-    {% if user.role == 'Учитель' %}
+    {% if user.role == 'Учитель' or user.role == 'Администратор' %}
     <div class="teacher-main">
         <section class="section main-info">
             <div class="role-div">
