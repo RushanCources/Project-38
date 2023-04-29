@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+
+{% for file, name in files %}
+ <div>
+    <div>{{name}}</div>
+    <a href="{% url 'download_file' %}?file_id={{file.id}}">Загрузить файл</a>
+</div>
+{% endfor %}
+{% endblock %}

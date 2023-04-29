@@ -1,43 +1,71 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
+{% load static %}
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
-    <form method="POST" action="{% url 'correctProject' %}" id="fname">
+    <form method="POST" action="{% url 'correct_project' %}" id="form_name">
         {% csrf_token %}
-        <input type="hidden" name="project" value={{id}}>
+        <input type="hidden" name="project" value={{project_id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
     <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
-    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <div>{{teacher}}</div>
     <div>{{student}}</div>
     <div>{{status}}</div>
-    <form method="POST" action="{% url 'correctProject' %}" id="fdescription">
+    <form method="POST" action="{% url 'correct_project' %}" id="form_description">
         {% csrf_token %}
-        <input type="hidden" name="project" value={{id}}>
+        <input type="hidden" name="project" value={{project_id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
     <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
-
-    {% load static %}
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
+    <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
+    {% for file, name in files_and_names %}
+        <div>
+            <div>{{name}}</div>
+            <form  method="POST" action="{% url 'update_file' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="file_id" value={{file.id}} />
+                <div>
+                <label for="input-file{{file.id}}">Обновить файл</label>
+                <input type="file" id="input-file{{file.id}}" name="file" style="display:none; visibility:hidden"/>
+                <!-- В стили потом нужно для этой кнопки перенести два свойства display:none и visibility:hidden
+                    с теми атрибутами, что сейчас прикручены напрямую -->
+            </div>
+            </form>
+            <form  method="POST" action="{% url 'delete_file' %}">
+                {% csrf_token %}
+                <input type="hidden" name="file_id" value={{file.id}} />
+                <label for="delete_file{{file.id}}">Удалить файл</label>
+                <input type="submit" id="delete_file{{file.id}}" name="file" style="display:none; visibility:hidden"/>
+            </form>
+            <a href="{% url 'download_file' %}?file_id={{file.id}}">Загрузить файл</a>
+        </div>
+    {% endfor %}
+
+    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="project_id" value={{project_id}}>
+        <label for="add_file">Добавить файл</label>
+        <input type="file" id="add_file" onchange="this.parentElement.submit()" style="display:none; visibility:hidden" name="files"/>
+    </form>
     <script>
 
         function edit(elem, id){
             let f = document.getElementById(id);
             f.disabled = false;
             elem.setAttribute( "onclick", "return save('"+id+"')");
-            {% load static %}
             elem.childNodes[1].src = "{% static 'tick.png' %}";
             elem.style.backgroundColor = "#2DA44E";
             }
 
         function save(id){
             let f = document.getElementById(id);
-            let form = document.getElementById("f"+id);
+            let form = document.getElementById("form_"+id);
             form.submit();
             }
     </script>
