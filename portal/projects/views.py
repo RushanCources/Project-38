@@ -52,9 +52,11 @@ def create_data(request: HttpRequest):
     user4, created = User.objects.get_or_create(username='d1ffy', last_name='Кокорин', first_name='Петр', middle_name='Алексеевич',
                                                 email='helpersteam96@inbox.ru', role='Администратор')
     user4.set_password("1")
+    user4.save()
     user5, created = User.objects.get_or_create(username='Cbytl', last_name='Кабанин', first_name='Денис', middle_name='Андреевич',
                                                 email='email@email.ru', role='Администратор')
-    user5.set_password("1")
+    user5.set_password("555555")
+    user5.save()
     project = Project.objects.create(name="Проект1", teacher=user1, student=user3)
     project.set_subject("Математика")
     project.save()
