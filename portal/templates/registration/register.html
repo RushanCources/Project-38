@@ -20,7 +20,7 @@
     <form action="{% url 'register' %}" method="post" class="form">
         <h1 class="title">Регистрация</h1>
         <div class="form-div">
-            {{ file_form.as_div }}
+            {{ user_form.as_div }}
         </div>
         {% csrf_token %}
         {% if messages %}
