@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -14,19 +16,39 @@ def index(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
         names = [file.file.name.split('/')[-1] for file in files]
-        files_and_names = zip(files, names)
+        old_files = []
+        for file in files:
+            old_files.append([])
+            if file.previous_file is not None:
+                prev_file: File = file.previous_file
+                old_files[-1].append(prev_file)
+                while prev_file.previous_file is not None:
+                    prev_file: File = file.previous_file
+                    old_files[-1].append(prev_file)
+
+        files_packs = []
+
+        @dataclass
+        class FilePack:
+            file: File
+            name: str
+            old_files: list[File]
+
+        for i in range(len(files)):
+            files_packs.append(FilePack(files[i], names[i], old_files[i]))
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
-                   'files_and_names': files_and_names
+                   'files_and_names': files_packs
                    }
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
