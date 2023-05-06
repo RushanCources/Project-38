@@ -65,13 +65,13 @@
             </div>
         </div>
         <div class="right">
-            <button class="btn new_theme">Новая тема</button>
             <button class="btn filter_btn" type="submit">Применить</button>
         </div>
     </form>
 </div>
 
 <div class="themes">
+    <button class="btn new-theme">Новая тема</button>
     <div class="theme-block theme-block-close sub1">
         <span class="theme-subject">Английский язык</span>
         <div class="descr">
@@ -134,6 +134,26 @@
         </div>
     </div>
 </div>
+
+<form method="POST" class="new-theme-form">
+    <h2 class="new-theme-title">Создание новой темы</h2>
+    <div class="new-theme-inputs">
+        <input type="text" class="new-theme-input form-input" placeholder="Название темы..." required />
+        <textarea class="new-theme-textarea form-input" cols="30" rows="10" placeholder="Описание темы..." required></textarea>
+        <div class="new-theme-subjects">
+            <input type="text" class="new-theme-subjects-input form-input" placeholder="Введите названние предметной области">
+            <ul class="new-theme-subjects-list">
+
+            </ul>
+        </div>
+    </div>
+    <div class="new-theme-btns">
+        <button class="btn new-theme-exit" onclick="exit()" type="button">Отмена</button>
+        <button class="btn new-theme-create" type="submit">Создать</button>
+    </div>
+</form>
+
+<div class="back-form"></div>
 
 <script src="{% static 'js/global/list.js' %}"></script>
 <script src="{% static 'js/theme_list/theme_list.js' %}"></script>
