@@ -160,12 +160,12 @@
 
 .theme-block {
     display: flex;
-    flex-direction: column;
     position: relative;
     justify-content: space-between;
     padding: 25px;
-    padding-top: 45px;
-    width: 800px;
+    padding-top: 35px;
+    width: 1200px;
+    max-height: 200px;
     border-radius: 10px;
     color: #fff;
 }
@@ -175,14 +175,12 @@
 }
 
 .theme-block-open {
-    transition: max-height 0.1s cubic-bezier(1, 0, 1, 0);
-    max-height: 1000px;
-    min-height: 300px;
+    max-height: none;
+    min-height: 200px;
 }
 
 .theme-block-close {
-    transition: max-height 0.1s cubic-bezier(0, 1, 0, 1);
-    max-height: 300px;
+    max-height: 200px;
     min-height: 0;
 }
 
@@ -197,21 +195,15 @@
 }
 
 .info {
-    margin-top: 20px;
+    width: 45%;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-.info-link {
-    margin-right: 20px;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 20px;
-    color: #5A88FF;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
 
 .teg {
+    display: inline-block;
     margin: 0;
     font-weight: 700;
     padding: 4px 18px;
@@ -235,8 +227,7 @@
 }
 
 .descr {
-    position: relative;
-    width: 100%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -248,39 +239,16 @@
     margin-bottom: 7px;
     font-weight: 700;
     font-size: 36px;
-    line-height: 40px;
-    max-height: 40px;
-    overflow: hidden;
+    line-height: 42px;
 }
 
 .theme-descr {
     margin: 0;
     margin-bottom: 7px;
     min-height: 74px;
-    max-height: 100px;
     overflow: hidden;
     font-size: 15px;
-    line-height: 20px;
-}
-
-.theme-name-open {
-    transition: max-height 0.1s cubic-bezier(1, 0, 1, 0);
-    max-height: 300px;
-}
-
-.theme-name-close {
-    max-height: 40px;
-    transition: max-height 0.1s cubic-bezier(0, 1, 0, 1);
-}
-
-.theme-descr-open {
-    transition: max-height 0.1s cubic-bezier(1, 0, 1, 0);
-    max-height: 1000px;
-}
-
-.theme-descr-close {
-    max-height: 100px;
-    transition: max-height 0.1s cubic-bezier(0, 1, 0, 1);
+    line-height: 18px;
 }
 
 .theme-btn {
@@ -301,9 +269,8 @@
 
 .theme-btn-take {
     display: none;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    margin-top: 20px;
+    margin-left: auto;
     padding: 6px 15px;
     outline: none;
     border: none;
@@ -318,14 +285,14 @@
     background-color: rgba(255,255,255,.8);
 }
 
-.author{
+.author, .teacher {
     margin: 0;
     margin-bottom: 15px;
     font-size: 16px;
     line-height: 18px;
 }
 
-.author a {
+.author a, .teacher a {
     font-weight: 700;
 }
 
@@ -335,7 +302,7 @@
     background: linear-gradient(248deg, #051a3f 44%, #07204d 98%);
 }
 
-.sub1 > span:first-child {
+.sub1 > span {
     color: #3A4E71;
 }
 
@@ -347,7 +314,7 @@
     background: linear-gradient(248deg, #4e9e56 44%, rgba(92,185,101,1) 98%);
 }
 
-.sub2 > span:first-child {
+.sub2 > span {
     color: #3A713F;
 }
 
