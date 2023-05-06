@@ -1,12 +1,12 @@
 import string
 import random
 
+from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
 from django.contrib import messages 
 from .forms import UserRegistrationForm
 from .models import User, Tokens
-
-
+ 
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -14,12 +14,13 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            messages.success(request, 'Аккаунт успешно создан')
-            return redirect('register')
+            messages.success(request,'Аккаунт успешно создан')
+            authenticate_user = authenticate(request, username = new_user.username, password=new_user.password)
+            login(request, authenticate_user)
+            return redirect('profile')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
-
 
 def token_page(request):
     if request.method == "POST":
@@ -29,9 +30,8 @@ def token_page(request):
             return redirect('register')
         else:
             messages.error(request, 'Неправильный токен!')
-
+    
     return render(request, 'registration/token_page.html')
-
 
 def admin_menu(request):
     filter_users=User.objects.filter(deactivate = 0)
@@ -47,9 +47,6 @@ def admin_menu(request):
         role = request.POST.get('role')
         email = request.POST.get('email_input')
         search_names = request.POST.get('search_names')
-        role_filter = request.POST.get('role_filter')
-        group_filter = request.POST.get('group_filter')
-        deactivate_filter = request.POST.get('deactivate_filter')
 
         if request.POST.get('delete_butt'):
             user=User.objects.get(id = user_id_delete).delete()
@@ -71,28 +68,10 @@ def admin_menu(request):
                 token = Tokens.objects.create(token = generate_alphanum_random_string(16), id = new_id + i)
                 token.save()
             return redirect('admin_menu')
-
+        
         if request.POST.get('search_butt'):
-            count_users = User.objects.last().pk
-            if search_names != '':
-                for i in range(1,count_users):
-                    full_name = User.objects.get(id = i).first_name + User.objects.get(id = i).middle_name + User.objects.get(id = i).last_name
-                    if search_names.replace(" ", "").lower() in full_name.lower():
-                        new_filter_users += User.objects.get(id = i)
-            if new_filter_users != None:
-                return render(request, 'admin_menu/admin.html', context={"users" : new_filter_users})
-            else:
-                return redirect('admin_menu')
-
-
-        if request.POST.get('filter_submit'):
-            if role_filter !='' and group_filter !='':
-                filter_users=User.objects.filter(role = role_filter, group = group_filter)
-            if role_filter !='' and group_filter =='':
-                filter_users=User.objects.filter(role = role_filter)
-            if role_filter =='' and group_filter !='':
-                filter_users=User.objects.filter(group = group_filter)
-            return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
+            filter_users = User.objects.filter()
+            return redirect('admin_menu')
 
         if user_id == "-1":
             last_user = User.objects.last()
@@ -105,7 +84,7 @@ def admin_menu(request):
             new_user.save()
             return redirect('admin_menu')
             
-        if user_id != "-1":
+        else:
             user = User.objects.get(id=user_id)
             user.first_name = first_name
             user.last_name = last_name
@@ -128,8 +107,39 @@ def admin_menu(request):
 
     return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
 
-
 def profile(request):
+    if request.method == "POST":
+        new_password = request.POST.get('new_password')
+        old_password = request.POST.get('old_password')
+        repeat_password = request.POST.get('repeat_password')
+        username = request.POST.get('username_inp')
+        email = request.POST.get('email_inp')
+        first_name=request.POST.get('first_name_inp')
+        middle_name=request.POST.get('middle_name_inp')
+        last_name=request.POST.get('last_name_inp')
+        new_avatar = request.FILES.get('avatar_inp')
+
+        if request.POST.get('submit_changes'):
+            request.user.email = email
+            request.user.first_name = first_name
+            request.user.middle_name = middle_name
+            request.user.last_name = last_name
+            request.user.username=username
+            request.user.save()
+
+            if request.user.check_password(old_password):
+                if new_password == repeat_password:
+                    request.user.set_password(new_password)
+                    request.user.save()
+                    new_user = authenticate(request, username=username, password=new_password)
+                    login(request, new_user)
+                    return redirect('profile')
+        
+
+        if request.POST.get('avatar_submit'):
+            request.user.avatar = new_avatar
+            request.user.save()
+            return ('profile')
     return render(request, 'profile/profile.html')    
 
 
@@ -138,7 +148,3 @@ def generate_alphanum_random_string(length):
     rand_string = ''.join(random.sample(letters_and_digits, length))
     return rand_string
 
-
-def profile(request):
-    users = User.objects.all()
-    return render(request, 'profile/profile.html', context={"users": users})
