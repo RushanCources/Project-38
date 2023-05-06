@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <input type="checkbox" id="close" class="checkbox" name="close">
-                    <label class="checkbox-name" for="close">Занято</label>
+                    <label class="checkbox-name" for="close">Используется</label>
                 </div>
                 <div>
                     <input type="checkbox" id="past_year" class="checkbox" name="past_year">
@@ -74,6 +74,7 @@
 <div class="themes">
     {% for theme in themes %}
     <div class="theme-block theme-block-close sub1">
+<<<<<<< HEAD
         <span class="theme-subject">{{ theme.subject }}</span>
         <div class="info">
             <p class="author">Автор: <a href="#">{{ theme.author }}</a></p>
@@ -83,22 +84,12 @@
         <div class="descr">
             <h2 class="theme-name">{{ theme.name }}</h2>
             <p class="theme-descr">{{ theme.descript }}</p>
-            <button class="theme-btn">Подробнее</button>
-            <button class="theme-btn-take">Взяться за проект</button>
-        </div>
-    </div>
-    {% endfor %}
-
-    <div class="theme-block theme-block-close sub2">
-        <span class="theme-subject">Алгебра</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
-        </div>
+=======
+        <span class="theme-subject">Английский язык</span>
         <div class="descr">
-            <h2 class="theme-name">Название какой-то темы</h2>
-            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+            <h2 class="theme-name theme-name-close">Название какой-то темы длинное название темы, ПРЯМ ОЧЕНЬ, Я ТАК ПОнимаю ещё больше уже не поместится</h2>
+            <p class="theme-descr theme-descr-close">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
                 aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
                 maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                 Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
@@ -106,22 +97,54 @@
                 adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
                 qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
                 amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
-                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!
+            </p>
+>>>>>>> 4c431bb1c6a8289f00e840904a0d4d60fed207f0
             <button class="theme-btn">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">Быстрова А. В.</a>
+                <span class="teg teg-open" title="Данная тема ещё не занята">Свободно</span>
+            </div>
+            <button class="theme-btn-take">Взяться за проект</button>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="theme-block theme-block-close sub2">
+        <span class="theme-subject">Алгебра</span>
+        <div class="descr">
+            <h2 class="theme-name theme-name-close">Название какой-то темы длинное название темы, ПРЯМ ОЧЕНЬ, Я ТАК ПОнимаю ещё больше уже не поместится</h2>
+            <p class="theme-descr theme-descr-close">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
+                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
+                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
+                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
+                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
+                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
+                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
+                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!
+            </p>
+            <button class="theme-btn">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">Быстрова А. В.</a>
+                <span class="teg teg-close" title="Данная тема уже кем-то используется">Используется</span>
+            </div>
         </div>
     </div>
 
     <div class="theme-block theme-block-close sub2">
         <span class="theme-subject">Subject</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
-        </div>
         <div class="descr">
-            <h2 class="theme-name">title</h2>
-            <p class="theme-descr">text</p>
-            <button class="theme-btn theme-btn-hidden">Подробнее</button>
+            <h2 class="theme-name theme-name-close">Title</h2>
+            <p class="theme-descr theme-descr-close">
+                Describe
+            </p>
+            <button class="theme-btn">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">Author</a>
+                <span class="teg teg-close" title="Данная тема уже кем-то используется">teg</span>
+            </div>
         </div>
     </div>
 </div>
