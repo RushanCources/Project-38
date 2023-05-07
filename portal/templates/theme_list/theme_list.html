@@ -65,25 +65,27 @@
             </div>
         </div>
         <div class="right">
-            <button class="btn new_theme">Новая тема</button>
             <button class="btn filter_btn" type="submit">Применить</button>
         </div>
     </form>
 </div>
 
 <div class="themes">
+    <button class="btn new-theme">Новая тема</button>
+
     {% for theme in themes %}
     <div class="theme-block theme-block-close sub1">
         <span class="theme-subject">{{ theme.subject }}</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">{{ theme.author }}</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-open" title="Данная тема ещё не занята">{{ theme.status }}</span>
-        </div>
         <div class="descr">
-            <h2 class="theme-name">{{ theme.name }}</h2>
-            <p class="theme-descr">{{ theme.descript }}</p>
+            <h2 class="theme-name theme-name-close">{{ theme.name }}</h2>
+            <p class="theme-descr theme-descr-close">
+                {{ theme.descript }}
+            </p>
             <button class="theme-btn">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">{{ theme.author }}</a>
+                <span class="teg teg-open" title="Данная тема ещё не занята">{{ theme.status }}</span>
+            </div>
             <button class="theme-btn-take">Взяться за проект</button>
         </div>
     </div>
@@ -91,37 +93,17 @@
 
     <div class="theme-block theme-block-close sub2">
         <span class="theme-subject">Алгебра</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
-        </div>
         <div class="descr">
-            <h2 class="theme-name">Название какой-то темы</h2>
-            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
-                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
-                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
-                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
-                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
-                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
-                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <h2 class="theme-name theme-name-close">Название какой-то темы длинное название темы, ПРЯМ ОЧЕНЬ, Я ТАК ПОнимаю ещё больше уже не поместится</h2>
+            <p class="theme-descr theme-descr-close">
+                вот эту вот тему, что кнопка подробнее есть при любом количестве текста, даже когда она не нужна, я скоро поправлю, пока есть, что есть
+            </p>
             <button class="theme-btn">Подробнее</button>
-        </div>
-    </div>
-
-    <div class="theme-block theme-block-close sub2">
-        <span class="theme-subject">Subject</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
-        </div>
-        <div class="descr">
-            <h2 class="theme-name">title</h2>
-            <p class="theme-descr">text</p>
-            <button class="theme-btn theme-btn-hidden">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">Быстрова А. В.</a>
+                <span class="teg teg-close" title="Данная тема уже кем-то используется">Используется</span>
+            </div>
+            <button class="theme-btn-take">Взяться за проект</button>
         </div>
     </div>
 </div>
