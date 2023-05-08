@@ -162,6 +162,15 @@
     border-radius: 10px;
 }
 
+.new-theme-plus {
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    fill: #fff;
+    margin-left: 5px;
+    vertical-align: text-top;
+}
+
 .themes {
     width: 800px;
     margin: 0 auto;
@@ -313,7 +322,6 @@
 }
 
 .theme-btn-take {
-    display: none;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -376,7 +384,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -393,6 +401,7 @@
 }
 
 .new-theme-inputs {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -400,7 +409,7 @@
 }
 
 .back-form {
-    /* display: none; */
+    display: none;
     top: 0;
     left: 0;
     position: fixed;
@@ -418,9 +427,6 @@
     color: #000;
     font-size: 16px;
     font-weight: 400;
-}
-
-.form-input:not(:last-child) {
     margin-bottom: 15px;
 }
 
@@ -428,4 +434,66 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.new-theme-textarea {
+    min-height: 180px;
+    resize: vertical;
+    color: #000;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 400;
+    font-family: inherit;
+}
+
+.search-result-list {
+    margin-top: -15px;
+    position: absolute;
+    z-index: 4;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background: #ccc;
+}
+
+.new-theme-subjects-list {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.new-theme-subjects-div {
+    position: absolute;
+    top: -7.5px;
+    right: -7.5px;
+    width: 15px;
+    height: 15px;
+    background-size: auto;
+    background: url('../../img/theme_list/del.svg') no-repeat center center;
+    cursor: pointer;
+}
+
+.new-theme-subjects-item {
+    position: relative;
+    padding: 5px 15px;
+    border: 1px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.new-theme-subjects-item:not(:last-child) {
+    margin-right: 15px;
 }
