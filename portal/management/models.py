@@ -6,6 +6,7 @@ class User(AbstractUser):
     role = models.TextField(max_length=15, default="Ученик")
     group = models.IntegerField(null=True)
     deactivate = models.BooleanField(default=False)
+    avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.png")
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self._meta.get_field('username').verbose_name = "Логин"
