@@ -239,8 +239,6 @@
             <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
         </section>
     </div>
-        </form>
-    </section>
 </div>
 <form class="new-avatar-div" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
@@ -259,10 +257,12 @@
                 fill="#103A84" />
         </svg>
         <div class="photo">
-            <input type="file" name="avatar_inp">
-            <input type="submit" value="Загрузить" name="avatar_submit" class="btn save" />
+            <input type="file" name="avatar_inp" id="file-input" multiple accept="image/png, image/gif, image/jpeg">
+            <label for="file-input">Выберите файл</label>
+            <span>или перетащите его сюда</span>
         </div>
     </div>
+    <input type="submit" value="Загрузить" name="avatar_submit" class="btn new-avatar-btn" />
     </form>
 <form method="POST" class="projects-form now-projects-form">
     <h2 class="project-title-form">Название проекта</h2>

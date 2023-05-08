@@ -32,7 +32,7 @@ $('#file-input').on('change', function() {
         get_url();
     });
     fReader.readAsDataURL(file);
-    $('#file-input').val(null);
+    // $('#file-input').val(null);
 });
 
 $('.btn-projects').on('click', function() {
