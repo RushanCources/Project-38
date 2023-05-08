@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <input type="checkbox" id="close" class="checkbox" name="close">
-                    <label class="checkbox-name" for="close">Используется</label>
+                    <label class="checkbox-name" for="close">Занято</label>
                 </div>
                 <div>
                     <input type="checkbox" id="past_year" class="checkbox" name="past_year">
@@ -85,6 +85,7 @@
                 <a class="info-link" href="#" title="Автор темы">{{ theme.Author }}</a>
                 <span class="{{ theme.Class_of_tag }}">{{ theme.Status }}</span>
             </div>
+            <button class="theme-btn-take">Взяться за проект</button>
         </div>
     </div>
     {% endfor %}
