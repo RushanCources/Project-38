@@ -16,7 +16,7 @@ $('.theme-btn').on('click', function() {
         $(block).removeClass('theme-block-open');
 
         $(this).html('Подробнее');
-        $(btn).css({'display': 'none'});
+        // $(btn).css({'display': 'none'});
 
     } else if ($(block).hasClass('theme-block-close')) {
 
@@ -30,6 +30,6 @@ $('.theme-btn').on('click', function() {
         $(block).removeClass('theme-block-close');
 
         $(this).html('Скрыть');
-        $(btn).css({'display': 'block'});
+        // $(btn).css({'display': 'block'});
     }
 });
