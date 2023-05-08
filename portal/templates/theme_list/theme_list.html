@@ -71,17 +71,15 @@
 </div>
 
 <div class="themes">
-        <button class="btn new-theme" onclick="new_theme_open()">
-        Новая тема<svg class="new-theme-plus" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <button class="btn new-theme" onclick="new_theme_open()">
+        Новая тема
+        <svg class="new-theme-plus" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
                 fill="inherit"></path>
         </svg>
-
     </button>
-    <div class="theme-block theme-block-close sub1">
-        <span class="theme-subject">Английский язык</span>
-  {% for theme in themes %}
+    {% for theme in themes %}
     <div class="{{ theme.Class_of_subject }}">
         <span class="theme-subject">{{ theme.Subject }}</span>
         <div class="descr">
@@ -96,10 +94,9 @@
             </div>
             <button class="theme-btn-take">Взяться за проект</button>
         </div>
-                <button class="edit">
-            <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px"
-                xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
+        <button class="edit">
+            <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
+                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title />
                 <desc />
                 <defs />
@@ -117,29 +114,28 @@
         </button>
     </div>
     {% endfor %}
-</div>
 
-<form method="POST" class="new-theme-form">
-    <h2 class="new-theme-title">Создание новой темы</h2>
-    <div class="new-theme-inputs">
-        <input type="text" class="new-theme-input form-input" placeholder="Название темы" required />
-        <textarea class="new-theme-textarea form-input" placeholder="Описание темы" required></textarea>
-        <div class="new-theme-subjects">
-            <input type="text" class="new-theme-subjects-input form-input"
-                placeholder="Введите названние предметной области" id="theme_subject">
-            <ul class="search-result-list"></ul>
-            <ul class="new-theme-subjects-list"></ul>
+    <form method="POST" class="new-theme-form">
+        <h2 class="new-theme-title">Создание новой темы</h2>
+        <div class="new-theme-inputs">
+            <input type="text" class="new-theme-input form-input" placeholder="Название темы" required />
+            <textarea class="new-theme-textarea form-input" placeholder="Описание темы" required></textarea>
+            <div class="new-theme-subjects">
+                <input type="text" class="new-theme-subjects-input form-input"
+                    placeholder="Введите названние предметной области" id="theme_subject">
+                <ul class="search-result-list"></ul>
+                <ul class="new-theme-subjects-list"></ul>
+            </div>
         </div>
-    </div>
-    <div class="new-theme-btns">
-        <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
-        <button class="btn new-theme-create" type="submit">Создать</button>
-    </div>
-</form>
+        <div class="new-theme-btns">
+            <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
+            <button class="btn new-theme-create" type="submit">Создать</button>
+        </div>
+    </form>
 
-<div class="back-form"></div>
+    <div class="back-form"></div>
 
-<script src="{% static 'js/global/list.js' %}"></script>
-<script src="{% static 'js/theme_list/theme_list.js' %}"></script>
+    <script src="{% static 'js/global/list.js' %}"></script>
+    <script src="{% static 'js/theme_list/theme_list.js' %}"></script>
 
-{% endblock content %}
+    {% endblock content %}
