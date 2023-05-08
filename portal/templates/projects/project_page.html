@@ -81,7 +81,8 @@
                 <input type="hidden" name="file_id" value={{files_pack.file.id}} />
                 <div>
                 <label for="input-file{{files_pack.file.id}}">Обновить файл</label>
-                <input type="file" id="input-file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
+                <input type="file" id="input-file{{files_pack.file.id}}"
+                       onchange="this.parentElement.parentElement.submit()" name="file" style="display:none; visibility:hidden"/>
                 <!-- В стили потом нужно для этой кнопки перенести два свойства display:none и visibility:hidden
                     с теми атрибутами, что сейчас прикручены напрямую -->
             </div>
@@ -89,7 +90,7 @@
             <form  method="POST" action="{% url 'delete_file' %}">
                 {% csrf_token %}
                 <input type="hidden" name="file_id" value={{files_pack.file.id}} />
-                <label for="delete_file{{file.id}}">Удалить файл</label>
+                <label for="delete_file{{files_pack.file.id}}">Удалить файл</label>
                 <input type="submit" id="delete_file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
             </form>
             <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
@@ -97,7 +98,10 @@
                 <div id="zatemnenie">
                     <div id="okno">
                         Предыдущие версии файла<br>
-
+<!--                        Вот для этого цикла нужно прикрутить всплывающее окно, в котором будет содержимое этого цикла-->
+                        {% for old_file in files_pack.old_files %}
+                            <div>{{old_file.file.name}}</div>
+                        {% endfor %}
                     </div>
                 </div>
             </a>

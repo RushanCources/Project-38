@@ -8,6 +8,7 @@ from django.http.request import HttpRequest
 from management.models import User
 from projects.models import Project, File
 
+
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     if project_id is None:
@@ -15,10 +16,11 @@ def index(request: HttpRequest):
     try:
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
-        names = [file.file.name.split('/')[-1] for file in files]
+        names = [file_obj.file.name.split('/')[-1] for file_obj in files]
         old_files = []
         for file in files:
             old_files.append([])
+            print(file.previous_file)
             if file.previous_file is not None:
                 prev_file: File = file.previous_file
                 old_files[-1].append(prev_file)
@@ -36,14 +38,17 @@ def index(request: HttpRequest):
 
         for i in range(len(files)):
             files_packs.append(FilePack(files[i], names[i], old_files[i]))
+
+        print(files_packs)
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
-                   'files_and_names': files_packs
+                   'files_packs': files_packs
                    }
+
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
@@ -167,18 +172,20 @@ def update_file(request: HttpRequest):
     file_id = request.POST.get('file_id')
     file = request.FILES.get('file')
     try:
-        file_object = File.objects.get(id=file_id)
+        file_object: File = File.objects.get(id=file_id)
         project = file_object.project
         if check_what_user_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        file_object.update_file()
-        file_object.file = file
+        file_object.update_file(file)
+
+        print(file_object.previous_file)
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
