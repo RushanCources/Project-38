@@ -36,18 +36,173 @@
                 <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
             </div>
         </section>
-        <section class="section theme-list">
-            <h2 class="theme-list-title">Выбранные темы</h2>
-            <div class="user-themes">
-                <a href="#">Выбранная тема 1</a>
-                <a href="#">Выбранная тема 2</a>
-            </div>
-            <a href="{% url 'theme_list' %}" class="theme-link">Посмотреть другие темы</a>
-        </section>
     </div>
-    <section class="section info">
-        <form method="post">
-            {% csrf_token %}
+    <div>
+        <section class="section-projects">
+            {% if user.role == 'Ученик' %}
+
+            <div class="projects now-project">
+                <button class="btn btn-projects">Текущие проекты</button>
+                <div class="btn-projects-icon"></div>
+                <ul class="projects-list">
+                    <li class="project-item">
+                        <a class="project-name" href="#">Название проекта</a>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                    <li class="project-item create-project">
+                        <span class="project-name create-project-span">Новый проект</span>
+                        <svg width="15" height="15" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            style="transform: rotate(45deg)">
+                            <path
+                                d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                fill="#5A88FF"></path>
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+            <div class="projects past-project">
+                <button class="btn btn-projects">Завершенные проекты</button>
+                <div class="btn-projects-icon"></div>
+                <ul class="projects-list">
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                </ul>
+            </div>
+            {% elif user.role == 'Учитель' or user.role == 'Администратор' %}
+            <div class="projects now-project">
+                <button class="btn btn-projects">Текущие проекты</button>
+                <div class="btn-projects-icon"></div>
+                <ul class="projects-list">
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="projects new-project">
+                <div class="div-new-projects">
+                    <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
+                    <div class="score-projects">3</div>
+                </div>
+                <div class="btn-projects-icon"></div>
+                <ul class="projects-list">
+                    <li class="project-item">
+                        <button class="btn project-name new-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name new-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name new-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="projects past-project">
+                <button class="btn btn-projects">Завершенные проекты</button>
+                <div class="btn-projects-icon"></div>
+                <ul class="projects-list">
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item">
+                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <span class="project-span">Кабанин Д.А.</span>
+                        <span class="project-span">14 группа</span>
+                        <span class="project-span">2049г</span>
+                    </li>
+                    <li class="project-item more">
+                        <span class="project-name more-span">загрузить ещё</span>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+        </section>
+        <section class="section info">
             <div class="div-input">
                 <span class="span">Фамилия</span>
                 <input class="input" type="text" value="{{ user.last_name }}" name="last_name_inp">
@@ -81,6 +236,9 @@
                 <span class="span">Повторите пароль</span>
                 <input class="input" type="password" name="repeat_password">
             </div>
+            <button class="btn save">Сохранить</button>
+        </section>
+    </div>
             <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
         </form>
     </section>
