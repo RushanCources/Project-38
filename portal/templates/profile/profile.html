@@ -85,7 +85,7 @@
         </form>
     </section>
 </div>
-<form class="new-avatar-div" method="POST">
+<form class="new-avatar-div" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <h3 class="new-avatar-title">Загрузка новой фотографии</h3>
     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-avatar-close">
@@ -100,10 +100,8 @@
                 fill="#103A84" />
         </svg>
         <div class="photo">
-            <input type="file" id="file-input" name="file_inp" multiple>
-            <label for="file-input">Выберите файл</label>
-            <span>или перетащите его сюда</span>
-            <input type="submit" value="Загрузить" name="avatar_submit"/>
+            <input type="file" name="avatar_inp">
+            <input type="submit" value="Загрузить" name="avatar_submit" class="btn save" />
         </div>
     </div>
 </form>

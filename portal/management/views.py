@@ -117,7 +117,7 @@ def profile(request):
         first_name=request.POST.get('first_name_inp')
         middle_name=request.POST.get('middle_name_inp')
         last_name=request.POST.get('last_name_inp')
-        new_avatar = request.FILES.get('avatar_inp')
+        new_avatar = request.FILES['avatar_inp']
 
         if request.POST.get('submit_changes'):
             request.user.email = email
@@ -136,10 +136,10 @@ def profile(request):
                     return redirect('profile')
         
 
-        if request.POST.get('avatar_submit'):
+        if request.POST.get('avatar_submit') and request.FILES:
             request.user.avatar = new_avatar
             request.user.save()
-            return ('profile')
+            return redirect('profile')
     return render(request, 'profile/profile.html')    
 
 
