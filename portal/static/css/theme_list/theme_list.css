@@ -208,6 +208,38 @@
     min-height: 0;
 }
 
+.edit {
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    background: #00000015;
+    opacity: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: opacity 0.3s linear, background 0.1s linear;
+}
+
+.edit::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 15px;
+    top: 0;
+    left: -15px;
+}
+
+.edit:active {
+    background: #00000030;
+}
+
+.theme-block:hover > .edit {
+    opacity: 1;
+}
+
 .theme-subject {
     position: absolute;
     top: 10px;
