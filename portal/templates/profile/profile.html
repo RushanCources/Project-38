@@ -17,7 +17,6 @@
 {% block content %}
 <h1 class="h1">Профиль</h1>
 <div class="main-div">
-    {% if user.role == 'Ученик' %}
     <div>
         <section class="section main-info">
             <div class="role-div">
@@ -25,13 +24,15 @@
             </div>
             <div class="content">
                 <div class="avatar-image">
-                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
+                    <img class="img" src="{{ user.avatar.url }}" alt="Аватарка пользователя">
                     <button class="pencil"></button>
                 </div>
+                {% if user.role == 'Ученик' %}
                 <div class="list-div">
                     <div class="list-name">Группа</div>
                     <div class="list-p">{{ user.group }}</div>
                 </div>
+                {% endif %}
                 <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
             </div>
         </section>
@@ -45,307 +46,66 @@
         </section>
     </div>
     <section class="section info">
-        <div class="div-input">
-            <span class="span">Фамилия</span>
-            <input class="input" type="text" value="{{ user.last_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Имя</span>
-            <input class="input" type="text" value="{{ user.first_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Отчетво</span>
-            <input class="input" type="text" value="{{ user.middle_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Логин</span>
-            <input class="input" type="text" value="{{ user.username }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Эл. почта</span>
-            <input class="input" type="text" value="{{ user.email }}">
-        </div>
-        <div class="line"></div>
-        <div class="div-input">
-            <span class="span">Текущий пароль</span>
-            <input class="input" type="password">
-        </div>
-        <div class="div-input">
-            <span class="span">Новый пароль</span>
-            <input class="input" type="password">
-        </div>
-        <div class="div-input">
-            <span class="span">Повторите пароль</span>
-            <input class="input" type="password">
-        </div>
-        <button class="btn save">Сохранить</button>
-    </section>
-    {% endif %}
-
-    {% if user.role == 'Учитель' or user.role == 'Администратор' %}
-    <div class="teacher-main">
-        <section class="section main-info">
-            <div class="role-div">
-                {{user.role}}
-            </div>
-            <div class="content">
-                <div class="avatar-image">
-                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
-                    <button class="pencil"></button>
-                </div>
-                <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
-            </div>
-        </section>
-    </div>
-    <div>
-        <section class="teacher-projects">
-            <div class="projects now-project">
-                <button class="btn btn-projects">Текущие проекты</button>
-                <div class="btn-projects-icon"></div>
-                <ul class="projects-list">
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="projects new-project">
-                <div class="div-new-projects">
-                    <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
-                    <div class="score-projects">3</div>
-                </div>
-                <div class="btn-projects-icon"></div>
-                <ul class="projects-list">
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="projects past-project">
-                <button class="btn btn-projects">Завершенные проекты</button>
-                <div class="btn-projects-icon"></div>
-                <ul class="projects-list">
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item more">
-                        <span class="project-name more-span">загрузить ещё</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <section class="section info-teacher">
+        <form method="post">
+            {% csrf_token %}
             <div class="div-input">
                 <span class="span">Фамилия</span>
-                <input class="input" type="text" value="{{ user.last_name }}">
+                <input class="input" type="text" value="{{ user.last_name }}" name="last_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Имя</span>
-                <input class="input" type="text" value="{{ user.first_name }}">
+                <input class="input" type="text" value="{{ user.first_name }}" name="first_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Отчетво</span>
-                <input class="input" type="text" value="{{ user.middle_name }}">
+                <input class="input" type="text" value="{{ user.middle_name }}" name="middle_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Логин</span>
-                <input class="input" type="text" value="{{ user.username }}">
+                <input class="input" type="text" value="{{ user.username }}" name="username_inp">
             </div>
             <div class="div-input">
                 <span class="span">Эл. почта</span>
-                <input class="input" type="text" value="{{ user.email }}">
+                <input class="input" type="text" value="{{ user.email }}" name="email_inp">
             </div>
             <div class="line"></div>
             <div class="div-input">
-                <span class="span">Текущий пароль</span>
-                <input class="input" type="password">
+                <span class="span">Новый пароль</span>
+                <input class="input" type="password" name="new_password">
             </div>
             <div class="div-input">
-                <span class="span">Новый пароль</span>
-                <input class="input" type="password">
+                <span class="span">Текущий пароль</span>
+                <input class="input" type="password" name="old_password">
             </div>
             <div class="div-input">
                 <span class="span">Повторите пароль</span>
-                <input class="input" type="password">
+                <input class="input" type="password" name="repeat_password">
             </div>
-            <button class="btn save">Сохранить</button>
-        </section>
-    </div>
-    {% endif %}
+            <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
+        </form>
+    </section>
 </div>
 <form class="new-avatar-div" method="POST">
+    {% csrf_token %}
     <h3 class="new-avatar-title">Загрузка новой фотографии</h3>
-    <span class="new-avatar-disclaimer">Учитывайте тот факт, что фото будут видеть ВСЕ пользователи сайта!</span>
     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-avatar-close">
         <path
             d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
             fill="#000000"></path>
     </svg>
     <div class="upload-zone">
-        <div class="new-avatar"></div>
         <svg width="100" height="100" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
                 d="M29.5833 22.9167L37.5 33.3334H12.5L18.75 25.2084L23.125 30.8334L29.1667 22.9167H29.5833ZM17.7083 22.9167C19.375 22.9167 20.8333 21.4584 20.8333 19.7917C20.8333 18.125 19.375 16.6667 17.7083 16.6667C16.0417 16.6667 14.5833 18.125 14.5833 19.7917C14.5833 21.4584 16.0417 22.9167 17.7083 22.9167ZM45.8333 12.5V37.5C45.8333 39.7917 43.9583 41.6667 41.6667 41.6667H8.33332C6.04166 41.6667 4.16666 39.7917 4.16666 37.5V12.5C4.16666 10.2084 6.04166 8.33337 8.33332 8.33337H41.6667C43.9583 8.33337 45.8333 10.2084 45.8333 12.5ZM41.6667 18.3334V12.5H8.33332V37.5H41.6667V18.3334Z"
                 fill="#103A84" />
         </svg>
         <div class="photo">
-            <input type="file" id="file-input" multiple accept="image/png, image/gif, image/jpeg">
+            <input type="file" id="file-input" name="file_inp" multiple>
             <label for="file-input">Выберите файл</label>
             <span>или перетащите его сюда</span>
+            <input type="submit" value="Загрузить" name="avatar_submit"/>
         </div>
     </div>
-    <button class="btn new-avatar-btn">Загрузить</button>
-</form>
-<form method="POST" class="projects-form now-projects-form">
-    <h2 class="project-title-form">Название проекта</h2>
-    <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="now-projects-close">
-        <path
-            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-            fill="#000000"></path>
-    </svg>
-    <div class="project-main-info">
-        <span class="project-span-form">Кабанин Денис 14 группа</span>
-        <div class="dot"></div>
-        <span class="project-span-form">Проект</span>
-        <span class="project-span-form">Предметная область</span>
-    </div>
-    <p class="paragraph project-problem">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi qui</p>
-    <p class="paragraph project-relevance">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi quier</p>
-    <p class="paragraph project-mark">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt</p>
-    <ol class="task-list">
-        <li class="task-item">Первая задача</li>
-        <li class="task-item">Вторая задача</li>
-        <li class="task-item">Третья задача</li>
-        <li class="task-item">Сотая задача</li>
-    </ol>
-    <p class="paragraph project-result">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt</p>
-    <button class="btn project-btn-form">Завершить проект</button>
-</form>
-<form method="POST" class="projects-form new-projects-form">
-    <h2 class="project-title-form">Название проекта</h2>
-    <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-projects-close">
-        <path
-            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-            fill="#000000"></path>
-    </svg>
-    <div class="project-main-info">
-        <span class="project-span-form">Кабанин Денис 14 группа</span>
-        <div class="dot"></div>
-        <span class="project-span-form">Проект</span>
-        <span class="project-span-form">Предметная область</span>
-    </div>
-    <p class="paragraph project-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi qui</p>
-    <button class="btn project-btn-form">Принять проект</button>
 </form>
 <div class="back-form"></div>
 <script src="{% static 'js/global/list.js' %}"></script>
