@@ -48,13 +48,13 @@
                 <input type="submit" id="delete_file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
             </form>
             <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
-            <button class="btn-old-files" onclick="old_files()">Предыдущие версии файла</button>
-            <div class="old-files">
-                <button class="btn-exit" onclick="exit()" type="button">Выход</button>
+            <button class="btn-old-files" onclick="old_files('old-files{{files_pack.file.id}}')">Предыдущие версии файла</button>
+            <div id="old-files{{files_pack.file.id}}"class="old-files">
+                <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
                 <div>Предыдущие версии файла<br></div>
-<!--            Прикрутил-->
                 {% for old_file in files_pack.old_files %}
-                <div>{{old_file.file.name}}</div>
+                <div>{{old_file.name}}</div>
+                <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}">Загрузить файл</a>
                 {% endfor %}
             </div>
         </div>

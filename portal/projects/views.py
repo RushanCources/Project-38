@@ -17,27 +17,35 @@ def index(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
         names = [file_obj.file.name.split('/')[-1] for file_obj in files]
-        old_files = []
-        for file in files:
-            old_files.append([])
-            print(file.previous_file)
-            if file.previous_file is not None:
-                prev_file: File = file.previous_file
-                old_files[-1].append(prev_file)
-                while prev_file.previous_file is not None:
-                    prev_file: File = file.previous_file
-                    old_files[-1].append(prev_file)
-
-        files_packs = []
 
         @dataclass
         class FilePack:
             file: File
             name: str
-            old_files: list[File]
+
+        old_files: list[list[FilePack]] = []
+        for file in files:
+            old_files.append([])
+            print(file.previous_file)
+            if file.previous_file is not None:  # Проверка на наличие предыдущего файла
+                prev_file: File = file.previous_file
+                file_pack = FilePack(prev_file, prev_file.file.name.split('/')[-1])
+                old_files[-1].append(file_pack)
+                while prev_file.previous_file is not None:  # Запуск цикла, пока у предыдущего файла есть предыдущий файл
+                    prev_file: File = file.previous_file
+                    file_pack = FilePack(prev_file, prev_file.file.name.split('/')[-1])
+                    old_files[-1].append(file_pack)
+
+        files_packs = []
+
+        @dataclass
+        class BranchFilePack:
+            file: File
+            name: str
+            old_files: list[FilePack]
 
         for i in range(len(files)):
-            files_packs.append(FilePack(files[i], names[i], old_files[i]))
+            files_packs.append(BranchFilePack(files[i], names[i], old_files[i]))
 
         print(files_packs)
         context = {"name": project.name,
