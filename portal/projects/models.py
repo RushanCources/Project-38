@@ -58,6 +58,7 @@ class File(models.Model):
             new_obj = File.objects.create(project=self.project, file=file, version=1, previous_file=self)
             new_obj.save()
             self.version += 1
+            self.save()
         else:
             self.version += 1
             self.save()

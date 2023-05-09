@@ -177,7 +177,6 @@ def update_file(request: HttpRequest):
         if check_what_user_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         file_object.update_file(file)
-
         print(file_object.previous_file)
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
