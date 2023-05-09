@@ -1,64 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/projects/project_page.css' %}">
 
+{% endblock head %}
 
 {% block content %}
-{% load static %}
-<style>
-	 #main {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-	  #main:target {display: block;}
-      #zatemnenie {
-        background: rgba(102, 102, 102, 0.5);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: none;
-      }
-      #okno {
-        width: 300px;
-        height: 50px;
-        text-align: center;
-        padding: 15px;
-        border: 3px solid #0000cc;
-        border-radius: 10px;
-        color: #0000cc;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        background: #fff;
-      }
-      #zatemnenie:target {display: block;}
-      .close {
-        display: inline-block;
-        border: 1px solid #0000cc;
-        color: #0000cc;
-        padding: 0 12px;
-        margin: 10px;
-        text-decoration: none;
-        background: #f2f2f2;
-        font-size: 14pt;
-        cursor:pointer;
-      }
-      .close:hover {background: #e6e6ff;}
-    </style>
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
     <form method="POST" action="{% url 'correct_project' %}" id="form_name">
         {% csrf_token %}
         <input type="hidden" name="project" value={{project_id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
-    <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
+    <button onclick="return edit(this, 'name')" style="background-color: #FFFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <div>{{teacher}}</div>
@@ -69,7 +23,7 @@
         <input type="hidden" name="project" value={{project_id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
-    <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
+    <button onclick="return edit(this, 'description')" style="background-color: #FFFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
@@ -94,18 +48,15 @@
                 <input type="submit" id="delete_file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
             </form>
             <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
-            <a href="#" class="main">
-                <div id="zatemnenie">
-                    <div id="okno">
-                        Предыдущие версии файла<br>
-<!--                        Вот для этого цикла нужно прикрутить всплывающее окно, в котором будет содержимое этого цикла-->
-                        {% for old_file in files_pack.old_files %}
-                            <div>{{old_file.file.name}}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </a>
-            <a href="#zatemnenie">Предыдущие версии файла</a>
+            <button class="btn-old-files" onclick="old_files()">Предыдущие версии файла</button>
+            <div class="old-files">
+                <button class="btn-exit" onclick="exit()" type="button">Выход</button>
+                <div>Предыдущие версии файла<br></div>
+<!--            Прикрутил-->
+                {% for old_file in files_pack.old_files %}
+                <div>{{old_file.file.name}}</div>
+                {% endfor %}
+            </div>
         </div>
 
     {% endfor %}
@@ -132,4 +83,8 @@
             form.submit();
             }
     </script>
+
+    <div class="back-form"></div>
+
+    <script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}
