@@ -1,9 +1,5 @@
 window.addEventListener('scroll', function() {
     if (this.scrollY > 120) {
-<<<<<<< HEAD
-=======
-        console.log ('test');
->>>>>>> 5a36016 (снова конфликты)
         $('.main-info').addClass('main-info-fixed');
     } else {
         $('.main-info').removeClass('main-info-fixed');
@@ -18,7 +14,6 @@ $('.pencil').on('click', function(){
 $('.new-avatar-close').on('click', function(){
     $('.new-avatar-div').css({'display':'none'});
     $('.back-form').css({'display':'none'});
-<<<<<<< HEAD
     $('.new-avatar-btn').removeClass('active');
     $('.new-avatar').css({'display' : 'none'});
     $('.upload-zone').css({'outline-color' : '#103A8450'});
@@ -38,8 +33,6 @@ $('#file-input').on('change', function() {
     });
     fReader.readAsDataURL(file);
     $('#file-input').val(null);
-=======
->>>>>>> 5a36016 (снова конфликты)
 });
 
 $('.btn-projects').on('click', function() {
@@ -64,7 +57,6 @@ $('.btn-new-projects').on('click', function() {
         $(ul).addClass('ul-open');
         $(icon).css({'transform' : 'rotate(0deg)'});
     }
-<<<<<<< HEAD
 });
 
 $('.now-projects-close').on('click', function() {
@@ -85,6 +77,4 @@ $('.new-projects-close').on('click', function() {
 $('.new-project-btn').on('click', function(){
     $('.new-projects-form').css({'display':'flex'});
     $('.back-form').css({'display':'block'});
-=======
->>>>>>> 5a36016 (снова конфликты)
 });
