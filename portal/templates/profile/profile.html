@@ -45,11 +45,13 @@
                 <button class="btn btn-projects">Текущие проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project in open_projects %}
                     <li class="project-item">
-                        <a class="project-name" href="#">Название проекта</a>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                        <a class="project-name" href="#">{{ project.name }}</a>
+                        <span class="project-span">{{ user_full }}</span>
+                        <span class="project-span">{{ user.group }} группа</span>
                     </li>
+                    {% endfor %}
                     <li class="project-item create-project">
                         <span class="project-name create-project-span">Новый проект</span>
                         <svg width="15" height="15" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
@@ -65,24 +67,14 @@
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project in close_projects %}
                     <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                        <button class="btn project-name now-project-btn">{{ project.name }}</button>
+                        <span class="project-span">{{ user_full }}</span>
+                        <span class="project-span">{{ user.group }} группа</span>
                         <span class="project-span">2049г</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             {% elif user.role == 'Учитель' or user.role == 'Администратор' %}
@@ -90,111 +82,43 @@
                 <button class="btn btn-projects">Текущие проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project in open_projects_T %}
                     <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <button class="btn project-name now-project-btn">{{ project.name }}</button>
                         <span class="project-span">Кабанин Д.А.</span>
                         <span class="project-span">14 группа</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="projects new-project">
                 <div class="div-new-projects">
                     <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
-                    <div class="score-projects">3</div>
+                    <div class="score-projects">{{ request_projects_T_lenght }}</div>
                 </div>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project in request_projects_T %}
                     <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
+                        <button class="btn project-name new-project-btn">{{ project.name }}</button>
                         <span class="project-span">Кабанин Д.А.</span>
                         <span class="project-span">14 группа</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="projects past-project">
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project in close_projects_T %}
                     <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
+                        <button class="btn project-name now-project-btn">{{ project.name }}</button>
                         <span class="project-span">Кабанин Д.А.</span>
                         <span class="project-span">14 группа</span>
                         <span class="project-span">2049г</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
+                    {% endfor %}
                     <li class="project-item more">
                         <span class="project-name more-span">загрузить ещё</span>
                     </li>

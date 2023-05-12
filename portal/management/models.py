@@ -47,5 +47,8 @@ class User(AbstractUser):
 
         img.save(self.avatar.path)
 
+    def getPName(self):
+        return self.last_name + " " + self.first_name[0] + "." + self.middle_name[0]
+
 class Tokens(models.Model):
     token = models.TextField(max_length=16)
