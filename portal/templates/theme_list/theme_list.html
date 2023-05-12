@@ -81,7 +81,11 @@
     </button>
     {% for theme in themes %}
     <div class="{{ theme.Class_of_subject }}">
-        <span class="theme-subject">{{ theme.Subject }}</span>
+        <ul class="theme-subjects-list">
+            {% for sub in theme.Subject %}
+            <li class="theme-subjects-item">{{ sub }}</li>
+            {% endfor %}
+        </ul>
         <div class="descr">
             <h2 class="theme-name theme-name-close">{{ theme.Name }}</h2>
             <p class="theme-descr theme-descr-close">

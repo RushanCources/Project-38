@@ -240,10 +240,11 @@
     opacity: 1;
 }
 
-.theme-subject {
+.theme-subjects-list {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
     font-weight: 700;
     font-size: 24px;
     line-height: 28px;
@@ -388,7 +389,7 @@
     background: linear-gradient(248deg, #051a3f 44%, #07204d 98%);
 }
 
-.sub1 > span:first-child {
+.sub1 > ul:first-child {
     color: #3A4E71;
 }
 
@@ -400,7 +401,7 @@
     background: linear-gradient(248deg, #4e9e56 44%, rgba(92,185,101,1) 98%);
 }
 
-.sub2 > span:first-child {
+.sub2 > ul:first-child {
     color: #3A713F;
 }
 
@@ -501,6 +502,7 @@
 }
 
 .new-theme-subjects-list {
+    flex-wrap: wrap;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 15px;
