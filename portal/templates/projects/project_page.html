@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block head %}
+{% load js %}
 <link rel="stylesheet" href="{% static 'css/projects/project_page.css' %}">
 
 {% endblock head %}
@@ -34,9 +35,9 @@
                 {% csrf_token %}
                 <input type="hidden" name="file_id" value={{files_pack.file.id}} />
                 <div>
-                <label for="input-file{{files_pack.file.id}}">Обновить файл</label>
-                <input type="file" id="input-file{{files_pack.file.id}}"
-                       onchange="this.parentElement.parentElement.submit()" name="file" style="display:none; visibility:hidden"/>
+<!--                <label for="input-file{{files_pack.file.id}}">Обновить файл</label>-->
+<!--                <input type="file" id="input-file{{files_pack.file.id}}"-->
+<!--                       onchange="this.parentElement.parentElement.submit()" name="file" style="display:none; visibility:hidden"/>-->
                 <!-- В стили потом нужно для этой кнопки перенести два свойства display:none и visibility:hidden
                     с теми атрибутами, что сейчас прикручены напрямую -->
             </div>
@@ -49,7 +50,7 @@
             </form>
             <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
             <button class="btn-old-files" onclick="old_files('old-files{{files_pack.file.id}}')">Предыдущие версии файла</button>
-            <div id="old-files{{files_pack.file.id}}"class="old-files">
+            <div id="old-files{{files_pack.file.id}}" class="old-files">
                 <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
                 <div>Предыдущие версии файла<br></div>
                 {% for old_file in files_pack.old_files %}
@@ -65,8 +66,9 @@
         {% csrf_token %}
         <input type="hidden" name="project_id" value={{project_id}}>
         <label for="add_file">Добавить файл</label>
-        <input type="file" id="add_file" onchange="this.parentElement.submit()" style="display:none; visibility:hidden" name="files"/>
+        <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="files"/>
     </form>
+    <
     <script>
 
         function edit(elem, id){
@@ -82,6 +84,7 @@
             let form = document.getElementById("form_"+id);
             form.submit();
             }
+        files_names = {{files_names | js }};
     </script>
 
     <div class="back-form"></div>

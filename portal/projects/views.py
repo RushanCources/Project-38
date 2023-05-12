@@ -46,15 +46,15 @@ def index(request: HttpRequest):
 
         for i in range(len(files)):
             files_packs.append(BranchFilePack(files[i], names[i], old_files[i]))
-
-        print(files_packs)
+        print(str(names))
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
-                   'files_packs': files_packs
+                   'files_packs': files_packs,
+                   'files_names': names,
                    }
 
         return render(request, "projects/project_page.html", context=context)

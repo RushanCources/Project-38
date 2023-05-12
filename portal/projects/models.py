@@ -50,6 +50,7 @@ class File(models.Model):
     file = models.FileField(upload_to=f'project_files', blank=True, null=True)
     version = models.IntegerField(default=1)
     previous_file = models.ForeignKey('File', related_name="previous", null=True, on_delete=models.SET_NULL)
+    comment = models.CharField(max_length=1024, null=True)
 
     def update_file(self, file=None):
         if self.version == MAX_FILE_VERSION:
