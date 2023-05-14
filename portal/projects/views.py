@@ -17,7 +17,6 @@ def index(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
         names = [file_obj.file.name.split('/')[-1] for file_obj in files]
-        print(names)
 
         @dataclass
         class FilePack:
@@ -111,7 +110,7 @@ def check_post_request(*need_values):
         def wrapper(request):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
-            if request.user.role != "Ученик":
+            if not request.user.is_authenticated:
                 return render(request, "NotEnoughPermissions.html")
             for value in need_values:
                 request_value = request.POST.get(value, -1)
@@ -122,8 +121,8 @@ def check_post_request(*need_values):
     return decorator
 
 
-def check_what_user_have_access(request: HttpRequest, project: Project):
-    return request.user.id != project.teacher.id and request.user.id != project.student.id
+def check_what_user_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
+    return request.user.id != project.teacher.id and request.user.id != project.student.id and request.user.role != 'Администратор'
 
 
 @check_post_request('teacher', 'name', "subject")
@@ -259,6 +258,25 @@ def get_trash(request: HttpRequest):
         context = {"files": files_and_names}
         return render(request, "projects/trash.html", context=context)
     except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+
+@check_post_request('comment', "file_id")
+def set_comment(request: HttpRequest):
+    comment = request.POST.get("comment")
+    file_id = request.POST.get("file_id")
+    print(file_id)
+    try:
+        file = File.objects.get(id=file_id)
+        project = file.project
+        if check_what_user_have_access(request, project):
+            return render(request, "NotEnoughPermissions.html")
+        file.comment = comment
+        file.save()
+        return redirect(f"{reverse('projects')}?id={project.id}")
+    except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
         return render(request, "FatalError.html")

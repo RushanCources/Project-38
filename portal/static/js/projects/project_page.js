@@ -1,4 +1,4 @@
-function old_files(id) {
+function show_window(id) {
     $("#"+id).css({ 'display': 'block' });
     $('.back-form').css({ 'display': 'block' });
 }
