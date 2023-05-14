@@ -2,12 +2,11 @@ import string
 import random
 
 from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render 
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import User, Tokens
-
-
+ 
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -23,7 +22,6 @@ def register(request):
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form})
 
-
 def token_page(request):
     if request.method == "POST":
         token = request.POST.get("token")
@@ -32,9 +30,8 @@ def token_page(request):
             return redirect('register')
         else:
             messages.error(request, 'Неправильный токен!')
-
+    
     return render(request, 'registration/token_page.html')
-
 
 def admin_menu(request):
     filter_users = User.objects.filter(deactivate=0)
@@ -71,7 +68,7 @@ def admin_menu(request):
                 token = Tokens.objects.create(token=generate_alphanum_random_string(16), id=new_id + i)
                 token.save()
             return redirect('admin_menu')
-
+        
         if request.POST.get('search_butt'):
             filter_users = User.objects.filter()
             return redirect('admin_menu')
@@ -112,7 +109,6 @@ def admin_menu(request):
 
     return render(request, 'admin_menu/admin.html', context={"users": filter_users})
 
-
 def profile(request):
     if request.method == "POST":
         new_password = request.POST.get('new_password')
@@ -140,6 +136,7 @@ def profile(request):
                     new_user = authenticate(request, username=username, password=new_password)
                     login(request, new_user)
                     return redirect('profile')
+
 
         if request.POST.get('avatar_submit'):
             request.user.avatar = new_avatar
