@@ -17,6 +17,7 @@ def index(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
         names = [file_obj.file.name.split('/')[-1] for file_obj in files]
+        print(names)
 
         @dataclass
         class FilePack:
@@ -26,7 +27,6 @@ def index(request: HttpRequest):
         old_files: list[list[FilePack]] = []
         for file in files:
             old_files.append([])
-            print(file.previous_file)
             if file.previous_file is not None:  # Проверка на наличие предыдущего файла
                 prev_file: File = file.previous_file
                 file_pack = FilePack(prev_file, prev_file.file.name.split('/')[-1])
@@ -46,7 +46,6 @@ def index(request: HttpRequest):
 
         for i in range(len(files)):
             files_packs.append(BranchFilePack(files[i], names[i], old_files[i]))
-        print(str(names))
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
@@ -54,7 +53,7 @@ def index(request: HttpRequest):
                    "description": project.description,
                    "project_id": project_id,
                    'files_packs': files_packs,
-                   'files_names': names,
+                   'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    }
 
         return render(request, "projects/project_page.html", context=context)
@@ -184,8 +183,9 @@ def update_file(request: HttpRequest):
         project = file_object.project
         if check_what_user_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
+        print(file)
         file_object.update_file(file)
-        print(file_object.previous_file)
+        print(file_object.previous_file, 'jghgf')
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
         return render(request, "WrongData.html")
@@ -231,18 +231,19 @@ def download_file(request: HttpRequest):
 @check_post_request("project_id")
 def upload_file(request: HttpRequest):
     project_id = request.POST.get("project_id")
-    files = request.FILES.getlist("files")
+    file = request.FILES.get("file")
     try:
         project = Project.objects.get(id=project_id)
         if check_what_user_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        for file in files:
-            file_object = File.objects.create(project=project, file=file, version=1)
-            file_object.save()
+        print(file)
+        file_object = File.objects.create(project=project, file=file, version=1)
+        file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 

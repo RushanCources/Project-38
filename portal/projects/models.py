@@ -53,6 +53,7 @@ class File(models.Model):
     comment = models.CharField(max_length=1024, null=True)
 
     def update_file(self, file=None):
+        print(self.version)
         if self.version == MAX_FILE_VERSION:
             self.delete()
         elif self.version == 1 and file is not None:
@@ -60,6 +61,7 @@ class File(models.Model):
             new_obj.save()
             self.version += 1
             self.save()
+            print('ээбля')
         else:
             self.version += 1
             self.save()

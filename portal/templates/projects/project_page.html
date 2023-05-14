@@ -62,13 +62,19 @@
 
     {% endfor %}
 
-    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data">
+    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data" id="add-file">
         {% csrf_token %}
+        <input type="hidden" name="file_id" value=-1>
         <input type="hidden" name="project_id" value={{project_id}}>
         <label for="add_file">Добавить файл</label>
-        <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="files"/>
+        <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="file"/>
     </form>
-    <
+    <div class="update-file">
+        <div>Файл с таким именем уже существует<br>
+        Вы хотите заменить его?</div>
+        <button onclick="update_file()">Да</button>
+        <button onclick="close_update_window()">Нет</button>
+    </div>
     <script>
 
         function edit(elem, id){
@@ -85,6 +91,7 @@
             form.submit();
             }
         files_names = {{files_names | js }};
+        update_files_url = '{% url 'update_file' %}'
     </script>
 
     <div class="back-form"></div>
