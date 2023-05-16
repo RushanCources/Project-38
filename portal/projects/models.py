@@ -50,15 +50,23 @@ class File(models.Model):
     file = models.FileField(upload_to=f'project_files', blank=True, null=True)
     version = models.IntegerField(default=1)
     previous_file = models.ForeignKey('File', related_name="previous", null=True, on_delete=models.SET_NULL)
+    comment = models.CharField(max_length=1024, null=True)
 
-    def update_file(self):
+    def update_file(self, file=None):
+        print(self.version)
         if self.version == MAX_FILE_VERSION:
             self.delete()
-        elif self.previous_file is not None:
-            self.previous_file.update_file()
-            self.file = self.previous_file.file
+        elif self.version == 1 and file is not None:
+            new_obj = File.objects.create(project=self.project, file=file, version=1, previous_file=self)
+            new_obj.save()
             self.version += 1
             self.save()
+            print('ээбля')
+        else:
+            self.version += 1
+            self.save()
+        if self.previous_file is not None:
+            self.previous_file.update_file()
 
     def move_to_trash(self):
         if self.version == 1:

@@ -3,7 +3,7 @@ import random
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
-from django.contrib import messages 
+from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import User, Tokens
  
@@ -14,8 +14,8 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            messages.success(request,'Аккаунт успешно создан')
-            authenticate_user = authenticate(request, username = new_user.username, password=new_user.password)
+            messages.success(request, 'Аккаунт успешно создан')
+            authenticate_user = authenticate(request, username=new_user.username, password=new_user.password)
             login(request, authenticate_user)
             return redirect('profile')
     else:
@@ -34,7 +34,7 @@ def token_page(request):
     return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
-    filter_users=User.objects.filter(deactivate = 0)
+    filter_users = User.objects.filter(deactivate=0)
     if request.method == "POST":
         user_id = request.POST.get('user_id_edit')
         user_id_delete = request.POST.get('user_id_delete')
@@ -49,15 +49,15 @@ def admin_menu(request):
         search_names = request.POST.get('search_names')
 
         if request.POST.get('delete_butt'):
-            user=User.objects.get(id = user_id_delete).delete()
+            user = User.objects.get(id=user_id_delete).delete()
             return redirect('admin_menu')
 
         if request.POST.get('deactivate_butt'):
-            user=User.objects.get(id = user_id_delete)
+            user = User.objects.get(id=user_id_delete)
             user.deactivate = True
             user.save()
             return redirect('admin_menu')
-        
+
         if request.POST.get('accept_token'):
             last_token = Tokens.objects.last()
             if last_token is None:
@@ -65,7 +65,7 @@ def admin_menu(request):
             else:
                 new_id = last_token.pk + 1
             for i in range(int(token_value)):
-                token = Tokens.objects.create(token = generate_alphanum_random_string(16), id = new_id + i)
+                token = Tokens.objects.create(token=generate_alphanum_random_string(16), id=new_id + i)
                 token.save()
             return redirect('admin_menu')
         
@@ -79,11 +79,13 @@ def admin_menu(request):
                 new_id = 1
             else:
                 new_id = last_user.pk + 1
-            new_user = User.objects.create(username = username, first_name = first_name, last_name = last_name, middle_name = middle_name, group = group, role = role, email = email, password = 0, id = new_id)
+            new_user = User.objects.create(username=username, first_name=first_name, last_name=last_name,
+                                           middle_name=middle_name, group=group, role=role, email=email, password=0,
+                                           id=new_id)
             new_user.set_password(request.POST.get('password_input'))
             new_user.save()
             return redirect('admin_menu')
-            
+
         else:
             user = User.objects.get(id=user_id)
             user.first_name = first_name
@@ -102,10 +104,10 @@ def admin_menu(request):
                 user.is_superuser = False
 
             user.save()
-            
+
             return redirect('admin_menu')
 
-    return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
+    return render(request, 'admin_menu/admin.html', context={"users": filter_users})
 
 def profile(request):
     if request.method == "POST":
@@ -114,9 +116,9 @@ def profile(request):
         repeat_password = request.POST.get('repeat_password')
         username = request.POST.get('username_inp')
         email = request.POST.get('email_inp')
-        first_name=request.POST.get('first_name_inp')
-        middle_name=request.POST.get('middle_name_inp')
-        last_name=request.POST.get('last_name_inp')
+        first_name = request.POST.get('first_name_inp')
+        middle_name = request.POST.get('middle_name_inp')
+        last_name = request.POST.get('last_name_inp')
         new_avatar = request.FILES.get('avatar_inp')
 
         if request.POST.get('submit_changes'):
@@ -124,7 +126,7 @@ def profile(request):
             request.user.first_name = first_name
             request.user.middle_name = middle_name
             request.user.last_name = last_name
-            request.user.username=username
+            request.user.username = username
             request.user.save()
 
             if request.user.check_password(old_password):
@@ -134,17 +136,16 @@ def profile(request):
                     new_user = authenticate(request, username=username, password=new_password)
                     login(request, new_user)
                     return redirect('profile')
-        
+
 
         if request.POST.get('avatar_submit'):
             request.user.avatar = new_avatar
             request.user.save()
             return ('profile')
-    return render(request, 'profile/profile.html')    
+    return render(request, 'profile/profile.html')
 
 
 def generate_alphanum_random_string(length):
     letters_and_digits = string.ascii_letters + string.digits
     rand_string = ''.join(random.sample(letters_and_digits, length))
     return rand_string
-
