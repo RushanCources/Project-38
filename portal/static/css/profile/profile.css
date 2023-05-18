@@ -87,6 +87,7 @@
     display: block;
     height: 200px;
     margin: 0 auto;
+    border-radius: 50%;
 }
 
 .pencil {
@@ -331,10 +332,10 @@
 
 #file-input {
     width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
+    height: 0.1px; 
+    opacity: 0; 
     position: absolute;
-    z-index: -10;
+    z-index: -10; 
 }
 
 .photo label {
@@ -381,27 +382,7 @@
 
 /* for teachers */
 
-.btn-teacher-profile {
-    display: block;
-    margin: 0 auto;
-    background: #103A84;
-    color: #fff;
-    transition: background 0.3s linear;
-}
-
-.btn-teacher-profile:hover {
-    background: #0d306d;
-}
-
-.btn-teacher-profile:active {
-    background: #3e5e96;
-}
-
-.info-teacher {
-    width: 790px;
-}
-
-.teacher-projects {
+.section-projects {
     width: 790px;
     background-color: transparent;
 }
@@ -702,4 +683,18 @@
 
 .project-btn-form:active {
     background: #3e5e96;
+}
+
+.create-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+}
+
+.create-project-span {
+    color: #5A88FF;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 14px;
 }

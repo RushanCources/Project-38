@@ -33,6 +33,8 @@ class Migration(migrations.Migration):
                 ('file', models.FileField(blank=True, null=True, upload_to='project_files')),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='files', to='projects.project')),
                 ('previous_file', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='previous', to='projects.file')),
-                ('version', models.IntegerField(default=1)),            ],
+                ('version', models.IntegerField(default=1)),
+                ('comment', models.CharField(max_length=1024, null=True)),
+            ],
         ),
     ]

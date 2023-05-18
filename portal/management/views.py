@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import User, Tokens
+from projects.models import Project
  
 def register(request):
     if request.method == 'POST':
@@ -110,6 +111,17 @@ def admin_menu(request):
     return render(request, 'admin_menu/admin.html', context={"users": filter_users})
 
 def profile(request):
+    open_projects_st = Project.objects.filter(student_id = request.user.pk, _status = "on work")
+    close_projects_st = Project.objects.filter(student_id = request.user.pk, _status = "done")
+    user_full = request.user.getPName()
+    open_projects_T = Project.objects.filter(_status = "on work")
+    close_projects_T = Project.objects.filter( _status = "done")
+    request_projects_T = Project.objects.filter(_status = "send request")
+    request_projects_T_lenght = 0
+    for i in request_projects_T:
+        request_projects_T_lenght+=1
+
+
     if request.method == "POST":
         new_password = request.POST.get('new_password')
         old_password = request.POST.get('old_password')
@@ -119,7 +131,7 @@ def profile(request):
         first_name = request.POST.get('first_name_inp')
         middle_name = request.POST.get('middle_name_inp')
         last_name = request.POST.get('last_name_inp')
-        new_avatar = request.FILES.get('avatar_inp')
+        new_avatar = request.FILES['avatar_inp']
 
         if request.POST.get('submit_changes'):
             request.user.email = email
@@ -138,11 +150,11 @@ def profile(request):
                     return redirect('profile')
 
 
-        if request.POST.get('avatar_submit'):
+        if request.POST.get('avatar_submit') and request.FILES:
             request.user.avatar = new_avatar
             request.user.save()
-            return ('profile')
-    return render(request, 'profile/profile.html')
+            return redirect('profile')
+    return render(request, 'profile/profile.html', {"open_projects": open_projects_st, "close_projects": close_projects_st, "user_full" : user_full, "open_projects_T": open_projects_T, "close_projects_T": close_projects_T, "request_projects_T" : request_projects_T, "request_projects_T_lenght" : request_projects_T_lenght})
 
 
 def generate_alphanum_random_string(length):
