@@ -1,5 +1,6 @@
 import string
 import random
+from dataclasses import dataclass, field
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
@@ -110,16 +111,34 @@ def admin_menu(request):
 
     return render(request, 'admin_menu/admin.html', context={"users": filter_users})
 
+
 def profile(request):
-    open_projects_st = Project.objects.filter(student_id = request.user.pk, _status = "on work")
-    close_projects_st = Project.objects.filter(student_id = request.user.pk, _status = "done")
+    @dataclass
+    class ProjectsPack:
+        project: Project
+        student_p_name: str = field(init=False)
+        teacher_p_name: str = field(init=False)
+
+        def __post_init__(self):
+            self.student_p_name = self.project.student.getPName()
+            self.teacher_p_name = self.project.teacher.getPName()
+
+    if request.user.role == 'Ученик':
+        open_projects_st: list[Project] = Project.objects.filter(student = request.user, _status = "on work")
+        close_projects_st: list[Project] = Project.objects.filter(student_id = request.user, _status = "done")
+        request_projects_st: list[Project] = Project.objects.filter(student=request.user, _status = "send request")
+        open_projects_packs = [ProjectsPack(project) for project in open_projects_st]
+        close_projects_packs = [ProjectsPack(project) for project in close_projects_st]
+        request_projects_packs = [ProjectsPack(project) for project in request_projects_st]
+    else:
+
+        open_projects_T = Project.objects.filter(teacher=request.user, _status = "on work")
+        close_projects_T = Project.objects.filter(teacher=request.user, _status = "done")
+        request_projects_T = Project.objects.filter(teacher=request.user, _status = "send request")
+        open_projects_packs = [ProjectsPack(project) for project in open_projects_T]
+        close_projects_packs = [ProjectsPack(project) for project in close_projects_T]
+        request_projects_packs = [ProjectsPack(project) for project in request_projects_T]
     user_full = request.user.getPName()
-    open_projects_T = Project.objects.filter(_status = "on work")
-    close_projects_T = Project.objects.filter( _status = "done")
-    request_projects_T = Project.objects.filter(_status = "send request")
-    request_projects_T_lenght = 0
-    for i in request_projects_T:
-        request_projects_T_lenght+=1
 
 
     if request.method == "POST":
@@ -154,7 +173,13 @@ def profile(request):
             request.user.avatar = new_avatar
             request.user.save()
             return redirect('profile')
-    return render(request, 'profile/profile.html', {"open_projects": open_projects_st, "close_projects": close_projects_st, "user_full" : user_full, "open_projects_T": open_projects_T, "close_projects_T": close_projects_T, "request_projects_T" : request_projects_T, "request_projects_T_lenght" : request_projects_T_lenght})
+
+    context = {"open_projects_packs": open_projects_packs,
+               "close_projects_packs": close_projects_packs,
+               "user_full": user_full,
+               "request_projects_packs": request_projects_packs,
+               "request_projects_length": len(request_projects_packs)}
+    return render(request, 'profile/profile.html', context)
 
 
 def generate_alphanum_random_string(length):

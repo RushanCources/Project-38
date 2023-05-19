@@ -280,3 +280,16 @@ def set_comment(request: HttpRequest):
         return render(request, "WrongData.html")
     except BaseException as e:
         return render(request, "FatalError.html")
+
+
+@check_post_request('project_id')
+def approve_project(request: HttpRequest):
+    project_id = request.POST.get('project_id')
+    try:
+        project = Project.objects.get(id=project_id)
+        project.set_status('on work')
+        return redirect(f"{reverse('projects')}?id={project.id}")
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")

@@ -698,3 +698,10 @@
     margin-right: 5px;
     font-size: 14px;
 }
+
+.create-project-button {
+    cursor: pointer;
+    display: block;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}

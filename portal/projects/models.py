@@ -61,7 +61,6 @@ class File(models.Model):
             new_obj.save()
             self.version += 1
             self.save()
-            print('ээбля')
         else:
             self.version += 1
             self.save()
