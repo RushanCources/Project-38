@@ -97,7 +97,7 @@ def editor(request, id):
             'announcement': announcement,
         }
 
-        return render(request, 'announcements/editor.html', context=data)
+        return render(request, 'dec/ed.html', context=data)
 
     except Announcement.DoesNotExist:
         return render(request, 'WrongData.html')
