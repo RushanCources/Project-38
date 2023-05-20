@@ -81,7 +81,7 @@
             <input type="submit" id="approve_project">
         </form>
     {% elif status == 'on work' and user.role == 'Учитель' %}
-                <form  method="POST" action="{% url 'approve_project' %}">
+        <form  method="POST" action="{% url 'close_project' %}">
             {% csrf_token %}
             <input type="hidden" name="project_id" value="{{project_id}}">
             <label for="close_project">Одобрить проект</label>

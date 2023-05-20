@@ -14,5 +14,6 @@ urlpatterns = [
     path('add_file', views.upload_file, name='add_file'),
     path('trash', views.get_trash, name='trash'),
     path('add_comment', views.set_comment, name='add_comment'),
-    path('approve_project', views.approve_project, name='approve_project')
+    path('approve_project', views.approve_project, name='approve_project'),
+    path('close_project', views.close_project, name='close_project'),
 ]
