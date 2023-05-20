@@ -65,8 +65,16 @@
                     {% endif %}
                 </ul>
             </div>
-            <div class="projects future-project">
+            <div class="projects new-project">
+                {% if user.role == 'Учитель' %}
+                <div class="div-new-projects">
+                    <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
+                    <div class="score-projects">{{ request_projects_length }}</div>
+                </div>
+                {% else %}
+                <div class="score-projects">{{ request_projects_T_length }}</div>
                 <button class="btn btn-projects">Заявки на проекты</button>
+                {%endif%}
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
                     {% for project_pack in request_projects_packs %}
@@ -158,30 +166,6 @@
         </div>
     </div>
     <input type="submit" value="Загрузить" name="avatar_submit" class="btn new-avatar-btn" />
-</form>
-<form method="POST" class="projects-form new-projects-form">
-    <h2 class="project-title-form">Название проекта</h2>
-    <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-projects-close">
-        <path
-            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-            fill="#000000"></path>
-    </svg>
-    <div class="project-main-info">
-        <span class="project-span-form">Кабанин Денис 14 группа</span>
-        <div class="dot"></div>
-        <span class="project-span-form">Проект</span>
-        <span class="project-span-form">Предметная область</span>
-    </div>
-    <p class="paragraph project-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi qui</p>
-    <button class="btn project-btn-form">Принять проект</button>
 </form>
 
 <div class="back-form"></div>
