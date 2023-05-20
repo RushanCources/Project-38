@@ -121,7 +121,7 @@ def check_post_request(*need_values):
     return decorator
 
 
-def check_what_user_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
+def check_what_user_not_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
     return request.user.id != project.teacher.id and request.user.id != project.student.id and request.user.role != 'Администратор'
 
 
@@ -151,12 +151,11 @@ def create(request: HttpRequest):
 
 @check_post_request('project')
 def correct_project(request: HttpRequest):
-    check_post_request(request, 'project')
     project_id = request.POST.get("project")
     try:
-        project_id = int(project_id)
+        project_id = project_id
         project = Project.objects.get(id=project_id)
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
@@ -180,11 +179,9 @@ def update_file(request: HttpRequest):
     try:
         file_object: File = File.objects.get(id=file_id)
         project = file_object.project
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        print(file)
         file_object.update_file(file)
-        print(file_object.previous_file, 'jghgf')
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
         return render(request, "WrongData.html")
@@ -201,7 +198,7 @@ def delete_file(request: HttpRequest):
     try:
         file = File.objects.get(id=file_id)
         project = file.project
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         file.move_to_trash()
         return redirect(f"{reverse('projects')}?id={project.id}")
@@ -217,7 +214,7 @@ def download_file(request: HttpRequest):
         return render(request, "WrongData.html")
     try:
         file_object = File.objects.get(id=file_id)
-        if check_what_user_have_access(request, file_object.project):
+        if check_what_user_not_have_access(request, file_object.project):
             return render(request, "NotEnoughPermissions.html")
         filepath = file_object.file.path
         return FileResponse(open(filepath, 'rb'))
@@ -233,7 +230,7 @@ def upload_file(request: HttpRequest):
     file = request.FILES.get("file")
     try:
         project = Project.objects.get(id=project_id)
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         print(file)
         file_object = File.objects.create(project=project, file=file, version=1)
@@ -267,11 +264,10 @@ def get_trash(request: HttpRequest):
 def set_comment(request: HttpRequest):
     comment = request.POST.get("comment")
     file_id = request.POST.get("file_id")
-    print(file_id)
     try:
         file = File.objects.get(id=file_id)
         project = file.project
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         file.comment = comment
         file.save()
