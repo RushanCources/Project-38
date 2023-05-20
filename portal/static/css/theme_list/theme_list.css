@@ -7,7 +7,7 @@
 .filters {
     padding: 50px 0;
     width: 100%;
-    min-height: 250px;
+    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,17 +61,9 @@
 
 .checkboxes {
     display: flex;
-    margin-bottom: 20px;
-}
-
-.checkboxes > div:not(:last-child) {
-    margin-right: 35px;
-}
-
-.lists {
-    display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .div-list {
@@ -199,7 +191,6 @@
 .theme-block-open {
     transition: max-height 0.1s cubic-bezier(1, 0, 1, 0);
     max-height: 1000px;
-    min-height: 300px;
 }
 
 .theme-block-close {
@@ -471,7 +462,7 @@
 
 .new-theme-textarea {
     min-height: 180px;
-    resize: vertical;
+    resize: none;
     color: #000;
     font-size: 16px;
     line-height: 18px;

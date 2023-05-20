@@ -44,6 +44,8 @@ function new_theme_exit() {
     $('.form-input').html('');
     $('.new-theme-subjects-list').html('');
     $('.new-theme-subjects-input').val('');
+    $('.new-theme-input').val('');
+    $('.new-theme-textarea').val('');
 }
 
 let subjets = ['Английский язык', 'Русский язык', 'Информатика', 'Физика']
