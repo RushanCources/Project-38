@@ -1,11 +1,13 @@
 import string
 import random
+from dataclasses import dataclass, field
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
 from django.contrib import messages
 from .forms import UserRegistrationForm
 from .models import User, Tokens
+from projects.models import Project
  
 def register(request):
     if request.method == 'POST':
@@ -109,7 +111,36 @@ def admin_menu(request):
 
     return render(request, 'admin_menu/admin.html', context={"users": filter_users})
 
+
 def profile(request):
+    @dataclass
+    class ProjectsPack:
+        project: Project
+        student_p_name: str = field(init=False)
+        teacher_p_name: str = field(init=False)
+
+        def __post_init__(self):
+            self.student_p_name = self.project.student.getPName()
+            self.teacher_p_name = self.project.teacher.getPName()
+
+    if request.user.role == 'Ученик':
+        open_projects_st: list[Project] = Project.objects.filter(student = request.user, _status = "on work")
+        close_projects_st: list[Project] = Project.objects.filter(student_id = request.user, _status = "done")
+        request_projects_st: list[Project] = Project.objects.filter(student=request.user, _status = "send request")
+        open_projects_packs = [ProjectsPack(project) for project in open_projects_st]
+        close_projects_packs = [ProjectsPack(project) for project in close_projects_st]
+        request_projects_packs = [ProjectsPack(project) for project in request_projects_st]
+    else:
+
+        open_projects_T = Project.objects.filter(teacher=request.user, _status = "on work")
+        close_projects_T = Project.objects.filter(teacher=request.user, _status = "done")
+        request_projects_T = Project.objects.filter(teacher=request.user, _status = "send request")
+        open_projects_packs = [ProjectsPack(project) for project in open_projects_T]
+        close_projects_packs = [ProjectsPack(project) for project in close_projects_T]
+        request_projects_packs = [ProjectsPack(project) for project in request_projects_T]
+    user_full = request.user.getPName()
+
+
     if request.method == "POST":
         new_password = request.POST.get('new_password')
         old_password = request.POST.get('old_password')
@@ -119,7 +150,7 @@ def profile(request):
         first_name = request.POST.get('first_name_inp')
         middle_name = request.POST.get('middle_name_inp')
         last_name = request.POST.get('last_name_inp')
-        new_avatar = request.FILES.get('avatar_inp')
+        new_avatar = request.FILES['avatar_inp']
 
         if request.POST.get('submit_changes'):
             request.user.email = email
@@ -138,11 +169,17 @@ def profile(request):
                     return redirect('profile')
 
 
-        if request.POST.get('avatar_submit'):
+        if request.POST.get('avatar_submit') and request.FILES:
             request.user.avatar = new_avatar
             request.user.save()
-            return ('profile')
-    return render(request, 'profile/profile.html')
+            return redirect('profile')
+
+    context = {"open_projects_packs": open_projects_packs,
+               "close_projects_packs": close_projects_packs,
+               "user_full": user_full,
+               "request_projects_packs": request_projects_packs,
+               "request_projects_length": len(request_projects_packs)}
+    return render(request, 'profile/profile.html', context)
 
 
 def generate_alphanum_random_string(length):

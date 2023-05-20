@@ -73,6 +73,21 @@
         <label for="add_file">Добавить файл</label>
         <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="file"/>
     </form>
+    {% if status == 'send request' and user.role == 'Учитель'%}
+        <form  method="POST" action="{% url 'approve_project' %}">
+            {% csrf_token %}
+            <input type="hidden" name="project_id" value="{{project_id}}">
+            <label for="approve_project">Одобрить проект</label>
+            <input type="submit" id="approve_project">
+        </form>
+    {% elif status == 'on work' and user.role == 'Учитель' %}
+        <form  method="POST" action="{% url 'close_project' %}">
+            {% csrf_token %}
+            <input type="hidden" name="project_id" value="{{project_id}}">
+            <label for="close_project">Завршить проект</label>
+            <input type="submit" id="close_project">
+        </form>
+    {% endif %}
     <div class="update-file">
         <div>Файл с таким именем уже существует<br>
         Вы хотите заменить его?</div>
