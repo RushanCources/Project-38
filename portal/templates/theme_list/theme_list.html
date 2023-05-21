@@ -16,36 +16,6 @@
                 <button class="search-button"></button>
             </div>
             <div class="checkboxes">
-                <div>
-                    <input type="checkbox" id="open" class="checkbox" name="open">
-                    <label class="checkbox-name" for="open">Свободно</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="close" class="checkbox" name="close">
-                    <label class="checkbox-name" for="close">Занято</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
-                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
-                </div>
-            </div>
-            <div class="lists">
-                <div class="div-list">
-                    <div class="list-name">Учитель</div>
-                    <div class="list-names">
-                        <div class="list-p" name="teacher">Не указано</div>
-                        <ul class="list list">
-                            <li class="list-li">Не указано</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                        </ul>
-                    </div>
-                </div>
-
                 <div class="div-list">
                     <div class="list-name">Предмет</div>
                     <div class="list-names">
@@ -61,6 +31,18 @@
                             <li class="list-li">Предмет</li>
                         </ul>
                     </div>
+                </div>
+                <div>
+                    <input type="checkbox" id="open" class="checkbox" name="open">
+                    <label class="checkbox-name" for="open">Свободно</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="close" class="checkbox" name="close">
+                    <label class="checkbox-name" for="close">Занято</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
+                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
                 </div>
             </div>
         </div>
@@ -81,7 +63,11 @@
     </button>
     {% for theme in themes %}
     <div class="{{ theme.Class_of_subject }}">
-        <span class="theme-subject">{{ theme.Subject }}</span>
+        <ul class="theme-subjects-list">
+            {% for sub in theme.Subject %}
+            <li class="theme-subjects-item">{{ sub }}</li>
+            {% endfor %}
+        </ul>
         <div class="descr">
             <h2 class="theme-name theme-name-close">{{ theme.Name }}</h2>
             <p class="theme-descr theme-descr-close">

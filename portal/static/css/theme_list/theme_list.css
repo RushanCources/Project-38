@@ -7,7 +7,7 @@
 .filters {
     padding: 50px 0;
     width: 100%;
-    min-height: 250px;
+    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,17 +61,9 @@
 
 .checkboxes {
     display: flex;
-    margin-bottom: 20px;
-}
-
-.checkboxes > div:not(:last-child) {
-    margin-right: 35px;
-}
-
-.lists {
-    display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .div-list {
@@ -199,7 +191,6 @@
 .theme-block-open {
     transition: max-height 0.1s cubic-bezier(1, 0, 1, 0);
     max-height: 1000px;
-    min-height: 300px;
 }
 
 .theme-block-close {
@@ -240,10 +231,11 @@
     opacity: 1;
 }
 
-.theme-subject {
+.theme-subjects-list {
     position: absolute;
     top: 10px;
     right: 10px;
+    display: flex;
     font-weight: 700;
     font-size: 24px;
     line-height: 28px;
@@ -388,7 +380,7 @@
     background: linear-gradient(248deg, #051a3f 44%, #07204d 98%);
 }
 
-.sub1 > span:first-child {
+.sub1 > ul:first-child {
     color: #3A4E71;
 }
 
@@ -400,7 +392,7 @@
     background: linear-gradient(248deg, #4e9e56 44%, rgba(92,185,101,1) 98%);
 }
 
-.sub2 > span:first-child {
+.sub2 > ul:first-child {
     color: #3A713F;
 }
 
@@ -470,7 +462,7 @@
 
 .new-theme-textarea {
     min-height: 180px;
-    resize: vertical;
+    resize: none;
     color: #000;
     font-size: 16px;
     line-height: 18px;
@@ -501,6 +493,7 @@
 }
 
 .new-theme-subjects-list {
+    flex-wrap: wrap;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 15px;

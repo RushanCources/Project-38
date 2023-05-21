@@ -39,6 +39,13 @@ function new_theme_open() {
 function new_theme_exit() {
     $('.new-theme-form').css({ 'display': 'none' });
     $('.back-form').css({ 'display': 'none' });
+    $('.new-theme-title').html('Создание новой темы');
+    $('.btn-theme-create').html('Создать');
+    $('.form-input').html('');
+    $('.new-theme-subjects-list').html('');
+    $('.new-theme-subjects-input').val('');
+    $('.new-theme-input').val('');
+    $('.new-theme-textarea').val('');
 }
 
 let subjets = ['Английский язык', 'Русский язык', 'Информатика', 'Физика']
@@ -46,20 +53,23 @@ let subjets = ['Английский язык', 'Русский язык', 'Ин
 let input = document.getElementById('theme_subject');
 
 input.oninput = event => {
-    const { value } = input;
-    let ul = $('.search-result-list');
-    ul.html('');
+    let len = $('.new-theme-subjects-list')[0].childNodes.length;
+    if (len < 3) {
+        const { value } = input;
+        let ul = $('.search-result-list');
+        ul.html('');
 
-    for (let i = 0; i < subjets.length; i++) {
-        if (subjets[i].toLowerCase().match(value.toLowerCase()) && value != '') {
-            let li = document.createElement('li');
+        for (let i = 0; i < subjets.length; i++) {
+            if (subjets[i].toLowerCase().match(value.toLowerCase()) && value != '') {
+                let li = document.createElement('li');
 
-            li.className = 'search-result-item';
-            li.innerHTML = subjets[i];
-            ul.prepend(li);
+                li.className = 'search-result-item';
+                li.innerHTML = subjets[i];
+                ul.prepend(li);
+            }
         }
+        result_item();
     }
-    result_item()
 }
 
 function result_item() {
@@ -94,7 +104,39 @@ function subject_remove() {
     $('.new-theme-subjects-div').on('click', function () {
         let li = this.parentNode;
         subjets.push(li.innerText);
-        console.log(subjets);
         li.remove();
     });
 }
+
+// Редактирование
+
+$('.edit').on('click', function () {
+    let block = this.parentNode;
+    let subs = block.childNodes[1].childNodes;
+    let sub = [];
+    for (let i = 1; i < subs.length; i++) {
+        if (i % 2 != 0) {
+            // sub.push(subs[i].innerHTML);
+            let li = document.createElement('li');
+            let ul = $('.new-theme-subjects-list');
+            let div = document.createElement('div');
+
+            li.innerHTML = subs[i].innerHTML;
+            li.className = 'new-theme-subjects-item';
+            div.className = 'new-theme-subjects-div';
+            ul.prepend(li);
+            li.append(div);
+            subject_remove();
+        }
+    }
+    let title = block.childNodes[3].childNodes[1].innerHTML;
+    let descr = block.childNodes[3].childNodes[3].innerHTML;
+
+
+    new_theme_open();
+    $('.new-theme-title').html('Редактирование темы');
+    $('.new-theme-create').html('Сохранить');
+
+    $('.new-theme-input').val(title);
+    $('.new-theme-textarea').val(descr);
+});

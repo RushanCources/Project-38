@@ -51,7 +51,7 @@
         </nav>
         <a class="user" href="{% url 'profile' %}">
             <p class="username">{{ user.username }}</p>
-            <div class="avatar"></div>
+            <img class="avatar" src="{{ user.avatar.url }}" alt="Аватарка пользователя">
         </a>
     </header>
     <main class="main">
