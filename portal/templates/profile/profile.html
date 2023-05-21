@@ -17,7 +17,6 @@
 {% block content %}
 <h1 class="h1">Профиль</h1>
 <div class="main-div">
-    {% if user.role == 'Ученик' %}
     <div>
         <section class="section main-info">
             <div class="role-div">
@@ -25,235 +24,127 @@
             </div>
             <div class="content">
                 <div class="avatar-image">
-                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
+                    <img class="img" src="{{ user.avatar.url }}" alt="Аватарка пользователя">
                     <button class="pencil"></button>
                 </div>
+                {% if user.role == 'Ученик' %}
                 <div class="list-div">
                     <div class="list-name">Группа</div>
                     <div class="list-p">{{ user.group }}</div>
                 </div>
-                <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
-            </div>
-        </section>
-        <section class="section theme-list">
-            <h2 class="theme-list-title">Выбранные темы</h2>
-            <div class="user-themes">
-                <a href="#">Выбранная тема 1</a>
-                <a href="#">Выбранная тема 2</a>
-            </div>
-            <a href="{% url 'theme_list' %}" class="theme-link">Посмотреть другие темы</a>
-        </section>
-    </div>
-    <section class="section info">
-        <div class="div-input">
-            <span class="span">Фамилия</span>
-            <input class="input" type="text" value="{{ user.last_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Имя</span>
-            <input class="input" type="text" value="{{ user.first_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Отчетво</span>
-            <input class="input" type="text" value="{{ user.middle_name }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Логин</span>
-            <input class="input" type="text" value="{{ user.username }}">
-        </div>
-        <div class="div-input">
-            <span class="span">Эл. почта</span>
-            <input class="input" type="text" value="{{ user.email }}">
-        </div>
-        <div class="line"></div>
-        <div class="div-input">
-            <span class="span">Текущий пароль</span>
-            <input class="input" type="password">
-        </div>
-        <div class="div-input">
-            <span class="span">Новый пароль</span>
-            <input class="input" type="password">
-        </div>
-        <div class="div-input">
-            <span class="span">Повторите пароль</span>
-            <input class="input" type="password">
-        </div>
-        <button class="btn save">Сохранить</button>
-    </section>
-    {% endif %}
-
-    {% if user.role == 'Учитель' or user.role == 'Администратор' %}
-    <div class="teacher-main">
-        <section class="section main-info">
-            <div class="role-div">
-                {{user.role}}
-            </div>
-            <div class="content">
-                <div class="avatar-image">
-                    <img class="img" src="{% static 'img/global/avatar.png' %}" alt="Аватарка пользователя">
-                    <button class="pencil"></button>
-                </div>
+                {% endif %}
                 <button class="btn exit"><a href="{% url 'logout' %}">Выйти</a></button>
             </div>
         </section>
     </div>
     <div>
-        <section class="teacher-projects">
+        <section class="section-projects">
             <div class="projects now-project">
                 <button class="btn btn-projects">Текущие проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project_pack in open_projects_packs %}
                     <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                        <a class="project-name" href="{% url 'projects' %}?id={{project_pack.project.id}}">{{ project.name }}</a>
+                        <span class="project-span">{{ project_pack.student_p_name }}</span>
+                        <span class="project-span">{{ project_pack.project.student.group}} группа</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                    {% endfor %}
+                    {% if user.role == 'Ученик' %}
+                    <li class="project-item create-project">
+                        <a href="{% url 'create' %}">
+                            <span class="project-name create-project-span">Новый проект</span>
+                            <svg width="15" height="15" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                                style="transform: rotate(45deg)">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#5A88FF"></path>
+                            </svg>
+                        </a>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="projects new-project">
+                {% if user.role == 'Учитель' %}
                 <div class="div-new-projects">
                     <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
-                    <div class="score-projects">3</div>
+                    <div class="score-projects">{{ request_projects_length }}</div>
                 </div>
+                {% else %}
+                <div class="score-projects">{{ request_projects_T_length }}</div>
+                <button class="btn btn-projects">Заявки на проекты</button>
+                {%endif%}
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                    {% for project_pack in request_projects_packs %}
+                    <li class="project-item"> <!-- здесь надо подумать -->
+                        <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
+                            <button class="btn project-name">{{ project_pack.project.name }}</button>
+                        </a>
+                        <span class="project-span">{{ project_pack. }}</span>
+                        <span class="project-span">{{ user.group }} группа</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name new-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="projects past-project">
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% for project_pack in close_projects_packs %}
                     <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
+                        <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
+                        <button class="btn project-name now-project-btn">{{ project_pack.project.name }}</button>
+                        </a>
+                        <span class="project-span">{{ project_pack.student_p_name }}</span>
+                        <span class="project-span">{{ project_pack.project.student.group}} группа</span>
                         <span class="project-span">2049г</span>
                     </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item">
-                        <button class="btn project-name now-project-btn">Название проекта</button>
-                        <span class="project-span">Кабанин Д.А.</span>
-                        <span class="project-span">14 группа</span>
-                        <span class="project-span">2049г</span>
-                    </li>
-                    <li class="project-item more">
-                        <span class="project-name more-span">загрузить ещё</span>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
         </section>
-        <section class="section info-teacher">
+        <section class="section info">
             <div class="div-input">
                 <span class="span">Фамилия</span>
-                <input class="input" type="text" value="{{ user.last_name }}">
+                <input class="input" type="text" value="{{ user.last_name }}" name="last_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Имя</span>
-                <input class="input" type="text" value="{{ user.first_name }}">
+                <input class="input" type="text" value="{{ user.first_name }}" name="first_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Отчетво</span>
-                <input class="input" type="text" value="{{ user.middle_name }}">
+                <input class="input" type="text" value="{{ user.middle_name }}" name="middle_name_inp">
             </div>
             <div class="div-input">
                 <span class="span">Логин</span>
-                <input class="input" type="text" value="{{ user.username }}">
+                <input class="input" type="text" value="{{ user.username }}" name="username_inp">
             </div>
             <div class="div-input">
                 <span class="span">Эл. почта</span>
-                <input class="input" type="text" value="{{ user.email }}">
+                <input class="input" type="text" value="{{ user.email }}" name="email_inp">
             </div>
             <div class="line"></div>
             <div class="div-input">
-                <span class="span">Текущий пароль</span>
-                <input class="input" type="password">
+                <span class="span">Новый пароль</span>
+                <input class="input" type="password" name="new_password">
             </div>
             <div class="div-input">
-                <span class="span">Новый пароль</span>
-                <input class="input" type="password">
+                <span class="span">Текущий пароль</span>
+                <input class="input" type="password" name="old_password">
             </div>
             <div class="div-input">
                 <span class="span">Повторите пароль</span>
-                <input class="input" type="password">
+                <input class="input" type="password" name="repeat_password">
             </div>
-            <button class="btn save">Сохранить</button>
+            <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
         </section>
     </div>
-    {% endif %}
 </div>
-<form class="new-avatar-div" method="POST">
+<form class="new-avatar-div" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
     <h3 class="new-avatar-title">Загрузка новой фотографии</h3>
     <span class="new-avatar-disclaimer">Учитывайте тот факт, что фото будут видеть ВСЕ пользователи сайта!</span>
     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-avatar-close">
@@ -269,84 +160,14 @@
                 fill="#103A84" />
         </svg>
         <div class="photo">
-            <input type="file" id="file-input" multiple accept="image/png, image/gif, image/jpeg">
+            <input type="file" name="avatar_inp" id="file-input" multiple accept="image/png, image/gif, image/jpeg">
             <label for="file-input">Выберите файл</label>
             <span>или перетащите его сюда</span>
         </div>
     </div>
-    <button class="btn new-avatar-btn">Загрузить</button>
+    <input type="submit" value="Загрузить" name="avatar_submit" class="btn new-avatar-btn" />
 </form>
-<form method="POST" class="projects-form now-projects-form">
-    <h2 class="project-title-form">Название проекта</h2>
-    <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="now-projects-close">
-        <path
-            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-            fill="#000000"></path>
-    </svg>
-    <div class="project-main-info">
-        <span class="project-span-form">Кабанин Денис 14 группа</span>
-        <div class="dot"></div>
-        <span class="project-span-form">Проект</span>
-        <span class="project-span-form">Предметная область</span>
-    </div>
-    <p class="paragraph project-problem">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi qui</p>
-    <p class="paragraph project-relevance">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi quier</p>
-    <p class="paragraph project-mark">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt</p>
-    <ol class="task-list">
-        <li class="task-item">Первая задача</li>
-        <li class="task-item">Вторая задача</li>
-        <li class="task-item">Третья задача</li>
-        <li class="task-item">Сотая задача</li>
-    </ol>
-    <p class="paragraph project-result">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt</p>
-    <button class="btn project-btn-form">Завершить проект</button>
-</form>
-<form method="POST" class="projects-form new-projects-form">
-    <h2 class="project-title-form">Название проекта</h2>
-    <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="new-projects-close">
-        <path
-            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-            fill="#000000"></path>
-    </svg>
-    <div class="project-main-info">
-        <span class="project-span-form">Кабанин Денис 14 группа</span>
-        <div class="dot"></div>
-        <span class="project-span-form">Проект</span>
-        <span class="project-span-form">Предметная область</span>
-    </div>
-    <p class="paragraph project-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus expedita
-        suscipit, maiores quia nulla voluptatem vitae beatae non aliquid molestiae, modi veniam voluptatum dolorum
-        ducimus libero et numquam. Molestiae, aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam
-        aperiam, culpa excepturi quo, dolores illo ipsam at ducimus ad incidunt pariatur accusantium beatae repellendus,
-        delectus itaque modi qui tempora repudiandae? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Laudantium accusantium debitis culpa quibusdam ratione rerum est veritatis repellendus optio sit, odio nihil
-        earum doloremque quae nulla blanditiis sequi numquam. Alias! Lorem ipsum, dolor sit amet consectetur adipisicing
-        elit. Pariatur molestiae autem, temporibus possimus vel fuga eaque quos enim non perferendis deserunt officiis
-        quia sunt adipisci hic nulla. Ut, commodi qui</p>
-    <button class="btn project-btn-form">Принять проект</button>
-</form>
+
 <div class="back-form"></div>
 <script src="{% static 'js/global/list.js' %}"></script>
 <script src="{% static 'js/profile/profile.js' %}"></script>
