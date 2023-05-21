@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -6,6 +8,7 @@ from django.http.request import HttpRequest
 from management.models import User
 from projects.models import Project, File
 
+
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     if project_id is None:
@@ -13,20 +16,50 @@ def index(request: HttpRequest):
     try:
         project = Project.objects.get(id=project_id)
         files = File.objects.filter(project=project, version=1)
-        names = [file.file.name.split('/')[-1] for file in files]
-        files_and_names = zip(files, names)
+        names = [file_obj.file.name.split('/')[-1] for file_obj in files]
+
+        @dataclass
+        class FilePack:
+            file: File
+            name: str
+
+        old_files: list[list[FilePack]] = []
+        for file in files:
+            old_files.append([])
+            if file.previous_file is not None:  # Проверка на наличие предыдущего файла
+                prev_file: File = file.previous_file
+                file_pack = FilePack(prev_file, prev_file.file.name.split('/')[-1])
+                old_files[-1].append(file_pack)
+                while prev_file.previous_file is not None:  # Запуск цикла, пока у предыдущего файла есть предыдущий файл
+                    prev_file: File = file.previous_file
+                    file_pack = FilePack(prev_file, prev_file.file.name.split('/')[-1])
+                    old_files[-1].append(file_pack)
+
+        files_packs = []
+
+        @dataclass
+        class BranchFilePack:
+            file: File
+            name: str
+            old_files: list[FilePack]
+
+        for i in range(len(files)):
+            files_packs.append(BranchFilePack(files[i], names[i], old_files[i]))
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
-                   'files_and_names': files_and_names
+                   'files_packs': files_packs,
+                   'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    }
+
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
@@ -77,7 +110,7 @@ def check_post_request(*need_values):
         def wrapper(request):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
-            if request.user.role != "Ученик":
+            if not request.user.is_authenticated:
                 return render(request, "NotEnoughPermissions.html")
             for value in need_values:
                 request_value = request.POST.get(value, -1)
@@ -88,8 +121,8 @@ def check_post_request(*need_values):
     return decorator
 
 
-def check_what_user_have_access(request: HttpRequest, project: Project):
-    return request.user.id != project.teacher.id and request.user.id != project.student.id
+def check_what_user_not_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
+    return request.user.id != project.teacher.id and request.user.id != project.student.id and request.user.role != 'Администратор'
 
 
 @check_post_request('teacher', 'name', "subject")
@@ -118,12 +151,11 @@ def create(request: HttpRequest):
 
 @check_post_request('project')
 def correct_project(request: HttpRequest):
-    check_post_request(request, 'project')
     project_id = request.POST.get("project")
     try:
-        project_id = int(project_id)
+        project_id = project_id
         project = Project.objects.get(id=project_id)
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
@@ -145,18 +177,18 @@ def update_file(request: HttpRequest):
     file_id = request.POST.get('file_id')
     file = request.FILES.get('file')
     try:
-        file_object = File.objects.get(id=file_id)
+        file_object: File = File.objects.get(id=file_id)
         project = file_object.project
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        file_object.update_file()
-        file_object.file = file
+        file_object.update_file(file)
         return redirect(f"{reverse('projects')}?id={project.id}")
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
@@ -166,7 +198,7 @@ def delete_file(request: HttpRequest):
     try:
         file = File.objects.get(id=file_id)
         project = file.project
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         file.move_to_trash()
         return redirect(f"{reverse('projects')}?id={project.id}")
@@ -182,7 +214,7 @@ def download_file(request: HttpRequest):
         return render(request, "WrongData.html")
     try:
         file_object = File.objects.get(id=file_id)
-        if check_what_user_have_access(request, file_object.project):
+        if check_what_user_not_have_access(request, file_object.project):
             return render(request, "NotEnoughPermissions.html")
         filepath = file_object.file.path
         return FileResponse(open(filepath, 'rb'))
@@ -195,18 +227,19 @@ def download_file(request: HttpRequest):
 @check_post_request("project_id")
 def upload_file(request: HttpRequest):
     project_id = request.POST.get("project_id")
-    files = request.FILES.getlist("files")
+    file = request.FILES.get("file")
     try:
         project = Project.objects.get(id=project_id)
-        if check_what_user_have_access(request, project):
+        if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        for file in files:
-            file_object = File.objects.create(project=project, file=file, version=1)
-            file_object.save()
+        print(file)
+        file_object = File.objects.create(project=project, file=file, version=1)
+        file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
+        print(e)
         return render(request, "FatalError.html")
 
 
@@ -221,6 +254,49 @@ def get_trash(request: HttpRequest):
         files_and_names = zip(files, names)
         context = {"files": files_and_names}
         return render(request, "projects/trash.html", context=context)
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+
+@check_post_request('comment', "file_id")
+def set_comment(request: HttpRequest):
+    comment = request.POST.get("comment")
+    file_id = request.POST.get("file_id")
+    try:
+        file = File.objects.get(id=file_id)
+        project = file.project
+        if check_what_user_not_have_access(request, project):
+            return render(request, "NotEnoughPermissions.html")
+        file.comment = comment
+        file.save()
+        return redirect(f"{reverse('projects')}?id={project.id}")
+    except File.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+
+@check_post_request('project_id')
+def approve_project(request: HttpRequest):
+    project_id = request.POST.get('project_id')
+    try:
+        project = Project.objects.get(id=project_id)
+        project.set_status('on work')
+        return redirect(f"{reverse('projects')}?id={project.id}")
+    except Project.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+@check_post_request('project_id')
+def close_project(request: HttpRequest):
+    project_id = request.POST.get('project_id')
+    try:
+        project = Project.objects.get(id=project_id)
+        project.set_status('done')
+        return redirect(f"{reverse('projects')}?id={project.id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
