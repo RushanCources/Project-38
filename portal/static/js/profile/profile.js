@@ -58,6 +58,7 @@ $('.btn-new-projects').on('click', function() {
     }
 });
 
+// set open and close to now btn
 $('.now-projects-close').on('click', function() {
     $('.now-projects-form').css({'display':'none'});
     $('.back-form').css({'display':'none'});
@@ -68,6 +69,7 @@ $('.now-project-btn').on('click', function(){
     $('.back-form').css({'display':'block'});
 });
 
+// set open and close to new btn
 $('.new-projects-close').on('click', function() {
     $('.new-projects-form').css({'display':'none'});
     $('.back-form').css({'display':'none'});

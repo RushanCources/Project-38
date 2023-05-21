@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% load js %}
+<link rel="stylesheet" href="{% static 'css/projects/project_page.css' %}">
 
+{% endblock head %}
 
 {% block content %}
-{% load static %}
 <title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
     <form method="POST" action="{% url 'correct_project' %}" id="form_name">
         {% csrf_token %}
         <input type="hidden" name="project" value={{project_id}}>
         <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
     </form>
-    <button onclick="return edit(this, 'name')" style="background-color: #FFFFF">
+    <button onclick="return edit(this, 'name')" style="background-color: #FFFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <div>{{teacher}}</div>
@@ -20,39 +24,76 @@
         <input type="hidden" name="project" value={{project_id}}>
         <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
     </form>
-    <button onclick="return edit(this, 'description')" style="background-color: #FFFFF">
+    <button onclick="return edit(this, 'description')" style="background-color: #FFFFFF">
         <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
     </button>
     <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
-    {% for file, name in files_and_names %}
+    {% for files_pack in files_packs %}
         <div>
-            <div>{{name}}</div>
-            <form  method="POST" action="{% url 'update_file' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" name="file_id" value={{file.id}} />
-                <div>
-                <label for="input-file{{file.id}}">Обновить файл</label>
-                <input type="file" id="input-file{{file.id}}" name="file" style="display:none; visibility:hidden"/>
-                <!-- В стили потом нужно для этой кнопки перенести два свойства display:none и visibility:hidden
-                    с теми атрибутами, что сейчас прикручены напрямую -->
+            <div>{{files_pack.name}}</div>
+            <button onclick="show_window('comments{{files_pack.file.id}}')">Коммнетарии</button>
+            <div id="comments{{files_pack.file.id}}" class="comment-window">
+            {% if files_pack.file.comment is not None %}
+                <div>{{files_pack.file.comment}}</div>
+            {%else%}
+                 <form method="POST" action="{% url 'add_comment' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="file_id" value={{files_pack.file.id}}>
+                    <textarea name="comment" class="form-control" placeholder="Введите комментарий"></textarea>
+                    <label for="delete_file{{files_pack.file.id}}">Отправить комментарий</label>
+                    <input type="submit">
+                </form>
+            {%endif%}
+                <button onclick="exit('comments{{files_pack.file.id}}')">Выйти</button>
             </div>
-            </form>
             <form  method="POST" action="{% url 'delete_file' %}">
                 {% csrf_token %}
-                <input type="hidden" name="file_id" value={{file.id}} />
-                <label for="delete_file{{file.id}}">Удалить файл</label>
-                <input type="submit" id="delete_file{{file.id}}" name="file" style="display:none; visibility:hidden"/>
+                <input type="hidden" name="file_id" value={{files_pack.file.id}} />
+                <label for="delete_file{{files_pack.file.id}}">Удалить файл</label>
+                <input type="submit" id="delete_file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
             </form>
-            <a href="{% url 'download_file' %}?file_id={{file.id}}">Загрузить файл</a>
+            <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
+            <button class="btn-old-files" onclick="show_window('old-files{{files_pack.file.id}}')">Предыдущие версии файла</button>
+            <div id="old-files{{files_pack.file.id}}" class="old-files">
+                <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
+                <div>Предыдущие версии файла<br></div>
+                {% for old_file in files_pack.old_files %}
+                <div>{{old_file.name}}</div>
+                <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}">Загрузить файл</a>
+                {% endfor %}
+            </div>
         </div>
+
     {% endfor %}
 
-    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data">
+    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data" id="add-file">
         {% csrf_token %}
+        <input type="hidden" name="file_id" value=-1>
         <input type="hidden" name="project_id" value={{project_id}}>
         <label for="add_file">Добавить файл</label>
-        <input type="file" id="add_file" onchange="this.parentElement.submit()" style="display:none; visibility:hidden" name="files"/>
+        <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="file"/>
     </form>
+    {% if status == 'send request' and user.role == 'Учитель'%}
+        <form  method="POST" action="{% url 'approve_project' %}">
+            {% csrf_token %}
+            <input type="hidden" name="project_id" value="{{project_id}}">
+            <label for="approve_project">Одобрить проект</label>
+            <input type="submit" id="approve_project">
+        </form>
+    {% elif status == 'on work' and user.role == 'Учитель' %}
+        <form  method="POST" action="{% url 'close_project' %}">
+            {% csrf_token %}
+            <input type="hidden" name="project_id" value="{{project_id}}">
+            <label for="close_project">Завршить проект</label>
+            <input type="submit" id="close_project">
+        </form>
+    {% endif %}
+    <div class="update-file">
+        <div>Файл с таким именем уже существует<br>
+        Вы хотите заменить его?</div>
+        <button onclick="update_file()">Да</button>
+        <button onclick="close_update_window()">Нет</button>
+    </div>
     <script>
 
         function edit(elem, id){
@@ -68,5 +109,11 @@
             let form = document.getElementById("form_"+id);
             form.submit();
             }
+        files_names = {{files_names | js }};
+        update_files_url = '{% url 'update_file' %}'
     </script>
+
+    <div class="back-form"></div>
+
+    <script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}
