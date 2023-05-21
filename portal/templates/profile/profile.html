@@ -127,40 +127,43 @@
             {% endif %}
         </section>
         <section class="section info">
-            <div class="div-input">
-                <span class="span">Фамилия</span>
-                <input class="input" type="text" value="{{ user.last_name }}" name="last_name_inp">
-            </div>
-            <div class="div-input">
-                <span class="span">Имя</span>
-                <input class="input" type="text" value="{{ user.first_name }}" name="first_name_inp">
-            </div>
-            <div class="div-input">
-                <span class="span">Отчетво</span>
-                <input class="input" type="text" value="{{ user.middle_name }}" name="middle_name_inp">
-            </div>
-            <div class="div-input">
-                <span class="span">Логин</span>
-                <input class="input" type="text" value="{{ user.username }}" name="username_inp">
-            </div>
-            <div class="div-input">
-                <span class="span">Эл. почта</span>
-                <input class="input" type="text" value="{{ user.email }}" name="email_inp">
-            </div>
-            <div class="line"></div>
-            <div class="div-input">
-                <span class="span">Новый пароль</span>
-                <input class="input" type="password" name="new_password">
-            </div>
-            <div class="div-input">
-                <span class="span">Текущий пароль</span>
-                <input class="input" type="password" name="old_password">
-            </div>
-            <div class="div-input">
-                <span class="span">Повторите пароль</span>
-                <input class="input" type="password" name="repeat_password">
-            </div>
-            <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
+            <form method="post">
+                {% csrf_token %}
+                <div class="div-input">
+                    <span class="span">Фамилия</span>
+                    <input class="input" type="text" value="{{ user.last_name }}" name="last_name_inp">
+                </div>
+                <div class="div-input">
+                    <span class="span">Имя</span>
+                    <input class="input" type="text" value="{{ user.first_name }}" name="first_name_inp">
+                </div>
+                <div class="div-input">
+                    <span class="span">Отчетво</span>
+                    <input class="input" type="text" value="{{ user.middle_name }}" name="middle_name_inp">
+                </div>
+                <div class="div-input">
+                    <span class="span">Логин</span>
+                    <input class="input" type="text" value="{{ user.username }}" name="username_inp">
+                </div>
+                <div class="div-input">
+                    <span class="span">Эл. почта</span>
+                    <input class="input" type="text" value="{{ user.email }}" name="email_inp">
+                </div>
+                <div class="line"></div>
+                <div class="div-input">
+                    <span class="span">Текущий пароль</span>
+                    <input class="input" type="password" name="old_password">
+                </div>
+                <div class="div-input">
+                    <span class="span">Новый пароль</span>
+                    <input class="input" type="password" name="new_password">
+                </div>
+                <div class="div-input">
+                    <span class="span">Повторите пароль</span>
+                    <input class="input" type="password" name="repeat_password">
+                </div>
+                <input class="btn save" type="submit" value="Сохранить" name="submit_changes">
+            </form>
         </section>
     </div>
 </div>
