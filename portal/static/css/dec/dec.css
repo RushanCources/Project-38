@@ -164,7 +164,7 @@ body {
     max-height: 9.5em;
 }
 
-@media (max-width: 1500px){
+@media (max-width: 2000px){
 
     /* стили для xs-устройств */
     .flex {
@@ -181,39 +181,5 @@ body {
 
     .IB{
         border-radius: 0 8px 8px 0;
-    }
-}
-
-@media (min-width: 2200px) and (max-width:3000px) {
-
-    /* стили для fhd-устройств */
-    .flex {
-        width: 30.1%;
-        min-height: 11em;
-        max-height: 17em;
-        margin: 1.5%;
-        border-radius: 12px;
-    }
-
-    .main {
-        width: 86%;
-        margin-left: 7%;
-    }
-}
-
-@media (min-width: 3000px) {
-
-    /* стили для uhd-устройств */
-    .flex {
-        width: 22.5%;
-        min-height: 12em;
-        max-height: 18em;
-        margin: 1.25%;
-        border-radius: 12px;
-    }
-
-    .main {
-        width: 94%;
-        margin-left: 3%;
     }
 }

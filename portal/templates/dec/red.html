@@ -9,14 +9,22 @@
 
 <form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
     {% csrf_token %}
-    {{ form.date_of_expiring }}
-    {{ form.title }}
+    <div class="td">
+        {{ form.title }}
+        {{ form.date_of_expiring }}
+    </div>
     {{ form.body }}
-    {{ form.is_pinned }}
-    {{ form.image_url }}
+    <div class="pin">
+        <p>Закрепить</p>
+        {{ form.is_pinned }}
+    </div>
+    <div class="imur">
+        <p>Ссылка на ваше изображение</p>
+        {{ form.image_url }}
+    </div>
     {{ form.files }} 
     {{ form.file_id_to_delete }}
-    <input type="submit" value="Разместить" />
+    <input class="subm" type="submit" value="Разместить" />
     <!-- <div></div> -->
 </form>
 

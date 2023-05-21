@@ -6,7 +6,7 @@ from .models import Announcement
 
 class AnnouncementForm(forms.Form):
     date_of_expiring = forms.DateField(label='', widget=forms.DateInput(attrs={'class': 'date', 'type': 'date'}), required=False)
-    title = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'class': 'title', 'placeholder' : 'Имя объявления'}))
+    title = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'class': 'title', 'placeholder' : 'Заголовок объявления'}))
     body = forms.CharField(label='', widget=forms.Textarea(attrs={'class': 'body'}))
     is_pinned = forms.BooleanField(label='Закрепить', required=False)
     image_url = forms.FilePathField(label='Выбрать обложку', path='static/img/announcements/covers', required=False, widget=forms.TextInput(attrs={'class': 'imurl'}))
