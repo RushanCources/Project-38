@@ -35,6 +35,17 @@ def token_page(request):
 
 def admin_menu(request):
     filter_users=User.objects.filter(deactivate = 0)
+    pages = []
+
+    if len(filter_users) % 20 > 0:
+        pages_count=len(filter_users) // 20 + 1
+    else:
+        pages_count=len(filter_users) // 20
+
+    for i in range(0,pages_count):
+        pages.append(i+1)
+
+
     if request.method == "POST":
         user_id = request.POST.get('user_id_edit')
         user_id_delete = request.POST.get('user_id_delete')
@@ -50,6 +61,8 @@ def admin_menu(request):
         role_filter = request.POST.get('role_filter')
         group_filter = request.POST.get('group_filter')
         deactivate_filter = request.POST.get('deactivate_filter')
+        role_filter_have = False
+        group_filter_have = False
 
         if request.POST.get('delete_butt'):
             user=User.objects.get(id = user_id_delete).delete()
@@ -72,27 +85,20 @@ def admin_menu(request):
                 token.save()
             return redirect('admin_menu')
 
-        if request.POST.get('search_butt'):
-            count_users = User.objects.last().pk
-            if search_names != '':
-                for i in range(1,count_users):
-                    full_name = User.objects.get(id = i).first_name + User.objects.get(id = i).middle_name + User.objects.get(id = i).last_name
-                    if search_names.replace(" ", "").lower() in full_name.lower():
-                        new_filter_users += User.objects.get(id = i)
-            if new_filter_users != None:
-                return render(request, 'admin_menu/admin.html', context={"users" : new_filter_users})
-            else:
-                return redirect('admin_menu')
-
-
         if request.POST.get('filter_submit'):
             if role_filter !='' and group_filter !='':
                 filter_users=User.objects.filter(role = role_filter, group = group_filter)
+                role_filter_have = True
+                group_filter_have = True
             if role_filter !='' and group_filter =='':
                 filter_users=User.objects.filter(role = role_filter)
+                role_filter_have = True
+                group_filter_have = False
             if role_filter =='' and group_filter !='':
                 filter_users=User.objects.filter(group = group_filter)
-            return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
+                group_filter_have = True
+                role_filter_have = False
+            return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "group_filter_have" : group_filter_have, "role_filter_have" : role_filter_have, "group_filter": group_filter, "role_filter": role_filter, "pages": pages})
 
         if user_id == "-1":
             last_user = User.objects.last()
@@ -126,7 +132,7 @@ def admin_menu(request):
             
             return redirect('admin_menu')
 
-    return render(request, 'admin_menu/admin.html', context={"users" : filter_users})
+    return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "pages": pages})
 
 
 def profile(request):

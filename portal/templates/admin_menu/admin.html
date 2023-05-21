@@ -9,7 +9,7 @@
 
 <div class="main-nav">
     <div class="top-nav">
-        <form class="search" method="POST" action="#">
+        <form class="search" method="POST">
             {% csrf_token %}
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
             <input class="search-button" type="submit" name="search_butt" value="">
@@ -21,7 +21,11 @@
             <div class="div-list">
                 <p class="list-name">Группа:</p>
                 <div class="list-names">
+                    {% if group_filter_have %}
+                    <p class="list-p" id="filter-group">{{ group_filter }}</p>
+                    {% else %}
                     <p class="list-p" id="filter-group">Не указано</p>
+                    {% endif %}
                     <ul class="list">
                         <li class="list-li">Не указано</li>
                         <li class="list-li">1</li>
@@ -53,7 +57,11 @@
             <div class="div-list">
                 <p class="list-name">Роль:</p>
                 <div class="list-names">
+                    {% if role_filter_have %}
+                    <p class="list-p" id="filter-role">{{ role_filter }}</p>
+                    {% else %}
                     <p class="list-p" id="filter-role">Не указано</p>
+                    {% endif %}
                     <ul class="list sub-list">
                         <li class="list-li">Не указано</li>
                         <li class="list-li">Ученик</li>
@@ -124,9 +132,9 @@
                 </svg>
             </a>
         </li>
-        <li class="pages-item"><a href="#" class="pages-link">1</a></li>
-        <li class="pages-item"><a href="#" class="pages-link">2</a></li>
-        <li class="pages-item"><a href="#" class="pages-link">3</a></li>
+        {% for page in pages %}
+        <li class="pages-item"><a href="#" class="pages-link">{{ page }}</a></li>
+        {% endfor %}
         <li class="pages-item">
             <a href="#" class="pages-link arrow-right">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px" style="transform: rotate(180deg);">
