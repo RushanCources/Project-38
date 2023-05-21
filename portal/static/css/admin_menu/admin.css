@@ -1,3 +1,16 @@
+.btn {
+    padding: 10px 25px;
+    box-sizing: border-box;
+    border: 2px solid #1f3f76;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 5px;
+    background: #fff;
+    transition: 0.3s background;
+}
+
 .main {
     min-width: 60%;
     max-width: 1200px;
@@ -6,15 +19,13 @@
 
 .main-nav {
     position: relative;
-    display: block;
-    max-width: 600px;
     min-width: 50%;
     margin: 0 auto;
 }
 
 .search{
     margin-bottom: 20px;
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,20 +53,79 @@
     border: none;
     background: #1f3f76 url('../../img/admin_menu/search.svg') no-repeat 40% center;
     cursor: pointer;
-
 }
 
-/* Выдвигающиеся списки */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* tokens */
+
+.btn-token, .btn-filter {
+    background: #1f3f76;
+    color: #fff;
+}
+
+.btn-token:hover, .btn-filter:hover {
+    background-color: #224581;
+}
+
+.btn-token:active, .btn-filter:active {
+    background-color: #142b53;
+}
+
+.create-tokens {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 45px;
+    min-height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 5px;
+}
+
+.token-span {
+    display: block;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.token-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.token-input {
+    display: block;
+    width: 40%;
+    margin: 50px auto;
+    padding: 5px 15px;
+    border: 2px solid #1f3f76;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* фильтр */
 
 .filter {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding-right: 40px;
+    align-items: center;
 }
 
 .div-list {
-    width: 48%;
+    width: 30%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,12 +178,13 @@
     color: #121212;
     background: #fff url('../../img/global/arrow-down.svg') no-repeat 95% center;
     cursor: pointer;
-    
+
 }
 
 .block {
     display: none;
     position: absolute;
+
     top: 0;
     left: 0;
     bottom: 0;
@@ -136,6 +207,20 @@
 
 .list-li:hover {
     background: #ccc;
+}
+
+.input-filter {
+    height: 0px;
+    position: absolute;
+    opacity: 0;
+}
+
+.filter-checkbox {
+    margin-left: 5px;
+}
+
+.label-checkbox {
+    cursor: pointer;
 }
 
 /* Таблица */
@@ -188,6 +273,40 @@
     display: none;
 }
 
+/* Переключение страницы */
+
+.pages {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.pages-list {
+    display: flex;
+}
+
+.pages-item {
+    font-size: 18px;
+    color: #000;
+}
+
+.pages-item:not(:last-child) {
+    margin-right: 15px;
+}
+
+.pages-link > svg {
+    fill: inherit;
+}
+
+.pages-link {
+    transition: 0.3s color linear, 0.3s fill linear;
+}
+
+.pages-link:hover {
+    color: #1f3f76;
+    fill: #1f3f76;
+}
+
 /* Поле для добавления нового юзера */
 
 .new-user-block {
@@ -201,7 +320,6 @@
     padding: 20px 45px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,.4);
 }
 
 .back-form {
@@ -212,6 +330,7 @@
     z-index: 2;
     width: 100vw;
     height: 100vh;
+    background: #00000072;
 
 }
 
@@ -276,7 +395,7 @@
     flex-direction: column;
 }
 
-.new-user-p, .delete-p {
+.new-user-p, .delete-p, .token-p {
     margin: 0;
     padding: 10px 0;
     text-align: center;
@@ -304,19 +423,6 @@
     justify-content: space-between;
 }
 
-.btn {
-    padding: 10px 25px;
-    box-sizing: border-box;
-    border: 2px solid #1f3f76;
-    outline: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 5px;
-    background: #fff;
-    transition: 0.3s background;
-}
-
 .exit {
     color: #1f3f76;
 }
@@ -330,16 +436,16 @@
     color: #fff;
 }
 
-.create, .delete-btn {
+.create, .delete-btn, .btn-token-create {
     background-color: #1f3f76;
     color: #fff;
 }
 
-.create:hover, .delete-btn:hover {
+.create:hover, .delete-btn:hover, .btn-token-create:hover {
     background: #142b53;
 }
 
-.create:active, .delete-btn:active {
+.create:active, .delete-btn:active, .btn-token-create:active {
     background-color: #F5F5F5;
     color: #1f3f76;
 }
@@ -361,11 +467,7 @@
     pointer-events: none;
 }
 
-.form-id {
-    display: none;
-}
-
-.form-group {
+.form-id, .form-group, .input-password {
     display: none;
 }
 
@@ -385,11 +487,17 @@
     transform: translate(-50%,-50%);
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 40%);
 }
 
 .delete-btns {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.user-id {
+    height: 0;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
 }

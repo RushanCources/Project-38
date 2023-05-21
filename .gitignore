@@ -1,5 +1,4 @@
-.venv
-db.sqlite3
-portal/.venv
+Assets LTE
+.venv/
 portal/db.sqlite3
-*.sqlite3
+portal/db.sqlite3

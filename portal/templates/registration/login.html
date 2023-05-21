@@ -12,34 +12,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+    <script src="{% static 'js/global/jquery.js' %}"></script>
 </head>
 
 <body>
-    {% block content %}
-    {% if form.errors %}
-    <p class="error">Неправильный логин или пароль</p>
-    {% endif %}
+    <div class="content">
+        {% if form.errors %}
+        <p class="error">Неправильный логин или пароль</p>
+        {% endif %}
 
-    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-    <form action="{% url 'login' %}" method="post" class="form">
-        {% csrf_token %}
-        <h1 class="title">Добро пожаловать!</h1>
-        <div class="form-div">
-            <div>
-                <span class="input-p">Логин:</span>
-                {{ form.username }}
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+        <form action="{% url 'login' %}" method="post" class="form">
+            {% csrf_token %}
+            <h1 class="title">Добро пожаловать!</h1>
+            <div class="form-div">
+                <div>
+                    <span class="input-p">Логин:</span>
+                    {{ form.username }}
+                </div>
+                <div>
+                    <span class="input-p">Пароль:</span>
+                    {{ form.password }}
+                </div>
             </div>
-            <div>
-                <span class="input-p">Пароль:</span>
-                {{ form.password }}
+            <div class="buttons">
+                <button type="submit" class="btn btn-success">Войти</button>
+                <a href="{% url 'token_page' %}" class="register">Регистрация</a>
             </div>
-        </div>
-        <div class="buttons">
-            <button type="submit" class="btn btn-success">Войти</button>
-            <a href="{% url 'token_page' %}" class="register">Регистрация</a>
-        </div>
-    </form>
-    {% endblock %}
+        </form>
+    </div>
 </body>
 
 </html>

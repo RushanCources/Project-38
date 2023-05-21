@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static%}
+{% load static %}
 <html lang="ru">
 
 <head>
@@ -15,17 +15,7 @@
 </head>
 
 <body>
-
-    {% block content %}
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-
-    {% if messages %}
-    <ul class="errorlist">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
 
     <form action="{% url 'register' %}" method="post" class="form">
         <h1 class="title">Регистрация</h1>
@@ -33,9 +23,15 @@
             {{ user_form.as_div }}
         </div>
         {% csrf_token %}
+        {% if messages %}
+        <ul class="errorlist">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <input type="submit" class="btn btn-success" value="Создать аккаунт">
     </form>
-    {% endblock %}
 </body>
 
 </html>

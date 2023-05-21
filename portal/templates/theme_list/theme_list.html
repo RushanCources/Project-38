@@ -16,36 +16,6 @@
                 <button class="search-button"></button>
             </div>
             <div class="checkboxes">
-                <div>
-                    <input type="checkbox" id="open" class="checkbox" name="open">
-                    <label class="checkbox-name" for="open">Свободно</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="close" class="checkbox" name="close">
-                    <label class="checkbox-name" for="close">Занято</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
-                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
-                </div>
-            </div>
-            <div class="lists">
-                <div class="div-list">
-                    <div class="list-name">Учитель</div>
-                    <div class="list-names">
-                        <div class="list-p" name="teacher">Не указано</div>
-                        <ul class="list list">
-                            <li class="list-li">Не указано</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                            <li class="list-li">учитель</li>
-                        </ul>
-                    </div>
-                </div>
-
                 <div class="div-list">
                     <div class="list-name">Предмет</div>
                     <div class="list-names">
@@ -62,63 +32,96 @@
                         </ul>
                     </div>
                 </div>
+                <div>
+                    <input type="checkbox" id="open" class="checkbox" name="open">
+                    <label class="checkbox-name" for="open">Свободно</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="close" class="checkbox" name="close">
+                    <label class="checkbox-name" for="close">Занято</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="past_year" class="checkbox" name="past_year">
+                    <label class="checkbox-name" for="past_year">Прошлых лет</label>
+                </div>
             </div>
         </div>
         <div class="right">
-            <button class="btn new_theme">Новая тема</button>
             <button class="btn filter_btn" type="submit">Применить</button>
         </div>
     </form>
 </div>
 
 <div class="themes">
-    <div class="theme-block theme-block-close sub1">
-        <span class="theme-subject">Английский язык</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-open" title="Данная тема ещё не занята">Свободно</span>
-        </div>
+    <button class="btn new-theme" onclick="new_theme_open()">
+        Новая тема
+        <svg class="new-theme-plus" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                fill="inherit"></path>
+        </svg>
+    </button>
+    {% for theme in themes %}
+    <div class="{{ theme.Class_of_subject }}">
+        <ul class="theme-subjects-list">
+            {% for sub in theme.Subject %}
+            <li class="theme-subjects-item">{{ sub }}</li>
+            {% endfor %}
+        </ul>
         <div class="descr">
-            <h2 class="theme-name">Название какой-то темы</h2>
-            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
-                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
-                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
-                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
-                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
-                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
-                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
+            <h2 class="theme-name theme-name-close">{{ theme.Name }}</h2>
+            <p class="theme-descr theme-descr-close">
+                {{ theme.Descript }}
+            </p>
             <button class="theme-btn">Подробнее</button>
+            <div class="info">
+                <a class="info-link" href="#" title="Автор темы">{{ theme.Author }}</a>
+                <span class="{{ theme.Class_of_tag }}">{{ theme.Status }}</span>
+            </div>
             <button class="theme-btn-take">Взяться за проект</button>
         </div>
+        <button class="edit">
+            <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
+                xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title />
+                <desc />
+                <defs />
+                <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+                    <g fill="#000000" id="Core" transform="translate(-213.000000, -129.000000)">
+                        <g id="create" transform="translate(213.000000, 129.000000)">
+                            <path
+                                d="M0,14.2 L0,18 L3.8,18 L14.8,6.9 L11,3.1 L0,14.2 L0,14.2 Z M17.7,4 C18.1,3.6 18.1,3 17.7,2.6 L15.4,0.3 C15,-0.1 14.4,-0.1 14,0.3 L12.2,2.1 L16,5.9 L17.7,4 L17.7,4 Z"
+                                id="Shape" />
+                        </g>
+                    </g>
+                </g>
+            </svg>
+
+        </button>
     </div>
+    {% endfor %}
 
-    <div class="theme-block theme-block-close sub2">
-        <span class="theme-subject">Алгебра</span>
-        <div class="info">
-            <p class="author">Автор: <a href="#">Кто-то</a></p>
-            <p class="teacher">Руководитель: <a href="#">Быстрова А.В.</a></p>
-            <span class="teg teg-close" title="Данная тема уже кем-то используется">Занято</span>
+    <form method="POST" class="new-theme-form">
+        <h2 class="new-theme-title">Создание новой темы</h2>
+        <div class="new-theme-inputs">
+            <input type="text" class="new-theme-input form-input" placeholder="Название темы" required />
+            <textarea class="new-theme-textarea form-input" placeholder="Описание темы" required></textarea>
+            <div class="new-theme-subjects">
+                <input type="text" class="new-theme-subjects-input form-input"
+                    placeholder="Введите названние предметной области" id="theme_subject">
+                <ul class="search-result-list"></ul>
+                <ul class="new-theme-subjects-list"></ul>
+            </div>
         </div>
-        <div class="descr">
-            <h2 class="theme-name">Название какой-то темы</h2>
-            <p class="theme-descr">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos aperiam veniam
-                aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem commodi aliquam, in
-                maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum qui dolorem, quidem
-                commodi aliquam, in maiores ipsa, suscipit excepturi? Est!Lorem ipsum dolor sit, amet consectetur
-                adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti alias beatae rerum
-                qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est! Lorem ipsum dolor sit,
-                amet consectetur adipisicing elit. Dignissimos aperiam veniam aliquid eligendi quaerat sunt corrupti
-                alias beatae rerum qui dolorem, quidem commodi aliquam, in maiores ipsa, suscipit excepturi? Est!</p>
-            <button class="theme-btn">Подробнее</button>
+        <div class="new-theme-btns">
+            <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
+            <button class="btn new-theme-create" type="submit">Создать</button>
         </div>
-    </div>
-</div>
+    </form>
 
-<script src="{% static 'js/global/list.js' %}"></script>
-<script src="{% static 'js/theme_list/theme_list.js' %}"></script>
+    <div class="back-form"></div>
 
-{% endblock content %}
+    <script src="{% static 'js/global/list.js' %}"></script>
+    <script src="{% static 'js/theme_list/theme_list.js' %}"></script>
+
+    {% endblock content %}

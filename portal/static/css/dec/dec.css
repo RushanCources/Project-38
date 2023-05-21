@@ -40,7 +40,7 @@ body {
     margin-top: 100px;
     width: 80%;
     margin-left: 10%;
-    overflow: scroll; 
+    overflow: scroll;
 
     /*убираем полосу прокрутки*/
     -ms-overflow-style: none;/* IE and Edge */
