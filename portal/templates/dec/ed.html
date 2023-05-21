@@ -1,11 +1,12 @@
-<!-- Временный файл. Нужен для проверки работы -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Редактор объявлений</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/ed.css' %}">
+<title>Объявления</title>
+{% endblock head %}
+{% block content %}
+
 <form method="post" action="editannouncement/{{ announcement.id }}" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
@@ -18,5 +19,4 @@
     {% endfor %}
     <input type="submit" value="Изменить" />
 </form>
-</body>
-</html>
+{% endblock content %}

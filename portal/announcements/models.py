@@ -16,7 +16,7 @@ class Announcement(TimeStampMixin):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_pinned = models.BooleanField(default=False)
     date_of_expiring = models.DateTimeField(null=True)
-    image_url = models.FilePathField(null=True, path='/static/img/announcement_images')
+    image_url = models.FilePathField(null=True, path='static/img/announcements/covers')
 
 
 class File(models.Model):
