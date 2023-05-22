@@ -16,4 +16,5 @@ urlpatterns = [
     path('add_comment', views.set_comment, name='add_comment'),
     path('approve_project', views.approve_project, name='approve_project'),
     path('close_project', views.close_project, name='close_project'),
+    path("restore_file", views.restore_file, name='restore_file')
 ]

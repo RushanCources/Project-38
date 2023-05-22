@@ -262,6 +262,22 @@ def get_trash(request: HttpRequest):
         return render(request, "FatalError.html")
 
 
+@check_post_request('file_id')
+def restore_file(request: HttpRequest):
+    file_id = request.POST.get("file_id")
+    try:
+        file = File.objects.get(id=file_id)
+        project = file.project
+        if check_what_user_not_have_access(request, project):
+            return render(request, "NotEnoughPermissions.html")
+        file.restore()
+        return redirect(f"{reverse('projects')}?id={project.id}")
+    except File.DoesNotExist:
+        return render(request, "WrongData.html")
+    except BaseException as e:
+        return render(request, "FatalError.html")
+
+
 @check_post_request('comment', "file_id")
 def set_comment(request: HttpRequest):
     comment = request.POST.get("comment")
@@ -291,6 +307,7 @@ def approve_project(request: HttpRequest):
         return render(request, "WrongData.html")
     except BaseException as e:
         return render(request, "FatalError.html")
+
 
 @check_post_request('project_id')
 def close_project(request: HttpRequest):
