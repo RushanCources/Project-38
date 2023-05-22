@@ -72,7 +72,6 @@
             </div>
             <input type="number" class="input-filter input-filter-group" name="group_filter">
             <input type="text" class="input-filter input-filter-role" name="role_filter">
-            </label>
             <input class="btn btn-filter" type="submit" value="Применить" name="filter_submit" />
 
         </form>
@@ -120,7 +119,7 @@
 <div class="pages">
     <ul class="pages-list">
         <li class="pages-item">
-            <a href="#" class="pages-link arrow-left">
+            <button href="#" class="pages-btn arrow-left" name="page_before">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px">
                     <g data-name="Layer 2">
                         <path
@@ -130,13 +129,13 @@
                         <rect height="32" width="32" fill="none" />
                     </g>
                 </svg>
-            </a>
+            </button>
         </li>
         {% for page in pages %}
-        <li class="pages-item"><a href="#" class="pages-link">{{ page }}</a></li>
+        <li class="pages-item"><button class="pages-btn" name="page_number">{{ page }}</button></li>
         {% endfor %}
         <li class="pages-item">
-            <a href="#" class="pages-link arrow-right">
+            <button href="#" class="pages-btn arrow-right" name="page_after">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px" style="transform: rotate(180deg);">
                     <g data-name="Layer 2">
                         <path
@@ -146,7 +145,7 @@
                         <rect height="32" width="32" fill="none" />
                     </g>
                 </svg>
-            </a>
+            </button>
         </li>
     </ul>
 </div>

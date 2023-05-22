@@ -146,3 +146,11 @@ function tok_exit() {
     $('.create-tokens').css({ 'display': 'none' });
     $('.back-form').css({ 'display': 'none' });
 }
+
+// Переключение страниц
+
+// let len = document.querySelector('.pages-list').childNodes.length;
+
+// if (len == 7) {
+//     $('.pages').css({'display' : 'none'});
+// }

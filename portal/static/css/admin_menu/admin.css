@@ -285,24 +285,25 @@
     display: flex;
 }
 
-.pages-item {
-    font-size: 18px;
-    color: #000;
-}
-
 .pages-item:not(:last-child) {
     margin-right: 15px;
 }
 
-.pages-link > svg {
+.pages-btn > svg {
     fill: inherit;
 }
 
-.pages-link {
+.pages-btn {
     transition: 0.3s color linear, 0.3s fill linear;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 18px;
+    color: #000;
 }
 
-.pages-link:hover {
+.pages-btn:hover {
     color: #1f3f76;
     fill: #1f3f76;
 }
