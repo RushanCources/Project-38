@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/red.css' %}">
+<title>Редактор Объявления</title>
+{% endblock head %}
+{% block content %}
+
+<form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
+    {% csrf_token %}
+    <div class="td">
+        {{ form.title }}
+        {{ form.date_of_expiring }}
+    </div>
+    {{ form.body }}
+    <div class="pin">
+        <p>Закрепить</p>
+        {{ form.is_pinned }}
+    </div>
+    <div class="imur">
+        <p>Ссылка на ваше изображение</p>
+        {{ form.image_url }}
+    </div>
+    {{ form.files }} 
+    {{ form.file_id_to_delete }}
+    <input class="subm" type="submit" value="Разместить" />
+    <!-- <div></div> -->
+</form>
+
+{% endblock content %}

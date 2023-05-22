@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/dec/ed.css' %}">
+<title>Объявления</title>
+{% endblock head %}
+{% block content %}
+
+<form method="post" action="editannouncement/{{ announcement.id }}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Удалить файлы:</p>
+    {% for file in announcement.files.all %}
+    <div class="file-item">
+        <a href="{{ file.file.url }}">{{ file.file }}</a>
+        <input type="checkbox" name="file_id_to_delete[]" value="{{ file.id }}">
+    </div>
+    {% endfor %}
+    <input type="submit" value="Изменить" />
+</form>
+{% endblock content %}
