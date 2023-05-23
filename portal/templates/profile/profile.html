@@ -45,7 +45,8 @@
                 <ul class="projects-list">
                     {% for project_pack in open_projects_packs %}
                     <li class="project-item">
-                        <a class="project-name" href="{% url 'projects' %}?id={{project_pack.project.id}}">{{ project.name }}</a>
+                        <a class="project-name" href="{% url 'projects' %}?id={{project_pack.project.id}}">{{
+                            project.name }}</a>
                         <span class="project-span">{{ project_pack.student_p_name }}</span>
                         <span class="project-span">{{ project_pack.project.student.group}} группа</span>
                     </li>
@@ -54,27 +55,23 @@
                     <li class="project-item create-project">
                         <a href="{% url 'create' %}">
                             <span class="project-name create-project-span">Новый проект</span>
-                            <svg width="15" height="15" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-                                style="transform: rotate(45deg)">
-                                <path
-                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
-                                    fill="#5A88FF"></path>
-                            </svg>
                         </a>
+                        <svg width="15" height="15" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+                            style="transform: rotate(45deg)">
+                            <path
+                                d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                fill="#5A88FF"></path>
+                        </svg>
                     </li>
                     {% endif %}
                 </ul>
             </div>
+            {% if user.role == 'Учитель' or user.role == 'Администратор' %}
             <div class="projects new-project">
-                {% if user.role == 'Учитель' %}
                 <div class="div-new-projects">
                     <button class="btn btn-projects btn-new-projects">Новые заявки на проект</button>
                     <div class="score-projects">{{ request_projects_length }}</div>
                 </div>
-                {% else %}
-                <div class="score-projects">{{ request_projects_T_length }}</div>
-                <button class="btn btn-projects">Заявки на проекты</button>
-                {%endif%}
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
                     {% for project_pack in request_projects_packs %}
@@ -88,6 +85,7 @@
                     {% endfor %}
                 </ul>
             </div>
+            {%endif%}
             <div class="projects past-project">
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
@@ -95,7 +93,7 @@
                     {% for project_pack in close_projects_packs %}
                     <li class="project-item">
                         <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
-                        <button class="btn project-name now-project-btn">{{ project_pack.project.name }}</button>
+                            <button class="btn project-name now-project-btn">{{ project_pack.project.name }}</button>
                         </a>
                         <span class="project-span">{{ project_pack.student_p_name }}</span>
                         <span class="project-span">{{ project_pack.project.student.group}} группа</span>

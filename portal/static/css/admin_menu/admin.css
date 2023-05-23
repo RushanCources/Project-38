@@ -1,7 +1,7 @@
 .btn {
     padding: 10px 25px;
     box-sizing: border-box;
-    border: 2px solid #1f3f76;
+    border: 2px solid #103A84;
     outline: none;
     cursor: pointer;
     font-size: 14px;
@@ -33,7 +33,7 @@
 
 .search-input {
     width: 100%;
-    border: 1px solid #1f3f76;
+    border: 1px solid #103A84;
     border-radius: 30px;
     background: #fff;
     outline: none;
@@ -51,7 +51,7 @@
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
     border: none;
-    background: #1f3f76 url('../../img/admin_menu/search.svg') no-repeat 40% center;
+    background: #103A84 url('../../img/admin_menu/search.svg') no-repeat 40% center;
     cursor: pointer;
 }
 
@@ -64,7 +64,7 @@
 /* tokens */
 
 .btn-token, .btn-filter {
-    background: #1f3f76;
+    background: #103A84;
     color: #fff;
 }
 
@@ -109,7 +109,7 @@
     width: 40%;
     margin: 50px auto;
     padding: 5px 15px;
-    border: 2px solid #1f3f76;
+    border: 2px solid #103A84;
     border-radius: 5px;
     font-size: 18px;
     text-align: center;
@@ -134,7 +134,7 @@
 .list-name{
     margin: 0;
     width: 50%;
-    background: #1f3f76;
+    background: #103A84;
     padding: 10px 8px;
     color: #fff;
     font-weight: 700;
@@ -167,7 +167,7 @@
 .list-p {
     margin: 0;
     padding: 9px 8px;
-    border: 1px solid #1f3f76;
+    border: 1px solid #103A84;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     width: 100%;
@@ -193,7 +193,7 @@
     pointer-events: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    border: 1px solid #1f3f76;
+    border: 1px solid #103A84;
 }
 
 .list-li {
@@ -304,8 +304,8 @@
 }
 
 .pages-btn:hover {
-    color: #1f3f76;
-    fill: #1f3f76;
+    color: #103A84;
+    fill: #103A84;
 }
 
 /* Поле для добавления нового юзера */
@@ -375,7 +375,7 @@
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    border: 2px solid #1f3f76;
+    border: 2px solid #103A84;
     transition: 0.2s all linear;
     outline: none;
     position: relative;
@@ -387,7 +387,7 @@
 }
 
 .input-role:checked {
-    border: 6px solid #1f3f76;
+    border: 6px solid #103A84;
 
 }
 
@@ -407,7 +407,7 @@
 .input {
     padding: 10px 15px;
     margin-top: 10px;
-    border: 2px solid #1f3f76;
+    border: 2px solid #103A84;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -425,7 +425,7 @@
 }
 
 .exit {
-    color: #1f3f76;
+    color: #103A84;
 }
 
 .exit:hover {
@@ -433,12 +433,12 @@
 }
 
 .exit:active {
-    background-color: #1f3f76;
+    background-color: #103A84;
     color: #fff;
 }
 
 .create, .delete-btn, .btn-token-create {
-    background-color: #1f3f76;
+    background-color: #103A84;
     color: #fff;
 }
 
@@ -448,7 +448,7 @@
 
 .create:active, .delete-btn:active, .btn-token-create:active {
     background-color: #F5F5F5;
-    color: #1f3f76;
+    color: #103A84;
 }
 
 .new-user-group {
