@@ -5,9 +5,15 @@
 {% load static %}
 
 {% for file, name in files %}
- <div>
+<div>
     <div>{{name}}</div>
     <a href="{% url 'download_file' %}?file_id={{file.id}}">Загрузить файл</a>
+    <form method="post" action="{% url 'restore_file' %}">
+        {% csrf_token %}
+        <input type="hidden" name="file_id" value="{{file.id}}">
+        <label for="restore_file{{file.id}}">Восстановить</label>
+        <input type="submit" id="restore_file{{file.id}}">
+    </form>
 </div>
 {% endfor %}
 {% endblock %}
