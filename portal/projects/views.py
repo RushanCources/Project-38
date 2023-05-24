@@ -119,8 +119,8 @@ def check_post_request(*need_values):
             if not request.user.is_authenticated:
                 return render(request, "NotEnoughPermissions.html")
             for value in need_values:
-                request_value = request.POST.get(value, -1)
-                if request_value == -1:
+                request_value = request.POST.get(value, '')
+                if request_value == '':
                     return render(request, "WrongData.html")
             return func(request)
         return wrapper
@@ -130,10 +130,10 @@ def check_post_request(*need_values):
 @check_post_request('teacher', 'name', "subject")
 def create(request: HttpRequest):
     teacher_id = request.POST.get("teacher")
+    subject = request.POST.get("subject")
     name = request.POST.get("name")
     try:
         teacher = User.objects.get(id=teacher_id)
-        subject = request.POST.get("subject")
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
