@@ -21,12 +21,15 @@
     <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
         {% for announcement in announcements %}
         <div class="flex" id="flex{{ announcement.id }}">
-            
-            <p class="cap">{{ announcement.title }}</p>
+            <button class="cap btn-dec">{{ announcement.title }}</button>
+            <!-- <p class="cap">{{ announcement.title }}</p> -->
             <p class="text">{{ announcement.body }}</p>
             <div class="IB" id="IB"><!--сюды фотку-->
 
             </div>
+            <ul class="dec-list">
+                <li class="dec-item"><p class="text">{{ announcement.body }}</p></li>
+            </ul>
         </div>
         {% endfor %}
         <!-- <button class="btn bold" type="submit" onclick=""></button>
@@ -34,5 +37,15 @@
             <button class="btn italic" type="submit" onclick=""></button>
             <button class="btn italic" type="submit" onclick=""></button> -->
     </div>
+    <script>
+        $('.btn-dec').on('click', function () {
+            let ul = this.parentNode.childNodes[3];
+            if ($(ul).hasClass('ul-open')) {
+                $(ul).removeClass('ul-open');
+            } else {
+                $(ul).addClass('ul-open');
+            }
+        });
+    </script>
 <!-- </main> -->
 {% endblock content %}

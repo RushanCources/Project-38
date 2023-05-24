@@ -32,6 +32,8 @@ a {
     transform: translate(-50%, -50%);
     min-width: 350px;
     min-height: 400px;
+    width: 50%;
+    max-width: 600px;
     background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
     border-radius: 5px;
 }
@@ -41,14 +43,22 @@ a {
     color: #fff;
     font-size: 24px;
     font-family: 'Roboto', sans-serif;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 .form-div {
     margin: 35px 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
 }
 
-.form-div > div:not(:last-child) {
+.form-subdiv {
+    max-width: 250px;
+    width: 40%;
+}
+
+.input:not(:last-child) {
     margin-bottom: 15px;
 }
 
@@ -69,6 +79,15 @@ a {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
+}
+
+.line {
+    position: relative;
+    display: block;
+    width: 3px;
+    margin: 0 25px;
+    background: #ffffff50;
+    border-radius: 10px;
 }
 
 .buttons {
@@ -139,4 +158,41 @@ a {
     min-width: 350px;
     background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
     border-radius: 5px;
+}
+
+.form-div-token {
+    margin: 35px 0;
+    width: 100%;
+}
+
+.form-div-token input {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 13px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+/*  for login.html  */
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    width:  auto;
+}
+
+.form-login > .buttons {
+    margin: 0;
+}
+
+.form-div-login {
+    display: block;
+}
+
+.form-div-login div:not(:last-child) {
+    margin-bottom: 15px;
 }

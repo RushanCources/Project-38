@@ -1,0 +1,23 @@
+.plug{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 1000px;
+}
+
+.main-svg {
+    width: 300px;
+}
+
+.main-title {
+    margin: 10px 0;
+}
+
+.main-subtitle {
+    font-weight: 300;
+}
