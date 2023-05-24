@@ -17,7 +17,7 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             messages.success(request, 'Аккаунт успешно создан')
-            authenticate_user = authenticate(request, username=new_user.username, password=new_user.password)
+            authenticate_user = authenticate(request, username=new_user.username, password=user_form.cleaned_data['password'])
             login(request, authenticate_user)
             return redirect('profile')
     else:
