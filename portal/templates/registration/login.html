@@ -22,10 +22,10 @@
         {% endif %}
 
         <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
-        <form action="{% url 'login' %}" method="post" class="form">
+        <form action="{% url 'login' %}" method="post" class="form form-login">
             {% csrf_token %}
             <h1 class="title">Добро пожаловать!</h1>
-            <div class="form-div">
+            <div class="form-div form-div-login">
                 <div>
                     <span class="input-p">Логин:</span>
                     {{ form.username }}

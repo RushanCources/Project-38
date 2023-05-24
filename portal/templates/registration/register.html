@@ -20,7 +20,43 @@
     <form action="{% url 'register' %}" method="post" class="form">
         <h1 class="title">Регистрация</h1>
         <div class="form-div">
-            {{ user_form.as_div }}
+            <div class="form-subdiv">
+                <div class="input">
+                    <label for="id_last_name">Фамилия:</label>
+                    {{ user_form.last_name }}
+                </div>
+                <div class="input">
+                    <label for="id_first_name">Имя:</label>
+                    {{ user_form.first_name }}
+                </div>
+                <div class="input">
+                    <label for="id_middle_name">Отчество:</label>
+                    {{ user_form.middle_name }}
+                </div>
+                <div class="input">
+                    <label for="id_group">Группа:</label>
+                    {{ user_form.group }}
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="form-subdiv">
+                <div class="input">
+                    <label for="id_username">Логин:</label>
+                    {{ user_form.username }}
+                </div>
+                <div class="input">
+                    <label for="id_email">Почта:</label>
+                    {{ user_form.email }}
+                </div>
+                <div class="input">
+                    <label for="id_password">Пароль:</label>
+                    {{ user_form.password }}
+                </div>
+                <div class="input">
+                    <label for="id_password2">Повторите пароль:</label>
+                    {{ user_form.password2 }}
+                </div>
+            </div>
         </div>
         {% csrf_token %}
         {% if messages %}
