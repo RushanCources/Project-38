@@ -9,6 +9,8 @@
     <link rel="icon" href="{% static 'img/global/icon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/global/jquery.js' %}"></script>
     {% if user.is_authenticated %}
     {% block head %}
     {% endblock head %}
@@ -19,9 +21,6 @@
     <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
     <title>Who?</title>
     {% endif %}
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="{% static 'js/global/jquery.js' %}"></script>
 </head>
 
 <body>

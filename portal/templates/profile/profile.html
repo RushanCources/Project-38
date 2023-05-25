@@ -52,6 +52,14 @@
                     </li>
                     {% endfor %}
                     {% if user.role == 'Ученик' %}
+                    {% for project_pack in request_projects_packs %}
+                    <li class="project-item"> <!-- здесь надо подумать -->
+                        <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
+                            <button class="btn project-name">{{ project_pack.project.name }}</button>
+                        </a>
+                        <span class="project-span new-project-span">Заявка на рассмотрении учителем</span>
+                    </li>
+                    {% endfor %}
                     <li class="project-item create-project">
                         <a href="{% url 'create' %}">
                             <span class="project-name create-project-span">Новый проект</span>
@@ -90,6 +98,9 @@
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
+                    {% if close_projects_packs.length == null %}
+                    <li class="project-item project-item-none">У вас ещё нет ни одного завершенного проекта🙁</li>
+                    {% else %}
                     {% for project_pack in close_projects_packs %}
                     <li class="project-item">
                         <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
@@ -100,6 +111,7 @@
                         <span class="project-span">2049г</span>
                     </li>
                     {% endfor %}
+                    {% endif %}
                 </ul>
             </div>
         </section>

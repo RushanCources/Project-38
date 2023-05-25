@@ -1,13 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/projects/index.css' %}">
+<title>Мои проекты</title>
+{% endblock head %}
 
 {% block content %}
-    <title>Проекты</title>
 
-    {% if user.is_authenticated %}
-        {% if user.role == "Ученик" %}
-            <a href="{% url 'create' %}">Создать новый проект</a>
-        {% endif %}
-    {% endif %}
+{% if user.role == "Ученик" %}
+<a class="new-project-link" href="{% url 'create' %}">
+    Новый проект
+    <svg width="20" height="20" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+        style="transform: rotate(45deg)">
+        <path
+            d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+            fill="#FFFFFF"></path>
+    </svg></a>
+{% endif %}
 
-    <h1>Общий список</h1>
+<h1 class="title">Общий список</h1>
+<div class="no-projects">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="no-projects-svg">
+        <g data-name="01" id="_01">
+            <path
+                d="M27.71,9.71,23,14.41,18.29,9.71l1.41-1.41L23,11.59l3.29-3.29Zm-14,0L12.29,8.29,9,11.59,5.71,8.29,4.29,9.71,9,14.41ZM9,24H23V22H9Zm20.36-7.51a2.64,2.64,0,1,1-4.73,0L27,11.76Zm-1.79.89L27,16.24l-.58,1.15a.64.64,0,1,0,1.15,0Z" />
+        </g>
+    </svg>
+    <span class="no-projects-span">У вас ещё ни одного проекта...</span>
+</div>
 {% endblock %}

@@ -473,6 +473,13 @@
     background-color: #fff;
 }
 
+.project-item-none {
+    background: none;
+    text-align: center;
+    cursor: default;
+    pointer-events: none;
+}
+
 .project-name {
     padding: 0;
     font-size: 18px;
@@ -495,6 +502,11 @@
 
 .project-span:not(:last-child) {
     margin-right: 2px;
+}
+
+.new-project-span {
+    color: #ffb51b;
+    font-weight: 400;
 }
 
 .div-new-projects {

@@ -1,0 +1,44 @@
+.new-project-link {
+    margin: 10px 0;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #103A8480;
+    color: #fff;
+    font-size: 20px;
+    transition: 0.1s background-color linear;
+}
+
+.new-project-link:active {
+    background-color: #3e5e96;
+}
+
+.new-project-link > svg {
+    margin-left: 5px;
+}
+
+.title {
+    margin: 0;
+    font-weight: 300;
+    text-align: center;
+}
+
+.no-projects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    fill: #103A84;
+    color : #103A84;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.no-projects-svg {
+    width: 300px;
+}
