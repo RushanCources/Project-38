@@ -153,10 +153,6 @@ body {
     margin-top: 0;
     padding-left: 4%;
     font-weight: 700;
-    border: none;
-    outline: none;
-    background: none;
-    cursor: pointer;
 }
 
 .text{
@@ -203,7 +199,7 @@ ul {
 
 .dec {
     position: relative;
-    width: 300px;
+    width: 600px;
     background: #fff;
     border-radius: 30px;
     display: flex;
@@ -215,9 +211,7 @@ ul {
 
 .btn-dec {
     display: block;
-    padding: 20px 0;
-    font-weight: 700;
-    font-size: 20px;
+    width: 52em;
 }
 
 .btn-dec::after {
