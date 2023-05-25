@@ -21,8 +21,8 @@
     <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
         {% for announcement in announcements %}
         <div class="flex" id="flex{{ announcement.id }}">
-            <button class="cap btn-dec">{{ announcement.title }}</button>
-            <!-- <p class="cap">{{ announcement.title }}</p> -->
+            <p class="cap">{{ announcement.title }}</p>
+            <button class="btn btn-dec"></button>
             <p class="text">{{ announcement.body }}</p>
             <div class="IB" id="IB"><!--сюды фотку-->
 
