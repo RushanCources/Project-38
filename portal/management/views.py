@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render 
 from django.contrib import messages
+from django.http.response import FileResponse
+from liceum38.settings import BASE_DIR
 from .forms import UserRegistrationForm
 from .models import User, Tokens
 from projects.models import Project
@@ -78,14 +80,17 @@ def admin_menu(request):
 
         if request.POST.get('accept_token'):
             last_token = Tokens.objects.last()
-            if last_token is None:
-                new_id = 1
-            else:
-                new_id = last_token.pk + 1
-            for i in range(int(token_value)):
-                token = Tokens.objects.create(token=generate_alphanum_random_string(16), id=new_id + i)
-                token.save()
-            return redirect('admin_menu')
+            filepath = str(BASE_DIR) + r"\media\temp_tokens\tokens" + str(request.user.pk) + ".txt"
+            with open(filepath, "w") as f:
+                if last_token is None:
+                    new_id = 1
+                else:
+                    new_id = last_token.pk + 1
+                for i in range(int(token_value)):
+                    token = Tokens.objects.create(token=generate_alphanum_random_string(16), id=new_id + i)
+                    token.save()
+                    f.write(token.token + "\n")
+            return FileResponse(open(filepath, "rb"))
 
         if request.POST.get('filter_submit'):
             if role_filter !='' and group_filter !='':
