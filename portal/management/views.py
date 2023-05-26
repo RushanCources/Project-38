@@ -90,7 +90,7 @@ def admin_menu(request):
                     token = Tokens.objects.create(token=generate_alphanum_random_string(16), id=new_id + i)
                     token.save()
                     f.write(token.token + "\n")
-            return FileResponse(open(filepath, "rb"))
+            return FileResponse(open(filepath, "rb"), as_attachment=True)
 
         if request.POST.get('filter_submit'):
             if role_filter !='' and group_filter !='':
