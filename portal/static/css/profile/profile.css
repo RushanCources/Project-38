@@ -10,7 +10,8 @@
 
 .main {
     display: block;
-    width: 1215px;
+    max-width: 1215px;
+    width: 80%;
     margin: 55px auto;
     margin-bottom: 0;
     padding-bottom: 10px;
@@ -23,9 +24,14 @@
 }
 
 .main-div {
+    position: relative;
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+.right-block {
+    width: calc(100% - 420px);
 }
 
 .section {
@@ -220,7 +226,8 @@
 }
 
 .info {
-    width: 790px;
+    width: 100%;
+    max-width: 790px;
 }
 
 .input {
@@ -383,7 +390,8 @@
 /* for teachers */
 
 .section-projects {
-    width: 790px;
+    width: 100%;
+    max-width: 790px;
     background-color: transparent;
 }
 
