@@ -12,7 +12,7 @@
     padding-top: 40px;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .footer-title {
@@ -26,12 +26,10 @@
 .long-logo {
     display: inline-block;
     align-self: center;
-    margin-left: 10%;
 }
 
 .footer-contact {
     font-style: normal;
-    width: 35%;
 }
 
 .footer-contact > div {
@@ -44,6 +42,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-right: 40px
 }
 
 .footer-contact-item {
@@ -86,8 +85,6 @@
 }
 
 .footer-links {
-    margin-left: 150px;
-    margin-right: 10%;
     text-align: center;
 }
 

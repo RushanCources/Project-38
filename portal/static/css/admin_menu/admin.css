@@ -25,7 +25,8 @@
 
 .search{
     margin-bottom: 20px;
-    width: 80%;
+    width: calc(100% - 200px);
+    max-width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
