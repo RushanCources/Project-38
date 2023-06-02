@@ -219,7 +219,7 @@ def download_file(request: HttpRequest):
         if check_what_user_not_have_access(request, file_object.project):
             return render(request, "NotEnoughPermissions.html")
         filepath = file_object.file.path
-        return FileResponse(open(filepath, 'rb'))
+        return FileResponse(open(filepath, 'rb'), as_attachment=True)
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
