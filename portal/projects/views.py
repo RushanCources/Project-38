@@ -127,13 +127,28 @@ def check_post_request(*need_values):
     return decorator
 
 
-@check_post_request('teacher', 'name', "subject")
+@check_post_request('teacher', 'name', "subject", "teacher-checkbox")
 def create(request: HttpRequest):
     teacher_id = request.POST.get("teacher")
     subject = request.POST.get("subject")
     name = request.POST.get("name")
+    is_another_teacher = request.POST.get('teacher-checkbox')
+    print(is_another_teacher)
     try:
-        teacher = User.objects.get(id=teacher_id)
+        if is_another_teacher == 'on':
+            another_teacher = request.POST.get("new-teacher")
+            last_user = User.objects.last()
+            if last_user is None:
+                new_id = 1
+            else:
+                new_id = last_user.pk + 1
+            teacher: User = User.objects.create_user(username=new_id, first_name=another_teacher.split()[0],
+                                                     last_name=another_teacher.split()[1], middle_name=another_teacher.split()[2],
+                                                     role='Учитель', id=new_id)
+            teacher.set_password(User.objects.make_random_password(30))
+            teacher.save()
+        else:
+            teacher = User.objects.get(id=teacher_id)
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
@@ -219,7 +234,7 @@ def download_file(request: HttpRequest):
         if check_what_user_not_have_access(request, file_object.project):
             return render(request, "NotEnoughPermissions.html")
         filepath = file_object.file.path
-        return FileResponse(open(filepath, 'rb'))
+        return FileResponse(open(filepath, 'rb'), as_attachment=True)
     except File.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
