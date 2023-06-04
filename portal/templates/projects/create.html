@@ -25,7 +25,7 @@
                 <h3 class="h3 tea">Учитель</h3>
                 <div class="teachers">
                     <div class="teacher teacher-open">
-                        <select name="teacher" id="selTea" class="wf select2" required>
+                        <select name="teacher" id="selTea" class="wf select2" required multiple>
                             {% for teacher in teachers %}
                             <option value="{{ teacher.id }}" class="opG opt">{{ teacher.fullName }}</option>
                             {% endfor %}
