@@ -12,20 +12,27 @@
     {% csrf_token %}
     <div class="formPZ">
         <h1 class="form h1">Подача заявки</h1>
-        <div class="form">
-            <h3 class="h3">Название</h3>
-            <input name="name" class="wf" />
+        <div class="errors">
+            {% if messages %}
+            {% for message in messages %}
+            <p class="error">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
         </div>
         <div class="form">
-            <h3 class="h3">Описание</h3>
-            <textarea name="description" class="wf ta"></textarea>
+            <h3 class="h3">Название*</h3>
+            <input name="name" class="wf" required/>
+        </div>
+        <div class="form">
+            <h3 class="h3">Описание*</h3>
+            <textarea name="description" class="wf ta" required></textarea>
         </div>
         <div class="form selects">
             <div class="tea">
-                <h3 class="h3 tea">Учитель</h3>
+                <h3 class="h3 tea">Учитель*</h3>
                 <div class="teachers">
                     <div class="teacher teacher-open">
-                        <select name="teacher" id="selTea" class="wf select2" required multiple>
+                        <select name="teacher" id="selTea" class="wf select2" multiple>
                             {% for teacher in teachers %}
                             <option value="{{ teacher.id }}" class="opG opt">{{ teacher.fullName }}</option>
                             {% endfor %}
@@ -39,7 +46,7 @@
                 </div>
             </div>
             <div class="subj">
-                <h3 class="h3 subj">Предмет</h3>
+                <h3 class="h3 subj">Предмет*</h3>
                 <select name="subject" id="selSubj" class="wf" required>
                     <optgroup label="Математические">
                         <option class="opG opt">Математика</option>

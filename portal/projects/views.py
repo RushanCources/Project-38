@@ -4,6 +4,7 @@ from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
+from django.contrib import messages
 
 from management.models import User
 from projects.models import Project, File
@@ -117,17 +118,20 @@ def check_post_request(*need_values):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
             if not request.user.is_authenticated:
-                return render(request, "NotEnoughPermissions.html")
+                messages.error(request, 'У вас нет прав для совершения этого действия')
+                return render(request, "projects/create.html")
+
             for value in need_values:
                 request_value = request.POST.get(value, '')
                 if request_value == '':
-                    return render(request, "WrongData.html")
+                    messages.error(request, 'Неверно введённые данные')
+                    return render(request, "projects/create.html")
             return func(request)
         return wrapper
     return decorator
 
 
-@check_post_request('teacher', 'name', "subject", "teacher-checkbox")
+@check_post_request('teacher', 'name', "subject")
 def create(request: HttpRequest):
     teacher_id = request.POST.get("teacher")
     subject = request.POST.get("subject")
@@ -168,7 +172,8 @@ def create(request: HttpRequest):
 
 @check_post_request('project')
 def correct_project(request: HttpRequest):
-    project_id = request.POST.get("project")
+    project_id = request.POST.get("project_id")
+    print(project_id)
     try:
         project_id = project_id
         project = Project.objects.get(id=project_id)
