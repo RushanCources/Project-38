@@ -1,135 +1,153 @@
+.main {
+    width: 100%;
+}
+
 .form-create {
     margin: 0 auto;
     margin-top: 4%;
+    width: 80%;
+    max-width: 1000px;
 }
 
 .formPZ{
-    /*временные размеры*/
-    width: 1000px;/*в адаптив*/
-    min-height: 700px;/*в адаптив*/
-    /* margin-top: 10%; */
-    margin: auto;
-
-    background: linear-gradient(297.37deg, #17428F 6.45%, #4679D3 91.88%);
-    border-radius: 14px;/*в адаптив*/
-
-    font-family: 'Roboto';/*шрифты*/
+    position: relative;
+    padding: 20px 30px;
+    width: 100%;/*в адаптив*/
+    background: #fff;
+    border-radius: 30px;
     font-style: normal;
-
-    display: grid;
-    grid-template-rows: repeat(5%,30);
-    grid-template-areas: 
-    "h h h h h"
-    "n n n n n"
-    "d d d d d"
-    "d d d d d"
-    "d d d d d"
-    "d d d d d"
-    "t t z s s"
-    "f f f f f"
-    "b b b b b"
-    "b b b b b";
-}
-
-.wf {
-    border-radius: 5px;
-    background: #FFFFFF;
-    min-height: 50%;
-    width: 100%;
-    border: rgb(0,0,0,0);
-}
-
-div.desc div {
-    min-height: 80%;
-}
-
-.form{
-    margin:3%;
-    margin-top: 2%;
-    margin-bottom: 1%;
-}
-
-.h3 {
-    color: #fff;
-    font-style: normal;
-    font-weight: 200;
-
-    margin-bottom: 1%;
-    margin-left: 0px;
-}
-
-.nng {
-    /* background: #FFFFFF; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); 
-    border-radius: 5px;*/
-
-    grid-area: n;
-}
-
-.desc {
-    /* background: #FFFFFF; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); 
-    border-radius: 5px;*/
-
-    grid-area: d;
-}
-
-.tea {
-    margin-right: 0%;
-    margin-left: 7.5%;
-    /* background: #FFFFFF; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); 
-    border-radius: 5px;*/
-
-    grid-area: t;
-}
-
-div.tea h3 {
-    margin-left: 0;
-} 
-
-.subj {
-    margin-right: 7.5%;
-    margin-left: 0%;
-    /* background: #FFFFFF; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); 
-    border-radius: 5px;*/
-    
-    grid-area: s;
-}
-
-.files {
-    /* background: #FFFFFF; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); 
-    border-radius: 5px;*/
-
-    grid-area: f;
-}
-
-.zero {/*обычный костыль ввиде пустого класса*/
-    background: rgba(0,0,0,0);
-    grid-area: z;
-}
-
-.but{
-    cursor: pointer;
-    color: #ffffff;
-    font-size: larger;
-    background: #000000;
-    border-radius: 5px;
-    border: 0px;
-
-    width: 30%;
-    height: 60%;
-    margin: 3% auto;
-
-    grid-area: b;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
 }
 
 .h1 {
-    color: #fff;
+    color: #000000;
     text-align: center;
     font-size: 45px;
-    margin-bottom: -6%;
-    grid-area: h;
+    font-weight: 400;
+    margin: 0;
+}
+
+.wf {
+    padding: 10px;
+    border-radius: 5px;
+    background: #FFFFFF;
+    width: 100%;
+    border: 1px solid #00000030;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.ta {
+    resize: none;
+    min-height: 100px;
+    max-height: 300px;
+    height: auto;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.form:not(:last-child){
+    margin-bottom: 30px;
+}
+
+.selects {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.h3 {
+    margin: 0;
+    margin-bottom: 3px;
+    font-weight: 300;
+    font-size: 16px;
+    color: #00000095;
+    font-style: normal;
+}
+
+.teachers {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.teacher, .new-teacher {
+    display: none;
+}
+
+.teacher-open {
+    display: block;
+}
+
+.tea {
+    width: 40%;
+}
+
+.subj {
+    width: 40%;
+}
+
+.file-input {
+    height: 0;
+    position: absolute;
+    opacity: 0;
+    z-index: -10;
+}
+
+.file-label {
+    display: inline-block;
+    cursor: pointer;
+    color: #5A88FF;
+}
+
+.file-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.file-item {
+    margin-top: 10px;
+    position: relative;
+    padding: 10px;
+    border: 1px solid #00000030;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.file-item:not(:last-child) {
+    margin-right: 10px;
+}
+
+.file-item-div {
+    position: absolute;
+    top: -7.5px;
+    right: -7.5px;
+    width: 15px;
+    height: 15px;
+    background-size: auto;
+    background: url('../../img/global/del.svg') no-repeat center center;
+    cursor: pointer;
+}
+
+.but{
+    padding: 13px;
+    margin: 0 auto;
+    width: 33%;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    color: #fff;
+    background: #000;
+    transition: 0.1s background linear;
+}
+
+.but:active {
+    background: #232323;
 }
