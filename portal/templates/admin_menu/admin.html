@@ -221,7 +221,7 @@
     </div>
 </form>
 
-<form class="delete_page" method="POST" action="#">
+<form class="delete_page" method="POST">
     <p class="delete-p">Вы уверены, что хотите удалить/скрыть пользователя?</p>
     <p>Пользователь: <span class="delete-fio"></span></p>
     <div class="delete-btns">
@@ -233,7 +233,7 @@
     </div>
 </form>
 
-<form class="create-tokens" method="POST" action="#">
+<form class="create-tokens" method="POST">
     <p class="token-p">Создание токенов</p>
     <span class="token-span">Напишите в поле количество токенов, которое хотите создать.</span>
     {% csrf_token %}
@@ -241,7 +241,7 @@
 
     <div class="token-btns">
         <button class="btn exit" type="button" onclick="tok_exit()">Отмена</button>
-        <input class="btn btn-token-create" type="submit" name="accept_token">
+        <input class="btn btn-token-create" type="submit" name="accept_token" onclick="tok_exit()">
     </div>
 </form>
 
