@@ -3,117 +3,176 @@
 {% block head %}
 {% load js %}
 <link rel="stylesheet" href="{% static 'css/projects/project_page.css' %}">
+<title>{{ project.name }}</title>
 
 {% endblock head %}
 
 {% block content %}
-<title xmlns="http://www.w3.org/1999/html">{{ name }}</title>
-    <form method="POST" action="{% url 'correct_project' %}" id="form_name">
-        {% csrf_token %}
-        <input type="hidden" name="project" value={{project_id}}>
-        <textarea id="name" name="name" disabled class="form-control">{{name}}</textarea>
-    </form>
-    <button onclick="return edit(this, 'name')" style="background-color: #FFFFFF">
-        <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
-    </button>
-    <div>{{teacher}}</div>
-    <div>{{student}}</div>
-    <div>{{status}}</div>
-    <form method="POST" action="{% url 'correct_project' %}" id="form_description">
-        {% csrf_token %}
-        <input type="hidden" name="project" value={{project_id}}>
-        <textarea id="description" name="description" class="form-control" disabled >{{description}}</textarea>
-    </form>
-    <button onclick="return edit(this, 'description')" style="background-color: #FFFFFF">
-        <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px"/>
-    </button>
-    <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
-    {% for files_pack in files_packs %}
-        <div>
-            <div>{{files_pack.name}}</div>
-            <button onclick="show_window('comments{{files_pack.file.id}}')">Коммнетарии</button>
-            <div id="comments{{files_pack.file.id}}" class="comment-window">
-            {% if files_pack.file.comment is not None %}
-                <div>{{files_pack.file.comment}}</div>
-            {%else%}
-                 <form method="POST" action="{% url 'add_comment' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="file_id" value={{files_pack.file.id}}>
-                    <textarea name="comment" class="form-control" placeholder="Введите комментарий"></textarea>
-                    <label for="delete_file{{files_pack.file.id}}">Отправить комментарий</label>
-                    <input type="submit">
-                </form>
-            {%endif%}
-                <button onclick="exit('comments{{files_pack.file.id}}')">Выйти</button>
-            </div>
-            <form  method="POST" action="{% url 'delete_file' %}">
-                {% csrf_token %}
-                <input type="hidden" name="file_id" value={{files_pack.file.id}} />
-                <label for="delete_file{{files_pack.file.id}}">Удалить файл</label>
-                <input type="submit" id="delete_file{{files_pack.file.id}}" name="file" style="display:none; visibility:hidden"/>
-            </form>
-            <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}">Загрузить файл</a>
-            <button class="btn-old-files" onclick="show_window('old-files{{files_pack.file.id}}')">Предыдущие версии файла</button>
-            <div id="old-files{{files_pack.file.id}}" class="old-files">
-                <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
-                <div>Предыдущие версии файла<br></div>
-                {% for old_file in files_pack.old_files %}
-                <div>{{old_file.name}}</div>
-                <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}">Загрузить файл</a>
-                {% endfor %}
-            </div>
+<div class="people">
+    <div class="people-div teacher">
+        <img src="{{ project.avaurl_of_teacher }}" alt="Фото учителя" class="people-img">
+        <div class="people-info">
+            <h2 class="people-fio">{{project.teacher}}</h2>
+            <span class="people-span">Руководитель проекта</span>
         </div>
+    </div>
+    <div class="people-div student">
+        <img src="{{ project.avaurl_of_student }}" alt="Фото учителя" class="people-img">
+        <div class="people-info">
+            <h2 class="people-fio">{{project.student}}</h2>
+            <span class="people-span">Исполнитель проекта</span>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="status">
+        <span class="status-span">Статус:
+            {% if project.status == 'send request' %}
+            <span class="send-request">заявка на рассмотрении руководителем</span>
+            {% endif %}
+        </span>
+    </div>
+    <div class="name">
+        <form method="POST" action="{% url 'correct_project' %}" id="form_name" class="name-form">
+            {% csrf_token %}
+            <input type="hidden" name="project" value="{{project.project_id}}" />
+            <input id="name" name="name" disabled class="input" value="{{project.name}}" />
+        </form>
+        <button onclick="return edit(this, 'name')" style="background-color: #FFFFFF">
+            <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px" />
+        </button>
+    </div>
+
+    <div class="descr">
+        <form method="POST" action="{% url 'correct_project' %}" id="form_description" class="descr-form">
+            {% csrf_token %}
+            <input type="hidden" name="project" value="{{project.project_id}}">
+            <textarea id="description" name="description" class="textarea" disabled>{{project.description}}</textarea>
+        </form>
+        <button onclick="return edit(this, 'description')" style="background-color: #FFFFFF">
+            <img src="{% static 'edit.png' %}" style="width: 20px; height: 20px" />
+        </button>
+    </div>
+
+    <div class="files">
+        <form method="POST" action="{% url 'add_file' %}" enctype="multipart/form-data" id="add-file">
+            {% csrf_token %}
+            <input type="hidden" name="file_id" value="-1" />
+            <input type="hidden" name="project_id" value="{{project.project_id}}" />
+            <label for="add_file" class="file-label">Добавить файл</label>
+            <input type="file" id="add_file" onchange="check_file_name(this)" class="file-input" name="file" />
+        </form>
+        <ul class="file-list">
+            {% for files_pack in files_packs %}
+            <li class="file-item">
+                <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}"
+                    title="Загрузить файл">{{files_pack.name}}</a>
+                <div class="btns">
+                    <button onclick="show_window('comments{{files_pack.file.id}}')" title="Посмотреть комментарии">
+                        <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.79895 17.8034C6.35668 18.1298 5.73 18.0406 5.39921 17.6042C5.26989 17.4335 5.2 17.2262 5.2 17.0133L5.19937 14.8423H4.6C3.16406 14.8423 2 13.6935 2 12.2764V5.56582C2 4.14876 3.16406 3 4.6 3H15.4C16.8359 3 18 4.14876 18 5.56582V12.2764C18 13.6935 16.8359 14.8423 15.4 14.8423H10.81L6.79895 17.8034Z"
+                                fill=" #5A88FF" />
+                        </svg>
+                    </button>
+                    <button class="btn-old-files" onclick="show_window('old-files{{files_pack.file.id}}')"
+                        title="Посмотреть предыдущие версии файла">
+                        <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M4.31 9.49981L7.27297 12.4628C7.56586 12.7557 7.56586 13.2305 7.27297 13.5234C7.0067 13.7897 6.59004 13.8139 6.29643 13.596L6.21231 13.5234L1.96967 9.28078C1.7034 9.01452 1.6792 8.59785 1.89705 8.30424L1.96967 8.22012L6.21231 3.97748C6.5052 3.68459 6.98008 3.68459 7.27297 3.97748C7.53924 4.24375 7.56344 4.66041 7.34559 4.95402L7.27297 5.03814L4.31 7.99981L10 8.00045C14.1979 8.00045 17.6162 11.3381 17.7462 15.5044L17.75 15.7505C17.75 16.1647 17.4142 16.5005 17 16.5005C16.5858 16.5005 16.25 16.1647 16.25 15.7505C16.25 12.3754 13.5748 9.62514 10.2291 9.50458L10 9.50045L4.31 9.49981L7.27297 12.4628L4.31 9.49981Z"
+                                fill="#88cc5a" />
+                        </svg>
+                    </button>
+                    <label for="delete_file{{files_pack.file.id}}" class="btns-label" title="Удалить файл">
+                        <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z"
+                                fill="#e24a4a" />
+                        </svg>
+
+                    </label>
+                </div>
+                <form method="POST" action="{% url 'delete_file' %}" class="del-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
+                    <input type="submit" id="delete_file{{files_pack.file.id}}" name="file"
+                        style="display:none; visibility:hidden" />
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'trash' %}?project_id={{project.project_id}}">Корзина</a>
+    </div>
+
+    {% for files_pack in files_packs %}
+    <div>
+        <div id="comments{{files_pack.file.id}}" class="comment-window">
+            {% if files_pack.file.comment is not None %}
+            <div>{{files_pack.file.comment}}</div>
+            {%else%}
+            <form method="POST" action="{% url 'add_comment' %}">
+                {% csrf_token %}
+                <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
+                <textarea name="comment" class="form-control" placeholder="Введите комментарий"></textarea>
+                <label for="delete_file{{files_pack.file.id}}">Отправить комментарий</label>
+                <input type="submit">
+            </form>
+            {%endif%}
+            <button onclick="exit('comments{{files_pack.file.id}}')">Выйти</button>
+        </div>
+        <div id="old-files{{files_pack.file.id}}" class="old-files">
+            <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
+            <div>Предыдущие версии файла<br></div>
+            {% for old_file in files_pack.old_files %}
+            <div>{{old_file.name}}</div>
+            <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}">Загрузить файл</a>
+            {% endfor %}
+        </div>
+    </div>
 
     {% endfor %}
 
-    <form method="POST" action="{% url 'add_file' %}"  enctype="multipart/form-data" id="add-file">
+    {% if project.status == 'send request' and user.role == 'Учитель'%}
+    <form method="POST" action="{% url 'approve_project' %}">
         {% csrf_token %}
-        <input type="hidden" name="file_id" value=-1>
-        <input type="hidden" name="project_id" value={{project_id}}>
-        <label for="add_file">Добавить файл</label>
-        <input type="file" id="add_file" onchange="check_file_name(this)" style="display:none; visibility:hidden" name="file"/>
+        <input type="hidden" name="project_id" value="{{project.project_id}}">
+        <input type="submit" id="approve_project" class="status-input" value="Одобрить проект">
     </form>
-    {% if status == 'send request' and user.role == 'Учитель'%}
-        <form  method="POST" action="{% url 'approve_project' %}">
-            {% csrf_token %}
-            <input type="hidden" name="project_id" value="{{project_id}}">
-            <label for="approve_project">Одобрить проект</label>
-            <input type="submit" id="approve_project">
-        </form>
-    {% elif status == 'on work' and user.role == 'Учитель' %}
-        <form  method="POST" action="{% url 'close_project' %}">
-            {% csrf_token %}
-            <input type="hidden" name="project_id" value="{{project_id}}">
-            <label for="close_project">Завршить проект</label>
-            <input type="submit" id="close_project">
-        </form>
+    {% elif project.status == 'on work' and user.role == 'Учитель' %}
+    <form method="POST" action="{% url 'close_project' %}">
+        {% csrf_token %}
+        <input type="hidden" name="project_id" value="{{project.project_id}}">
+        <input type="submit" id="close_project " class="status-input" value="Завршить проект">
+    </form>
     {% endif %}
     <div class="update-file">
         <div>Файл с таким именем уже существует<br>
-        Вы хотите заменить его?</div>
+            Вы хотите заменить его?</div>
         <button onclick="update_file()">Да</button>
         <button onclick="close_update_window()">Нет</button>
     </div>
-    <script>
+</div>
 
-        function edit(elem, id){
-            let f = document.getElementById(id);
-            f.disabled = false;
-            elem.setAttribute( "onclick", "return save('"+id+"')");
-            elem.childNodes[1].src = "{% static 'tick.png' %}";
-            elem.style.backgroundColor = "#2DA44E";
-            }
+<div class="back-form"></div>
 
-        function save(id){
-            let f = document.getElementById(id);
-            let form = document.getElementById("form_"+id);
-            form.submit();
-            }
-        files_names = {{files_names | js }};
-        update_files_url = '{% url 'update_file' %}'
-    </script>
+<script>
 
-    <div class="back-form"></div>
+    function edit(elem, id) {
+        let f = document.getElementById(id);
+        f.disabled = false;
+        elem.setAttribute("onclick", "return save('" + id + "')");
+        elem.childNodes[1].src = "{% static 'tick.png' %}";
+        elem.style.backgroundColor = "#2DA44E";
+    }
 
-    <script src="{% static 'js/projects/project_page.js' %}"></script>
+    function save(id) {
+        let f = document.getElementById(id);
+        let form = document.getElementById("form_" + id);
+        form.submit();
+    }
+    files_names = {{ files_names | js }};
+    update_files_url = '{% url 'update_file' %}'
+</script>
+
+<script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}

@@ -55,6 +55,8 @@ def index(request: HttpRequest):
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
+                   "avaurl_of_teacher" : project.teacher.avatar.url,
+                   "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
@@ -62,7 +64,7 @@ def index(request: HttpRequest):
                    'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    }
 
-        return render(request, "projects/project_page.html", context=context)
+        return render(request, "projects/project_page.html", context={"project" : context, "users" : User.objects.all(), "files_packs" : files_packs})
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:

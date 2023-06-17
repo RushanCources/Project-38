@@ -1,3 +1,216 @@
+.main {
+    padding-top: 50px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.people {
+    padding: 10px 5px;
+    padding-right: 10px;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    border-radius: 30px;
+    background-color: #ffffff;
+}
+
+.people-div {
+    display: flex;
+    align-items: center;
+}
+
+.people-div:first-child {
+    margin-bottom: 20px;
+}
+
+.people-fio {
+    margin: 0;
+    font-size: 16px;
+}
+
+.people-span {
+    font-weight: 300;
+    font-size: 14px;
+    color: #464646;
+}
+
+.people-img {
+    margin-right: 10px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.content{
+    position: relative;
+    padding: 20px 30px;
+    width: 80%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 30px;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.content > div {
+    margin-bottom: 20px;
+}
+
+.status-span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.send-request {
+    margin-left: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #ffb51b;
+}
+
+.name, .descr {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.name-form, .descr-form {
+    width: calc(100% - 50px);
+}
+
+.input {
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background: #f1f1f1;
+}
+
+.textarea {
+    padding: 10px;
+    width: 100%;
+    min-height: 100px;
+    max-height: 300px;
+    border-radius: 10px;
+    border: none;
+    background: #f1f1f1;
+    resize: none;
+}
+
+.file-input {
+    height: 0;
+    position: absolute;
+    opacity: 0;
+    z-index: -10;
+}
+
+.file-label {
+    display: inline-block;
+    cursor: pointer;
+    color: #5A88FF;
+}
+
+.file-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.file-item {
+    position: relative;
+    margin-top: 10px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #00000030;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.file-item:not(:last-child) {
+    margin-right: 10px;
+}
+
+.file-item-div {
+    width: 15px;
+    height: 15px;
+    background-size: auto;
+    background: url('../../img/global/del.svg') no-repeat center center;
+    cursor: pointer;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid #00000030;
+}
+
+.btns > button {
+    padding: 3px 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btns > button:hover, .btns-label:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btns svg {
+    width: 25px;
+    height: 25px;
+}
+
+.btns-label {
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.del-form {
+    position: absolute;
+}
+
+.status-input {
+    display: block;
+    padding: 10px 30px;
+    margin: 0 auto;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.status-input:hover {
+    background: #0d306d;
+}
+
+.status-input:active {
+    background: #3e5e96;
+}
+
 .old-files{
     display: none;
     position: absolute;
