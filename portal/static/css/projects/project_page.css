@@ -46,6 +46,7 @@
 .content{
     position: relative;
     padding: 20px 30px;
+    padding-top: 15px;
     width: 80%;
     max-width: 700px;
     background: #fff;
@@ -57,7 +58,7 @@
     justify-content: space-between;
 }
 
-.content > div {
+.status {
     margin-bottom: 20px;
 }
 
@@ -81,27 +82,50 @@
     width: 100%;
 }
 
-.name-form, .descr-form {
-    width: calc(100% - 50px);
+.descr {
+    margin-bottom: 20px;
 }
 
-.input {
-    padding: 10px;
-    width: 100%;
-    border-radius: 10px;
-    border: none;
-    background: #f1f1f1;
+.name-form, .descr-form {
+    width: calc(100% - 50px);
 }
 
 .textarea {
     padding: 10px;
     width: 100%;
-    min-height: 100px;
-    max-height: 300px;
     border-radius: 10px;
     border: none;
-    background: #f1f1f1;
     resize: none;
+    color: #000000;
+    background: transparent;
+    transition: background 0.3s;
+}
+
+.name-textarea {
+    min-height: 44px;
+    max-height: 300px;
+    font-size: 24px;
+}
+
+.descr-textarea {
+    min-height: 100px;
+    max-height: 300px;
+    font-size: 16px;
+}
+
+.edit-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background: transparent url('../../img/global/pencil.svg') no-repeat center center;
+    background-size: auto;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #00000030;
 }
 
 .file-input {
@@ -113,6 +137,7 @@
 
 .file-label {
     display: inline-block;
+    margin-right: 10px;
     cursor: pointer;
     color: #5A88FF;
 }

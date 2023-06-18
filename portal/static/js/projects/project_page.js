@@ -33,3 +33,14 @@ function close_update_window(){
     $('.update-file').css({ 'display': 'none' });
     $('.back-form').css({ 'display': 'none' });
 }
+
+function textarea_size(element) {
+    element.style.height = "1px";
+    element.style.height = (element.scrollHeight)+"px";
+  }
+
+let textarea_name = document.getElementById('name');
+let descr = document.getElementById('description');
+
+textarea_name.style.height = (textarea_name.scrollHeight)+"px";
+descr.style.height = (descr.scrollHeight)+"px";

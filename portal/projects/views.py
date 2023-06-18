@@ -174,7 +174,7 @@ def create(request: HttpRequest):
 
 @check_post_request('project')
 def correct_project(request: HttpRequest):
-    project_id = request.POST.get("project_id")
+    project_id = request.POST.get("project")
     print(project_id)
     try:
         project_id = project_id
