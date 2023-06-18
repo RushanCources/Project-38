@@ -18,7 +18,7 @@
             fill="#FFFFFF"></path>
     </svg></a>
 {% endif %}
-
+<!-- {% if user. == null %} -->
 <h1 class="title">Общий список</h1>
 <div class="no-projects">
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="no-projects-svg">
@@ -29,4 +29,14 @@
     </svg>
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
+<!-- {% else %} -->
+{% for project in projects %}
+        <div class="flex" id="flex{{ project.id }}">
+            <p class="cap">{{ project.title }}</p>
+            <button class="btn btn-dec"></button>
+            <p class="text">{{ project.body }}</p>
+            
+        </div>
+        {% endfor %}
+<!-- {% endif %} -->
 {% endblock %}
