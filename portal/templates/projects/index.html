@@ -31,12 +31,18 @@
 </div>
 <!-- {% else %} -->
 {% for project in projects %}
-        <div class="flex" id="flex{{ project.id }}">
-            <p class="cap">{{ project.title }}</p>
-            <button class="btn btn-dec"></button>
-            <p class="text">{{ project.body }}</p>
-            
+        <div class="flex" id="flex{{ project_id }}"> <!-- id проекта -->
+            <p class="cap">{{ project_title }}</p> <!-- Название проекта -->
+            <button class="btn btn-projects"></button> <!-- кнопка -->
+            <p class="text">{{ project_body }}</p> <!-- Описание проекта -->
+            <div class="files">
+                {% for file in files %} <!-- цикл для отрисовки файлов -->
+                    <div class="file">
+                        <p class="filename">{{ filename }}</p>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
+{% endfor %}
 <!-- {% endif %} -->
 {% endblock %}
