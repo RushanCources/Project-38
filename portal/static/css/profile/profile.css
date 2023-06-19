@@ -490,8 +490,9 @@
 
 .project-name {
     padding: 0;
-    font-size: 18px;
     display: block;
+    text-align: left;
+    font-size: 18px;
 }
 
 .project-name::after {
