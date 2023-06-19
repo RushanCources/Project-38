@@ -18,7 +18,7 @@
             fill="#FFFFFF"></path>
     </svg></a>
 {% endif %}
-<!-- {% if user. == null %} -->
+{% if has_projects == null %}
 <h1 class="title">Общий список</h1>
 <div class="no-projects">
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="no-projects-svg">
@@ -29,20 +29,20 @@
     </svg>
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
-<!-- {% else %} -->
+{% else %}
 {% for project in projects %}
-        <div class="flex" id="flex{{ project_id }}"> <!-- id проекта -->
-            <p class="cap">{{ project_title }}</p> <!-- Название проекта -->
-            <button class="btn btn-projects"></button> <!-- кнопка -->
-            <p class="text">{{ project_body }}</p> <!-- Описание проекта -->
+        <div class="flex" id="flex{{ project.id }}"> <!-- id проекта -->
+            <p class="cap">{{ project.name }}</p> <!-- Название проекта -->
+            <button class="btn btn-projects"></button> <!-- кнопка --> <!--Нужно сделать ссылку по типу projects/index/id_проекта-->
+            <p class="text">{{ project.description }}</p> <!-- Описание проекта -->
             <div class="files">
-                {% for file in files %} <!-- цикл для отрисовки файлов -->
+                {% for file in project.files %} <!-- цикл для отрисовки файлов -->
                     <div class="file">
-                        <p class="filename">{{ filename }}</p>
+                        <p class="filename">{{ file.name }}</p>
                     </div>
                 {% endfor %}
             </div>
         </div>
 {% endfor %}
-<!-- {% endif %} -->
+{% endif %}
 {% endblock %}
