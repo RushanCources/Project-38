@@ -161,10 +161,6 @@
     font-weight: 400;
 }
 
-.file-item:not(:last-child) {
-    margin-right: 10px;
-}
-
 .file-item-div {
     width: 15px;
     height: 15px;
@@ -213,6 +209,10 @@
     position: absolute;
 }
 
+.form-btn {
+    margin-top: 20px;
+}
+
 .status-input {
     display: block;
     padding: 10px 30px;
@@ -237,16 +237,17 @@
 }
 
 .old-files{
-    display: none;
     position: absolute;
-    min-width: 600px;
-    z-index: 3;
-    top: 50%;
+    padding: 20px;
+    padding-top: 10px;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
-    padding: 20px 45px;
+    display: none;
+    min-width: 600px;
+    z-index: 3;
+    border-radius: 10px;
     background-color: #fff;
-    border-radius: 5px;
 }
 
 .back-form {
@@ -261,27 +262,139 @@
 }
 
 .update-file{
-    display: none;
     position: absolute;
-    min-width: 600px;
-    z-index: 3;
-    top: 50%;
+    padding: 20px;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
-    padding: 20px 45px;
+    display: none;
+    z-index: 3;
+    border-radius: 10px;
     background-color: #fff;
-    border-radius: 5px;
 }
 
 .comment-window{
-    display: none;
     position: absolute;
-    min-width: 600px;
-    z-index: 3;
-    top: 50%;
+    padding: 20px;
+    padding-top: 45px;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
-    padding: 20px 45px;
+    display: none;
+    min-width: 600px;
+    z-index: 3;
+    border-radius: 10px;
     background-color: #fff;
+}
+
+.btn-exit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.comment-textarea {
+    min-height: 100px;
+    overflow-y: hidden;
+    border: 1px solid #000000;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.comment-btn {
+    padding: 10px 30px;
+    display: block;
+    margin-left: auto;
     border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background: #103A84;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s linear;
+}
+
+.comment-btn:hover {
+    background: #0d306d;
+}
+
+.comment-btn:active {
+    background: #3e5e96;
+}
+
+.old-files-title {
+    margin-top: 0;
+}
+
+.old-files-item {
+    position: relative;
+    padding: 10px;
+    padding-right: 20px;
+    border-radius: 5px;
+    background: url('../../img/project/download.svg') no-repeat;
+    background-position: calc(100% - 10px) center;
+    background-size: auto;
+    transition: background-color 0.3s linear;
+}
+
+.old-files-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.old-files-item:hover {
+    background-color: #f1f1f1;
+}
+
+.old-files-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.update-file-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.update-file-subtitle {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+.update-file-btns {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.update-file-btn {
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background: #103A84;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.3s linear;
+}
+
+.update-file-btn:hover {
+    background: #0d306d;
+}
+
+.update-file-btn:active {
+    background: #3e5e96;
 }

@@ -36,7 +36,8 @@
         <form method="POST" action="{% url 'correct_project' %}" id="form_name" class="name-form">
             {% csrf_token %}
             <input type="hidden" name="project" value="{{project.project_id}}" />
-            <textarea id="name" name="name" class="textarea name-textarea" onkeyup="textarea_size(this)" disabled>{{project.name}}</textarea>
+            <textarea id="name" name="name" class="textarea name-textarea" onkeyup="textarea_size(this)"
+                disabled>{{project.name}}</textarea>
         </form>
         <button onclick="return edit(this, 'name')" class="edit-btn">
         </button>
@@ -46,7 +47,8 @@
         <form method="POST" action="{% url 'correct_project' %}" id="form_description" class="descr-form">
             {% csrf_token %}
             <input type="hidden" name="project" value="{{project.project_id}}">
-            <textarea id="description" name="description" class="textarea descr-textarea" onkeyup="textarea_size(this)" disabled>{{project.description}}</textarea>
+            <textarea id="description" name="description" class="textarea descr-textarea" onkeyup="textarea_size(this)"
+                disabled>{{project.description}}</textarea>
         </form>
         <button onclick="return edit(this, 'description')" class="edit-btn"></button>
     </div>
@@ -101,52 +103,71 @@
         </ul>
     </div>
 
-    {% for files_pack in files_packs %}
-    <div>
-        <div id="comments{{files_pack.file.id}}" class="comment-window">
-            {% if files_pack.file.comment is not None %}
-            <div>{{files_pack.file.comment}}</div>
-            {%else%}
-            <form method="POST" action="{% url 'add_comment' %}">
-                {% csrf_token %}
-                <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
-                <textarea name="comment" class="form-control" placeholder="Введите комментарий"></textarea>
-                <label for="delete_file{{files_pack.file.id}}">Отправить комментарий</label>
-                <input type="submit">
-            </form>
-            {%endif%}
-            <button onclick="exit('comments{{files_pack.file.id}}')">Выйти</button>
-        </div>
-        <div id="old-files{{files_pack.file.id}}" class="old-files">
-            <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">Выход</button>
-            <div>Предыдущие версии файла<br></div>
-            {% for old_file in files_pack.old_files %}
-            <div>{{old_file.name}}</div>
-            <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}">Загрузить файл</a>
-            {% endfor %}
-        </div>
-    </div>
-
-    {% endfor %}
-
     {% if project.status == 'send request' and user.role == 'Учитель'%}
-    <form method="POST" action="{% url 'approve_project' %}">
+    <form method="POST" action="{% url 'approve_project' %}" class="form-btn">
         {% csrf_token %}
         <input type="hidden" name="project_id" value="{{project.project_id}}">
         <input type="submit" id="approve_project" class="status-input" value="Одобрить проект">
     </form>
     {% elif project.status == 'on work' and user.role == 'Учитель' %}
-    <form method="POST" action="{% url 'close_project' %}">
+    <form method="POST" action="{% url 'close_project' %}" class="form-btn">
         {% csrf_token %}
         <input type="hidden" name="project_id" value="{{project.project_id}}">
         <input type="submit" id="close_project " class="status-input" value="Завршить проект">
     </form>
     {% endif %}
-    <div class="update-file">
-        <div>Файл с таким именем уже существует<br>
-            Вы хотите заменить его?</div>
-        <button onclick="update_file()">Да</button>
-        <button onclick="close_update_window()">Нет</button>
+</div>
+
+{% for files_pack in files_packs %}
+<div>
+    <div id="comments{{files_pack.file.id}}" class="comment-window">
+        {% if files_pack.file.comment is not None %}
+        <div>{{files_pack.file.comment}}</div>
+        {%else%}
+        <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
+            {% csrf_token %}
+            <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
+            <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
+                onkeyup="textarea_size(this)" required></textarea>
+            <input type="submit" value="Отправить комментарий" class="comment-btn">
+        </form>
+        {%endif%}
+        <button class="btn-exit" onclick="exit('comments{{files_pack.file.id}}')">
+            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                <path
+                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                    fill="#000000"></path>
+            </svg>
+        </button>
+    </div>
+    <div id="old-files{{files_pack.file.id}}" class="old-files">
+        <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">
+            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                <path
+                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                    fill="#000000"></path>
+            </svg>
+        </button>
+        <h2 class="old-files-title">Предыдущие версии файла</h2>
+        <ul class="old-files-list">
+            {% for old_file in files_pack.old_files %}
+            <li class="old-files-item">
+                <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}"
+                    class="old-files-link">{{old_file.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endfor %}
+
+<div class="update-file">
+    <h2 class="update-file-title">Файл с таким именем уже существует</h2>
+    <span class="update-file-subtitle">Вы хотите заменить его?</span>
+    <div class="update-file-btns">
+        <button onclick="close_update_window()" class="update-file-btn">Нет</button>
+        <button onclick="update_file()" class="update-file-btn">Да</button>
     </div>
 </div>
 

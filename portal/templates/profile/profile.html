@@ -53,7 +53,7 @@
                     {% endfor %}
                     {% if user.role == 'Ученик' %}
                     {% for project_pack in request_projects_packs %}
-                    <li class="project-item"> <!-- здесь надо подумать -->
+                    <li class="project-item">
                         <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
                             <button class="btn project-name">{{ project_pack.project.name }}</button>
                         </a>
@@ -83,12 +83,12 @@
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
                     {% for project_pack in request_projects_packs %}
-                    <li class="project-item"> <!-- здесь надо подумать -->
+                    <li class="project-item">
                         <a href="{% url 'projects' %}?id={{project_pack.project.id}}">
                             <button class="btn project-name">{{ project_pack.project.name }}</button>
                         </a>
-                        <span class="project-span">{{ project_pack. }}</span>
-                        <span class="project-span">{{ user.group }} группа</span>
+                        <span class="project-span">{{ project_pack.student_p_name }}</span>
+                        <span class="project-span">{{ project_pack.project.student.group }} группа</span>
                     </li>
                     {% endfor %}
                 </ul>

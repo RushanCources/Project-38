@@ -490,6 +490,7 @@
 
 .project-name {
     padding: 0;
+    padding-right: 25px;
     display: block;
     text-align: left;
     font-size: 18px;
