@@ -10,14 +10,36 @@ from management.models import User
 from projects.models import Project, File
 
 
-def check_what_user_not_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
+def check_what_user_not_have_access(request: HttpRequest, project: Project):  # True если не имеет, False, если имеет
     return request.user.id != project.teacher.id and request.user.id != project.student.id and request.user.role != 'Администратор'
 
 
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     if project_id is None:
-        return render(request, "projects/index.html")
+        if request.user.role == 'Ученик':
+            projects = Project.objects.filter(student=request.user)
+        elif request.user.role == 'Учитель':
+            projects = Project.objects.filter(teacher=request.user)
+
+        @dataclass
+        class FilePack:
+            file: File
+            name: str
+
+        @dataclass
+        class ProjectPack:
+            project: Project
+            files: list[FilePack]
+
+        context_projects = []
+
+        for project in projects:
+            files = [FilePack(file, file.file.name.split('/')[-1]) for file in File.objects.filter(project=project, version=1)]
+            context_projects.append(ProjectPack(project, files))
+
+        return render(request, "projects/index.html", context={'projects': context_projects,
+                                                               'has_projects': len(context_projects) > 0})
     try:
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
