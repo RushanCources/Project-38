@@ -45,8 +45,7 @@
                 <ul class="projects-list">
                     {% for project_pack in open_projects_packs %}
                     <li class="project-item">
-                        <a class="project-name" href="{% url 'projects' %}?id={{project_pack.project.id}}">{{
-                            project.name }}</a>
+                        <a class="project-name" href="{% url 'projects' %}?id={{project_pack.project.id}}">{{ project_pack.project.name }}</a>
                         <span class="project-span">{{ project_pack.student_p_name }}</span>
                         <span class="project-span">{{ project_pack.project.student.group}} группа</span>
                     </li>
