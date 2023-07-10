@@ -161,7 +161,6 @@ def create(request: HttpRequest):
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
-    print(is_another_teacher)
     try:
         if is_another_teacher == 'on':
             another_teacher = request.POST.get("new-teacher")
@@ -197,7 +196,6 @@ def create(request: HttpRequest):
 @check_post_request('project')
 def correct_project(request: HttpRequest):
     project_id = request.POST.get("project")
-    print(project_id)
     try:
         project_id = project_id
         project = Project.objects.get(id=project_id)
@@ -278,7 +276,6 @@ def upload_file(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        print(file)
         file_object = File.objects.create(project=project, file=file, version=1)
         file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
