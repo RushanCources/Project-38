@@ -31,10 +31,10 @@
 </div>
 {% else %}
 {% for project in projects %}
-        <div class="flex" id="flex{{ project.id }}"> <!-- id проекта -->
-            <p class="cap">{{ project.name }}</p> <!-- Название проекта -->
-            <button class="btn btn-projects"></button> <!-- кнопка --> <!--Нужно сделать ссылку по типу projects/index/id_проекта-->
-            <p class="text">{{ project.description }}</p> <!-- Описание проекта -->
+        <div class="flex" id="flex{{ project.project.id }}"> <!-- id проекта -->
+            <p class="cap">{{ project.project.name }}</p> <!-- Название проекта -->
+            <button class="btn btn-projects"><a href="./?id={{ project.project.id }}">ссылка на проект</a></button> <!-- кнопка --> <!--Нужно сделать ссылку по типу projects/index/id_проекта-->
+            <p class="text">{{ project.project.description }}</p> <!-- Описание проекта -->
             <div class="files">
                 {% for file in project.files %} <!-- цикл для отрисовки файлов -->
                     <div class="file">

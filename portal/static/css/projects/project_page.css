@@ -1,14 +1,20 @@
 .main {
-    padding-top: 50px;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main > div:first-child {
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .people {
     padding: 15px 10px;
-    margin-right: 30px;
     display: flex;
     flex-direction: column;
     max-width: 350px;
@@ -46,7 +52,6 @@
     position: relative;
     padding: 15px 30px;
     padding-top: 15px;
-    width: 80%;
     max-width: 700px;
     background: #fff;
     border-radius: 15px;
