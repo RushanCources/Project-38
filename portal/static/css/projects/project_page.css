@@ -31,6 +31,26 @@
     margin-bottom: 20px;
 }
 
+.status {
+    padding-top: 15px;
+    margin-top: 10px;
+    text-align: center;
+    border-top: 1px solid #00000030;
+}
+
+.status-span {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.send-request {
+    color: #ff1b2e;
+}
+
+.on-work {
+    color: #ffb51b;
+}
+
 .people-fio {
     margin: 0;
     font-size: 16px;
@@ -60,189 +80,6 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
-}
-
-.status {
-    padding-top: 15px;
-    margin-top: 10px;
-    text-align: center;
-    border-top: 1px solid #00000030;
-}
-
-.status-span {
-    font-size: 14px;
-    font-weight: 400;
-}
-
-.send-request {
-    color: #ff1b2e;
-}
-
-.on-work {
-    color: #ffb51b;
-}
-
-.name, .descr {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.descr {
-    margin-bottom: 20px;
-}
-
-.name-form, .descr-form {
-    width: 100%;
-}
-
-.textarea {
-    width: 100%;
-    border-radius: 10px;
-    border: none;
-    resize: none;
-    text-align: justify;
-    color: #000000;
-    background: transparent;
-    transition: background 0.3s;
-}
-
-.name-textarea {
-    min-height: 44px;
-    max-height: 300px;
-    font-size: 30px;
-    font-weight: 700;
-}
-
-.descr-textarea {
-    min-height: 100px;
-    max-height: 300px;
-    font-size: 20px;
-}
-
-.edit-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
-    background: transparent url('../../img/global/pencil.svg') no-repeat center center;
-    background-size: auto;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.edit-btn:hover {
-    background-color: #00000030;
-}
-
-.file-input {
-    height: 0;
-    position: absolute;
-    opacity: 0;
-    z-index: -10;
-}
-
-.file-label {
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-    color: #5A88FF;
-}
-
-.file-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.file-item {
-    position: relative;
-    margin-top: 10px;
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    border: 1px solid #00000030;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 400;
-}
-
-.file-item-div {
-    width: 15px;
-    height: 15px;
-    background-size: auto;
-    background: url('../../img/global/del.svg') no-repeat center center;
-    cursor: pointer;
-}
-
-.btns {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    padding-left: 10px;
-    margin-left: 10px;
-    border-left: 1px solid #00000030;
-}
-
-.btns > button {
-    padding: 3px 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.btns > button:hover, .btns-label:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.btns svg {
-    width: 25px;
-    height: 25px;
-}
-
-.btns-label {
-    display: flex;
-    align-items: center;
-    padding: 3px 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.del-form {
-    position: absolute;
-}
-
-.form-btn {
-    margin-top: 20px;
-}
-
-.status-input {
-    display: block;
-    padding: 10px 30px;
-    margin: 0 auto;
-    background: transparent;
-    outline: none;
-    border: none;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #103A84;
-    color: #fff;
-    transition: background 0.3s linear;
-}
-
-.status-input:hover {
-    background: #0d306d;
-}
-
-.status-input:active {
-    background: #3e5e96;
 }
 
 .old-files{

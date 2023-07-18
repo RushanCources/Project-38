@@ -1,0 +1,70 @@
+.content {
+    max-width: 80%;
+}
+
+.textarea {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    min-width: 600px;
+    max-height: 74px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.3);
+    resize: none;
+    overflow: hidden;
+}
+
+.span {
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #000;
+}
+
+.span > svg {
+    margin-left: 3px;
+    width: 14px;
+    vertical-align: text-top;
+    cursor: pointer;
+}
+
+.bottom-div {
+    padding-top: 20px;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.bottom-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #103A84;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s linear;
+}
+
+.bottom-btn:hover {
+    background: #0d306d;
+}
+
+.bottom-btn:active {
+    background: #3e5e96;
+}
+
+.bottom-btn > svg {
+    margin-left: 5px;
+    transform: translateX(15px);
+    height: 16px;
+    fill: #fff;
+}
