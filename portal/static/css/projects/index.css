@@ -56,6 +56,24 @@
     box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.27);
 }
 
+.cap { /* Название*/
+    font-size: xx-large;
+    text-align: center;
+    padding: 2%;
+}
+
+.text { /* Описание*/
+
+}
+
+.file { /* div файла*/
+
+}
+
+.filename { /* Название файла*/
+
+}
+
 @media (max-width: 1000px) {
     .main {
         width: 90%;
