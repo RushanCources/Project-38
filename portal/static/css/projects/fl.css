@@ -81,6 +81,14 @@
     display: block;
 }
 
+.checkbox {
+    user-select: none;
+}
+
+.checkbox-label {
+    cursor: pointer;
+}
+
 .tea {
     width: 40%;
 }
@@ -150,4 +158,21 @@
 
 .but:active {
     background: #232323;
+}
+
+.errors {
+    display: flex;
+    flex-direction: column;
+}
+
+.error {
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 20px;
+    border: 1px solid #ff1c25;
+    background: #ff828230;
+    color: #000000;
 }

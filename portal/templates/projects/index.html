@@ -18,7 +18,7 @@
             fill="#FFFFFF"></path>
     </svg></a>
 {% endif %}
-
+{% if not has_projects %}
 <h1 class="title">Общий список</h1>
 <div class="no-projects">
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="no-projects-svg">
@@ -29,4 +29,22 @@
     </svg>
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
+{% else %}
+{% for project in projects %}
+        <div class="flex" id="flex{{ project.project.id }}"> <!-- id проекта -->
+            <p class="cap">{{ project.project.name }}</p> <!-- Название проекта -->
+            <p class="text">{{ project.project.description }}</p> <!-- Описание проекта -->
+            <div class="files">
+                {% for file in project.files %} <!-- цикл для отрисовки файлов -->
+                    <div class="file">
+                        <p class="filename">{{ file.name }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="./?id={{ project.project.id }}" class="a btn-projects"> <!-- кнопка -->
+                <p class="p inbtn">Редактирование проекта</p>
+            </a>
+        </div>
+{% endfor %}
+{% endif %}
 {% endblock %}

@@ -4,19 +4,42 @@ from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http.request import HttpRequest
+from django.contrib import messages
 
 from management.models import User
 from projects.models import Project, File
 
 
-def check_what_user_not_have_access(request: HttpRequest, project: Project): # True если не имеет, False, если имеет
+def check_what_user_not_have_access(request: HttpRequest, project: Project):  # True если не имеет, False, если имеет
     return request.user.id != project.teacher.id and request.user.id != project.student.id and request.user.role != 'Администратор'
 
 
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     if project_id is None:
-        return render(request, "projects/index.html")
+        if request.user.role == 'Ученик':
+            projects = Project.objects.filter(student=request.user)
+        elif request.user.role == 'Учитель':
+            projects = Project.objects.filter(teacher=request.user)
+
+        @dataclass
+        class FilePack:
+            file: File
+            name: str
+
+        @dataclass
+        class ProjectPack:
+            project: Project
+            files: list[FilePack]
+
+        context_projects = []
+
+        for project in projects:
+            files = [FilePack(file, file.file.name.split('/')[-1]) for file in File.objects.filter(project=project, version=1)]
+            context_projects.append(ProjectPack(project, files))
+
+        return render(request, "projects/index.html", context={'projects': context_projects,
+                                                               'has_projects': len(context_projects) > 0})
     try:
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
@@ -54,6 +77,8 @@ def index(request: HttpRequest):
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
+                   "avaurl_of_teacher" : project.teacher.avatar.url,
+                   "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
                    "description": project.description,
                    "project_id": project_id,
@@ -61,7 +86,7 @@ def index(request: HttpRequest):
                    'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    }
 
-        return render(request, "projects/project_page.html", context=context)
+        return render(request, "projects/project_page.html", context={"project" : context, "users" : User.objects.all(), "files_packs" : files_packs})
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
@@ -117,23 +142,25 @@ def check_post_request(*need_values):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
             if not request.user.is_authenticated:
-                return render(request, "NotEnoughPermissions.html")
+                messages.error(request, 'У вас нет прав для совершения этого действия')
+                return render(request, "projects/create.html")
+
             for value in need_values:
                 request_value = request.POST.get(value, '')
                 if request_value == '':
-                    return render(request, "WrongData.html")
+                    messages.error(request, 'Неверно введённые данные')
+                    return render(request, "projects/create.html")
             return func(request)
         return wrapper
     return decorator
 
 
-@check_post_request('teacher', 'name', "subject", "teacher-checkbox")
+@check_post_request('teacher', 'name', "subject")
 def create(request: HttpRequest):
     teacher_id = request.POST.get("teacher")
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
-    print(is_another_teacher)
     try:
         if is_another_teacher == 'on':
             another_teacher = request.POST.get("new-teacher")
@@ -249,7 +276,6 @@ def upload_file(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        print(file)
         file_object = File.objects.create(project=project, file=file, version=1)
         file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
