@@ -1,6 +1,6 @@
 .new-project-link {
-    margin: 10px 0;
-    padding: 30px;
+    margin: 10px auto;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,4 +41,76 @@
 
 .no-projects-svg {
     width: 300px;
+}
+
+.main {
+    width: 70%;
+}
+
+.flex {
+    width: 100%;
+    margin-top: 5%;
+    min-height: 300px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.27);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.cap { /* Название*/
+    font-size: xx-large;
+    text-align: center;
+    padding: 2%;
+}
+
+.text { /* Описание*/
+    align-self: center;
+    min-width: 88%;
+    min-height: 40px;
+}
+
+.files { /* main-div всех файлов*/
+
+}
+
+.file { /* div файла*/
+
+}
+
+.filename { /* Название файла*/
+
+}
+a.btn-projects { /* Кнопка проекта*/
+    align-self: center;
+    display: flex;
+    margin-bottom: 2%;
+    height: 50px;
+    min-width: 30%;
+    border: 0;
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55); 
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    /* text-align: center; */
+    justify-content: center;
+}
+
+.inbtn {
+
+}
+
+a.btn-projects:hover, a.btn-projects.hover {
+    background-color: #DBE1FF;
+}
+
+a.btn-projects:active, a.btn-projects.active {
+    background-color: #546FFF;
+}
+
+@media (max-width: 1000px) {
+    .main {
+        width: 90%;
+        align-self: center;
+    }
 }

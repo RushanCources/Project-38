@@ -163,7 +163,6 @@ def profile(request):
         close_projects_packs = [ProjectsPack(project) for project in close_projects_st]
         request_projects_packs = [ProjectsPack(project) for project in request_projects_st]
     else:
-
         open_projects_T = Project.objects.filter(teacher=request.user, _status = "on work")
         close_projects_T = Project.objects.filter(teacher=request.user, _status = "done")
         request_projects_T = Project.objects.filter(teacher=request.user, _status = "send request")
