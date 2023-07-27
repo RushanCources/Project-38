@@ -185,3 +185,7 @@
 .new-theme-subjects-item:not(:last-child) {
     margin-right: 15px;
 }
+
+.content-item > textarea {
+    margin-bottom: 25px;
+}

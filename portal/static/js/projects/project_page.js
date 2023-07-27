@@ -53,9 +53,10 @@ let input = document.getElementById('theme_subject');
 
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
-    console.log('test');
+    console.log(len, $('.new-theme-subjects-list')[0].childNodes);
 
-    if (len < 3) {
+
+    if (len < 5) {
         const { value } = input;
         let ul = $('.search-result-list');
         ul.html('');
@@ -63,7 +64,6 @@ input.oninput = event => {
         for (let i = 0; i < subjets.length; i++) {
             if (subjets[i].toLowerCase().match(value.toLowerCase()) && value != '') {
                 let li = document.createElement('li');
-
                 li.className = 'search-result-item';
                 li.innerHTML = subjets[i];
                 ul.prepend(li);
