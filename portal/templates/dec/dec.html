@@ -16,6 +16,12 @@
                 <button class="search-button"></button>
             </div>
         </form>
+        {% comment %} {% if user.role == administrator or user.role == teacher %} {% endcomment %}
+            <div class="decorate">
+              <a href="{% url 'redactor' %}" class="Adecorate"></a>
+              <p class="Tdecorate">Создать объявление</p>
+            </div>
+        {% comment %} {% endif %} {% endcomment %}
     </div>
 
     <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
