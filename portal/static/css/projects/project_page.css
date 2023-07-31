@@ -2,7 +2,7 @@
     padding-top: 50px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
@@ -12,6 +12,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
+    width: 100%;
 }
 
 .people {

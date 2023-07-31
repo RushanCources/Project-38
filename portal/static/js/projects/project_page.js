@@ -53,7 +53,6 @@ let input = document.getElementById('theme_subject');
 
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
-    console.log(len, $('.new-theme-subjects-list')[0].childNodes);
 
 
     if (len < 5) {
@@ -96,6 +95,7 @@ function result_item() {
         $('.search-result-list').html('');
         $('.new-theme-subjects-div').off();
         subject_remove();
+        checking('cb3');
     });
 
 }
@@ -105,5 +105,6 @@ function subject_remove() {
         let li = this.parentNode;
         subjets.push(li.innerText);
         li.remove();
+        checking('cb3');
     });
 }
