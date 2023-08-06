@@ -51,6 +51,20 @@ let subjets = ["Математика", "Алгебра", "Геометрия", "
 
 let input = document.getElementById('theme_subject');
 
+let subjects_item = $('.new-theme-subjects-item').length;
+
+if (subjects_item > 0) {
+    while (subjects_item != 0) {
+        let sub = $('.new-theme-subjects-item')[subjects_item-1].innerText;
+        let i = subjets.indexOf(sub);
+        if (i >= 0) {
+            subjets.splice(i, 1);
+        }
+        subjects_item--;
+        subject_remove();
+    }
+}
+
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
 

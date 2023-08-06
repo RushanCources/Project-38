@@ -20,7 +20,7 @@
 .content-block-open {
     margin-bottom: 40px;
     max-height: 2000px;
-    overflow-y: clip;
+    overflow-y: visible;
     transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
 }
 
