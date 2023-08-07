@@ -15,6 +15,11 @@ class Project(models.Model):
     _statuses = ["send request", "on work", "send to verification", "done"]
     _status = models.CharField(max_length=30)
     _subject = models.CharField(max_length=20, null=True)
+    problem = models.CharField(max_length=1000, null=True)
+    relevance = models.CharField(max_length=1000, null=True)
+    target = models.CharField(max_length=1000, null=True)
+    tasks = models.CharField(max_length=1000, null=True)
+    expected_results = models.CharField(max_length=1000, null=True)
 
     def set_subject(self, subject):
         if subject in ["Математика", "Алгебра", "Геометрия", "Теория вероятностей и статистика", "Информатика",
