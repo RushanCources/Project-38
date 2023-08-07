@@ -85,6 +85,7 @@ def index(request: HttpRequest):
                    "project_id": project_id,
                    'files_packs': files_packs,
                    'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
+                   'is_opened': request.user.is_view_window,
                    }
 
         return render(request, "projects/project_page.html", context={"project" : context, "users" : User.objects.all(), "files_packs" : files_packs})
@@ -210,6 +211,8 @@ def correct_project(request: HttpRequest):
         if description != -1:
             project.description = description
             project.save()
+        request.user.is_view_window = True
+        request.user.save()
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")

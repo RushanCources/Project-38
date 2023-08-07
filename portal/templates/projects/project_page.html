@@ -332,6 +332,7 @@
         form.submit();
     }
     files_names = {{ project.files_names | js }};
+    is_opened = {{ is_opened | js }};
     update_files_url = "{% url 'update_file' %}"
 </script>
 
