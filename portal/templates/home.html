@@ -163,12 +163,12 @@
         <div id="cont">
 
         </div>
-        <script type="module">
-          import {genDiv} from '{% static 'js/global/functions.js' %}';
+        <script type="module"> //Приводим скрипт к типу module
+          import {genDiv} from '{% static 'js/global/functions.js' %}'; //import функции из js/global/functions.js
           genDiv(16,"button","cont","wbtn","p","wp");
-          console.log("genDiv");
-          for(let i=0; i<16; i++){
-            $(`#wp${i}`).append(() => {
+          console.log("genDiv"); // отчёт в консоль об успешном выполнении вызванной функции
+          for(let i=0; i<16; i++){ // цикл для добавления информации в сгенерированные теги
+            $(`#wp${i}`).append(() => { // берём по id <p> и вставляем в него строку
                 let str =``;
                 switch (i){
                     case 0:str+=`Информационный проект`;break;
@@ -191,7 +191,7 @@
                 }
                 return str;
             });
-            $(`#wbtn${i}`).append(()=>{
+            $(`#wbtn${i}`).append(()=>{ // берём по id <button> и вставляем в него строку
                 let str=``;
                 str+=`<img class="bImg" id="bImg${i}" src="../static/img/home_page/butImg${i}.png"/>`
                 switch (i){
