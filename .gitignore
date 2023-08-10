@@ -1,4 +1,5 @@
 Assets LTE
 .venv/
+env
 portal/db.sqlite3
 portal/db.sqlite3

@@ -11,25 +11,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
-    {% if user.is_authenticated %}
+    {% comment %} {% if user.is_authenticated %} {% endcomment %}
     <title>Главная страница</title>
     <link rel="stylesheet" href="{% static 'css/home_page/home_auth.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/footer.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/index.css' %}">
-    {% else %}
+    <link rel="modulepreload" href="{% static 'js/global/functions.js' %}">
+    {% comment %} {% else %}
     <title>Лицей 38 - проектная деятельность</title>
     <link rel="stylesheet" href="{% static 'css/home_page/home.css' %}">
-    {% endif %}
+    {% endif %} {% endcomment %}
 </head>
 
 <body>
 
-    {% if user.is_authenticated %}
+
     <header class="header">
         <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
             <ul class="nav-list">
+        {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a href="{% url 'home' %}">Главная</a>
                 </li>
@@ -42,6 +44,13 @@
                 <li class="nav-item">
                     <a href="{% url 'projects' %}">Управление проектом</a>
                 </li>
+        {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'login' %}">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'token_page' %}">Зарегестрироваться</a>
+                </li>
                 {% if user.is_superuser %}
                 <li class="nav-item">
                     <a href="{% url 'admin_menu' %}">Администрирование</a>
@@ -49,13 +58,16 @@
                 {% endif %}
             </ul>
         </nav>
+        {% endif %}
+        {% if user.is_authenticated %}
         <a class="user" href="{% url 'profile' %}">
             <p class="username">{{ user.username }}</p>
             <img class="avatar" src="{{ user.avatar.url }}" alt="Аватарка пользователя">
         </a>
+        {% endif %}
     </header>
     <main class="main">
-        <div class="plug">
+        {% comment %} <div class="plug">
             <div>
                 <h1 class="main-title">Главная страница ещё в разработке!</h1>
                 <span class="main-subtitle">Не волнуйтесь, скоро она будет большой и красивой</span>
@@ -145,7 +157,21 @@
                     </g>
                 </g>
             </svg>
+        </div> {% endcomment %}
+
+        <h1 class="side">Направление</h1>
+        <div id="cont">
+
         </div>
+        <script type="module">
+          import {genDiv} from '{% static 'js/global/functions.js' %}';
+          genDiv(16,"button","wbtn","p","wp","cont");
+          console.log("genDiv");
+        </script>
+        {% if user.is_authenticated %}
+        {% else %}
+
+        {% endif %}
     </main>
 
 
@@ -195,7 +221,7 @@
             © Муниципальное автономное общеобразовательное учреждение "Лицей № 38"
         </div>
     </footer>
-    {% else %}
+    {% comment %} {% else %}
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
     <div class="main">
         <div class="content">
@@ -208,7 +234,7 @@
             <img src="{% static 'img/home_page/1.jpg' %}" alt="Главная картинка">
         </div>
     </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
 </body>
 
 </html>
