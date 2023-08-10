@@ -7,14 +7,20 @@ from .models import Announcement
 
 class AnnouncementForm(forms.Form):
     date_of_expiring = forms.DateField(label='', widget=forms.DateInput(attrs={'class': 'date', 'type': 'date'}), required=False)
+    #дата исчезновения
     title = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'class': 'title', 'placeholder' : 'Заголовок объявления'}))
+    #Название
     body = forms.CharField(label='', widget=forms.Textarea(attrs={'class': 'body'}))
+    #описание
     is_pinned = forms.BooleanField(label='Закрепить', required=False)
+    #чекбокс закрепления
     image_url = forms.FilePathField(label='Выбрать обложку', path=finders.find("img/announcements/covers"), required=False, widget=forms.TextInput(attrs={'class': 'imurl'}))
+    #ссылка на изображение
     files = forms.FileField(label='Прикрепить файлы', widget=forms.FileInput(attrs={'class':"files"}), required=False)
+    #Прикрепление файлов
     file_id_to_delete = forms.IntegerField(widget=forms.HiddenInput(attrs={'class': 'fitd'}), required=False)
-
-    def clean_date_of_expiring(self):
+    #id файла на удаление
+    def clean_date_of_expiring(self):#Проверка на правильность date_of_expiring
         exdate = self.cleaned_data.get('date_of_expiring')
         if exdate is not None and datetime.now().date() > exdate:
             raise ValidationError('Неверная дата')
