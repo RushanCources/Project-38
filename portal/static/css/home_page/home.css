@@ -33,7 +33,6 @@ a {
     display:  flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(180deg, #E8F0FF 0%, #103A84 100%);
 }
 
 .img {
