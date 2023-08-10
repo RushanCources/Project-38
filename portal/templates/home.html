@@ -26,7 +26,7 @@
 
 <body>
 
-
+    <script src="{% static 'js/global/jquery.js' %}"></script>
     <header class="header">
         <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
@@ -165,8 +165,58 @@
         </div>
         <script type="module">
           import {genDiv} from '{% static 'js/global/functions.js' %}';
-          genDiv(16,"button","wbtn","p","wp","cont");
+          genDiv(16,"button","cont","wbtn","p","wp");
           console.log("genDiv");
+          for(let i=0; i<16; i++){
+            $(`#wp${i}`).append(() => {
+                let str =``;
+                switch (i){
+                    case 0:str+=`Информационный проект`;break;
+                    case 1:str+=`Творческий проект`;break;
+                    case 2:str+=`Социальный проект`;break;
+                    case 3:str+=`Прикладной проект`;break;
+                    case 4:str+=`Инновационный проект`;break;
+                    case 5:str+=`Конструкторский проект`;break;
+                    case 6:str+=`Инженерный проект`;break;
+                    case 7:str+=`Маркетинговый проект`;break;
+                    case 8:str+=`Образовательный проект`;break;
+                    case 9:str+=`Инвестиционный проект`;break;
+                    case 10:str+=` проект`;break;
+                    case 11:str+=` проект`;break;
+                    case 12:str+=` проект`;break;
+                    case 13:str+=` проект`;break;
+                    case 14:str+=` проект`;break;
+                    case 15:str+=` проект`;break;
+                    default:break;
+                }
+                return str;
+            });
+            $(`#wbtn${i}`).append(()=>{
+                let str=``;
+                str+=`<img src="../static/img/home_page/butImg${i}.png"/>`
+                switch (i){
+                    case 0:break;
+                    case 1:break;
+                    case 2:break;
+                    case 3:break;
+                    case 4:break;
+                    case 5:break;
+                    case 6:break;
+                    case 7:break;
+                    case 8:break;
+                    case 9:break;
+                    case 10:;break;
+                    case 11:;break;
+                    case 12:;break;
+                    case 13:;break;
+                    case 14:;break;
+                    case 15:;break;
+                    default:break;
+                }
+                return str;
+            });
+            
+          }
         </script>
         {% if user.is_authenticated %}
         {% else %}
