@@ -162,11 +162,11 @@
                     <span class="span">Тип проекта*: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
                     <div class="content-type">
                         <label class="type-label">
-                            <input type="radio" name="project-type" id="project" onchange="checking('cb2')"> Проект
+                            <input type="radio" name="project-type" id="project" onchange="checking('cb2', true)"> Проект
                         </label>
                         <div class="type-line"></div>
                         <label class="type-label">
-                            <input type="radio" name="project-type" id="noy" onchange="checking('cb2')"> НОУ
+                            <input type="radio" name="project-type" id="noy" onchange="checking('cb2', true)"> НОУ
                         </label>
                     </div>
                 </div>
@@ -333,6 +333,7 @@
     }
     files_names = {{ project.files_names | js }};
     is_opened = {{ is_opened | js }};
+    console.log(is_opened);
     update_files_url = "{% url 'update_file' %}"
 </script>
 

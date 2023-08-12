@@ -80,7 +80,7 @@ def index(request: HttpRequest):
                    "avaurl_of_teacher" : project.teacher.avatar.url,
                    "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
-                   "subjects" : project._subject,
+                   "subjects" : project._subjects,
                    "description": project.description,
                    "project_id": project_id,
                    'files_packs': files_packs,
