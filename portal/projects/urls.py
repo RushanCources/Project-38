@@ -2,7 +2,6 @@ from django.urls import path
 from projects import views
 
 urlpatterns = [
-    path('', name='project'),
     path('index/', views.index, name='projects'),  # переводит на страницу пректов, которые есть у юзера или на отдельный проект если указан id
     path('create/', views.send_create_form, name='create'),  # форма для подачи заявки на проект
     path('create/postcreate/', views.create, name='postcreate'),  # обработка формы подачи заявки на проект
