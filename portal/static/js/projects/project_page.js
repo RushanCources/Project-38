@@ -86,12 +86,8 @@ input.oninput = event => {
     }
 }
 
-function result_item() {
-
-    $('.search-result-item').on('click', function () {
-        let sub = $(this).html();
-
-        let i = subjets.indexOf(sub);
+function create(text) {
+    let i = subjets.indexOf(text);
         if (i >= 0) {
             subjets.splice(i, 1);
         }
@@ -100,7 +96,7 @@ function result_item() {
         let ul = $('.new-theme-subjects-list');
         let div = document.createElement('div');
 
-        li.innerHTML = sub;
+        li.innerHTML = text;
         li.className = 'new-theme-subjects-item';
         div.className = 'new-theme-subjects-div';
         ul.prepend(li);
@@ -110,6 +106,12 @@ function result_item() {
         $('.new-theme-subjects-div').off();
         subject_remove();
         checking('cb3');
+}
+
+function result_item() {
+    $('.search-result-item').on('click', function () {
+        let sub = $(this).html();
+        create(sub);
     });
 
 }
@@ -122,3 +124,13 @@ function subject_remove() {
         checking('cb3');
     });
 }
+
+$('.new-theme-subjects-input').on('blur', function() {
+    let len = $('.new-theme-subjects-list')[0].childNodes.length;
+    if (len < 5) {
+        let text = $('.new-theme-subjects-input').val().trim();
+        if (text != '' && text.length > 3) {
+            create(text);
+        }
+    }
+});
