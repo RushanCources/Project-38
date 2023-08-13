@@ -55,63 +55,90 @@ function checking(name, is_click) {
     }
 }
 
-checking('cb1');
+if (is_opened) {
+    $('.content-block').addClass('content-block-open');
+    $('.next-btn').html('Сохранить');
+    $('.next-btn').attr('type', 'submit');
 
-num_of_cb = 1;
+    let i = 1;
 
-function next() {
-    let cb = '.cb' + num_of_cb;
-    let status = $($(cb)[0].childNodes[3].childNodes[0]).attr('class');
-
-    if (status == 'ok') {
+    while (i != 5) {
+        checking('cb' + i);
+        i++;
+    }
+} else {
+    checking('cb1');
+    
+    num_of_cb = 1;
+    
+    function next() {
+        let cb = '.cb' + num_of_cb;
+        let status = $($(cb)[0].childNodes[3].childNodes[0]).attr('class');
+    
+        if (status == 'ok') {
+            let new_cb = '.cb' + (num_of_cb + 1);
+            $(new_cb).css({'display' : 'block'});
+            $(new_cb).addClass('content-block-open');
+            num_of_cb++;
+    
+            checking('cb' + num_of_cb);
+    
+    
+            if (num_of_cb != 5) {
+                if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
+                    $('.next-btn').css({'pointer-events' : 'none'});
+                }
+            }
+    
+            if (num_of_cb == 4) {
+                $('.skip-btn').css({'display' : 'block'});
+            }
+            else if (num_of_cb == 5) {
+                $('.next-btn').css({
+                    'background-url' : 'none',
+                    'text-align' : 'center'
+                });
+                $('.next-btn').html('Сохранить');
+                $('.next-btn').attr('type', 'submit');
+                $('.skip-btn').css({'display' : 'none'});
+            }
+        }
+    }
+    
+    function skip() {
         let new_cb = '.cb' + (num_of_cb + 1);
         $(new_cb).css({'display' : 'block'});
         $(new_cb).addClass('content-block-open');
         num_of_cb++;
-
-        checking('cb' + num_of_cb);
-
-
+    
         if (num_of_cb != 5) {
             if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
                 $('.next-btn').css({'pointer-events' : 'none'});
             }
         }
-
-        if (num_of_cb == 4) {
-            $('.skip-btn').css({'display' : 'block'});
-        }
-        else if (num_of_cb == 5) {
+    
+    
+        if (num_of_cb == 5) {
             $('.next-btn').css({
                 'background-url' : 'none',
                 'text-align' : 'center'
             });
             $('.next-btn').html('Сохранить');
+            $('.next-btn').attr('type', 'submit');
+            $('.next-btn').css({'pointer-events' : 'auto'});
             $('.skip-btn').css({'display' : 'none'});
         }
     }
 }
 
-function skip() {
-    let new_cb = '.cb' + (num_of_cb + 1);
-    $(new_cb).css({'display' : 'block'});
-    $(new_cb).addClass('content-block-open');
-    num_of_cb++;
+// для подсказок
 
-    if (num_of_cb != 5) {
-        if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
-            $('.next-btn').css({'pointer-events' : 'none'});
-        }
-    }
-
-
-    if (num_of_cb == 5) {
-        $('.next-btn').css({
-            'background-url' : 'none',
-            'text-align' : 'center'
-        });
-        $('.next-btn').html('Сохранить');
-        $('.next-btn').css({'pointer-events' : 'auto'});
-        $('.skip-btn').css({'display' : 'none'});
-    }
-}
+$('.question').hover(function() {
+    let i = [].indexOf.call($('.question'), $(this)[0]);
+    let help = $('.help')[i];
+    $(help).css({'opacity' : '1'});
+}, function() {
+    let i = [].indexOf.call($('.question'), $(this)[0]);
+    let help = $('.help')[i];
+    $(help).css({'opacity' : '0'});
+});

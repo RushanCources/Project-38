@@ -1,6 +1,7 @@
 .content {
     width: 50%;
     max-width: 800px;
+    margin-right: 350px;
 }
 
 .content-block {
@@ -206,6 +207,10 @@
     margin-right: 15px;
 }
 
+.content-item {
+    position: relative;
+}
+
 .content-item > textarea {
     margin-bottom: 25px;
 }
@@ -254,4 +259,26 @@
     background-color: rgba(213, 213, 213, 0.12);
     color: #929292;
     border-color: #929292;
+}
+
+.help {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    max-width: 250px;
+    transform: translateX(350px);
+    font-size: 15px;
+    font-weight: 300;
+    text-align: justify;
+    line-height: 1.5em;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+}
+
+.help:not(:last-child) {
+    top: 0;
+}
+
+.help:last-child {
+    bottom: 0;
 }
