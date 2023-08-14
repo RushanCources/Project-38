@@ -15,11 +15,17 @@ class Project(models.Model):
     _statuses = ["send request", "on work", "send to verification", "done"]
     _status = models.CharField(max_length=30)
     _subjects = models.CharField(max_length=100, null=True)
+    _types = ['Проект', 'НОУ']
+    _type = models.CharField(max_length=10, null=True)
     problem = models.CharField(max_length=1000, null=True)
     relevance = models.CharField(max_length=1000, null=True)
     target = models.CharField(max_length=1000, null=True)
     tasks = models.CharField(max_length=1000, null=True)
     expected_results = models.CharField(max_length=1000, null=True)
+
+    abstract = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
+    presentation = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
+    defence = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
 
     def set_subject(self, subjects: str):
         flag = True
@@ -40,8 +46,8 @@ class Project(models.Model):
             self._subjects = subjects
             self.save()
 
-    def get_subject(self):
-        return self._subject
+    def get_subjects(self):
+        return self._subjects
 
     def set_status(self, n):
         if n in self._statuses:
@@ -50,6 +56,14 @@ class Project(models.Model):
 
     def get_status(self):
         return self._status
+
+    def set_type(self, project_type):
+        if project_type in self._types:
+            self._type = project_type
+            self.save()
+
+    def get_type(self):
+        return self._type
 
 
 MAX_FILE_VERSION = 3

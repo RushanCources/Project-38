@@ -80,15 +80,21 @@ def index(request: HttpRequest):
                    "avaurl_of_teacher" : project.teacher.avatar.url,
                    "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
-                   "subjects" : project._subjects,
+                   "subjects": project.get_subjects(),
                    "description": project.description,
+                   "project_type": project.get_type(),
+                   'problem': project.problem,
+                   "relevance": project.relevance,
+                   "target": project.target,
+                   "tasks": project.tasks,
+                   "expected_results": project.expected_results,
                    "project_id": project_id,
                    'files_packs': files_packs,
                    'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    'is_opened': request.user.is_view_window,
                    }
 
-        return render(request, "projects/project_page.html", context={"project" : context, "users" : User.objects.all(), "files_packs" : files_packs})
+        return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
@@ -205,12 +211,29 @@ def correct_project(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
+        project_type = request.POST.get('project-type', -1)
+        problem = request.POST.get('problem', -1)
+        relevance = request.POST.get('relevance', -1)
+        target = request.POST.get('target', -1)
+        tasks = request.POST.get('tasks', -1)
+        expected_results = request.POST.get('expected-results', -1)
         if name != -1:
             project.name = name
-            project.save()
         if description != -1:
             project.description = description
-            project.save()
+        if project_type != -1:
+            project.set_type(project_type)
+        if problem != -1:
+            project.problem = problem
+        if relevance != -1:
+            project.relevance = relevance
+        if target != -1:
+            project.target = target
+        if tasks != -1:
+            project.tasks = tasks
+        if expected_results != -1:
+            project.expected_results = expected_results
+        project.save()
         request.user.is_view_window = True
         request.user.save()
         return redirect(f"{reverse('projects')}?id={project_id}")
