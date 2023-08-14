@@ -164,10 +164,29 @@
 
         </div>
         <script type="module"> //Приводим скрипт к типу module
-          import {genDiv} from '{% static 'js/global/functions.js' %}'; //import функции из js/global/functions.js
-          genDiv(16,"button","cont","wbtn","p","wp");
-          console.log("genDiv"); // отчёт в консоль об успешном выполнении вызванной функции
-          for(let i=0; i<16; i++){ // цикл для добавления информации в сгенерированные теги
+        let typeProj ={
+            0: 'information',
+            1: 'creative',
+            2: 'social',
+            3: 'applied',
+            4: 'innovative',
+            5: 'design',
+            6: 'engineer',
+            7: 'marketing',
+            8: 'education',
+            9: 'investment',
+            10: 'research',
+            11: 'group',
+            12: 'individual',
+            13: 'role-playing',
+            14: 'subject-oriented',
+            15: 'none',
+        };
+        console.log(typeProj);
+        import {genDiv} from '{% static 'js/global/functions.js' %}'; //import функции из js/global/functions.js
+        genDiv(16,"button","cont","wbtn","p","wp");
+        console.log("genDiv"); // отчёт в консоль об успешном выполнении вызванной функции
+        for(let i=0; i<16; i++){ // цикл для добавления информации в сгенерированные теги
             $(`#wp${i}`).append(() => { // берём по id <p> и вставляем в него строку
                 let str =``;
                 switch (i){
@@ -191,6 +210,7 @@
                 }
                 return str;
             });
+            $(`#wbtn${i}`).attr("href", `${typeProj[i]}_project`)
             $(`#wbtn${i}`).append(()=>{ // берём по id <button> и вставляем в него строку
                 let str=``;
                 switch (i){
@@ -219,7 +239,7 @@
                 return str;
             });
             
-          }
+        }
         </script>
         {% if user.is_authenticated %}
         {% else %}
