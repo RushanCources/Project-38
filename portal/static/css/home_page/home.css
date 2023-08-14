@@ -1,85 +1,61 @@
-body, html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    box-sizing: border-box;
+.plug{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 1000px;
 }
 
-* {
-    box-sizing: inherit;
+.main-svg {
+    width: 300px;
 }
 
-img {
-    width: 100%;
+.main-title {
+    margin: 10px 0;
 }
 
-a {
-    text-decoration: none;
-}
-
-.logo {
-    display: inline-block;
-    margin-top: 40px;
-    margin-left: 10%;
+.main-subtitle {
+    font-weight: 300;
 }
 
 .main {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    margin: 0 auto;
-    display:  flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
-.img {
-    width: 40%;
+.side { /*<h1> Направление </h1>*/
+    align-self: center;
 }
 
-.content {
-    max-width: 50%;
+#cont{ /*контейнер для кнопок*/
+    width: 80vw;
+    min-height: 45vh;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2em auto;
+    justify-content: space-evenly;
 }
 
-.text {
-    margin: 0;
-    font-size: calc(24px + 20 * (100vw / 1920));
-    font-weight: 400;
-    font-family: 'Roboto', sans-serif;
-    color: #007EFA;
+.wbtn { /*кнопки*/
+    margin: 1em;
+    display: flex;
+    justify-content:space-between;
+    max-height: 10em;
+    padding: 1em;
+    background-color: #fff;
+    border: 0;
+    border-radius: 3em;
+    flex: 0 1 20em;
+}  
+
+.wbtn:hover { /*кнопки при наведении*/
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55);
 }
 
-.bold_text {
-    display: block;
-    font-weight: 700;
-}
-
-.sub-title {
-    display: block;
-    padding-top: 7px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: calc(16px + 14 * (100vw / 1920));
-    color: #000;
-}
-
-.button {
-    margin-top: 25px;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
-    padding: 17px 0;
-}
-
-.button > a {
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    padding: 17px 45px;
-    width: 100%;
-    height: 100%;
+.wbtn:active { /*кнопки при активации*/
+    background-color: #DBE1FF;
 }

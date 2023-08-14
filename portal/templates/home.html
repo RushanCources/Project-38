@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
     {% comment %} {% if user.is_authenticated %} {% endcomment %}
     <title>Главная страница</title>
-    <link rel="stylesheet" href="{% static 'css/home_page/home_auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home_page/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/footer.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/index.css' %}">
@@ -31,7 +31,7 @@
         <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/icon.png' %}" alt="Логотип сайта"></a>
         <nav class="nav">
             <ul class="nav-list">
-        {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a href="{% url 'home' %}">Главная</a>
                 </li>
@@ -44,13 +44,14 @@
                 <li class="nav-item">
                     <a href="{% url 'projects' %}">Управление проектом</a>
                 </li>
-        {% else %}
+                {% else %}
                 <li class="nav-item">
                     <a href="{% url 'login' %}">Войти</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'token_page' %}">Зарегестрироваться</a>
                 </li>
+                {% endif %}
                 {% if user.is_superuser %}
                 <li class="nav-item">
                     <a href="{% url 'admin_menu' %}">Администрирование</a>
@@ -58,7 +59,6 @@
                 {% endif %}
             </ul>
         </nav>
-        {% endif %}
         {% if user.is_authenticated %}
         <a class="user" href="{% url 'profile' %}">
             <p class="username">{{ user.username }}</p>
@@ -181,11 +181,11 @@
                     case 7:str+=`Маркетинговый проект`;break;
                     case 8:str+=`Образовательный проект`;break;
                     case 9:str+=`Инвестиционный проект`;break;
-                    case 10:str+=` проект`;break;
-                    case 11:str+=` проект`;break;
-                    case 12:str+=` проект`;break;
-                    case 13:str+=` проект`;break;
-                    case 14:str+=` проект`;break;
+                    case 10:str+=`Исследовательский проект`;break;
+                    case 11:str+=`Групповой проект`;break;
+                    case 12:str+=`Индивидуальный проект`;break;
+                    case 13:str+=`Ролево-игровой проект`;break;
+                    case 14:str+=`Предметно-ориентированный проект`;break;
                     case 15:str+=` проект`;break;
                     default:break;
                 }
@@ -193,24 +193,27 @@
             });
             $(`#wbtn${i}`).append(()=>{ // берём по id <button> и вставляем в него строку
                 let str=``;
-                str+=`<img class="bImg" id="bImg${i}" src="../static/img/home_page/butImg${i}.png"/>`
                 switch (i){
-                    case 0:break;
-                    case 1:break;
-                    case 2:break;
-                    case 3:break;
-                    case 4:break;
-                    case 5:break;
-                    case 6:break;
-                    case 7:break;
-                    case 8:break;
-                    case 9:break;
-                    case 10:;break;
-                    case 11:;break;
-                    case 12:;break;
-                    case 13:;break;
-                    case 14:;break;
-                    case 15:;break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    str+=`<img class="bImg" id="bImg${i}" src="../static/img/home_page/butImg${i}.png"/>`;
+                    break;
+                    case 0:
+                    case 7:
+                    str+=`<img class="bImg" id="bImg${i}" src="../static/img/home_page/butImg${i}.svg"/>`;
+                    break;
                     default:break;
                 }
                 return str;
