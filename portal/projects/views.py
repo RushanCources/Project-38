@@ -215,6 +215,7 @@ def correct_project(request: HttpRequest):
         target = request.POST.get("target", -1)
         tasks = request.POST.get("tasks", -1)
         expected_results = request.POST.get("expected_results", -1)
+        subjects = request.POST.get("subjects", -1)
         if name != -1:
             project.name = name
             project.save()
@@ -235,7 +236,10 @@ def correct_project(request: HttpRequest):
             project.save()       
         if expected_results != -1:
             project.expected_results = expected_results
-            project.save()        
+            project.save()       
+        if subjects != -1:
+            project._subjects = subjects
+            project.save()     
 
         request.user.is_view_window = True
         request.user.save()

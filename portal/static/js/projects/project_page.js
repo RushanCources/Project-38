@@ -51,6 +51,19 @@ let subjets = ["Математика", "Алгебра", "Геометрия", "
 
 let input = document.getElementById('theme_subject');
 
+let input_text = $('.input-cb3').val();
+
+if (input_text == 'None') {
+    $('.input-cb3').val('');
+} else {
+    let input_subjects = input_text.split(',');
+    
+    for(let i = 0; i < input_subjects.length; i++) {
+        create(input_subjects[i]);
+    }
+}
+
+
 let subjects_item = $('.new-theme-subjects-item').length;
 
 if (subjects_item > 0) {
@@ -112,6 +125,13 @@ function result_item() {
     $('.search-result-item').on('click', function () {
         let sub = $(this).html();
         create(sub);
+        
+        let input = $('.input-cb3').val();
+        if (input == '') {
+            $(".input-cb3").val(input + sub);
+        } else {
+            $(".input-cb3").val(input + ',' + sub);
+        }
     });
 
 }
@@ -122,6 +142,10 @@ function subject_remove() {
         subjets.push(li.innerText);
         li.remove();
         checking('cb3');
+
+        let input = $('.input-cb3').val();
+        input = input.replace(',' + li.innerText, '');
+        $('.input-cb3').val(input);
     });
 }
 
@@ -131,6 +155,13 @@ $('.new-theme-subjects-input').on('blur', function() {
         let text = $('.new-theme-subjects-input').val().trim();
         if (text != '' && text.length > 3) {
             create(text);
+
+            let input = $('.input-cb3').val();
+            if (input == '') {
+                $(".input-cb3").val(input + text);
+            } else {
+                $(".input-cb3").val(input + ',' + text);
+            }
         }
     }
 });
