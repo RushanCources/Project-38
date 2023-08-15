@@ -5,8 +5,6 @@ let not_ok = '<svg class="not_ok" fill="none" height="20" viewBox="0 0 20 20" wi
 function checking(name, is_click) {
     if (name == 'cb1') {
         let ts = $('.textarea')[0];
-        alert(ts)
-        alert($(ts))
         if ($(ts).val() == '') {
             let content_status = $('.content-status')[0];
             $(content_status).html(not_ok)

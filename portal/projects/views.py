@@ -186,7 +186,10 @@ def create(request: HttpRequest):
             teacher = User.objects.get(id=teacher_id)
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")
+        description = request.POST.get('description', '')
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
+        if description != -1:
+            project.description = description
         project.set_subject(subject)
         project.set_status("send request")
         project.save()
@@ -236,10 +239,28 @@ def correct_project(request: HttpRequest):
         project.save()
         request.user.is_view_window = True
         request.user.save()
+        abstract_file = request.FILES.get('abstract', -1)
+        presentation_file = request.FILES.get('presentation', -1)
+        defence_file = request.FILES.get('defence', -1)
+        print(presentation_file)
+        if abstract_file != -1:
+            print(abstract_file)
+            file = File.objects.create(project=project, file=abstract_file, version=1)
+            file.set_tag('Реферат')
+            file.save()
+        if presentation_file != -1:
+            file = File.objects.create(project=project, file=presentation_file, version=1)
+            file.set_tag('Презентация')
+            file.save()
+        if defence_file != -1:
+            file = File.objects.create(project=project, file=defence_file, version=1)
+            file.set_tag('Защита')
+            file.save()
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
-    except BaseException as e:
+    except Exception as e:
+        print(e)
         return render(request, "FatalError.html")
 
 

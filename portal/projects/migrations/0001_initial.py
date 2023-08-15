@@ -3,6 +3,9 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 from django.conf import settings
+from django.db import migrations, models
+import projects.FileStorage
+import projects.models
 
 
 class Migration(migrations.Migration):
@@ -36,11 +39,12 @@ class Migration(migrations.Migration):
             name='File',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(blank=True, null=True, upload_to='project_files')),
+                ('file', models.FileField(blank=True, null=True, storage=projects.FileStorage.MyStorage, upload_to=projects.models.get_upload_path)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='files', to='projects.project')),
                 ('previous_file', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='previous', to='projects.file')),
                 ('version', models.IntegerField(default=1)),
                 ('comment', models.CharField(max_length=1024, null=True)),
+                ('_tag', models.CharField(max_length=20, null=True))
             ],
         ),
     ]

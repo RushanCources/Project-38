@@ -1,31 +1,26 @@
-import os
-
-from django.db import models
-from django.db.models import FileField
+from django.db.models import FileField, CharField, SET_NULL, ForeignKey, Model, IntegerField, CASCADE
+from django.db.models.signals import pre_delete, pre_save, pre_init
 from django.dispatch import receiver
 
 from management.models import User
+from projects.FileStorage import MyStorage
 
 
-class Project(models.Model):
-    student = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="students")
-    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="teachers")
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=1000, null=True)
+class Project(Model):
+    student = ForeignKey(User, on_delete=SET_NULL, null=True, related_name="students")
+    teacher = ForeignKey(User, on_delete=SET_NULL, null=True, related_name="teachers")
+    name = CharField(max_length=30)
+    description = CharField(max_length=1000, null=True)
     _statuses = ["send request", "on work", "send to verification", "done"]
-    _status = models.CharField(max_length=30)
-    _subjects = models.CharField(max_length=100, null=True)
+    _status = CharField(max_length=30)
+    _subjects = CharField(max_length=100, null=True)
     _types = ['Проект', 'НОУ']
-    _type = models.CharField(max_length=10, null=True)
-    problem = models.CharField(max_length=1000, null=True)
-    relevance = models.CharField(max_length=1000, null=True)
-    target = models.CharField(max_length=1000, null=True)
-    tasks = models.CharField(max_length=1000, null=True)
-    expected_results = models.CharField(max_length=1000, null=True)
-
-    abstract = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
-    presentation = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
-    defence = models.ForeignKey('File', related_name='files', on_delete=models.SET_NULL)
+    _type = CharField(max_length=10, null=True)
+    problem = CharField(max_length=1000, null=True)
+    relevance = CharField(max_length=1000, null=True)
+    target = CharField(max_length=1000, null=True)
+    tasks = CharField(max_length=1000, null=True)
+    expected_results = CharField(max_length=1000, null=True)
 
     def set_subject(self, subjects: str):
         flag = True
@@ -69,12 +64,18 @@ class Project(models.Model):
 MAX_FILE_VERSION = 3
 
 
-class File(models.Model):
-    project: Project = models.ForeignKey(Project, related_name='files', on_delete=models.CASCADE)
-    file = models.FileField(upload_to=f'project_files', blank=True, null=True)
-    version = models.IntegerField(default=1)
-    previous_file = models.ForeignKey('File', related_name="previous", null=True, on_delete=models.SET_NULL)
-    comment = models.CharField(max_length=1024, null=True)
+def get_upload_path(instance, filename):
+    return f'project_files/{instance.project.id}/{filename}'
+
+
+class File(Model):
+    _tag = CharField(max_length=20, null=True)
+    _tags = ['Реферат', 'Презентация', 'Защита', 'Другое']
+    project: Project = ForeignKey(Project, related_name='files', on_delete=CASCADE)
+    file = FileField(upload_to=get_upload_path, blank=True, null=True, storage=MyStorage)
+    version = IntegerField(default=1)
+    previous_file: 'File' = ForeignKey('File', related_name="previous", null=True, on_delete=SET_NULL)
+    comment = CharField(max_length=1024, null=True)
 
     def update_file(self, file=None):
         print(self.version)
@@ -100,8 +101,13 @@ class File(models.Model):
         self.version = 1
         self.save()
 
+    def set_tag(self, tag):
+        if tag in self._tags:
+            self._tag = tag
+            self.save()
 
-@receiver(models.signals.pre_delete, sender=File)
+
+@receiver(pre_delete, sender=File)
 def delete_file(sender, instance: File, *args, **kwargs):
     if instance.previous_file is not None:
         instance.previous_file.delete()
