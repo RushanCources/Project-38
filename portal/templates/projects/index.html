@@ -37,7 +37,8 @@
             <div class="files">
                 {% for file in project.files %} <!-- цикл для отрисовки файлов -->
                     <div class="file">
-                        <p class="filename">{{ file.name }}</p>
+                        <a href="{% url 'download_file' %}?file_id={{file.id}}"
+                                title="Загрузить файл">{{file.name}}</a>
                     </div>
                 {% endfor %}
             </div>

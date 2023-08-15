@@ -80,14 +80,21 @@ def index(request: HttpRequest):
                    "avaurl_of_teacher" : project.teacher.avatar.url,
                    "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
-                   "subjects" : project._subject,
+                   "subjects" : project.get_subjects(),
                    "description": project.description,
+                   "project_type": project.get_type(),
+                   'problem': project.problem,
+                   "relevance": project.relevance,
+                   "target": project.target,
+                   "tasks": project.tasks,
+                   "expected_results": project.expected_results,
                    "project_id": project_id,
                    'files_packs': files_packs,
                    'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
+                   'is_opened': request.user.is_view_window,
                    }
 
-        return render(request, "projects/project_page.html", context={"project" : context, "users" : User.objects.all(), "files_packs" : files_packs})
+        return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
     except BaseException as e:
@@ -179,7 +186,10 @@ def create(request: HttpRequest):
             teacher = User.objects.get(id=teacher_id)
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")
+        description = request.POST.get('description', '')
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
+        if description != -1:
+            project.description = description
         project.set_subject(subject)
         project.set_status("send request")
         project.save()
@@ -204,12 +214,51 @@ def correct_project(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
+        project_type = request.POST.get('project-type', -1)
+        problem = request.POST.get('problem', -1)
+        relevance = request.POST.get('relevance', -1)
+        target = request.POST.get('target', -1)
+        tasks = request.POST.get('tasks', -1)
+        expected_results = request.POST.get('expected-results', -1)
+        project_type = request.POST.get('project-type', -1)
         if name != -1:
             project.name = name
-            project.save()
         if description != -1:
             project.description = description
-            project.save()
+        if project_type != -1:
+            project.set_type(project_type)
+        if problem != -1:
+            project.problem = problem
+        if relevance != -1:
+            project.relevance = relevance
+        if target != -1:
+            project.target = target
+        if tasks != -1:
+            project.tasks = tasks
+        if expected_results != -1:
+            project.expected_results = expected_results
+        if project_type != -1:
+            project._type = project_type    
+        project.save()
+        request.user.is_view_window = True
+        request.user.save()
+        abstract_file = request.FILES.get('abstract', -1)
+        presentation_file = request.FILES.get('presentation', -1)
+        defence_file = request.FILES.get('defence', -1)
+        print(presentation_file)
+        if abstract_file != -1:
+            print(abstract_file)
+            file = File.objects.create(project=project, file=abstract_file, version=1)
+            file.set_tag('Реферат')
+            file.save()
+        if presentation_file != -1:
+            file = File.objects.create(project=project, file=presentation_file, version=1)
+            file.set_tag('Презентация')
+            file.save()
+        if defence_file != -1:
+            file = File.objects.create(project=project, file=defence_file, version=1)
+            file.set_tag('Защита')
+            file.save()
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")

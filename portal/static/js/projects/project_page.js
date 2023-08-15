@@ -51,9 +51,35 @@ let subjets = ["Математика", "Алгебра", "Геометрия", "
 
 let input = document.getElementById('theme_subject');
 
+let input_text = $('.input-cb3').val();
+
+if (input_text == 'None') {
+    $('.input-cb3').val('');
+} else {
+    let input_subjects = input_text.split(',');
+    
+    for(let i = 0; i < input_subjects.length; i++) {
+        create(input_subjects[i]);
+    }
+}
+
+
+let subjects_item = $('.new-theme-subjects-item').length;
+
+if (subjects_item > 0) {
+    while (subjects_item != 0) {
+        let sub = $('.new-theme-subjects-item')[subjects_item-1].innerText;
+        let i = subjets.indexOf(sub);
+        if (i >= 0) {
+            subjets.splice(i, 1);
+        }
+        subjects_item--;
+        subject_remove();
+    }
+}
+
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
-    console.log(len, $('.new-theme-subjects-list')[0].childNodes);
 
 
     if (len < 5) {
@@ -73,12 +99,8 @@ input.oninput = event => {
     }
 }
 
-function result_item() {
-
-    $('.search-result-item').on('click', function () {
-        let sub = $(this).html();
-
-        let i = subjets.indexOf(sub);
+function create(text) {
+    let i = subjets.indexOf(text);
         if (i >= 0) {
             subjets.splice(i, 1);
         }
@@ -87,7 +109,7 @@ function result_item() {
         let ul = $('.new-theme-subjects-list');
         let div = document.createElement('div');
 
-        li.innerHTML = sub;
+        li.innerHTML = text;
         li.className = 'new-theme-subjects-item';
         div.className = 'new-theme-subjects-div';
         ul.prepend(li);
@@ -96,6 +118,20 @@ function result_item() {
         $('.search-result-list').html('');
         $('.new-theme-subjects-div').off();
         subject_remove();
+        checking('cb3');
+}
+
+function result_item() {
+    $('.search-result-item').on('click', function () {
+        let sub = $(this).html();
+        create(sub);
+        
+        let input = $('.input-cb3').val();
+        if (input == '') {
+            $(".input-cb3").val(input + sub);
+        } else {
+            $(".input-cb3").val(input + ',' + sub);
+        }
     });
 
 }
@@ -105,5 +141,27 @@ function subject_remove() {
         let li = this.parentNode;
         subjets.push(li.innerText);
         li.remove();
+        checking('cb3');
+
+        let input = $('.input-cb3').val();
+        input = input.replace(',' + li.innerText, '');
+        $('.input-cb3').val(input);
     });
 }
+
+$('.new-theme-subjects-input').on('blur', function() {
+    let len = $('.new-theme-subjects-list')[0].childNodes.length;
+    if (len < 5) {
+        let text = $('.new-theme-subjects-input').val().trim();
+        if (text != '' && text.length > 3) {
+            create(text);
+
+            let input = $('.input-cb3').val();
+            if (input == '') {
+                $(".input-cb3").val(input + text);
+            } else {
+                $(".input-cb3").val(input + ',' + text);
+            }
+        }
+    }
+});

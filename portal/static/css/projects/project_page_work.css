@@ -1,5 +1,7 @@
 .content {
-    max-width: 80%;
+    width: 50%;
+    max-width: 800px;
+    margin-right: 350px;
 }
 
 .content-block {
@@ -7,11 +9,22 @@
     display: flex;
     align-items: flex-end;
     width: 100%;
+    max-height: 0;
+    transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    overflow-y: hidden;
 }
 
-.content-block:not(:last-child) {
-    margin-bottom: 40px;
+.cb1 {
+    display: block;
 }
+
+.content-block-open {
+    margin-bottom: 40px;
+    max-height: 2000px;
+    overflow-y: visible;
+    transition: max-height 0.3s cubic-bezier(1, 0, 1, 0);
+}
+
 .content-div {
     width: 100%;
 }
@@ -20,7 +33,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    min-width: 600px;
+    min-width: 200px;
     max-height: 74px;
     font-size: 18px;
     border-radius: 10px;
@@ -50,7 +63,7 @@
     margin-top: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .bottom-btn {
@@ -81,6 +94,14 @@
     transform: translateX(15px);
     height: 16px;
     fill: #fff;
+}
+
+.next-btn {
+    margin-left: auto;
+}
+
+.skip-btn {
+    display: none;
 }
 
 .content-status {
@@ -126,7 +147,7 @@
     display: block;
     width: 100%;
     padding: 10px;
-    min-width: 600px;
+    min-width: 200px;
     font-size: 16px;
     border-radius: 10px;
     border: 1px solid rgba(0,0,0,0.3);
@@ -186,6 +207,78 @@
     margin-right: 15px;
 }
 
+.content-item {
+    position: relative;
+}
+
 .content-item > textarea {
     margin-bottom: 25px;
+}
+
+.file-input {
+    height: 0;
+    position: absolute;
+    opacity: 0;
+    z-index: -10;
+}
+
+.file-item {
+    position: relative;
+}
+
+.file-item:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.file-label {
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    font-size: 18px;
+    border: 2px solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.docx {
+    background: rgba(16, 58, 132, 0.12);
+    color: #1f68e9ba;
+    border-color: #1f68e9ba;
+}
+
+.ppt {
+    background-color: rgba(132, 86, 16, .12);
+    color: #d5731ee3;
+    border-color: #d5731ee3;
+}
+
+.txt {
+    background-color: rgba(213, 213, 213, 0.12);
+    color: #929292;
+    border-color: #929292;
+}
+
+.help {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    max-width: 250px;
+    transform: translateX(350px);
+    font-size: 15px;
+    font-weight: 300;
+    text-align: justify;
+    line-height: 1.5em;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+}
+
+.help:not(:last-child) {
+    top: 0;
+}
+
+.help:last-child {
+    bottom: 0;
 }
