@@ -32,7 +32,6 @@ class Migration(migrations.Migration):
                 ('target', models.CharField(max_length=1000, null=True)),
                 ('tasks', models.CharField(max_length=1000, null=True)),
                 ('expected_results', models.CharField(max_length=1000, null=True)),
-                ('_type', models.CharField(max_length=10, null=True)),
             ],
         ),
         migrations.CreateModel(

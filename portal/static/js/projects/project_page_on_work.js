@@ -60,6 +60,22 @@ function checking(name, is_click) {
                 $('.next-btn').css({'pointer-events' : 'none'});
             }
         }
+    } else if (name == 'cb5') {
+        if ($('.file-input')[0].value != '') {
+            let content_status = $('.content-status')[4];
+            $(content_status).html(ok);
+        } else {
+            let content_status = $('.content-status')[4];
+            $(content_status).html(not_ok);
+        }
+
+        if ($('.file-input')[1].value != '') {
+            let content_status = $('.content-status')[5];
+            $(content_status).html(ok);
+        } else {
+            let content_status = $('.content-status')[5];
+            $(content_status).html(not_ok);
+        }
     }
 }
 
@@ -71,8 +87,8 @@ if (is_opened) {
     let i = 1;
 
     while (i != 5) {
-        checking('cb' + i);
         i++;
+        checking('cb' + i);
     }
 } else {
     checking('cb1');
@@ -141,6 +157,46 @@ if (is_opened) {
             $('.skip-btn').css({'display' : 'none'});
         }
     }
+}
+
+// выбор типа проекта
+
+$('.project-type').on('click',function() {
+    if ($(this).attr('id') == 'noy') {
+        $('.input-cb2').val('НОУ');
+    } else if ($(this).attr('id') == 'project') {
+        $('.input-cb2').val('Проект');
+    }
+}); 
+
+let projec_type = $('.input-cb2').val();
+
+if (projec_type == 'НОУ') {
+    $('#noy').click();
+} else if (projec_type == 'Проект') {
+    $('#project').click();
+}
+
+// добавление имени файла
+
+function file_name(file, span) {
+    let name = file.value.slice(file.value.lastIndexOf('\\') + 1);
+    if (name.length > 30) {
+        let str = '';
+        let dot = false;
+        for (let i = name.length; i > 20; i--) {
+            if (dot) {
+                str += name[i]
+            } else {
+                if (name[i+2] == '.') {
+                    dot = true;
+                }
+            }
+        }
+        str = str.split("").reverse().join("");
+        name = name.replace(str, '...', 1);
+    }
+    $('.file-name')[span].innerHTML = name;
 }
 
 // для подсказок
