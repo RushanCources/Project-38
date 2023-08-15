@@ -80,7 +80,7 @@ def index(request: HttpRequest):
                    "avaurl_of_teacher" : project.teacher.avatar.url,
                    "avaurl_of_student" : project.student.avatar.url,
                    "status": project.get_status(),
-                   "subjects": project.get_subjects(),
+                   "subjects" : project.get_subjects(),
                    "description": project.description,
                    "project_type": project.get_type(),
                    'problem': project.problem,
@@ -259,8 +259,7 @@ def correct_project(request: HttpRequest):
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
-    except Exception as e:
-        print(e)
+    except BaseException as e:
         return render(request, "FatalError.html")
 
 

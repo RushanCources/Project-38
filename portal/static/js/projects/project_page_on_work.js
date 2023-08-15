@@ -7,11 +7,13 @@ function checking(name, is_click) {
         let ts = $('.textarea')[0];
         if ($(ts).val() == '') {
             let content_status = $('.content-status')[0];
-            $(content_status).html(not_ok)
-            $('.next-btn').css({'pointer-events' : 'none'});
+            $(content_status).html(not_ok);;
+            if (!is_opened) {
+                $('.next-btn').css({'pointer-events' : 'none'});
+            }
         } else {
             let content_status = $('.content-status')[0];
-            $(content_status).html(ok)
+            $(content_status).html(ok);
             $('.next-btn').css({'pointer-events' : 'auto'});
         }
     } else if (name == 'cb2') {
@@ -21,8 +23,10 @@ function checking(name, is_click) {
             $('.next-btn').css({'pointer-events' : 'auto'});
         } else {
             let content_status = $('.content-status')[1];
-            $(content_status).html(not_ok)
-            $('.next-btn').css({'pointer-events' : 'none'});
+            $(content_status).html(not_ok);
+            if (!is_opened) {
+                $('.next-btn').css({'pointer-events' : 'none'});
+            }
         }
     } else if (name == 'cb3') {
 
@@ -32,8 +36,10 @@ function checking(name, is_click) {
             $('.next-btn').css({'pointer-events' : 'auto'});
         } else {
             let content_status = $('.content-status')[2];
-            $(content_status).html(not_ok)
-            $('.next-btn').css({'pointer-events' : 'none'});
+            $(content_status).html(not_ok);
+            if (!is_opened) {
+                $('.next-btn').css({'pointer-events' : 'none'});
+            }
         }
     } else if (name == 'cb4') {
         let check = true;
@@ -49,8 +55,10 @@ function checking(name, is_click) {
             $('.next-btn').css({'pointer-events' : 'auto'});
         } else {
             let content_status = $('.content-status')[3];
-            $(content_status).html(not_ok)
-            $('.next-btn').css({'pointer-events' : 'none'});
+            $(content_status).html(not_ok);
+            if (!is_opened) {
+                $('.next-btn').css({'pointer-events' : 'none'});
+            }
         }
     }
 }
@@ -86,7 +94,9 @@ if (is_opened) {
     
             if (num_of_cb != 5) {
                 if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
-                    $('.next-btn').css({'pointer-events' : 'none'});
+                    if (!is_opened) {
+                        $('.next-btn').css({'pointer-events' : 'none'});
+                    }
                 }
             }
     
@@ -113,7 +123,9 @@ if (is_opened) {
     
         if (num_of_cb != 5) {
             if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
-                $('.next-btn').css({'pointer-events' : 'none'});
+                if (!is_opened) {
+                    $('.next-btn').css({'pointer-events' : 'none'});
+                }
             }
         }
     

@@ -185,6 +185,7 @@
                 </div>
 
                 <div class="content-block cb3">
+                    <input type="text" class="input-cb3" value="{{ project.subjects }}" style="z-index: -10; position: absolute; opacity: 0;" name="subjects">
                     <div class="content-div">
                         <span class="span">Предметная область*: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="question"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
                         <div class="content-subject">
@@ -192,9 +193,7 @@
                             placeholder="Введите названние предметной области" id="theme_subject" onkeyup="checking('cb3')"
                             name="subjects">
                             <ul class="search-result-list"></ul>
-                            <ul class="new-theme-subjects-list">
-                                <li class="new-theme-subjects-item">{{ subjects }}<div class="new-theme-subjects-div"></div></li>
-                            </ul>
+                            <ul class="new-theme-subjects-list"></ul>
                         </div>
                     </div>
                     <div class="content-status">
@@ -280,7 +279,7 @@
                             </li>
                         </ul>
                     </div>
-                    <p class="help" style="bottom: 0;">
+                    <p class="help">
                         К концу выполнения проекта ты также должен будешь прикрепить от двух до трех файлов: реферат, презентация и защита. <br><br>
                         Реферат - это главный файл твоего проекта, в нем описывается абсолютно все, что ты делал в проекте. <br><br>
                         Презентация - это то, что ты будешь показывать при выступлении. Презентация должна содержать меньше текста и больше иллюстраций, а также должна быть оформлена должным образом. <br><br>
@@ -370,7 +369,6 @@
     }
     files_names = {{ files_names | js }};
     is_opened = {{ is_opened | js }};
-    console.log(is_opened);
     update_files_url = "{% url 'update_file' %}"
 </script>
 
