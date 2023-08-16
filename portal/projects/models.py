@@ -22,6 +22,7 @@ class Project(Model):
     tasks = CharField(max_length=1000, null=True)
     expected_results = CharField(max_length=1000, null=True)
 
+    # фильтрация предметов при записи их в бд(что бы не удалось поставить не существующий предмет
     def set_subject(self, subjects: str):
         flag = True
         for subject in subjects.split(','):
@@ -44,6 +45,7 @@ class Project(Model):
     def get_subjects(self):
         return self._subjects
 
+    # фильтрация статусов при установке их в бд
     def set_status(self, n):
         if n in self._statuses:
             self._status = n
@@ -61,6 +63,7 @@ class Project(Model):
         return self._type
 
 
+# эта константа показывает сколько версий может быть у одного файла
 MAX_FILE_VERSION = 3
 
 
@@ -77,8 +80,8 @@ class File(Model):
     previous_file: 'File' = ForeignKey('File', related_name="previous", null=True, on_delete=SET_NULL)
     comment = CharField(max_length=1024, null=True)
 
+    # оновление файла
     def update_file(self, file=None):
-        print(self.version)
         if self.version == MAX_FILE_VERSION:
             self.delete()
         elif self.version == 1 and file is not None:
@@ -86,17 +89,19 @@ class File(Model):
             new_obj.save()
             self.version += 1
             self.save()
-        else:
+        else:  # если файл находится не в начале и не в конце по версиям
             self.version += 1
             self.save()
         if self.previous_file is not None:
             self.previous_file.update_file()
 
+    # отправление файла в корзину
     def move_to_trash(self):
         if self.version == 1:
             self.version = -1
         self.save()
 
+    # восстановление файла из корзины
     def restore(self):
         self.version = 1
         self.save()
@@ -107,6 +112,7 @@ class File(Model):
             self.save()
 
 
+# Удаление всех предыдущих файлов
 @receiver(pre_delete, sender=File)
 def delete_file(sender, instance: File, *args, **kwargs):
     if instance.previous_file is not None:
