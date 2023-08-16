@@ -51,34 +51,11 @@ def index(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        files = File.objects.filter(project=project, version=1)
-        names = [file_obj.file.name.split('/')[-1] for file_obj in files]
+        abstract_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+        presentation_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+        defence_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+        other_files = File.objects.filter(project=project, version=1, _tag='Другое')
 
-        @dataclass
-        class FilePack:
-            file: File
-            name: str
-
-        old_files: list[list[FilePack]] = []
-        for file in files:
-            old_files.append([])
-            previous_file = file.previous_file
-            while previous_file is not None:  # Запуск цикла, пока у предыдущего файла есть предыдущий файл
-                file_pack = FilePack(previous_file, previous_file.file.name.split('/')[-1])  # В fileField.name храниться не только имя фойла, но и весь путь к нему
-                old_files[-1].append(file_pack)
-                previous_file: File = previous_file.previous_file
-
-        files_packs = []
-
-        # класс для упаковки проектов и файлов
-        @dataclass
-        class BranchFilePack:
-            file: File
-            name: str
-            old_files: list[FilePack]
-
-        for i in range(len(files)):
-            files_packs.append(BranchFilePack(files[i], names[i], old_files[i]))
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
@@ -94,9 +71,15 @@ def index(request: HttpRequest):
                    "tasks": project.tasks,
                    "expected_results": project.expected_results,
                    "project_id": project_id,
-                   'files_packs': files_packs,
-                   'files_names': dict(zip([files_pack.name for files_pack in files_packs], [files_pack.file.id for files_pack in files_packs])),
                    'is_opened': request.user.is_view_window,
+                   'abstract': abstract_file,
+                   'old_abstracts': abstract_file.get_prevent_files(),
+                   'presentation': presentation_file,
+                   'old_presentation': presentation_file.get_prevent_files(),
+                   'defence': defence_file,
+                   'old_defence': defence_file.get_prevent_files(),
+                   'other_files': other_files,
+                   'old_other_files': [other_file.get_prevent_files() for other_file in other_files]
                    }
 
         return render(request, "projects/project_page.html", context=context)
@@ -249,9 +232,7 @@ def correct_project(request: HttpRequest):
         abstract_file = request.FILES.get('abstract', -1)
         presentation_file = request.FILES.get('presentation', -1)
         defence_file = request.FILES.get('defence', -1)
-        print(presentation_file)
         if abstract_file != -1:
-            print(abstract_file)
             file = File.objects.create(project=project, file=abstract_file, version=1)
             file.set_tag('Реферат')
             file.save()
@@ -266,7 +247,8 @@ def correct_project(request: HttpRequest):
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
         return render(request, "WrongData.html")
-    except BaseException:  # если возникла непредвиденная ошибка
+    except BaseException as e:  # если возникла непредвиденная ошибка
+        print(e)
         return render(request, "FatalError.html")
 
 

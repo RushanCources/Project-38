@@ -1,5 +1,6 @@
+import os
 from django.db.models import FileField, CharField, SET_NULL, ForeignKey, Model, IntegerField, CASCADE
-from django.db.models.signals import pre_delete, pre_save, pre_init
+from django.db.models.signals import pre_delete, pre_save, pre_init, post_init
 from django.dispatch import receiver
 
 from management.models import User
@@ -70,6 +71,8 @@ MAX_FILE_VERSION = 3
 def get_upload_path(instance, filename):
     return f'project_files/{instance.project.id}/{filename}'
 
+def get_file_name(instance, *args):
+    return os.path.split(instance.file)[1]
 
 class File(Model):
     _tag = CharField(max_length=20, null=True)
@@ -79,6 +82,7 @@ class File(Model):
     version = IntegerField(default=1)
     previous_file: 'File' = ForeignKey('File', related_name="previous", null=True, on_delete=SET_NULL)
     comment = CharField(max_length=1024, null=True)
+    name = CharField(max_length=100, null=True)
 
     # оновление файла
     def update_file(self, file=None):
@@ -110,6 +114,14 @@ class File(Model):
         if tag in self._tags:
             self._tag = tag
             self.save()
+    
+    def get_prevent_files(self):
+        previous_file = self.previous_file
+        previous_files = []
+        while previous_file is not None:  # Запуск цикла, пока у предыдущего файла есть предыдущий файл
+            previous_files.append(previous_file)
+            previous_file: File = previous_file.previous_file
+        return previous_files
 
 
 # Удаление всех предыдущих файлов
@@ -117,3 +129,7 @@ class File(Model):
 def delete_file(sender, instance: File, *args, **kwargs):
     if instance.previous_file is not None:
         instance.previous_file.delete()
+
+@receiver(post_init, sender=File)
+def set_name(sender, instance, **kwargs):
+    instance.name = os.path.split(instance.file.name)[1]
