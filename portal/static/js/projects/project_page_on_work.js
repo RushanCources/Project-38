@@ -97,7 +97,7 @@ if (is_opened) {
     
     function next() {
         let cb = '.cb' + num_of_cb;
-        let status = $($(cb)[0].childNodes[3].childNodes[0]).attr('class');
+        let status = $($(cb)[0].querySelector('.content-status').childNodes[0]).attr('class');
     
         if (status == 'ok') {
             let new_cb = '.cb' + (num_of_cb + 1);
