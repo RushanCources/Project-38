@@ -52,8 +52,8 @@ def index(request: HttpRequest):
         if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
         abstract_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
-        presentation_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
-        defence_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+        presentation_file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
+        defence_file = File.objects.filter(project=project, version=1, _tag='Защита').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
