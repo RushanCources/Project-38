@@ -224,7 +224,7 @@ def correct_project(request: HttpRequest):
         if expected_results != -1:
             project.expected_results = expected_results
         if project_type != -1:
-            project._type = project_type    
+            project.set_type(project_type)
         project.save()
         request.user.is_view_window = True
         request.user.save()
@@ -232,17 +232,29 @@ def correct_project(request: HttpRequest):
         presentation_file = request.FILES.get('presentation', -1)
         defence_file = request.FILES.get('defence', -1)
         if abstract_file != -1:
-            file = File.objects.create(project=project, file=abstract_file, version=1)
-            file.set_tag('Реферат')
-            file.save()
+            file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+            if  file is None:
+                file = File.objects.create(project=project, file=abstract_file, version=1)
+                file.set_tag('Реферат')
+                file.save()
+            else:
+                file.update(abstract_file)
         if presentation_file != -1:
-            file = File.objects.create(project=project, file=presentation_file, version=1)
-            file.set_tag('Презентация')
-            file.save()
+            file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
+            if  file is None:
+                file = File.objects.create(project=project, file=presentation_file, version=1)
+                file.set_tag('Презентация')
+                file.save()
+            else:
+                file.update_file(presentation_file)
         if defence_file != -1:
-            file = File.objects.create(project=project, file=defence_file, version=1)
-            file.set_tag('Защита')
-            file.save()
+            file = File.objects.filter(project=project, version=1, _tag='Защита').first()
+            if  file is None:
+                file = File.objects.create(project=project, file=defence_file, version=1)
+                file.set_tag('Защита')
+                file.save()
+            else:
+                file.update_file(defence_file)
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
         return render(request, "WrongData.html")
