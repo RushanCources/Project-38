@@ -88,6 +88,7 @@ class File(Model):
             self.delete()
         elif self.version == 1 and file is not None:
             new_obj = File.objects.create(project=self.project, file=file, version=1, previous_file=self)
+            new_obj.set_tag(self._tag)
             new_obj.save()
             self.version += 1
             self.save()
