@@ -71,8 +71,6 @@ MAX_FILE_VERSION = 3
 def get_upload_path(instance, filename):
     return f'project_files/{instance.project.id}/{filename}'
 
-def get_file_name(instance, *args):
-    return os.path.split(instance.file)[1]
 
 class File(Model):
     _tag = CharField(max_length=20, null=True)

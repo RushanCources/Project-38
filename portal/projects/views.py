@@ -55,7 +55,6 @@ def index(request: HttpRequest):
         presentation_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
         defence_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
-
         context = {"name": project.name,
                    "teacher": project.teacher.fullName(),
                    "student": project.student.fullName(),
@@ -73,11 +72,11 @@ def index(request: HttpRequest):
                    "project_id": project_id,
                    'is_opened': request.user.is_view_window,
                    'abstract': abstract_file,
-                   'old_abstracts': abstract_file.get_prevent_files(),
+                   'old_abstracts': abstract_file.get_prevent_files() if abstract_file is not None else [],
                    'presentation': presentation_file,
-                   'old_presentation': presentation_file.get_prevent_files(),
+                   'old_presentation': presentation_file.get_prevent_files() if presentation_file is not None else [],
                    'defence': defence_file,
-                   'old_defence': defence_file.get_prevent_files(),
+                   'old_defence': defence_file.get_prevent_files() if defence_file is not None else [],
                    'other_files': other_files,
                    'old_other_files': [other_file.get_prevent_files() for other_file in other_files]
                    }
