@@ -238,7 +238,7 @@ def correct_project(request: HttpRequest):
                 file.set_tag('Реферат')
                 file.save()
             else:
-                file.update(abstract_file)
+                file.update_file(abstract_file)
         if presentation_file != -1:
             file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
             if  file is None:
