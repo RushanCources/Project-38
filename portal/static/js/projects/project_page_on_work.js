@@ -61,7 +61,7 @@ function checking(name, is_click) {
             }
         }
     } else if (name == 'cb5') {
-        if ($('.file-input')[0].value != '') {
+        if ($('.file-name')[0].innerText != '') {
             let content_status = $('.content-status')[4];
             $(content_status).html(ok);
         } else {
@@ -69,7 +69,7 @@ function checking(name, is_click) {
             $(content_status).html(not_ok);
         }
 
-        if ($('.file-input')[1].value != '') {
+        if ($('.file-name')[1].innerText != '') {
             let content_status = $('.content-status')[5];
             $(content_status).html(ok);
         } else {
@@ -179,8 +179,35 @@ if (projec_type == 'НОУ') {
 
 // добавление имени файла
 
-function file_name(file, span) {
-    let name = file.value.slice(file.value.lastIndexOf('\\') + 1);
+function file_name_start() {
+    let span = $('.file-name');
+
+    if (span[0].innerText != '') {
+        let text = span[0].innerText;
+        file_name(null, 0, text);
+    }
+    
+    if (span[1].innerText != '') {
+        let text = span[1].innerText;
+        file_name(null, 1, text);
+    }
+    
+    if (span[2].innerText != '') {
+        let text = span[2].innerText;
+        file_name(null, 2, text);
+    }
+}
+
+file_name_start();
+
+
+function file_name(file, span, start_name) {
+    let name;
+    if (file == null) {
+        name = start_name;
+    } else {
+        name = file.value.slice(file.value.lastIndexOf('\\') + 1);
+    }
     if (name.length > 30) {
         let str = '';
         let dot = false;

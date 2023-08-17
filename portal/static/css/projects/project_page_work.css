@@ -224,6 +224,9 @@
 
 .file-item {
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .file-item:not(:last-child) {
@@ -231,11 +234,13 @@
 }
 
 .file-label {
+    position: relative;
     padding: 5px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+    margin-right: 10px;
     width: 100%;
     font-size: 18px;
     border: 2px solid;
@@ -259,6 +264,53 @@
     background-color: rgba(213, 213, 213, 0.12);
     color: #929292;
     border-color: #929292;
+}
+
+.download-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.download-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.file-setting {
+    display: flex;
+}
+
+.file-setting > button {
+    padding: 3px 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.file-setting > button:hover , .btns-label:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.file-setting svg {
+    width: 22px;
+    height: 22px;
+}
+
+.btns-label {
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 .help {
