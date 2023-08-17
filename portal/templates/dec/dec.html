@@ -19,7 +19,7 @@
     </div>
 
     <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
-        {% for announcement in announcements %}
+        {% for announcement in page_announcements %}
         <div class="flex" id="flex{{ announcement.id }}">
             <p class="cap">{{ announcement.title }}</p>
             <button class="btn btn-dec"></button>
@@ -47,5 +47,43 @@
             }
         });
     </script>
+
+
+<button id="load-more-button">Load More</button>
+
+<!-- Почти весь скрипт ниже сделан с помощью ChatGPT потому что я не шарю в джаваскрипте, попровьте если плохо -->
+<!-- Все что он делает - реализует функционал страничек объявлений, добавляя кнопку на подгрузку объявлений, если их будет слишком много. По идее можно ничего не трогать, все работает -->
+
+<script>
+    $(document).ready(function() {
+        var page = 2;  // Start from page 2 since page 1 is already loaded
+        var batch_size = 20;  // Match this with the batch size set in the backend
+
+        function checkLoadMoreButtonVisibility() {
+            if ($('.flex').length != (page-1) * batch_size) {
+                $("#load-more-button").hide();
+            } else {
+                $("#load-more-button").show();
+            }
+        }
+
+        checkLoadMoreButtonVisibility();  // Initially check button visibility
+
+        $("#load-more-button").click(function() {
+            var query = encodeURIComponent('{{ search_value }}');
+            $.get('?q=' + query + '&page=' + page, function(data) {
+                var newAnnouncements = $(data).find('.flex');
+                if (newAnnouncements.length > 0) {
+                    $("#FSL").append(newAnnouncements);
+                    page++;
+                    checkLoadMoreButtonVisibility();  // Check and update button visibility
+                } else {
+                    $("#load-more-button").hide();
+                }
+            });
+        });
+    });
+</script>
+
 <!-- </main> -->
 {% endblock content %}
