@@ -88,12 +88,12 @@
                     <input type="file" id="add_file" onchange="check_file_name(this)" class="file-input" name="file" />
                 </form>
                 <ul class="file-list">
-                    {% for files_pack in files_packs %}
+                    {% for file in other_files %}
                         <li class="file-item">
-                            <a href="{% url 'download_file' %}?file_id={{files_pack.file.id}}"
-                                title="Загрузить файл">{{files_pack.name}}</a>
+                            <a href="{% url 'download_file' %}?file_id={{file.id}}"
+                                title="Загрузить файл">{{file.name}}</a>
                             <div class="btns">
-                                <button onclick="show_window('comments{{files_pack.file.id}}')" title="Посмотреть комментарии">
+                                <button onclick="show_window('comments{{file.id}}')" title="Посмотреть комментарии">
                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -101,7 +101,7 @@
                                             fill=" #5A88FF" />
                                     </svg>
                                 </button>
-                                <button class="btn-old-files" onclick="show_window('old-files{{files_pack.file.id}}')"
+                                <button class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
                                     title="Посмотреть предыдущие версии файла">
                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +111,7 @@
                                     </svg>
                                 </button>
                                 {% if user.role == 'Ученик' %}
-                                    <label for="delete_file{{files_pack.file.id}}" class="btns-label" title="Удалить файл">
+                                    <label for="delete_file{{file.id}}" class="btns-label" title="Удалить файл">
                                         <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -124,8 +124,8 @@
                             </div>
                             <form method="POST" action="{% url 'delete_file' %}" class="del-form">
                                 {% csrf_token %}
-                                <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
-                                <input type="submit" id="delete_file{{files_pack.file.id}}" name="file"
+                                <input type="hidden" name="file_id" value="{{file.id}}" />
+                                <input type="submit" id="delete_file{{file.id}}" name="file"
                                     style="display:none; visibility:hidden" />
                             </form>
                         </li>
@@ -299,21 +299,21 @@
         {% endif %}
     </div>
 </div>
-{% for files_pack in files_packs %}
+{% for file in other_files %}
         <div>
-            <div id="comments{{files_pack.file.id}}" class="comment-window">
-                {% if files_pack.file.comment is not None %}
-                    <div>{{files_pack.file.comment}}</div>
+            <div id="comments{{file.id}}" class="comment-window">
+                {% if file.comment is not None %}
+                    <div>{{file.comment}}</div>
                 {%else%}
                     <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
                         {% csrf_token %}
-                        <input type="hidden" name="file_id" value="{{files_pack.file.id}}" />
+                        <input type="hidden" name="file_id" value="{{file.id}}" />
                         <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
                             onkeyup="textarea_size(this)" required></textarea>
                         <input type="submit" value="Отправить комментарий" class="comment-btn">
                     </form>
                 {%endif%}
-                <button class="btn-exit" onclick="exit('comments{{files_pack.file.id}}')">
+                <button class="btn-exit" onclick="exit('comments{{file.id}}')">
                     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                         <path
                             d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -321,8 +321,8 @@
                     </svg>
                 </button>
             </div>
-            <div id="old-files{{files_pack.file.id}}" class="old-files">
-                <button class="btn-exit" onclick="exit('old-files{{files_pack.file.id}}')" type="button">
+            <div id="old-files{{file.id}}" class="old-files">
+                <button class="btn-exit" onclick="exit('old-files{{file.id}}')" type="button">
                     <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                         <path
                             d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -331,9 +331,9 @@
                 </button>
                 <h2 class="old-files-title">Предыдущие версии файла</h2>
                 <ul class="old-files-list">
-                    {% for old_file in files_pack.old_files %}
+                    {% for old_file in file.old_files %}
                         <li class="old-files-item">
-                            <a href="{% url 'download_file' %}?file_id={{old_file.file.id}}"
+                            <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
                                 class="old-files-link">{{old_file.name}}</a>
                         </li>
                     {% endfor %}
@@ -376,6 +376,8 @@
     update_files_url = "{% url 'update_file' %}"
 </script>
 
-<script src="{% static 'js/projects/project_page_on_work.js' %}"></script>
+{% if status == 'on work' %}
+    <script src="{% static 'js/projects/project_page_on_work.js' %}"></script>
+{% endif %}
 <script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}

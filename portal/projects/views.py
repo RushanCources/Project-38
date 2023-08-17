@@ -315,7 +315,7 @@ def upload_file(request: HttpRequest):
         project = Project.objects.get(id=project_id)
         if check_what_user_not_have_access(request, project):
             return render(request, "NotEnoughPermissions.html")
-        file_object = File.objects.create(project=project, file=file, version=1)
+        file_object = File.objects.create(project=project, file=file, version=1, _tag="Другое")
         file_object.save()
         return redirect(f"{reverse('projects')}?id={project.id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
