@@ -59,3 +59,13 @@
 .wbtn:active { /*кнопки при активации*/
     background-color: #DBE1FF;
 }
+
+div.sometext {
+    max-width: 80%;
+    margin: 1em auto;
+}
+
+div.sometext p {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-shadow: 0 0 .3em rgba(0, 0, 255, 0.3);
+}
