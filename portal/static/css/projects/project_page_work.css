@@ -222,6 +222,10 @@
     z-index: -10;
 }
 
+.file-list {
+    margin-bottom: 20px;
+}
+
 .file-item {
     position: relative;
     display: flex;
@@ -240,7 +244,6 @@
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin-right: 10px;
     width: 100%;
     font-size: 18px;
     border: 2px solid;
@@ -284,6 +287,7 @@
 
 .file-setting {
     display: flex;
+    margin-left: 10px;
 }
 
 .file-setting > button {
@@ -300,8 +304,8 @@
 }
 
 .file-setting svg {
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
 }
 
 .btns-label {
@@ -333,4 +337,106 @@
 
 .help:last-child {
     bottom: 0;
+}
+
+.other-files-title {
+    margin-bottom: 20px;
+    padding-left: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8b8b8b;
+}
+
+.line {
+    position: relative;
+    display: block;
+    width: calc(100% - 60px);
+    height: 1px;
+    background: #8b8b8b;
+    border-radius: 10px;
+}
+
+.other-file-input {
+    height: 0;
+    position: absolute;
+    opacity: 0;
+    z-index: -10;
+}
+
+.other-file-label {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    color: #5A88FF;
+}
+
+.other-file-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.other-file-item {
+    position: relative;
+    margin-top: 10px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #00000030;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.other-file-item-div {
+    width: 15px;
+    height: 15px;
+    background-size: auto;
+    background: url('../../img/global/del.svg') no-repeat center center;
+    cursor: pointer;
+}
+
+.other-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid #00000030;
+}
+
+.other-btns > button {
+    padding: 3px 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.other-btns > button:hover, .other-btns-label:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.other-btns svg {
+    width: 25px;
+    height: 25px;
+}
+
+.other-btns-label {
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.del-form {
+    position: absolute;
 }

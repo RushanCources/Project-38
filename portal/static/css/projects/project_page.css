@@ -87,7 +87,7 @@
 }
 
 .old-files{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     padding-top: 10px;
     top: 40%;
@@ -116,7 +116,7 @@
 }
 
 .update-file{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     top: 40%;
     left: 50%;
@@ -128,7 +128,7 @@
 }
 
 .comment-window{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     padding-top: 45px;
     top: 40%;

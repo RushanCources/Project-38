@@ -148,7 +148,7 @@
             {% endif %}
 
         {% elif status == 'on work' %}
-            <form method="POST" action="{% url 'correct_project' %}" class="correct-project-form" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'correct_project' %}" class="correct-project-form" enctype="multipart/form-data" id="form-on-work">
                 {% csrf_token %}
                 <input type="text" name="project" value="{{ project_id }}" style="z-index: -10; position: relative; opacity: 0;">
                 <div class="content-block cb1 content-block-open">
@@ -395,6 +395,69 @@
                             {% endif %}
                             </li>
                         </ul>
+                        <div class="other-files">
+                            <div class="other-files-title">
+                                Другое:
+                                <div class="line"></div>
+                            </div>
+                            <div class="other-files-content">
+                                <form action=""></form>
+                                <form method="POST" action="{% url 'add_file' %}" enctype="multipart/form-data" id="add-file">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="file_id" value="-1" />
+                                    <input type="hidden" name="project_id" value="{{project_id}}" />
+                                    <label for="add_file" class="other-file-label">Добавить файл</label>
+                                    {% if user.role == 'Ученик' %}
+                                        <a href="{% url 'trash' %}?project_id={{project_id}}">Корзина</a>
+                                    {% endif %}
+                                    <input type="file" id="add_file" onchange="check_file_name(this)" class="other-file-input" name="file" />
+                                </form>
+                                <ul class="other-file-list">
+                                    {% for file in other_files %}
+                                        <li class="other-file-item">
+                                            <a href="{% url 'download_file' %}?file_id={{file.id}}"
+                                                title="Загрузить файл">{{file.name}}</a>
+                                            <div class="other-btns">
+                                                <button onclick="show_window('comments{{file.id}}')" title="Посмотреть комментарии">
+                                                    <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M6.79895 17.8034C6.35668 18.1298 5.73 18.0406 5.39921 17.6042C5.26989 17.4335 5.2 17.2262 5.2 17.0133L5.19937 14.8423H4.6C3.16406 14.8423 2 13.6935 2 12.2764V5.56582C2 4.14876 3.16406 3 4.6 3H15.4C16.8359 3 18 4.14876 18 5.56582V12.2764C18 13.6935 16.8359 14.8423 15.4 14.8423H10.81L6.79895 17.8034Z"
+                                                            fill=" #5A88FF" />
+                                                    </svg>
+                                                </button>
+                                                <button type="submit" class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
+                                                    title="Посмотреть предыдущие версии файла">
+                                                    <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M4.31 9.49981L7.27297 12.4628C7.56586 12.7557 7.56586 13.2305 7.27297 13.5234C7.0067 13.7897 6.59004 13.8139 6.29643 13.596L6.21231 13.5234L1.96967 9.28078C1.7034 9.01452 1.6792 8.59785 1.89705 8.30424L1.96967 8.22012L6.21231 3.97748C6.5052 3.68459 6.98008 3.68459 7.27297 3.97748C7.53924 4.24375 7.56344 4.66041 7.34559 4.95402L7.27297 5.03814L4.31 7.99981L10 8.00045C14.1979 8.00045 17.6162 11.3381 17.7462 15.5044L17.75 15.7505C17.75 16.1647 17.4142 16.5005 17 16.5005C16.5858 16.5005 16.25 16.1647 16.25 15.7505C16.25 12.3754 13.5748 9.62514 10.2291 9.50458L10 9.50045L4.31 9.49981L7.27297 12.4628L4.31 9.49981Z"
+                                                            fill="#88cc5a" />
+                                                    </svg>
+                                                </button>
+                                                {% if user.role == 'Ученик' %}
+                                                    <label for="delete_file{{file.id}}" class="other-btns-label" title="Удалить файл">
+                                                        <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z"
+                                                                fill="#e24a4a" />
+                                                        </svg>
+                
+                                                    </label>
+                                                {% endif %}
+                                            </div>
+                                            <form method="POST" action="{% url 'delete_file' %}" class="del-form">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="file_id" value="{{file.id}}" />
+                                                <input type="submit" id="delete_file{{file.id}}" name="file"
+                                                    style="display:none; visibility:hidden" />
+                                            </form>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <p class="help">
                         К концу выполнения проекта ты также должен будешь прикрепить от двух до трех файлов: реферат, презентация и защита. <br><br>
@@ -405,10 +468,135 @@
                 </div>
                 <div class="bottom-div">
                     <button class="bottom-btn skip-btn" onclick="skip()">Пропустить</button>
-                        <button class="bottom-btn next-btn" onclick="next()" type="button">Дальше <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M69.8437,43.3876,33.8422,13.3863a6.0035,6.0035,0,0,0-7.6878,9.223l30.47,25.39-30.47,25.39a6.0035,6.0035,0,0,0,7.6878,9.2231L69.8437,52.6106a6.0091,6.0091,0,0,0,0-9.223Z"/></svg>
+                        <button class="bottom-btn next-btn" onclick="next()" type="button" form="form-on-work">Дальше <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M69.8437,43.3876,33.8422,13.3863a6.0035,6.0035,0,0,0-7.6878,9.223l30.47,25.39-30.47,25.39a6.0035,6.0035,0,0,0,7.6878,9.2231L69.8437,52.6106a6.0091,6.0091,0,0,0,0-9.223Z"/></svg>
                             </button>
                 </div>
             </form>
+
+            <div class="action_window">
+                <div>
+                    <div id="comments{{abstract.id}}" class="comment-window">
+                        {% if abstract.comment is not None %}
+                            <div>{{abstract.comment}}</div>
+                        {%else%}
+                            <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="file_id" value="{{abstract.id}}" />
+                                <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
+                                    onkeyup="textarea_size(this)" required></textarea>
+                                <input type="submit" value="Отправить комментарий" class="comment-btn">
+                            </form>
+                        {%endif%}
+                        <button class="btn-exit" onclick="exit('comments{{abstract.id}}')">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="old-files{{abstract.id}}" class="old-files">
+                        <button class="btn-exit" onclick="exit('old-files{{abstract.id}}')" type="button">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                        <h2 class="old-files-title">Предыдущие версии файла</h2>
+                        <ul class="old-files-list">
+                            {% for old_file in old_abstracts %}
+                                <li class="old-files-item">
+                                    <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
+                                        class="old-files-link">{{old_file.name}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="comments{{presentation.id}}" class="comment-window">
+                        {% if presentation.comment is not None %}
+                            <div>{{presentation.comment}}</div>
+                        {%else%}
+                            <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="file_id" value="{{presentation.id}}" />
+                                <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
+                                    onkeyup="textarea_size(this)" required></textarea>
+                                <input type="submit" value="Отправить комментарий" class="comment-btn">
+                            </form>
+                        {%endif%}
+                        <button class="btn-exit" onclick="exit('comments{{presentation.id}}')">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="old-files{{presentation.id}}" class="old-files">
+                        <button class="btn-exit" onclick="exit('old-files{{presentation.id}}')" type="button">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                        <h2 class="old-files-title">Предыдущие версии файла</h2>
+                        <ul class="old-files-list">
+                            {% for old_file in old_presentation %}
+                                <li class="old-files-item">
+                                    <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
+                                        class="old-files-link">{{old_file.name}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <div id="comments{{defence.id}}" class="comment-window">
+                        {% if defence.comment is not None %}
+                            <div>{{defence.comment}}</div>
+                        {%else%}
+                            <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="file_id" value="{{defence.id}}" />
+                                <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
+                                    onkeyup="textarea_size(this)" required></textarea>
+                                <input type="submit" value="Отправить комментарий" class="comment-btn">
+                            </form>
+                        {%endif%}
+                        <button class="btn-exit" onclick="exit('comments{{defence.id}}')">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="old-files{{defence.id}}" class="old-files">
+                        <button class="btn-exit" onclick="exit('old-files{{defence.id}}')" type="button">
+                            <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
+                                <path
+                                    d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                                    fill="#000000"></path>
+                            </svg>
+                        </button>
+                        <h2 class="old-files-title">Предыдущие версии файла</h2>
+                        <ul class="old-files-list">
+                            {% for old_file in old_defence %}
+                                <li class="old-files-item">
+                                    <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
+                                        class="old-files-link">{{old_file.name}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
 </div>

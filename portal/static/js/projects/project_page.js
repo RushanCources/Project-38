@@ -16,6 +16,7 @@ function check_file_name(input_file) {
     }
     else {
         form = document.getElementById("add-file");
+        console.log(form)
         form.submit();
     }
 }
