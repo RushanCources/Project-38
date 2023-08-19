@@ -181,7 +181,7 @@ def create(request: HttpRequest):
         project.save()
         files = request.FILES.getlist('files')
         for file in files:
-            file_object = File.objects.create(project=project, file=file, version=1)
+            file_object = File.objects.create(project=project, file=file, version=1, _tag="Другое")
             file_object.save()
         return render(request, "projects/success.html")
     except User.DoesNotExist:  # если не удалось получить пользователя из бд
