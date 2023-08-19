@@ -282,13 +282,11 @@
                                                     fill="#88cc5a" />
                                             </svg>
                                         </button>
-                                        {% if user.role == 'Ученик' %}
                                             <label for="abstract" class="btns-label" title="Обновить файл">
                                                 <svg viewBox="0 0 512 512" fill="#ff6d1b">
                                                     <path d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/>
                                                 </svg>
                                             </label>
-                                        {% endif %}
                                     </div>
                                 {% else %}    
                                     <label class="file-label docx">Реферат
@@ -329,13 +327,11 @@
                                                     fill="#88cc5a" />
                                             </svg>
                                         </button>
-                                    {% if user.role == 'Ученик' %}
                                         <label for="presentation" class="btns-label" title="Обновить файл">
                                             <svg viewBox="0 0 512 512" fill="#ff6d1b">
                                                 <path d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/>
                                             </svg>
                                         </label>
-                                    {% endif %}
                                 </div>
                             {% else %}    
                             <label class="file-label ppt">
@@ -377,13 +373,11 @@
                                                     fill="#88cc5a" />
                                             </svg>
                                         </button>
-                                    {% if user.role == 'Ученик' %}
                                         <label for="defence" class="btns-label" title="Обновить файл">
                                             <svg viewBox="0 0 512 512" fill="#ff6d1b">
                                                 <path d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/>
                                             </svg>
                                         </label>
-                                    {% endif %}
                                 </div>
                             {% else %}    
                             <label class="file-label txt">
@@ -413,7 +407,7 @@
                                             <a href="{% url 'download_file' %}?file_id={{file.id}}"
                                                 title="Загрузить файл">{{file.name}}</a>
                                             <div class="other-btns">
-                                                <button onclick="show_window('comments{{file.id}}')" title="Посмотреть комментарии">
+                                                <button onclick="show_window('comments{{file.id}}')" title="Посмотреть комментарии" type="button">
                                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -422,7 +416,7 @@
                                                     </svg>
                                                 </button>
                                                 <button type="submit" class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
-                                                    title="Посмотреть предыдущие версии файла">
+                                                    title="Посмотреть предыдущие версии файла" type="button">
                                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -430,7 +424,6 @@
                                                             fill="#88cc5a" />
                                                     </svg>
                                                 </button>
-                                                {% if user.role == 'Ученик' %}
                                                     <label onclick="delete_file('{{file.id}}')" class="other-btns-label" title="Удалить файл">
                                                         <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -440,7 +433,6 @@
                                                         </svg>
                 
                                                     </label>
-                                                {% endif %}
                                             </div>
                                         </li>
                                     {% endfor %}
