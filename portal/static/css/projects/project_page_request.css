@@ -34,8 +34,8 @@
 }
 
 .descr-textarea {
-    min-height: 100px;
-    max-height: 300px;
+    min-height: 20vh;
+    max-height: 100vh;
     font-size: 20px;
 }
 

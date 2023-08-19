@@ -1,8 +1,17 @@
 window.addEventListener('scroll', function() {
+    let block_height = this.document.getElementsByClassName('right-block')[0].clientHeight;
+    let main_height = this.document.getElementsByClassName('main-info')[0].clientHeight;
+    console.log ((120 + block_height - main_height), this.scrollY);
     if (this.scrollY > 120) {
         $('.main-info').addClass('main-info-fixed');
     } else {
         $('.main-info').removeClass('main-info-fixed');
+    }
+
+    if (this.scrollY > (120 + block_height - main_height)) {
+        $('.main-info').addClass('main-info-bottom');
+    } else {
+        $('.main-info').removeClass('main-info-bottom');
     }
 });
 

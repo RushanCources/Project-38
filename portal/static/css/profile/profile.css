@@ -28,6 +28,13 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: stretch;
+}
+
+.left-block {
+    height: inherit;
+    display: flex;
+    align-items: flex-start;
 }
 
 .right-block {
@@ -52,6 +59,12 @@
 .main-info-fixed {
     position: fixed;
     top: 10px;
+}
+
+.main-info-bottom {
+    position: relative;
+    margin-top: auto;
+    margin-bottom: 10px;
 }
 
 .role-div {

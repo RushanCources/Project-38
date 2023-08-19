@@ -13,6 +13,10 @@
     transition: 0.1s background-color linear;
 }
 
+.new-project-link:hover {
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.27);
+}
+
 .new-project-link:active {
     background-color: #3e5e96;
 }
@@ -47,7 +51,7 @@
     width: 70%;
 }
 
-.flex {
+.flex { /* Контейнер проекта */
     width: 100%;
     margin-top: 5%;
     min-height: 300px;
@@ -67,12 +71,13 @@
 
 .text { /* Описание*/
     align-self: center;
-    min-width: 88%;
+    width: 90%;
     min-height: 40px;
 }
 
 .files { /* main-div всех файлов*/
-
+    max-width: 90%;
+    margin-left: 5%;
 }
 
 .file { /* div файла*/
@@ -88,10 +93,9 @@ a.btn-projects { /* Кнопка проекта*/
     margin-bottom: 2%;
     height: 50px;
     min-width: 30%;
-    border: 0;
-    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55); 
+    border: 0; 
     border-radius: 10px;
-    background-color: #FFFFFF;
+    background-color: #DBE1FF;
     /* text-align: center; */
     justify-content: center;
 }
@@ -101,11 +105,12 @@ a.btn-projects { /* Кнопка проекта*/
 }
 
 a.btn-projects:hover, a.btn-projects.hover {
-    background-color: #DBE1FF;
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55);
 }
 
 a.btn-projects:active, a.btn-projects.active {
-    background-color: #546FFF;
+    background-color: #798aec;
+    box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55);
 }
 
 @media (max-width: 1000px) {
