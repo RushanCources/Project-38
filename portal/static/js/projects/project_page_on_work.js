@@ -226,6 +226,13 @@ function file_name(file, span, start_name) {
     $('.file-name')[span].innerHTML = name;
 }
 
+//удаление файла
+
+function delete_file(id) {
+    $('.file-id').val(id);
+    $('.del-form')[0].submit();
+}
+
 // для подсказок
 
 $('.question').hover(function() {
