@@ -18,9 +18,6 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path, include
 from django.views.generic import TemplateView
-from management import views as v2
-from subjects import views as v3
-from projects import views as v4
 
 urlpatterns = [
     path('announcements/', include('announcements.urls')),

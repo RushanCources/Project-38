@@ -6,7 +6,6 @@ urlpatterns = [
     path('create/', views.send_create_form, name='create'),  # форма для подачи заявки на проект
     path('create/postcreate/', views.create, name='postcreate'),  # обработка формы подачи заявки на проект
     path('correct_project', views.correct_project, name='correct_project'),  # изменение данных проекта
-    path('create_data', views.create_data),  # вспомогательная функция при разработке, нужно удалить перед релизом
     path('update_file', views.update_file, name='update_file'),  # обновление файла
     path('delete_file', views.delete_file, name='delete_file'),  # перемещение файла в корзину
     path('download_file', views.download_file, name='download_file'),  # загрузка файла на компьютер пользователя

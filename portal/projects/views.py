@@ -89,35 +89,6 @@ def index(request: HttpRequest):
         return render(request, "FatalError.html")
 
 
-def create_data(request: HttpRequest):
-    user1, created = User.objects.get_or_create(username="aaa1", first_name="Надежда", middle_name="Борисовна",
-                                                last_name="Тукова", email="a@a.ru", role="Учитель")
-    user1.set_password("1")
-    user1.save()
-    user2, created = User.objects.get_or_create(username="aaa2", first_name="Наталья", middle_name="Львовна",
-                                                last_name="Попова", email="a@a.ru",
-                                                role="Учитель")
-    user2.set_password("1")
-    user2.save()
-    user3, created = User.objects.get_or_create(username="aaa3", first_name="Алексей", middle_name="Романович",
-                                                last_name="Дмитриев", email="a@a.ru",
-                                                role="Ученик")
-    user3.set_password("1")
-    user3.save()
-    user4, created = User.objects.get_or_create(username='d1ffy', last_name='Кокорин', first_name='Петр', middle_name='Алексеевич',
-                                                email='helpersteam96@inbox.ru', role='Администратор')
-    user4.set_password("1")
-    user4.save()
-    user5, created = User.objects.get_or_create(username='Cbytl', last_name='Кабанин', first_name='Денис', middle_name='Андреевич',
-                                                email='email@email.ru', role='Администратор')
-    user5.set_password("555555")
-    user5.save()
-    project = Project.objects.create(name="Проект1", teacher=user1, student=user3)
-    project.set_subject("Математика")
-    project.save()
-    return HttpResponse("Всё ок")
-
-
 # отправка страницы с формой для подачи заявки на проект
 def send_create_form(request: HttpRequest):
     if request.user.is_authenticated:
