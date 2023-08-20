@@ -48,12 +48,22 @@ function new_theme_exit() {
     $('.new-theme-textarea').val('');
 }
 
-let subjets = ['Английский язык', 'Русский язык', 'Информатика', 'Физика']
+let subjets = ["Математика", "Алгебра", "Геометрия", "Теория вероятностей и статистика", "Информатика",
+    "География", "Биология", "Физика", "Химия", "Основы безопасности жизнедеятельности", "Естествознание",
+    "Экология", "Астрономия", "История", "Обществознание", "Экономика", "Право", "Разговоры о важном", "Краеведение",
+    "Основы религиозных культур и светской этики", "Родная литература",
+    "Русский язык", "Литература", "Иностранный язык(Английский)", "Иностранный язык(Французский)",
+    "Иностранный язык(Немецкий)",
+    "Труд", "Технология", "Черчение", "Индивидуальный проект", "Физическая культура", "Музыка",
+    "Изобразительное искусство",
+    "Другая научная область/предмет"]
 
 let input = document.getElementById('theme_subject');
 
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
+
+
     if (len < 3) {
         const { value } = input;
         let ul = $('.search-result-list');
@@ -62,7 +72,6 @@ input.oninput = event => {
         for (let i = 0; i < subjets.length; i++) {
             if (subjets[i].toLowerCase().match(value.toLowerCase()) && value != '') {
                 let li = document.createElement('li');
-
                 li.className = 'search-result-item';
                 li.innerHTML = subjets[i];
                 ul.prepend(li);
@@ -72,13 +81,8 @@ input.oninput = event => {
     }
 }
 
-function result_item() {
-
-    $('.search-result-item').on('click', function () {
-
-        let sub = $(this).html();
-
-        let i = subjets.indexOf(sub);
+function create(text) {
+    let i = subjets.indexOf(text);
         if (i >= 0) {
             subjets.splice(i, 1);
         }
@@ -87,7 +91,7 @@ function result_item() {
         let ul = $('.new-theme-subjects-list');
         let div = document.createElement('div');
 
-        li.innerHTML = sub;
+        li.innerHTML = text;
         li.className = 'new-theme-subjects-item';
         div.className = 'new-theme-subjects-div';
         ul.prepend(li);
@@ -96,6 +100,19 @@ function result_item() {
         $('.search-result-list').html('');
         $('.new-theme-subjects-div').off();
         subject_remove();
+}
+
+function result_item() {
+    $('.search-result-item').on('click', function () {
+        let sub = $(this).html();
+        create(sub);
+        
+        let input = $('.subject-input').val();
+        if (input == '') {
+            $(".subject-input").val(input + sub);
+        } else {
+            $(".subject-input").val(input + ',' + sub);
+        }
     });
 
 }
@@ -105,8 +122,29 @@ function subject_remove() {
         let li = this.parentNode;
         subjets.push(li.innerText);
         li.remove();
+
+        let input = $('.subject-input').val();
+        input = input.replace(',' + li.innerText, '');
+        $('.subject-input').val(input);
     });
 }
+
+$('.new-theme-subjects-input').on('blur', function() {
+    let len = $('.new-theme-subjects-list')[0].childNodes.length;
+    if (len < 3) {
+        let text = $('.new-theme-subjects-input').val().trim();
+        if (text != '' && text.length > 3) {
+            create(text);
+
+            let input = $('.subject-input').val();
+            if (input == '') {
+                $(".subject-input").val(input + text);
+            } else {
+                $(".subject-input").val(input + ',' + text);
+            }
+        }
+    }
+});
 
 // Редактирование
 

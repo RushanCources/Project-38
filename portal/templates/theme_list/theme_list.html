@@ -62,30 +62,27 @@
         </svg>
     </button>
     {% for theme in themes %}
-    <div class="{{ theme.Class_of_subject }}">
+    <div class="{{ theme.class_of_subject }}">
         <ul class="theme-subjects-list">
-            {% for sub in theme.Subject %}
+            {% for sub in theme.subject %}
             <li class="theme-subjects-item">{{ sub }}</li>
             {% endfor %}
         </ul>
         <div class="descr">
-            <h2 class="theme-name theme-name-close">{{ theme.Name }}</h2>
+            <h2 class="theme-name theme-name-close">{{ theme.name }}</h2>
             <p class="theme-descr theme-descr-close">
-                {{ theme.Descript }}
+                {{ theme.descript }}
             </p>
             <button class="theme-btn">Подробнее</button>
             <div class="info">
-                <a class="info-link" href="#" title="Автор темы">{{ theme.Author }}</a>
-                <span class="{{ theme.Class_of_tag }}">{{ theme.Status }}</span>
+                <a class="info-link" href="#" title="Автор темы">{{ theme.author }}</a>
+                <span class="teg {{ theme.class_of_tag }}">{{ theme.status }}</span>
             </div>
             <button class="theme-btn-take">Взяться за проект</button>
         </div>
         <button class="edit">
             <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title />
-                <desc />
-                <defs />
                 <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
                     <g fill="#000000" id="Core" transform="translate(-213.000000, -129.000000)">
                         <g id="create" transform="translate(213.000000, 129.000000)">
@@ -102,17 +99,20 @@
     {% endfor %}
 
     <form method="POST" class="new-theme-form">
+        {% csrf_token %}
         <h2 class="new-theme-title">Создание новой темы</h2>
         <div class="new-theme-inputs">
-            <input type="text" class="new-theme-input form-input" placeholder="Название темы" required />
-            <textarea class="new-theme-textarea form-input" placeholder="Описание темы" required></textarea>
+            <input type="text" class="new-theme-input form-input" name="name" placeholder="Название темы" required />
+            <textarea class="new-theme-textarea form-input" name="descript" placeholder="Описание темы" required></textarea>
             <div class="new-theme-subjects">
                 <input type="text" class="new-theme-subjects-input form-input"
                     placeholder="Введите названние предметной области" id="theme_subject">
                 <ul class="search-result-list"></ul>
                 <ul class="new-theme-subjects-list"></ul>
             </div>
+            <input type="hidden" class="subject-input" name="subjects">
         </div>
+        <input type="hidden" value="{{user}}" name="author">
         <div class="new-theme-btns">
             <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
             <button class="btn new-theme-create" type="submit">Создать</button>

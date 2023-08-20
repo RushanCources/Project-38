@@ -389,7 +389,7 @@
 }
 
 .sub2 {
-    background: linear-gradient(248deg, #4e9e56 44%, rgba(92,185,101,1) 98%);
+    background: linear-gradient(248deg, #4e9e56 44%, rgba(78, 158, 86, 0.90) 98%);
 }
 
 .sub2 > ul:first-child {
