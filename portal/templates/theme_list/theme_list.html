@@ -98,7 +98,7 @@
     </div>
     {% endfor %}
 
-    <form method="POST" class="new-theme-form">
+    <form method="POST" class="new-theme-form" action="{% url 'new_theme_create' %}">
         {% csrf_token %}
         <h2 class="new-theme-title">Создание новой темы</h2>
         <div class="new-theme-inputs">
