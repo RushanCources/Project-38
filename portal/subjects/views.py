@@ -12,7 +12,7 @@ def create_test(request):
     return redirect('theme_list')
 
 def new_theme_create(request):
-    if request.methood == 'POST':
+    if request.method == 'POST':
         theme = Theme()
         theme.name = request.POST.get('name_input')
         theme.descript = request.POST.get('descript_input')
