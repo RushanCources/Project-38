@@ -64,7 +64,7 @@
     {% for theme in themes %}
     <div class="{{ theme.class_of_subject }}">
         <ul class="theme-subjects-list">
-            {% for sub in theme.subject %}
+            {% for sub in theme.subjects %}
             <li class="theme-subjects-item">{{ sub }}</li>
             {% endfor %}
         </ul>
@@ -102,17 +102,17 @@
         {% csrf_token %}
         <h2 class="new-theme-title">Создание новой темы</h2>
         <div class="new-theme-inputs">
-            <input type="text" class="new-theme-input form-input" name="name" placeholder="Название темы" required />
-            <textarea class="new-theme-textarea form-input" name="descript" placeholder="Описание темы" required></textarea>
+            <input type="text" class="new-theme-input form-input" name="name_input" placeholder="Название темы" required />
+            <textarea class="new-theme-textarea form-input" name="descript_input" placeholder="Описание темы" required></textarea>
             <div class="new-theme-subjects">
                 <input type="text" class="new-theme-subjects-input form-input"
                     placeholder="Введите названние предметной области" id="theme_subject">
                 <ul class="search-result-list"></ul>
                 <ul class="new-theme-subjects-list"></ul>
             </div>
-            <input type="hidden" class="subject-input" name="subjects">
+            <input type="hidden" class="subject-input" name="subjects_input">
         </div>
-        <input type="hidden" value="{{user}}" name="author">
+        <input type="hidden" value="{{user}}" name="author_input">
         <div class="new-theme-btns">
             <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
             <button class="btn new-theme-create" type="submit">Создать</button>
