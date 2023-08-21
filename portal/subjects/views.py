@@ -39,5 +39,10 @@ def new_theme_create(request):
             theme.subject_color = subject.color  
             
         theme.save()
-
     return redirect('theme_list')
+
+def search(request):
+    if request.method == 'POST':
+        search_object = request.POST.get('search_input')
+        search_result = Theme.objects.filter(name__icontains=search_object)
+    return render(request, 'theme_list/theme_list.html' , {'themes': search_result})
