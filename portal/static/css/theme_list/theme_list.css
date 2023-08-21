@@ -242,6 +242,10 @@
     letter-spacing: 0.2em;
 }
 
+.theme-subjects-item {
+    color: rgba(255,255,255,0.3)
+}
+
 .info {
     margin-top: 20px;
     display: flex;
@@ -257,7 +261,7 @@
     color: #5A88FF;
 }
 
-.teg {
+.tag {
     margin: 0;
     font-weight: 700;
     padding: 4px 18px;
@@ -268,15 +272,15 @@
 
 }
 
-.teg-open {
+.tag-open {
     background-color: #59FF6A;
 }
 
-.teg-close {
+.tag-close {
     background-color: #FCFF59;
 }
 
-.teg-psat-year {
+.tag-psat-year {
     background-color: #fff;
 }
 

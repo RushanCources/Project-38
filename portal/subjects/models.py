@@ -7,5 +7,9 @@ class Theme(models.Model):
     subjects = models.CharField(max_length=100)
     status = models.CharField(max_length=20)
     descript = models.CharField(max_length=2000)
-    class_of_subject = models.CharField(max_length=100)
+    subject_color = models.CharField(max_length=20, null=True)
     class_of_tag = models.CharField(max_length=100, null=True)
+
+class Subject(models.Model):
+    name = models.CharField(max_length=100)
+    color = models.CharField(max_length=20)

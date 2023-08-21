@@ -178,3 +178,9 @@ $('.edit').on('click', function () {
     $('.new-theme-input').val(title);
     $('.new-theme-textarea').val(descr);
 });
+
+// цвета
+
+function set_color(color) {
+    console.log(color)
+}
