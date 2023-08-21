@@ -22,13 +22,9 @@
                         <div class="list-p" name="subject">Не указано</div>
                         <ul class="list">
                             <li class="list-li">Не указано</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
+                            {% for subject in subjects %}
+                            <li class="list-li">{{subject.name}}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -62,10 +58,8 @@
         </svg>
     </button>
     {% for theme in themes %}
-    <div class="theme-block theme-block-close {{ theme.class_of_subject }}" style="background: linear-gradient(248deg, rgb({{theme.subject_color}}) 44%, rgba({{theme.subject_color}}, 0.9) 98%);">
-        <ul class="theme-subjects-list">
-            <li class="theme-subjects-item">{{ theme.subjects }}</li>
-        </ul>
+    <div class="theme-block theme-block-close" style="background: linear-gradient(248deg, rgb({{theme.subject_color}}) 44%, rgba({{theme.subject_color}}, 0.9) 98%);" id="{{theme.id}}">
+        <h2 class="theme-block-title">{{ theme.subjects }}</h2>
         <div class="descr">
             <h2 class="theme-name theme-name-close">{{ theme.name }}</h2>
             <p class="theme-descr theme-descr-close">
@@ -76,7 +70,7 @@
                 <a class="info-link" href="#" title="Автор темы">{{ theme.author }}</a>
                 <span class="tag {{theme.class_of_tag}}">{{ theme.status }}</span>
             </div>
-            <button class="theme-btn-take">Взяться за проект</button>
+            <button class="theme-btn-take">Взять проект</button>
         </div>
         <button class="edit">
             <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +91,7 @@
     {% endfor %}
 
     <form method="POST" class="new-theme-form" action="{% url 'new_theme_create' %}">
+        <input type="hidden" name="theme_id" value="0" class="theme-id">
         {% csrf_token %}
         <h2 class="new-theme-title">Создание новой темы</h2>
         <div class="new-theme-inputs">
@@ -108,7 +103,7 @@
                 <ul class="search-result-list"></ul>
                 <ul class="new-theme-subjects-list"></ul>
             </div>
-            <input type="hidden" class="subject-input" name="subjects_input">
+            <input type="hidden" class="subject-input" name="subjects_input" required>
         </div>
         <input type="hidden" value="{{user}}" name="author_input">
         <div class="new-theme-btns">

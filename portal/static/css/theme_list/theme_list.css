@@ -231,7 +231,8 @@
     opacity: 1;
 }
 
-.theme-subjects-list {
+.theme-block-title {
+    margin: 0;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -240,9 +241,6 @@
     font-size: 24px;
     line-height: 28px;
     letter-spacing: 0.2em;
-}
-
-.theme-subjects-item {
     color: rgba(255,255,255,0.3)
 }
 
@@ -376,32 +374,6 @@
 
 .author a {
     font-weight: 700;
-}
-
-/* subjects colors... */
-
-.sub1 {
-    background: linear-gradient(248deg, #051a3f 44%, #07204d 98%);
-}
-
-.sub1 > ul:first-child {
-    color: #3A4E71;
-}
-
-.sub1 .theme-btn-take {
-    color:#051a3f;
-}
-
-.sub2 {
-    background: linear-gradient(248deg, #4e9e56 44%, rgba(78, 158, 86, 0.90) 98%);
-}
-
-.sub2 > ul:first-child {
-    color: #3A713F;
-}
-
-.sub2 .theme-btn-take {
-    color:#4e9e56;
 }
 
 /* new-theme-form */

@@ -46,6 +46,7 @@ function new_theme_exit() {
     $('.new-theme-subjects-input').val('');
     $('.new-theme-input').val('');
     $('.new-theme-textarea').val('');
+    $('.theme-id').val('0');
 }
 
 let subjets = ["Математика", "Алгебра", "Геометрия", "Теория вероятностей и статистика", "Информатика",
@@ -55,8 +56,7 @@ let subjets = ["Математика", "Алгебра", "Геометрия", "
     "Русский язык", "Литература", "Иностранный язык(Английский)", "Иностранный язык(Французский)",
     "Иностранный язык(Немецкий)",
     "Труд", "Технология", "Черчение", "Индивидуальный проект", "Физическая культура", "Музыка",
-    "Изобразительное искусство",
-    "Другая научная область/предмет"]
+    "Изобразительное искусств"]
 
 let input = document.getElementById('theme_subject');
 
@@ -83,30 +83,30 @@ input.oninput = event => {
 
 function create(text) {
     let i = subjets.indexOf(text);
-        if (i >= 0) {
-            subjets.splice(i, 1);
-        }
+    if (i >= 0) {
+        subjets.splice(i, 1);
+    }
 
-        let li = document.createElement('li');
-        let ul = $('.new-theme-subjects-list');
-        let div = document.createElement('div');
+    let li = document.createElement('li');
+    let ul = $('.new-theme-subjects-list');
+    let div = document.createElement('div');
 
-        li.innerHTML = text;
-        li.className = 'new-theme-subjects-item';
-        div.className = 'new-theme-subjects-div';
-        ul.prepend(li);
-        li.append(div);
-        $('.new-theme-subjects-input').val('');
-        $('.search-result-list').html('');
-        $('.new-theme-subjects-div').off();
-        subject_remove();
+    li.innerHTML = text;
+    li.className = 'new-theme-subjects-item';
+    div.className = 'new-theme-subjects-div';
+    ul.prepend(li);
+    li.append(div);
+    $('.new-theme-subjects-input').val('');
+    $('.search-result-list').html('');
+    $('.new-theme-subjects-div').off();
+    subject_remove();
 }
 
 function result_item() {
     $('.search-result-item').on('click', function () {
         let sub = $(this).html();
         create(sub);
-        
+
         let input = $('.subject-input').val();
         if (input == '') {
             $(".subject-input").val(input + sub);
@@ -129,7 +129,7 @@ function subject_remove() {
     });
 }
 
-$('.new-theme-subjects-input').on('blur', function() {
+$('.new-theme-subjects-input').on('blur', function () {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
     if (len < 3) {
         let text = $('.new-theme-subjects-input').val().trim();
@@ -150,25 +150,39 @@ $('.new-theme-subjects-input').on('blur', function() {
 
 $('.edit').on('click', function () {
     let block = this.parentNode;
-    let subs = block.childNodes[1].childNodes;
-    let sub = [];
-    for (let i = 1; i < subs.length; i++) {
-        if (i % 2 != 0) {
-            // sub.push(subs[i].innerHTML);
-            let li = document.createElement('li');
-            let ul = $('.new-theme-subjects-list');
-            let div = document.createElement('div');
+    let subs = block.childNodes[1].innerText;
+    let subs_arr = []
 
-            li.innerHTML = subs[i].innerHTML;
-            li.className = 'new-theme-subjects-item';
-            div.className = 'new-theme-subjects-div';
-            ul.prepend(li);
-            li.append(div);
-            subject_remove();
-        }
+    if (subs.indexOf(',') > -1) {
+        subs_arr = subs.split(',')
+    } else {
+        subs_arr.push(subs)
+    }
+    let sub = ["Математика", "Алгебра", "Геометрия", "Теория вероятностей и статистика", "Информатика",
+    "География", "Биология", "Физика", "Химия", "Основы безопасности жизнедеятельности", "Естествознание",
+    "Экология", "Астрономия", "История", "Обществознание", "Экономика", "Право", "Разговоры о важном", "Краеведение",
+    "Основы религиозных культур и светской этики", "Родная литература",
+    "Русский язык", "Литература", "Иностранный язык(Английский)", "Иностранный язык(Французский)",
+    "Иностранный язык(Немецкий)",
+    "Труд", "Технология", "Черчение", "Индивидуальный проект", "Физическая культура", "Музыка",
+    "Изобразительное искусств"]
+    for (let i = 0; i < subs_arr.length; i++) {
+        let li = document.createElement('li');
+        let ul = $('.new-theme-subjects-list');
+        let div = document.createElement('div');
+
+        li.innerHTML = subs_arr[i];
+        li.className = 'new-theme-subjects-item';
+        div.className = 'new-theme-subjects-div';
+        ul.prepend(li);
+        li.append(div);
+        subject_remove();
     }
     let title = block.childNodes[3].childNodes[1].innerHTML;
     let descr = block.childNodes[3].childNodes[3].innerHTML;
+    let theme_id = $(block).attr('id');
+    let subject_input = block.childNodes[1].innerText;
+    console.log(subject_input);
 
 
     new_theme_open();
@@ -177,6 +191,8 @@ $('.edit').on('click', function () {
 
     $('.new-theme-input').val(title);
     $('.new-theme-textarea').val(descr);
+    $('.theme-id').val(theme_id);
+    $('.subject-input').val(subject_input);
 });
 
 // цвета
