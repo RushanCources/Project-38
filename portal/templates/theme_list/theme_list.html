@@ -9,10 +9,11 @@
 {% block content %}
 
 <div class="filters">
-    <form class="container" method="POST" action="https://jsonplaceholder.typicode.com/posts">
+    <form class="container" method="POST" action="{% url 'search_results_view' %}">
+        {% csrf_token %}
         <div class="left">
             <div class="search">
-                <input class="search-input" type="text" placeholder="Поиск...">
+                <input class="search-input" type="text" placeholder="Поиск..." name="search_input">
                 <button class="search-button"></button>
             </div>
             <div class="checkboxes">
