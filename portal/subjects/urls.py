@@ -7,4 +7,5 @@ urlpatterns = [
     path('theme_create_test/' , views.create_test, name='create_auto'),
     path('new_theme_create/' , views.new_theme_create, name='new_theme_create'),
     path('search_results_view', views.search, name='search_results_view'),
+    path(route='use_theme', view=views.use_theme, name='use_theme'),
 ]

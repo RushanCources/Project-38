@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from .models import Theme, Subject
+from projects.views import send_create_form
 import random
 
 
@@ -46,3 +47,14 @@ def search(request):
         search_object = request.POST.get('search_input')
         search_result = Theme.objects.filter(name__icontains=search_object)
     return render(request, 'theme_list/theme_list.html' , {'themes': search_result})
+
+
+def use_theme(request: HttpRequest):
+    theme_id = request.GET.get('theme_id')
+    try:
+        theme = Theme.objects.get(id=theme_id)
+        context = {'name': theme.name,
+                  'description': theme.descript}
+        return send_create_form(request, context_theme=context)
+    except Theme.DoesNotExist:
+        redirect('theme_list')

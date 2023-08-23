@@ -71,7 +71,7 @@
                 <a class="info-link" href="#" title="Автор темы">{{ theme.author }}</a>
                 <span class="tag {{theme.class_of_tag}}">{{ theme.status }}</span>
             </div>
-            <button class="theme-btn-take">Взять проект</button>
+            <button class="theme-btn-take", onclick="window.location = '{% url 'use_theme' %}?theme_id={{theme.id}}'">Взять проект</button>
         </div>
         <button class="edit">
             <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
