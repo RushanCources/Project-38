@@ -90,11 +90,12 @@ def index(request: HttpRequest):
 
 
 # отправка страницы с формой для подачи заявки на проект
-def send_create_form(request: HttpRequest):
+def send_create_form(request: HttpRequest, context_theme={}):
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
             teachers = User.objects.filter(role="Учитель")
             data = {"teachers": teachers}
+            data.update(context_theme)
             return render(request, "projects/create.html", data)
     return render(request, "NotEnoughPermissions.html")
 
