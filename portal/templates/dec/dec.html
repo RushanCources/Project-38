@@ -30,8 +30,12 @@
             <div class="announ-content" id="{{ announcement.id }}">
                 <div class="top-info">
                     <div class="top-info-text">
-                        <span class="change"></span>
-                        <span class="date">c <span class="date-start">20.03.2023</span> до <span class="date-end">20.04.2023</span></span>
+                        {% if announcement.updated_at == announcement.created_at %}
+                        <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                        {% else %}
+                        <span class="change">изм.</span>
+                        <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                        {% endif %}
                     </div>
                     <button class="favourite-btn" title="Закрепить">
                         <svg class="favourite-svg" width="18" height="18" viewBox="0 0 18 18" fill="inherit">
@@ -44,7 +48,7 @@
                 <button class="announ-btn">Подробнее</button>
                 <div class="announ-bottom">
                     <div>
-                        <a href="#" class="announ-author">Быстрова А. В.</a>
+                        <a href="#" class="announ-author">{{ announcement.author }}</a>
                     </div>
                     <ul class="announ-files-list">
                         <li class="announ-files-item">
@@ -63,7 +67,9 @@
                 </div>
             </div>
              <div class="announ-img"> <!-- Придумайте, где будут храниться обложки. По идее в папке media надо сделать отдкльную папку для этого -->
+                {% if 'http' in announcement.image_url %}
                 <img src="{{ announcement.image_url }}" alt="Обложка объявления">
+                {% endif %}
             </div>
         </div>
         {% endfor %}

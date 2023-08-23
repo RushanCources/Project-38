@@ -85,7 +85,6 @@
 
 .announ {
     display: flex;
-    border: 1px solid #999;
     border-radius: 9px;
     max-width: 1000px;
 }
@@ -218,6 +217,9 @@
 .announ-img {
     overflow: hidden;
     width: calc(100% - 750px);
+    background-color: #103A84;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
 }
 
 .announ-img > img {
