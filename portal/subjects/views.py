@@ -17,7 +17,7 @@ def new_theme_create(request):
     if request.method == 'POST':
         theme_id = request.POST.get('theme_id')
 
-        if theme_id == 0:
+        if theme_id == '0':
             theme = Theme.objects.create(class_of_tag ='tag-open', status='Свободно')
         else:
             theme = Theme.objects.get(id=theme_id)
