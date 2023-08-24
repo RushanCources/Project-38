@@ -7,7 +7,7 @@
 {% endblock head %}
 {% block content %}
 
-<form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
+<!-- <form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
     {% csrf_token %}
     <div class="td">
         {{ form.title }}
@@ -22,10 +22,48 @@
         <p>Ссылка на ваше изображение</p>
         {{ form.image_url }}
     </div>
-    {{ form.files }} 
+    {{ form.files }}
     {{ form.file_id_to_delete }}
     <input class="subm" type="submit" value="Разместить" />
-    <!-- <div></div> -->
+</form> -->
+
+<form action="#" method="POST" class="form">
+    <div class="form-main">
+        <label class="label label-title"><span>Название:</span>
+            {{ form.title }}
+        </label>
+        <label class="label label-descr"><span>Описание:</span>
+            {{ form.body }}
+        </label>
+        <label class="label label-files"><span>Файлы:</span>
+            <input type="hidden" name="file_id" value="-1" />
+            <label for="add_file" class="file-label">Добавить файл</label>
+            {{ form.files }}
+            <ul class="file-list">
+                {% for file in other_files %}
+                <li class="file-item">
+                    <a href="{% url 'download_file' %}?file_id={{file.id}}" title="Загрузить файл">{{file.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </label>
+    </div>
+    <div class="form-other">
+        <label class="label label-date"><span>Дата окончания:</span>
+            {{ form.date_of_expiring }}
+        </label>
+        <label class="label label-pin"><span>Закрепить:</span>
+            {{ form.is_pinned }}
+            <div class="div-pin" onclick="pin_active()">
+                <div class="ball"></div>
+            </div>
+        </label>
+        <label class="label label-cover"><span>Обложка:</span>
+
+        </label>
+    </div>
 </form>
+
+<script src="{% static 'js/announcement/red.js' %}"></script>
 
 {% endblock content %}
