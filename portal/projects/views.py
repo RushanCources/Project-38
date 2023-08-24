@@ -8,6 +8,7 @@ from django.contrib import messages
 
 from management.models import User
 from projects.models import Project, File
+from subjects.models import Subject
 
 
 def check_what_user_not_have_access(request: HttpRequest, project: Project):  # True если пользаватель не имеет прав для просмотра проекта, False, если имеет
@@ -78,14 +79,15 @@ def index(request: HttpRequest):
                    'defence': defence_file,
                    'old_defence': defence_file.get_prevent_files() if defence_file is not None else [],
                    'other_files': other_files,
-                   'old_other_files': [other_file.get_prevent_files() for other_file in other_files]
+                   'old_other_files': [other_file.get_prevent_files() for other_file in other_files],
+                   'all_subjects_names': [subject.name for subject in Subject.objects.all()]
                    }
 
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
-    except BaseException as e:
-        print(e)
+    except BaseException as error:
+        print(error)
         return render(request, "FatalError.html")
 
 
@@ -94,7 +96,8 @@ def send_create_form(request: HttpRequest, context_theme={}):
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
             teachers = User.objects.filter(role="Учитель")
-            data = {"teachers": teachers}
+            data = {"teachers": teachers,
+                    "subjects_names": [subject.name for subject in Subject.objects.all()]}
             data.update(context_theme)
             return render(request, "projects/create.html", data)
     return render(request, "NotEnoughPermissions.html")
@@ -230,8 +233,8 @@ def correct_project(request: HttpRequest):
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
         return render(request, "WrongData.html")
-    except BaseException as e:  # если возникла непредвиденная ошибка
-        print(e)
+    except BaseException as error:  # если возникла непредвиденная ошибка
+        print(error)
         return render(request, "FatalError.html")
 
 
