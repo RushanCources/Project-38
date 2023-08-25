@@ -667,7 +667,9 @@
     }
     files_names = {{ files_names | js }};
     is_opened = {{ is_opened | js }};
-    update_files_url = "{% url 'update_file' %}"
+    update_files_url = "{% url 'update_file' %}";
+    let subjects = {{ all_subjects_names | js}};
+
 </script>
 
 {% if status == 'on work' %}
