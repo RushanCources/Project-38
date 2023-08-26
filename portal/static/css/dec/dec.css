@@ -217,14 +217,12 @@
 .announ-img {
     overflow: hidden;
     width: calc(100% - 750px);
-    background-color: #103A84;
+    background: #103A84;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     border-top-right-radius: 9px;
     border-bottom-right-radius: 9px;
-}
-
-.announ-img > img {
-    height: 100%;
-
 }
 
 @media (max-width: 2000px){
