@@ -128,3 +128,26 @@ function preview_update(el, block) {
         $('.announ-img').css({'background-image' : el});
     }
 }
+
+function url_open() {
+    $('.url-cover').addClass('url-active');
+    $('.back-form').css({'display' : 'block'});
+}
+
+function url_exit() {
+    $('.url-cover').removeClass('url-active');
+    $('.back-form').css({'display' : 'none'});
+    $('.url-input').val('');
+}
+
+function url_save() {
+    let url = $('.url-input').val().trim();
+
+    if(url != '') {
+        url = 'url(' + url + ')';
+        $('.announ-img').css({'background-image' : url});
+        url_exit();
+    } else {
+        alert('эу, ахуел?');
+    }
+}

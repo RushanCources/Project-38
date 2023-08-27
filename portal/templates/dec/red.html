@@ -8,56 +8,37 @@
 {% endblock head %}
 {% block content %}
 
-<!-- <form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
-    {% csrf_token %}
-    <div class="td">
-        {{ form.title }}
-        {{ form.date_of_expiring }}
-    </div>
-    {{ form.body }}
-    <div class="pin">
-        <p>Закрепить</p>
-        {{ form.is_pinned }}
-    </div>
-    <div class="imur">
-        <p>Ссылка на ваше изображение</p>
-        {{ form.image_url }}
-    </div>
-    {{ form.files }}
-    {{ form.file_id_to_delete }}
-    <input class="subm" type="submit" value="Разместить" />
-</form> -->
-
 <h1 class="title">Редактор объявления</h1>
 
 <form action="#" method="POST" class="form">
+    {% csrf_token %}
     <div class="form-main">
-        <label class="label label-title"><span>Название:</span>
+        <div class="label label-title"><span>Название:</span>
             {{ form.title }}
-        </label>
-        <label class="label label-descr"><span>Описание:</span>
+        </div>
+        <div class="label label-descr"><span>Описание:</span>
             {{ form.body }}
-        </label>
-        <label class="label label-files"><span>Файлы:</span>
+        </div>
+        <div class="label label-files"><span>Файлы:</span>
             <input type="hidden" name="file_id" value="-1" />
             <label for="add_file" class="file-label">Добавить файл</label>
             <input type="file" id="add_file" onchange="new_file()" class="file-input">
             {{ form.files }}
             <ul class="file-list"></ul>
-        </label>
+        </div>
     </div>
     <div class="form-other">
-        <label class="label label-date"><span>Дата окончания:</span>
+        <div class="label label-date"><span>Дата окончания:</span>
             {{ form.date_of_expiring }}
-        </label>
-        <label class="label label-pin"><span>Закрепить:</span>
+        </div>
+        <div class="label label-pin"><span>Закрепить:</span>
             {{ form.is_pinned }}
             <div class="div-pin" onclick="pin_active()">
                 <div class="ball"></div>
             </div>
-        </label>
+        </div>
         <div class="label label-cover"><span>Обложка:</span>
-            <button class="covers-btn">Добавить обложку
+            <button class="covers-btn" onclick="url_open()">Добавить обложку
                 <svg width="16" height="16" viewBox="0 0 200 200"
                     style="transform: rotate(45deg)">
                     <path
@@ -88,6 +69,7 @@
                 </li>
             </ul>
         </div>
+        <input class="form-btn" type="submit" value="Разместить" />
     </div>
 </form>
 
@@ -115,9 +97,22 @@
             <ul class="announ-files-list"></ul>
         </div>
     </div>
-     <div class="announ-img"> <!-- Придумайте, где будут храниться обложки. По идее в папке media надо сделать отдкльную папку для этого -->
+     <div class="announ-img">
     </div>
 </div>
+
+<div class="url-cover">
+    <div>
+        <h3 class="url-title">Вставьте ссылку на вашу обложку</h3>
+        <span class="url-span">Учтите, что ссылка на вашу обложку может перестать быть активной со временем!</span>
+    </div>
+    {{ form.image_url }}
+    <div class="url-btns">
+        <button class="btn exit" type="button" onclick="url_exit()">Отмена</button>
+        <button class="btn save" onclick="url_save()">Сохранить</button>
+    </div>
+</div>
+<div class="back-form"></div>
 
 <script src="{% static 'js/announcement/red.js' %}"></script>
 

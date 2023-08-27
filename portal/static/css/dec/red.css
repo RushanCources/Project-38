@@ -7,6 +7,7 @@
 .title {
     margin:  0 auto;
     width: 90%;
+    max-width: 1200px;
     margin-top: 0;
 }
 
@@ -38,6 +39,7 @@
 }
 
 .form-other {
+    position: relative;
     width: 30%;
 }
 
@@ -59,7 +61,6 @@
 .label-textarea {
     padding: 10px;
     min-height: 100px;
-    max-height: 300px;
     height: auto;
     border-radius: 5px;
     background: #FFFFFF;
@@ -174,6 +175,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .covers-item {
@@ -236,7 +238,7 @@
 }
 
 .covers-btn:hover {
-    background: #00000024;
+    background: #0000000f;
 }
 
 .covers-btn > svg {
@@ -252,4 +254,110 @@
 
 .announ-files-item {
     color: #103A84;
+}
+
+.form-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px 30px;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.form-btn:hover {
+    background: #0d306d;
+}
+
+.form-btn:active {
+    background: #3e5e96;
+}
+
+.url-cover {
+    padding: 20px 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+    align-items: stretch;
+    justify-content: space-between;
+    width: 80%;
+    max-width: 700px;
+    z-index: -10;
+    opacity: 0;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.url-active {
+    z-index: 10;
+    opacity: 1;
+}
+
+.url-title {
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 22px;
+}
+
+.url-span {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.url-input {
+    padding: 10px;
+    border-radius: 5px;
+    background: #FFFFFF;
+    width: 100%;
+    border: 1px solid #00000030;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.url-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.url-btns > button {
+    padding: 10px 30px;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.url-btns > button:hover {
+    background: #0d306d;
+}
+
+.url-btns > button:active {
+    background: #3e5e96;
+}
+
+.back-form {
+    display: none;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background: #00000072;
 }
