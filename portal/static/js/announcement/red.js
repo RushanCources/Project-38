@@ -13,6 +13,7 @@ function pin_active() {
         $('.ball').css({ 'transform': 'translateX(24px)' });
         preview_update(true, 'pin');
     }
+    $('#id_is_pinned').click();
 }
 
 let data = new DataTransfer();
@@ -104,6 +105,13 @@ let months = [' января ', ' февраля ', ' марта ', ' апрел
 let month = months[date.getMonth()];
 let year = date.getFullYear();
 $('.date-start').html(today + month + year);
+
+let date_month = date.getMonth();
+if (date_month < 10) {
+    date_month++;
+    date_month = '0' + date_month;
+}
+$('.date').attr('min', year + '-' + date_month + '-' + today);
 
 function preview_update(el, block) {
     if (block == 'title') {

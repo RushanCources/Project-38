@@ -91,6 +91,7 @@
     display: flex;
     border-radius: 9px;
     max-width: 1000px;
+    margin: 0 auto;
 }
 
 .announ:not(:last-child) {
