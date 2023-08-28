@@ -6,52 +6,42 @@ from datetime import date
 from .decorators import allowed_users
 from .models import File
 from .forms import AnnouncementForm
+from django.core.paginator import Paginator
 
 
-# Добавить проверку форм при удалении тестовых шаблонов
-# В функию index надо передавать anid - максимальное количество следующих объявлений на странице, начиная с 40
-# Функция redactor отвечает за рендер шаблона редактора со всеми формами
-# Функция createannouncement Создает объявление
-# Функция editor отвечает за рендер шаблона эдитора объявлений со всеми формами и прошлыми данными
-# Функция editannouncement отвечает за редактирование объявления
-# Функция search отвечает за поиск
+# ToDo: Добавить проверку форм при удалении тестовых шаблонов
 
 
-def index(request, anid=None):
+def index(request):
 
     group = None
     superuser = False
-    ann_list = []
     anns = Announcement.objects.all()
 
-    if request.method == 'GET' and anid != None:
-        for ann in range(anid-20, anid):
-            try:
-                ann_list.append(anns[ann])
-            except IndexError:
-                break
-    else:
-        for ann in range(anns.count()):
-            ann_list.append(anns[ann])
+    paginator = Paginator(anns, 20) # Batch size здесь (см dec.html)
+    page_number = request.GET.get('page')
+    page_announcements = paginator.get_page(page_number)
 
     if request.user.groups.exists():
         group = request.user.groups.all()[0].name
     if group in ['Teacher', 'admin']:
         superuser = True
 
-    data = {'superuser': superuser, 'announcements': ann_list}
+    data = {'superuser': superuser, 'page_announcements': page_announcements}
 
     return render(request, 'dec/dec.html', context=data)
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
+    """Отвечает за рендер шаблона редактора со всеми формами"""
     form = AnnouncementForm()
     return render(request, "dec/red.html", context={'form': form})
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def createannouncement(request):
+    """Создает объявление (Записывает в БД)"""
 
     if request.method != "POST":
         return HttpResponsePermanentRedirect("/announcements")
@@ -79,6 +69,8 @@ def createannouncement(request):
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def editor(request, id):
+    """Отвечает за рендер шаблона эдитора объявлений со всеми формами и прошлыми данными"""
+
     try:
         announcement = Announcement.objects.get(id=id)
         initial_data = {
@@ -105,6 +97,7 @@ def editor(request, id):
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def editannouncement(request, id):
+    """Отвечает за редактирование объявления (изменение существующих значений в БД)"""
 
     try:
 
@@ -146,47 +139,28 @@ def editannouncement(request, id):
         return render(request, 'WrongData.html')
 
 
-def search(request, anid=None):
+def search(request):
+    """Отвечает за функциональную часть поиска"""
 
     query = request.GET.get('q')
-    ann_list = []
+    query_words = query.split()
+    query_filter = Q()
 
-    if query:
+    for word in query_words:
+        query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(
+            author__first_name__icontains=word) | Q(author__last_name__icontains=word)
 
-        query_words = query.split()
-        query_filter = Q()
+    anns = Announcement.objects.filter(query_filter)
 
-        for word in query_words:
-            query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(author__first_name__icontains=word) | Q(author__last_name__icontains=word)
+    paginator = Paginator(anns, 20)
+    page_number = request.GET.get('page')
+    page_announcements = paginator.get_page(page_number)
 
-        anns = Announcement.objects.filter(query_filter)
-
-        if request.method == 'GET' and anid != None:
-            for ann in range(anid - 20, anid):
-                try:
-                    ann_list.append(anns[ann])
-                except IndexError:
-                    break
-        else:
-            for ann in range(anns.count()):
-                ann_list.append(anns[ann])
-    else:
-        query_words = query.split()
-        query_filter = Q()
-
-        for word in query_words:
-            query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(
-                author__first_name__icontains=word) | Q(author__last_name__icontains=word)
-
-        anns = Announcement.objects.filter(query_filter)
-
-        for ann in range(anns.count()):
-            ann_list.append(anns[ann])
-    context = {
-        'announcements': ann_list,
+    data = {
+        'page_announcements': page_announcements,
         'search_value': query,
     }
-    return render(request, 'dec/dec.html', context=context)
+    return render(request, 'dec/dec.html', context=data)
 
 
 def announcement(request, id):
