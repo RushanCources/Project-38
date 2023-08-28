@@ -4,11 +4,11 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/dec/red.css' %}">
 <link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
-<title>Редактор Объявления</title>
+<title>Создание Объявления</title>
 {% endblock head %}
 {% block content %}
 
-<h1 class="title">Редактор объявления</h1>
+<h1 class="title">Создание объявления</h1>
 
 <form action="createannouncement" method="POST" class="form" enctype="multipart/form-data">
     {% csrf_token %}
