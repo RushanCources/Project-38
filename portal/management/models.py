@@ -8,6 +8,8 @@ class User(AbstractUser):
     group = models.IntegerField(null=True)
     deactivate = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.png")
+    is_view_window = models.BooleanField(default=False)
+
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
         self._meta.get_field('username').verbose_name = "Логин"

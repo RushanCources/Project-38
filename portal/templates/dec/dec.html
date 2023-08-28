@@ -16,26 +16,69 @@
                 <button class="search-button"></button>
             </div>
         </form>
+        {% comment %} {% if user.role == administrator or user.role == teacher %} {% endcomment %}
+            <div class="decorate">
+              <a href="{% url 'redactor' %}" class="Adecorate"></a>
+              <p class="Tdecorate">Создать объявление</p>
+            </div>
+        {% comment %} {% endif %} {% endcomment %}
     </div>
 
-    <div class="FSL" id="FSL"> <!-- FSL==Facking Scroll List-->
-        {% for announcement in page_announcements %}
-        <div class="flex" id="flex{{ announcement.id }}">
-            <p class="cap">{{ announcement.title }}</p>
-            <button class="btn btn-dec"></button>
-            <p class="text">{{ announcement.body }}</p>
-            <div class="IB" id="IB"><!--сюды фотку-->
-
+    <div class="content" id="FSL"> <!-- FSL==Facking Scroll List-->
+        {% for announcement in announcements %}
+        <div class="announ">
+            <div class="announ-content" id="{{ announcement.id }}">
+                <div class="top-info">
+                    <div class="top-info-text">
+                        {% if announcement.updated_at == announcement.created_at %}
+                        <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                        {% else %}
+                        <span class="change">изм.</span>
+                        <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                        {% endif %}
+                    </div>
+                    <button class="favourite-btn" title="Закрепить">
+                        <svg class="favourite-svg" width="18" height="18" viewBox="0 0 18 18" fill="inherit">
+                            <path d="M17.6844 6.825C17.615 6.61154 17.4877 6.4215 17.3168 6.27597C17.1459 6.13045 16.9381 6.03514 16.7163 6.00063L12.1481 5.31625L10.0919 0.95125C9.8875 0.51875 9.46938 0.25 9 0.25C8.53063 0.25 8.1125 0.51875 7.90813 0.95125L5.88188 5.30063L1.28375 6.00063C0.833755 6.06938 0.46313 6.385 0.31563 6.825C0.241171 7.04419 0.228913 7.27972 0.280215 7.50545C0.331518 7.73118 0.444374 7.93828 0.606255 8.10375L3.93188 11.5075L3.14625 16.305C3.10629 16.5361 3.1327 16.7739 3.22242 16.9906C3.31214 17.2073 3.46149 17.3941 3.65313 17.5294C3.83519 17.6597 4.05052 17.7355 4.27404 17.7482C4.49756 17.7608 4.72007 17.7096 4.91563 17.6006L8.97125 15.3356L13.0844 17.6006C13.28 17.7094 13.5025 17.7604 13.7259 17.7478C13.9494 17.7352 14.1647 17.6595 14.3469 17.5294C14.5386 17.3942 14.6881 17.2074 14.7778 16.9907C14.8675 16.7739 14.8939 16.5361 14.8538 16.305L14.0669 11.5013L17.3938 8.10375C17.5556 7.93828 17.6685 7.73118 17.7198 7.50545C17.7711 7.27972 17.7588 7.04419 17.6844 6.825Z" fill="inherit"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="middle-info">
+                    <h2 class="announ-title">{{ announcement.title }}</h2>
+                    <a href="#">
+                        <svg height="20px" version="1.1" viewBox="0 0 18 18" width="20px">
+                            <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+                                <g fill="#103A84" transform="translate(-213.000000, -129.000000)">
+                                    <g transform="translate(213.000000, 129.000000)">
+                                        <path
+                                            d="M0,14.2 L0,18 L3.8,18 L14.8,6.9 L11,3.1 L0,14.2 L0,14.2 Z M17.7,4 C18.1,3.6 18.1,3 17.7,2.6 L15.4,0.3 C15,-0.1 14.4,-0.1 14,0.3 L12.2,2.1 L16,5.9 L17.7,4 L17.7,4 Z"
+                                            id="Shape" />
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+                <p class="announ-descr">{{ announcement.body }}</p>
+                <button class="announ-btn">Подробнее</button>
+                <div class="announ-bottom">
+                    <div>
+                        <a href="#" class="announ-author">{{ announcement.author }}</a>
+                    </div>
+                    <ul class="announ-files-list">
+                        <li class="announ-files-item">
+                            <a href="#" class="announ-files-link">Название файла</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <ul class="dec-list">
-                <li class="dec-item"><p class="text">{{ announcement.body }}</p></li>
-            </ul>
+             <div class="announ-img"> <!-- Придумайте, где будут храниться обложки. По идее в папке media надо сделать отдкльную папку для этого -->
+                {% if 'http' in announcement.image_url %}
+                <img src="{{ announcement.image_url }}" alt="Обложка объявления">
+                {% endif %}
+            </div>
         </div>
         {% endfor %}
-        <!-- <button class="btn bold" type="submit" onclick=""></button>
-            <button class="btn italic" type="submit" onclick=""></button>
-            <button class="btn italic" type="submit" onclick=""></button>
-            <button class="btn italic" type="submit" onclick=""></button> -->
     </div>
     <script>
         $('.btn-dec').on('click', function () {

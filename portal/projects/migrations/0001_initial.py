@@ -3,6 +3,9 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 from django.conf import settings
+from django.db import migrations, models
+import projects.FileStorage
+import projects.models
 
 
 class Migration(migrations.Migration):
@@ -21,20 +24,26 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=30)),
                 ('description', models.CharField(max_length=1000, null=True)),
                 ('_status', models.CharField(max_length=30)),
-                ('_subject', models.CharField(max_length=20, null=True)),
+                ('_subjects', models.CharField(max_length=100, null=True)),
                 ('student', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='students', to=settings.AUTH_USER_MODEL)),
                 ('teacher', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='teachers', to=settings.AUTH_USER_MODEL)),
+                ('problem', models.CharField(max_length=1000, null=True)),
+                ('relevance', models.CharField(max_length=1000, null=True)),
+                ('target', models.CharField(max_length=1000, null=True)),
+                ('tasks', models.CharField(max_length=1000, null=True)),
+                ('expected_results', models.CharField(max_length=1000, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='File',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(blank=True, null=True, upload_to='project_files')),
+                ('file', models.FileField(blank=True, null=True, storage=projects.FileStorage.MyStorage, upload_to=projects.models.get_upload_path)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='files', to='projects.project')),
                 ('previous_file', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='previous', to='projects.file')),
                 ('version', models.IntegerField(default=1)),
                 ('comment', models.CharField(max_length=1024, null=True)),
+                ('_tag', models.CharField(max_length=20, null=True))
             ],
         ),
     ]
