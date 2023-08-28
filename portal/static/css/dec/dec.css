@@ -83,6 +83,10 @@
     background-color: white;
 }
 
+.content {
+    width: 100%;
+}
+
 .announ {
     display: flex;
     border-radius: 9px;
@@ -135,6 +139,17 @@
 
 .favourite-btn:hover {
     fill: #bdbdbd;
+}
+
+.middle-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.middle-info > a {
+    border-radius: 5px;
+    transition: background 0.3s linear;
 }
 
 .announ-title {
