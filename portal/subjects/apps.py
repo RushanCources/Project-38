@@ -1,5 +1,6 @@
 import sys
 from django.apps import AppConfig
+import random
 
 
 
@@ -23,4 +24,7 @@ class ProjectlistConfig(AppConfig):
                            "Изобразительное искусство",
                            "Другая научная область/предмет"]
         for subject_name in subjects_names:
-            subject, cteated=Subject.objects.get_or_create(name=subject_name)
+            if (not Subject.objects.filter(name=subject_name).exists()):
+                color = str(random.randint(45,255)) + ',' + str(random.randint(45,255)) + ',' + str(random.randint(45,255))
+                Subject.objects.create(name=subject_name,color=color)
+
