@@ -17,6 +17,7 @@ def register(request):
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.set_full_name()
             new_user.save()
             messages.success(request, 'Аккаунт успешно создан')
             authenticate_user = authenticate(request, username=new_user.username, password=user_form.cleaned_data['password'])
@@ -61,7 +62,6 @@ def admin_menu(request):
         group = request.POST.get('group_input')
         role = request.POST.get('role')
         email = request.POST.get('email_input')
-        search_names = request.POST.get('search_names')
         role_filter = request.POST.get('role_filter')
         group_filter = request.POST.get('group_filter')
         deactivate_filter = request.POST.get('deactivate_filter')
@@ -106,6 +106,14 @@ def admin_menu(request):
                 group_filter_have = True
                 role_filter_have = False
             return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "group_filter_have" : group_filter_have, "role_filter_have" : role_filter_have, "group_filter": group_filter, "role_filter": role_filter, "pages": pages})
+        
+        if request.POST.get('search_butt'):
+            search_names = request.POST.get('search_names')
+            search_names_temp = search_names.replace(" ", "")
+            search_result = User.objects.filter(full_Name__icontains=search_names_temp)
+            if search_result != None:
+                name_filter = True
+            return render(request, 'admin_menu/admin.html', context={"users": search_result, "name_filter": search_names, "name_filter_have": name_filter, "pages": pages})
 
         if user_id == "-1":
             last_user = User.objects.last()
@@ -117,6 +125,7 @@ def admin_menu(request):
                                            middle_name=middle_name, group=group, role=role, email=email, password=0,
                                            id=new_id)
             new_user.set_password(request.POST.get('password_input'))
+            new_user.set_full_name()
             new_user.save()
             return redirect('admin_menu')
 
@@ -129,6 +138,7 @@ def admin_menu(request):
             user.group = group
             user.role = role
             user.email = email
+            user.set_full_name()
             if role == "Администратор":
                 user.group = 0
                 user.is_superuser = True

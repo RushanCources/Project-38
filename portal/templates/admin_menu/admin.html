@@ -2,17 +2,26 @@
 {% load static %}
 
 {% block head %}
+{% if user.role == "Администратор" %}
 <link rel="stylesheet" href="{% static 'css/admin_menu/admin.css' %}">
 <title>Администрирование</title>
+{% else %}
+    <title>Who?</title>
+{% endif %}
 {% endblock head %}
-{% block content %}
 
+{% block content %}
+{% if user.role == "Администратор" %}
 <div class="main-nav">
     <div class="top-nav">
         <form class="search" method="POST">
             {% csrf_token %}
+            {% if name_filter_have %}
+            <input class="search-input" type="text" placeholder="Поиск..." name="search_names" value="{{ name_filter }}">
+            {% else %}
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
-            <input class="search-button" type="submit" name="search_butt" value="">
+            {% endif %}
+            <input class="search-button" type="submit" name="search_butt">
         </form>
         <button class="btn btn-token" onclick="token_open()">Создать токены</button>
     </div>
@@ -249,5 +258,14 @@
 
 <script src="{% static 'js/admin_menu/admin.js' %}"></script>
 <script src="{% static 'js/global/list.js' %}"></script>
+
+{% else %}
+<div class="div-error">
+    <p class="hi">Йоу, мэн, ты не админчик?</p>
+    <img src="{% static 'img/global/not_authorized.jpg' %}" alt="Балакин...">
+    <p class="advice-p">Иди попроси админку, а потом приходи</p>
+    <a href="{% url 'profile' %}">На хату</a>
+</div>
+{% endif %}
 
 {% endblock content %}

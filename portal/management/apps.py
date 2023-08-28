@@ -20,6 +20,7 @@ class ProjectadminConfig(AppConfig):
                 user1.email="a@a.ru"
                 user1.role="Учитель"
                 user1.set_password("1")
+                user1.set_full_name()
                 user1.save()
             user2, created = User.objects.get_or_create(username="aaa2", first_name="Наталья", middle_name="Львовна",
                                                         last_name="Попова", email="a@a.ru",
@@ -31,6 +32,7 @@ class ProjectadminConfig(AppConfig):
                 user2.email="a@a.ru"
                 user2.role="Учитель"
                 user2.set_password("1")
+                user2.set_full_name()
                 user2.save()
             user3, created = User.objects.get_or_create(username="aaa3")
             if created:
@@ -40,6 +42,7 @@ class ProjectadminConfig(AppConfig):
                 user3.email="a@a.ru"
                 user3.role="Ученик"
                 user3.set_password("1")
+                user3.set_full_name()
                 user3.save()
             user4, created = User.objects.get_or_create(username='d1ffy', last_name='Кокорин', first_name='Петр', middle_name='Алексеевич',
                                                         email='helpersteam96@inbox.ru', role='Администратор')
@@ -50,6 +53,8 @@ class ProjectadminConfig(AppConfig):
                 user4.email="helpersteam96@inbox.ru"
                 user4.role="Администратор"
                 user4.set_password("1")
+                user4.is_superuser = True
+                user4.set_full_name()
                 user4.save()
             user5, created = User.objects.get_or_create(username='Cbytl', last_name='Кабанин', first_name='Денис', middle_name='Андреевич',
                                                         email='email@email.ru', role='Администратор')
@@ -60,6 +65,7 @@ class ProjectadminConfig(AppConfig):
                 user5.email="email@email.ru"
                 user5.role="Администратор"
                 user5.set_password("555555")
+                user5.set_full_name()
                 user5.save()
         return super().ready()
         
