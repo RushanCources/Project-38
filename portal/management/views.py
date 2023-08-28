@@ -39,7 +39,7 @@ def token_page(request):
     return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
-    filter_users=User.objects.filter(deactivate = 0)
+    filter_users=User.objects.all()
     pages = []
 
     if len(filter_users) % 20 > 0:
@@ -114,6 +114,12 @@ def admin_menu(request):
             if search_result != None:
                 name_filter = True
             return render(request, 'admin_menu/admin.html', context={"users": search_result, "name_filter": search_names, "name_filter_have": name_filter, "pages": pages})
+
+        if request.POST.get('activate-butt'):
+            user = User.objects.get(id=user_id_delete)
+            user.deactivate = False
+            user.save()
+            return redirect('admin_menu')
 
         if user_id == "-1":
             last_user = User.objects.last()

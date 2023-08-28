@@ -101,6 +101,28 @@
             </td>
         </tr>
         {% for user in users %}
+        {% if user.deactivate %}
+        <tr class="table-user deactive-user">
+            <td>{{ user.id }}</td>
+            <td>
+                <span class="surname">{{ user.last_name }}</span>
+                <span class="name">{{ user.first_name }}</span>
+                <span class="patronymic">{{ user.middle_name }}</span>
+            </td>
+            <td class="table-td-group">
+                {% if user.role == "Ученик" %}
+                {{ user.group }}
+                {% endif %}
+            </td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td class="table-hidden">{{ user.password }}</td>
+            <td class="func">
+                <button class="delete table-btn"></button>
+            </td>
+        </tr>
+        {% else %}
         <tr class="table-user">
             <td>{{ user.id }}</td>
             <td>
@@ -122,33 +144,8 @@
                 <button class="delete table-btn"></button>
             </td>
         </tr>
+        {% endif %}
         {% endfor %}
-
-        <!-- 
-            {% for user in users %}
-            <tr class="table-user deactive-user">
-                <td>{{ user.id }}</td>
-                <td>
-                    <span class="surname">{{ user.last_name }}</span>
-                    <span class="name">{{ user.first_name }}</span>
-                    <span class="patronymic">{{ user.middle_name }}</span>
-                </td>
-                <td class="table-td-group">
-                    {% if user.role == "Ученик" %}
-                    {{ user.group }}
-                    {% endif %}
-                </td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td class="table-hidden">{{ user.password }}</td>
-                <td class="func">
-                    <button class="change table-btn"></button>
-                    <button class="delete table-btn"></button>
-                </td>
-            </tr>
-            {% endfor %}
-         -->
     </tbody>
 </table>
 
