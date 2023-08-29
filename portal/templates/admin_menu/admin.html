@@ -16,9 +16,9 @@
     <div class="top-nav">
         <form class="search" method="POST">
             {% csrf_token %}
-            {% if name_filter_have %}
+            {% if name_have %}
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names"
-                value="{{ name_filter }}">
+                value="{{ name }}">
             {% else %}
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
             {% endif %}
@@ -31,8 +31,8 @@
         <div class="div-list">
             <p class="list-name">Группа:</p>
             <div class="list-names">
-                {% if group_filter_have %}
-                <p class="list-p" id="filter-group">{{ group_filter }}</p>
+                {% if group_have %}
+                <p class="list-p" id="filter-group">{{ group }}</p>
                 {% else %}
                 <p class="list-p" id="filter-group">Не указано</p>
                 {% endif %}
@@ -67,8 +67,8 @@
         <div class="div-list">
             <p class="list-name">Роль:</p>
             <div class="list-names">
-                {% if role_filter_have %}
-                <p class="list-p" id="filter-role">{{ role_filter }}</p>
+                {% if role_have %}
+                <p class="list-p" id="filter-role">{{ role }}</p>
                 {% else %}
                 <p class="list-p" id="filter-role">Не указано</p>
                 {% endif %}
@@ -151,8 +151,9 @@
 
 <div class="pages">
     <ul class="pages-list">
+        {% if have_prev_page %}
         <li class="pages-item">
-            <button href="#" class="pages-btn arrow-left" name="page_before">
+            <a href="?p={{ prev_page }}" class="pages-btn arrow-left" name="page_before">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px">
                     <g data-name="Layer 2">
                         <path
@@ -164,11 +165,39 @@
                 </svg>
             </button>
         </li>
-        {% for page in pages %}
-        <li class="pages-item"><button class="pages-btn" name="page_number">{{ page }}</button></li>
-        {% endfor %}
+        {% endif %}
+        {% for p in paginator.page_range %}
         <li class="pages-item">
-            <button href="#" class="pages-btn arrow-right" name="page_after">
+            {% if p == page_number %}
+                {% if role_have and group_have %}
+                <a class="page-active" name="page_number" href="?p={{ p }}&role={{ role }}&group={{ group }}">{{ p }}</a>
+                {% elif name_have %}
+                <a class="page-active" name="page_number" href="?p={{ p }}&name={{ name }}">{{ p }}</a>
+                {% elif role_have %}
+                <a class="page-active" name="page_number" href="?p={{ p }}&role={{ role }}">{{ p }}</a>
+                {% elif group_have %}
+                <a class="page-active" name="page_number" href="?p={{ p }}&group={{ group }}">{{ p }}</a>
+                {% else %}
+                <a class="page-active" name="page_number" href="?p={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% else %}
+                {% if role_have and group_have %}
+                <a class="pages-btn" name="page_number" href="?p={{ p }}&role={{ role }}&group={{ group }}">{{ p }}</a>
+                {% elif name_have %}
+                <a class="pages-btn" name="page_number" href="?p={{ p }}&name={{ name }}">{{ p }}</a>
+                {% elif role_have %}
+                <a class="pages-btn" name="page_number" href="?p={{ p }}&role={{ role }}">{{ p }}</a>
+                {% elif group_have %}
+                <a class="pages-btn" name="page_number" href="?p={{ p }}&group={{ group }}">{{ p }}</a>
+                {% else %}
+                <a class="pages-btn" name="page_number" href="?p={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endif %}
+        </li>
+        {% endfor %}
+        {% if have_next_page %}
+        <li class="pages-item">
+            <a href="?p={{ next_page }}" class="pages-btn arrow-right" name="page_after">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20px" height="20px"
                     style="transform: rotate(180deg);">
                     <g data-name="Layer 2">
@@ -181,6 +210,7 @@
                 </svg>
             </button>
         </li>
+        {% endif %}
     </ul>
 </div>
 
