@@ -73,14 +73,16 @@
                         <a href="#" class="announ-author">{{ announcement.author }}</a>
                     </div>
                     <ul class="announ-files-list">
+                        {% for file in announcement.files.all %}
                         <li class="announ-files-item">
-                            <a href="#" class="announ-files-link">Название файла</a>
+                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file }}</a>
                         </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
-             <div class="announ-img"> <!-- Придумайте, где будут храниться обложки. По идее в папке media надо сделать отдкльную папку для этого -->
-                {% if 'http' in announcement.image_url %}
+             <div class="announ-img"> <!-- Обложки будут храниться в папке media/covers -->
+                {% if announcement.image_url %}
                 <img src="{{ announcement.image_url }}" alt="Обложка объявления">
                 {% endif %}
             </div>
@@ -99,6 +101,7 @@
     </script>
 
 
+<!-- Кнопка для подгрузки новых объявлений, если их будет больше 20 (Надо сделать красивой) -->
 <button id="load-more-button">Load More</button>
 
 <!-- Почти весь скрипт ниже сделан с помощью ChatGPT потому что я не шарю в джаваскрипте, попровьте если плохо -->

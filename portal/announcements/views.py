@@ -7,6 +7,9 @@ from .decorators import allowed_users
 from .models import File
 from .forms import AnnouncementForm
 from django.core.paginator import Paginator
+from django.conf import settings
+from pathlib import Path
+import os
 
 
 # ToDo: Добавить проверку форм при удалении тестовых шаблонов
@@ -35,8 +38,15 @@ def index(request):
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
     """Отвечает за рендер шаблона редактора со всеми формами"""
+
+    covers_dir = settings.BASE_DIR / "media" / "covers"
+    covers = []
+
+    for cover in os.listdir(covers_dir):
+        covers.append("/media/covers/" + cover)
+
     form = AnnouncementForm()
-    return render(request, "dec/red.html", context={'form': form})
+    return render(request, "dec/red.html", context={'form': form, 'covers': covers})
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
