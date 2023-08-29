@@ -19,6 +19,9 @@ def check_what_user_not_have_access(request: HttpRequest, project: Project):  # 
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     # здесь идёт исполнение кода и возвращается страница общих проектов, т.к. не указан конкретный проект
+    if not request.user.is_authenticated:
+        return render(request, 'base.html')
+    
     if project_id is None:
         if request.user.role == 'Ученик':
             projects = Project.objects.filter(student=request.user)
