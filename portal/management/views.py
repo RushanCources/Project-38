@@ -63,7 +63,7 @@ def admin_menu(request):
     else:
         group_have = False
 
-    paginator = Paginator(filter_users, 2)
+    paginator = Paginator(filter_users, 20)
     page_number = request.GET.get('p')
     page_obj = paginator.get_page(page_number)
 
