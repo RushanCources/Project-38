@@ -56,9 +56,11 @@ def index(request: HttpRequest):
         presentation_file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
         defence_file = File.objects.filter(project=project, version=1, _tag='Защита').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
+        full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name + ' ' + project.teacher.middle_name
+        full_student_name = project.student.last_name + ' ' + project.student.first_name + ' ' + project.student.middle_name
         context = {"name": project.name,
-                   "teacher": project.teacher.full_Name,
-                   "student": project.student.full_Name,
+                   "teacher": full_teacher_name,
+                   "student": full_student_name,
                    "avaurl_of_teacher": project.teacher.avatar.url,
                    "avaurl_of_student": project.student.avatar.url,
                    "status": project.get_status(),
