@@ -60,9 +60,9 @@ let subjects_item = $('.new-theme-subjects-item').length;
 if (subjects_item > 0) {
     while (subjects_item != 0) {
         let sub = $('.new-theme-subjects-item')[subjects_item-1].innerText;
-        let i = subjets.indexOf(sub);
+        let i = subjects.indexOf(sub);
         if (i >= 0) {
-            subjets.splice(i, 1);
+            subjects.splice(i, 1);
         }
         subjects_item--;
         subject_remove();
@@ -72,17 +72,15 @@ if (subjects_item > 0) {
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
 
-
     if (len < 5) {
         const { value } = input;
         let ul = $('.search-result-list');
         ul.html('');
-
-        for (let i = 0; i < subjets.length; i++) {
-            if (subjets[i].toLowerCase().match(value.toLowerCase()) && value != '') {
+        for (let i = 0; i < subjects.length; i++) {
+            if (subjects[i].toLowerCase().match(value.toLowerCase()) && value != '') {
                 let li = document.createElement('li');
                 li.className = 'search-result-item';
-                li.innerHTML = subjets[i];
+                li.innerHTML = subjects[i];
                 ul.prepend(li);
             }
         }
@@ -91,9 +89,9 @@ input.oninput = event => {
 }
 
 function create(text) {
-    let i = subjets.indexOf(text);
+    let i = subjects.indexOf(text);
         if (i >= 0) {
-            subjets.splice(i, 1);
+            subjects.splice(i, 1);
         }
 
         let li = document.createElement('li');
@@ -130,7 +128,7 @@ function result_item() {
 function subject_remove() {
     $('.new-theme-subjects-div').on('click', function () {
         let li = this.parentNode;
-        subjets.push(li.innerText);
+        subjects.push(li.innerText);
         li.remove();
         checking('cb3');
 
