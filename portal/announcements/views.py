@@ -199,3 +199,23 @@ def announcement(request, id):
     }
 
     return render(request, 'dec/ann.html', context=context)
+
+
+#@allowed_users(allowed_roles=['Teacher', 'admin'])
+def delete_announcement(request, id):
+    """Удаляет просроченные объявления и связанные с ними файлы"""
+
+    if request.method != 'GET':
+        return render(request, 'WrongData.html')
+
+    announcement = Announcement.objects.get(id=id)
+
+    files = announcement.files.all()
+
+    for file in files:
+        file.file.delete()
+        file.delete()
+
+    announcement.delete()
+
+    return HttpResponsePermanentRedirect('/announcements')
