@@ -139,12 +139,6 @@
                     <input type="hidden" name="project_id" value="{{project_id}}">
                     <input type="submit" id="approve_project" class="status-input" value="Одобрить проект">
                 </form>
-            {% elif status == 'on work' and user.role == 'Учитель' %}
-                <form method="POST" action="{% url 'close_project' %}" class="form-btn">
-                    {% csrf_token %}
-                    <input type="hidden" name="project_id" value="{{project_id}}">
-                    <input type="submit" id="close_project " class="status-input" value="Завршить проект">
-                </form>
             {% endif %}
 
         {% elif status == 'on work' %}
@@ -449,10 +443,22 @@
                 </div>
                 <div class="bottom-div">
                     <button class="bottom-btn skip-btn" onclick="skip()">Пропустить</button>
+                    <div class="bottom-div-right">
+                        {% if status == 'on work' and user.role == 'Учитель' %}
+                            <input type="submit" id="close_project " class="bottom-btn finish-btn" value="Завершить проект" form="finish-form">
+                        {% endif %}
                         <button class="bottom-btn next-btn" onclick="next()" type="button" form="form-on-work">Дальше <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M69.8437,43.3876,33.8422,13.3863a6.0035,6.0035,0,0,0-7.6878,9.223l30.47,25.39-30.47,25.39a6.0035,6.0035,0,0,0,7.6878,9.2231L69.8437,52.6106a6.0091,6.0091,0,0,0,0-9.223Z"/></svg>
                             </button>
+                    </div>
                 </div>
             </form>
+
+            {% if status == 'on work' and user.role == 'Учитель' %}
+                <form method="POST" action="{% url 'close_project' %}" class="form-btn" id="finish-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="project_id" value="{{project_id}}">
+                </form>
+            {% endif %}
 
             <form method="POST" action="{% url 'add_file' %}" enctype="multipart/form-data" id="add-file">
                 {% csrf_token %}
@@ -674,6 +680,9 @@
 
 {% if status == 'on work' %}
     <script src="{% static 'js/projects/project_page_on_work.js' %}"></script>
+    {% if user.role == 'Учитель' %}
+        <script src="{% static 'js/projects/project_checking.js' %}"></script>
+    {% endif %}
 {% endif %}
 <script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}

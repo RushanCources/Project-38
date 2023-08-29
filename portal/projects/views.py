@@ -57,8 +57,8 @@ def index(request: HttpRequest):
         defence_file = File.objects.filter(project=project, version=1, _tag='Защита').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
         context = {"name": project.name,
-                   "teacher": project.teacher.fullName(),
-                   "student": project.student.fullName(),
+                   "teacher": project.teacher.full_Name,
+                   "student": project.student.full_Name,
                    "avaurl_of_teacher": project.teacher.avatar.url,
                    "avaurl_of_student": project.student.avatar.url,
                    "status": project.get_status(),
