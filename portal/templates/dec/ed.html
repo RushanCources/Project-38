@@ -11,9 +11,10 @@
     {% csrf_token %}
     {{ form.as_p }}
     <p>Удалить файлы:</p>
+    {% load split_filter %}
     {% for file in announcement.files.all %}
     <div class="file-item">
-        <a href="{{ file.file.url }}">{{ file.file }}</a>
+        <a href="{{ file.file.url }}">{{ file.file.url|split }}</a>
         <input type="checkbox" name="file_id_to_delete[]" value="{{ file.id }}">
     </div>
     {% endfor %}

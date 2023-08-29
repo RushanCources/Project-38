@@ -72,10 +72,11 @@
                     <div>
                         <a href="#" class="announ-author">{{ announcement.author }}</a>
                     </div>
+                    {% load split_filter %}
                     <ul class="announ-files-list">
                         {% for file in announcement.files.all %}
                         <li class="announ-files-item">
-                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file }}</a>
+                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split }}</a>
                         </li>
                         {% endfor %}
                     </ul>

@@ -10,7 +10,7 @@ class AnnouncementForm(forms.Form):
     title = forms.CharField(label='', required=True, widget=forms.Textarea(attrs={'class': 'label-textarea', 'placeholder' : 'Заголовок объявления', 'onkeyup' : 'textarea_size(this); preview_update(this, \'title\')', 'cols' : 'none', 'rows' : 'none'}))
     body = forms.CharField(label='', required=True, widget=forms.Textarea(attrs={'class': 'label-textarea', 'onkeyup' : 'textarea_size(this); preview_update(this, \'descr\')', 'cols' : 'none', 'rows' : 'none'}))
     is_pinned = forms.BooleanField(label='Закрепить', required=False)
-    image_url = forms.CharField(label='', required=True, widget=forms.HiddenInput())
+    image_url = forms.CharField(label='', required=False, widget=forms.HiddenInput())
     files = forms.FileField(label='Прикрепить файлы', widget=forms.FileInput(attrs={'class':"file-input", "id" : 'file', "multiple" : ''}), required=False)
     file_id_to_delete = forms.IntegerField(widget=forms.HiddenInput(attrs={'class': 'fitd'}), required=False)
 
@@ -18,3 +18,4 @@ class AnnouncementForm(forms.Form):
         exdate = self.cleaned_data.get('date_of_expiring')
         if exdate is not None and datetime.now().date() > exdate:
             raise ValidationError('Неверная дата')
+        return exdate

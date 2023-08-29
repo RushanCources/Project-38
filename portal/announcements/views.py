@@ -56,6 +56,13 @@ def createannouncement(request):
     if request.method != "POST":
         return HttpResponsePermanentRedirect("/announcements")
 
+    form = AnnouncementForm(request.POST)
+
+    if form.is_valid():
+        pass
+    else:
+        return render(request, 'WrongData.html')
+
     title = request.POST.get("title")
     body = request.POST.get("body")
     is_pinned = request.POST.get("is_pinned")
@@ -91,12 +98,19 @@ def editor(request, id):
             'image_url': announcement.image_url,
         }
 
+        covers_dir = settings.BASE_DIR / "media" / "covers"
+        covers = []
+
+        for cover in os.listdir(covers_dir):
+            covers.append("/media/covers/" + cover)
+
         form = AnnouncementForm(initial=initial_data)
 
         data = {
             'form': form,
             'announcement_id': id,
             'announcement': announcement,
+            'covers': covers
         }
 
         return render(request, 'dec/ed.html', context=data)
