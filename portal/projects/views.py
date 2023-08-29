@@ -98,7 +98,7 @@ def index(request: HttpRequest):
 def send_create_form(request: HttpRequest, context_theme={}):
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
-            teachers = User.objects.filter(role="Учитель")
+            teachers = User.objects.filter(role="Учитель", is_other_teacher=True)
             data = {"teachers": teachers,
                     "subjects_names": [subject.name for subject in Subject.objects.all()]}
             data.update(context_theme)
@@ -148,6 +148,7 @@ def create(request: HttpRequest):
                                                      last_name=another_teacher.split()[1], middle_name=another_teacher.split()[2],
                                                      role='Учитель', id=new_id)
             teacher.set_password(User.objects.make_random_password(30))
+            teacher.is_other_teacher = True
             teacher.save()
         else:
             if teacher_id == -1:
