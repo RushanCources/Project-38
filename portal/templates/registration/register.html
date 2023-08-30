@@ -3,6 +3,7 @@
 <html lang="ru">
 
 <head>
+    {% if is_token %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +13,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+    {% else %}
+    <title>Нет токена</title>
+    <link rel="stylesheet" href="{% static 'css/global/not_authorized.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/global/icon.png' %}" type="image/x-icon">
+    {% endif %}
 </head>
 
 <body>
+    {% if is_token %}
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
 
-    <form action="{% url 'register' %}" method="post" class="form">
+    <form action="" method="post" class="form">
         <h1 class="title">Регистрация</h1>
         <div class="form-div">
             <div class="form-subdiv">
@@ -59,6 +66,8 @@
             </div>
         </div>
         {% csrf_token %}
+        <input type="submit" class="btn btn-success" value="Создать аккаунт" name="register_submit">
+
         {% if messages %}
         <ul class="errorlist">
             {% for message in messages %}
@@ -66,8 +75,17 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <input type="submit" class="btn btn-success" value="Создать аккаунт">
     </form>
+
+    {% else %}
+    <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>
+    <div class="div-error">
+        <p class="hi">Йоу, мэн, ты не можешь зарегаться без токена</p>
+        <img src="{% static 'img/global/not_token.jpg' %}" alt="Еделев..." style="width: 60%; max-width: 700px;">
+        <p class="advice-p">Иди введи токен, пока не засмеяли</p>
+        <a href="{% url 'token_page' %}">Ввести токен</a>
+    </div>
+    {% endif %}
 </body>
 
 </html>
