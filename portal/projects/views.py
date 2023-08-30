@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
@@ -30,23 +31,21 @@ def index(request: HttpRequest):
         else:
             projects = []
 
-        # это классы для более удобного доступа к данным в шаблоне
-        @dataclass
-        class FilePack:
-            file: File
-            name: str
-
-        @dataclass
-        class ProjectPack:
-            project: Project
-            files: list[FilePack]
+        # это класс для более удобного доступа к данным в шаблоне
+        class ProjectPack(Project):
+            files: list[File] = []
 
         # упаковка проектов и файлов в один массив состоящий из объектов класса ProjectPack
+        
         context_projects = []
 
         for project in projects:
-            files = [FilePack(file, file.file.name.split('/')[-1]) for file in File.objects.filter(project=project, version=1)]
-            context_projects.append(ProjectPack(project, files))
+            files = list(File.objects.filter(project=project, version=1))
+            variables = vars(project)
+            values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+            pp = ProjectPack(**values)
+            pp.files = files
+            context_projects.append(pp)
 
         return render(request, "projects/index.html", context={'projects': context_projects,
                                                                'has_projects': len(context_projects) > 0})

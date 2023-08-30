@@ -30,10 +30,12 @@
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
 {% else %}
+{% load run %}
 {% for project in projects %}
-        <div class="flex" id="flex{{ project.project.id }}"> <!-- id проекта -->
-            <p class="cap">{{ project.project.name }}</p> <!-- Название проекта -->
-            <p class="text">{{ project.project.description }}</p> <!-- Описание проекта -->
+        <div class="flex" id="flex{{ project.id }}"> <!-- id проекта -->
+            <p class="cap">{{ project.name }}</p> <!-- Название проекта -->
+            <p class="text">{{ project.description }}</p> <!-- Описание проекта -->
+            <p class="text" > {{project.get_status | run}}</p> <!-- Статус проекта -->
             <div class="files">
                 {% for file in project.files %} <!-- цикл для отрисовки файлов -->
                     <div class="file">
@@ -42,7 +44,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <a href="./?id={{ project.project.id }}" class="a btn-projects"> <!-- кнопка -->
+            <a href="./?id={{ project.id }}" class="a btn-projects"> <!-- кнопка -->
                 <p class="p inbtn">Редактирование проекта</p>
             </a>
         </div>
