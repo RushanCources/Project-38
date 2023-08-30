@@ -65,7 +65,7 @@ def get_upload_path(instance, filename):
 
 class File(Model):
     _tag = CharField(max_length=20, null=True)
-    _tags = ['Реферат', 'Презентация', 'Защита', 'Другое']
+    _tags = ['Реферат', 'Презентация', 'Аннотация', 'Другое']
     project: Project = ForeignKey(Project, related_name='files', on_delete=CASCADE)
     file = FileField(upload_to=get_upload_path, blank=True, null=True, storage=MyStorage)
     version = IntegerField(default=1)

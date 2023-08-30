@@ -346,17 +346,17 @@
                                 </div>
                             </li>
                             <li class="file-item">
-                                {% if defence is not None %}
+                                {% if annotation is not None %}
                                     <label class="file-label txt">
-                                        <a href="{% url 'download_file' %}?file_id={{defence.id}}" title="Загрузить файл" class="download-link">
-                                            Защита
-                                            <span class="file-name">{{defence.name}}</span>
+                                        <a href="{% url 'download_file' %}?file_id={{annotation.id}}" title="Загрузить файл" class="download-link">
+                                            Аннотация
+                                            <span class="file-name">{{annotation.name}}</span>
                                             <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#929292"><path d="M19.5,3 L9.00276013,3 C7.89666625,3 7,3.89833832 7,5.00732994 L7,27.9926701 C7,29.1012878 7.89092539,30 8.99742191,30 L24.0025781,30 C25.1057238,30 26,29.1017876 26,28.0092049 L26,10.5 L26,10 L20,3 L19.5,3 L19.5,3 L19.5,3 Z M19,4 L8.9955775,4 C8.44573523,4 8,4.45526288 8,4.99545703 L8,28.004543 C8,28.5543187 8.45470893,29 8.9999602,29 L24.0000398,29 C24.5523026,29 25,28.5550537 25,28.0066023 L25,11 L20.9979131,11 C19.8944962,11 19,10.1134452 19,8.99408095 L19,4 L19,4 Z M20,4.5 L20,8.99121523 C20,9.54835167 20.4506511,10 20.9967388,10 L24.6999512,10 L20,4.5 L20,4.5 Z M10,10 L10,11 L15,11 L15,10 L10,10 L10,10 Z M10,7 L10,8 L17,8 L17,7 L10,7 L10,7 Z M10,13 L10,14 L23,14 L23,13 L10,13 L10,13 Z M10,16 L10,17 L20,17 L20,16 L10,16 L10,16 Z M10,19 L10,20 L23,20 L23,19 L10,19 L10,19 Z M10,22 L10,23 L19,23 L19,22 L10,22 L10,22 Z M10,25 L10,26 L23,26 L23,25 L10,25 L10,25 Z"/></g></g></svg>
-                                            <input type="file" class="file-input" name="defence" onchange="file_name(this, 2)" id="defence"/>
+                                            <input type="file" class="file-input" name="annotation" onchange="file_name(this, 2)" id="annotation"/>
                                         </a>
                                     </label>
                                     <div class="file-setting">
-                                        <button type="button" onclick="show_window('comments{{defence.id}}')" title="Посмотреть комментарии">
+                                        <button type="button" onclick="show_window('comments{{annotation.id}}')" title="Посмотреть комментарии">
                                             <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -364,7 +364,7 @@
                                                     fill=" #5A88FF" />
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn-old-files" onclick="show_window('old-files{{defence.id}}')"
+                                        <button type="button" class="btn-old-files" onclick="show_window('old-files{{annotation.id}}')"
                                             title="Посмотреть предыдущие версии файла">
                                             <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -373,7 +373,7 @@
                                                     fill="#88cc5a" />
                                             </svg>
                                         </button>
-                                        <label for="defence" class="btns-label" title="Обновить файл">
+                                        <label for="annotation" class="btns-label" title="Обновить файл">
                                             <svg viewBox="0 0 512 512" fill="#ff6d1b">
                                                 <path d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/>
                                             </svg>
@@ -381,10 +381,10 @@
                                 </div>
                             {% else %}    
                             <label class="file-label txt">
-                                Защита
-                                <span class="file-name">{{defence.name}}</span>
+                                Аннотация
+                                <span class="file-name">{{annotation.name}}</span>
                                 <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#929292"><path d="M19.5,3 L9.00276013,3 C7.89666625,3 7,3.89833832 7,5.00732994 L7,27.9926701 C7,29.1012878 7.89092539,30 8.99742191,30 L24.0025781,30 C25.1057238,30 26,29.1017876 26,28.0092049 L26,10.5 L26,10 L20,3 L19.5,3 L19.5,3 L19.5,3 Z M19,4 L8.9955775,4 C8.44573523,4 8,4.45526288 8,4.99545703 L8,28.004543 C8,28.5543187 8.45470893,29 8.9999602,29 L24.0000398,29 C24.5523026,29 25,28.5550537 25,28.0066023 L25,11 L20.9979131,11 C19.8944962,11 19,10.1134452 19,8.99408095 L19,4 L19,4 Z M20,4.5 L20,8.99121523 C20,9.54835167 20.4506511,10 20.9967388,10 L24.6999512,10 L20,4.5 L20,4.5 Z M10,10 L10,11 L15,11 L15,10 L10,10 L10,10 Z M10,7 L10,8 L17,8 L17,7 L10,7 L10,7 Z M10,13 L10,14 L23,14 L23,13 L10,13 L10,13 Z M10,16 L10,17 L20,17 L20,16 L10,16 L10,16 Z M10,19 L10,20 L23,20 L23,19 L10,19 L10,19 Z M10,22 L10,23 L19,23 L19,22 L10,22 L10,22 Z M10,25 L10,26 L23,26 L23,25 L10,25 L10,25 Z"/></g></g></svg>
-                                <input type="file" class="file-input" name="defence" onchange="file_name(this, 2)"/>
+                                <input type="file" class="file-input" name="annotation" onchange="file_name(this, 2)"/>
                             </label>
                             {% endif %}
                             </li>
@@ -550,19 +550,19 @@
                 </div>
 
                 <div>
-                    <div id="comments{{defence.id}}" class="comment-window">
-                        {% if defence.comment is not None %}
-                            <div>{{defence.comment}}</div>
+                    <div id="comments{{annotation.id}}" class="comment-window">
+                        {% if annotation.comment is not None %}
+                            <div>{{annotation.comment}}</div>
                         {%else%}
                             <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
                                 {% csrf_token %}
-                                <input type="hidden" name="file_id" value="{{defence.id}}" />
+                                <input type="hidden" name="file_id" value="{{annotation.id}}" />
                                 <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
                                     onkeyup="textarea_size(this)" required></textarea>
                                 <input type="submit" value="Отправить комментарий" class="comment-btn">
                             </form>
                         {%endif%}
-                        <button class="btn-exit" onclick="exit('comments{{defence.id}}')">
+                        <button class="btn-exit" onclick="exit('comments{{annotation.id}}')">
                             <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                                 <path
                                     d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -570,8 +570,8 @@
                             </svg>
                         </button>
                     </div>
-                    <div id="old-files{{defence.id}}" class="old-files">
-                        <button class="btn-exit" onclick="exit('old-files{{defence.id}}')" type="button">
+                    <div id="old-files{{annotation.id}}" class="old-files">
+                        <button class="btn-exit" onclick="exit('old-files{{annotation.id}}')" type="button">
                             <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                                 <path
                                     d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -580,7 +580,7 @@
                         </button>
                         <h2 class="old-files-title">Предыдущие версии файла</h2>
                         <ul class="old-files-list">
-                            {% for old_file in old_defence %}
+                            {% for old_file in old_annotation %}
                                 <li class="old-files-item">
                                     <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
                                         class="old-files-link">{{old_file.name}}</a>
