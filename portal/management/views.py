@@ -35,7 +35,7 @@ def register(request, token):
             return redirect('profile')
 
         elif request.POST.get('register_submit') and not user_form.is_valid():
-            messages.error(request, 'Что-то введено неправильно, проверьте пароли. Так же возможно логин или мейл такой уже существует!')
+            messages.error(request, 'Что-то введено неправильно, проверьте пароли. Так же возможно такой логин или мейл уже существует!')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form, "is_token": temp_token, "token": token})

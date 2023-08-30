@@ -68,14 +68,14 @@
         {% csrf_token %}
         <input type="submit" class="btn btn-success" value="Создать аккаунт" name="register_submit">
 
-        {% if messages %}
-        <ul class="errorlist">
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
     </form>
+    {% if messages %}
+    <ul class="errorlist">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     {% else %}
     <a href="{% url 'home' %}" class="logo"><img src="{% static 'img/global/long_logo.svg' %}" alt="Логотип лицея"></a>

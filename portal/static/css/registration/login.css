@@ -131,20 +131,22 @@ a {
     animation: error 2s ease-in 3; 
 }
 
+.errorlist {
+    list-style: none;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: red;
+}
+
 @keyframes error {
     0% {opacity: 1;}
     50% {opacity: 0;}
     100% {opacity: 1;}
-}
-
-.errorlist {
-    margin: 0;
-    padding: 10px 0;
-    list-style: none;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    color: #000;
-    font-size: 16px;
 }
 
 /* for token_page.html */
