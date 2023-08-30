@@ -80,6 +80,24 @@
                     <li class="list-li">27</li>
                 </ul>
             </div>
+        </div>    
+        {% load run %}
+        {% for project in projects %}
+        <div class="flex" id="flex{{ project.id }}"> <!-- id проекта -->
+            <p class="cap">{{ project.name }}</p> <!-- Название проекта -->
+            <p class="text">{{ project.description }}</p> <!-- Описание проекта -->
+            <p class="text" > {{project.get_status | run}}</p> <!-- Статус проекта -->
+            <div class="files">
+                {% for file in project.files %} <!-- цикл для отрисовки файлов -->
+                    <div class="file">
+                        <a href="{% url 'download_file' %}?file_id={{file.id}}"
+                                title="Загрузить файл">{{file.name}}</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="./?id={{ project.id }}" class="a btn-projects"> <!-- кнопка -->
+                <p class="p inbtn">Редактирование проекта</p>
+            </a>
         </div>
         <div class="div-list">
             <p class="list-name">Тип проекта:</p>

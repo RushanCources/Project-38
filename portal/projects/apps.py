@@ -20,5 +20,6 @@ class projectsConfig(AppConfig):
                 project1.student = User.objects.get(username='aaa3')
                 project1.set_subject('Физика')
                 project1.set_status("send request")
+                project1.set_type("нОУ")
                 project1.save()
         return super().ready()

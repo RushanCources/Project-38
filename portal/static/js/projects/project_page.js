@@ -72,12 +72,10 @@ if (subjects_item > 0) {
 input.oninput = event => {
     let len = $('.new-theme-subjects-list')[0].childNodes.length;
 
-
     if (len < 5) {
         const { value } = input;
         let ul = $('.search-result-list');
         ul.html('');
-
         for (let i = 0; i < subjects.length; i++) {
             if (subjects[i].toLowerCase().match(value.toLowerCase()) && value != '') {
                 let li = document.createElement('li');
