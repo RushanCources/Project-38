@@ -48,9 +48,10 @@
 }
 
 .main {
-    width: 70%;
+    width: 80%;
+    max-width: 1202px;
 }
-
+ 
 .flex { /* Контейнер проекта */
     width: 100%;
     margin-top: 5%;
@@ -111,6 +112,196 @@ a.btn-projects:hover, a.btn-projects.hover {
 a.btn-projects:active, a.btn-projects.active {
     background-color: #798aec;
     box-shadow: 0px 0px 4px 3px rgba(62.69, 62.69, 62.69, 0.55);
+}
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.project {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    width: calc((100% - 150px) / 4);
+    height: 300px;
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    height: 60%;
+    overflow: hidden;
+    text-align: left;
+    word-break: break-all;
+}
+
+.send-request {
+    background: linear-gradient(270deg, rgba(207,27,42,1) 13%, rgba(255,27,46,1) 99%);
+    color: #fff;
+}
+
+.on-work {
+    background: linear-gradient(270deg, #f7b11a 13%, #ffb51b 99%);
+    color: #fff;
+}
+
+.done {
+    background: linear-gradient(270deg, #16bb48 13%, #19ca4e 99%);
+    color: #fff;
+}
+
+.anim {
+    position: absolute;
+    top: 70px;
+    left: 50px;
+}
+
+.anim-send-request {
+    display: flex;
+    gap: 10px;
+}
+
+.anim-done {
+    position: absolute;
+    top: 50px;
+    left: 70px;
+}
+
+.gear {
+    position: absolute;
+    transition: opacity 0.3s linear;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.gear1 {
+    width: 40px;
+    height: 40px;
+    top: 22px;
+    left: 73px;
+}
+
+.gear2 {
+    width: 48px;
+    height: 48px;
+    top: 51px;
+    left: 80px;
+
+}
+
+.gear3 {
+    width: 40px;
+    height: 40px;
+    top: 48px;
+    left: 50px;
+
+}
+
+.dn {
+    position: absolute;
+    transition: opacity 0.3s linear;
+    animation-duration: 5s;
+    animation-timing-function: cubic-bezier(0, 0.27, 1, -0.35);
+    animation-iteration-count: infinite;
+}
+
+.dn1 {
+    animation-name: dn1;
+}
+
+.dn2 {
+    animation-name: dn2;
+}
+
+.dn3 {
+    animation-name: dn3;
+}
+
+.dn-svg {
+    height: 40px;
+}
+
+.ball {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgb(136, 28, 37);
+    transform: translateY(0px);
+    transition: opacity 0.3s linear;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.ball-anim {
+    animation-name: ball;
+}
+
+.small-gear-anim {
+    animation-name: small-gear;
+}
+
+.big-gear-anim {
+    animation-name: big-gear;
+}
+
+@keyframes ball {
+    0% {transform: translateY(0px);}
+    50% {transform: translateY(-40px);}
+    100% {transform: translateY(0px);}
+}
+
+@keyframes small-gear {
+    0% {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
+}
+
+@keyframes big-gear {
+    0% {transform: rotate(0deg)}
+    100% {transform: rotate(-360deg)}
+}
+
+@keyframes dn1 {
+    0% {opacity: 1}
+    6% {opacity: 0}
+    12% {opacity: 1}
+    18% {opacity: 0}
+    24% {opacity: 1}
+    30% {opacity: 0}
+    50% {opacity: 1; transform: translate(-45px);}
+    100% {transform: translate(0px);}
+}
+
+@keyframes dn2 {
+    0% {opacity: 1}
+    6% {opacity: 0}
+    12% {opacity: 1}
+    18% {opacity: 0}
+    24% {opacity: 1}
+    30% {opacity: 0}
+    50% {opacity: 1;}
+    100% {opacity: 1;}
+}
+
+@keyframes dn3 {
+    0% {opacity: 1}
+    6% {opacity: 0}
+    12% {opacity: 1}
+    18% {opacity: 0}
+    24% {opacity: 1}
+    30% {opacity: 0}
+    50% {opacity: 1; transform: translate(45px);}
+    100% {transform: translate(0px);}
 }
 
 @media (max-width: 1000px) {
