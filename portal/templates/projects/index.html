@@ -30,6 +30,80 @@
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
 {% else %}
+{% if user.role == "Учитель" %}
+<div class="main-nav">
+    <div class="top-nav">
+        <form class="search" method="POST">
+            {% csrf_token %}
+            {% if name_filter_have %}
+            <input class="search-input" type="text" placeholder="Поиск..." name="search_names"
+                value="{{ name_filter }}">
+            {% else %}
+            <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
+            {% endif %}
+            <input class="search-button" type="submit" name="search_butt">
+        </form>
+    </div>
+    <form class="filter" method="POST">
+        {% csrf_token %}
+        <div class="div-list">
+            <p class="list-name">Группа:</p>
+            <div class="list-names">
+                {% if group_filter_have %}
+                <p class="list-p" id="filter-group">{{ group_filter }}</p>
+                {% else %}
+                <p class="list-p" id="filter-group">Не указано</p>
+                {% endif %}
+                <ul class="list">
+                    <li class="list-li">Не указано</li>
+                    <li class="list-li">1</li>
+                    <li class="list-li">2</li>
+                    <li class="list-li">3</li>
+                    <li class="list-li">4</li>
+                    <li class="list-li">5</li>
+                    <li class="list-li">6</li>
+                    <li class="list-li">7</li>
+                    <li class="list-li">10</li>
+                    <li class="list-li">11</li>
+                    <li class="list-li">12</li>
+                    <li class="list-li">13</li>
+                    <li class="list-li">14</li>
+                    <li class="list-li">15</li>
+                    <li class="list-li">16</li>
+                    <li class="list-li">17</li>
+                    <li class="list-li">20</li>
+                    <li class="list-li">21</li>
+                    <li class="list-li">22</li>
+                    <li class="list-li">23</li>
+                    <li class="list-li">24</li>
+                    <li class="list-li">25</li>
+                    <li class="list-li">26</li>
+                    <li class="list-li">27</li>
+                </ul>
+            </div>
+        </div>
+        <div class="div-list">
+            <p class="list-name">Тип проекта:</p>
+            <div class="list-names">
+                {% if role_filter_have %}
+                <p class="list-p" id="filter-role">{{ role_filter }}</p>
+                {% else %}
+                <p class="list-p" id="filter-role">Не указано</p>
+                {% endif %}
+                <ul class="list sub-list">
+                    <li class="list-li">Не указано</li>
+                    <li class="list-li">НОУ</li>
+                    <li class="list-li">Проект</li>
+                </ul>
+            </div>
+        </div>
+        <input type="number" class="input-filter input-filter-group" name="group_filter">
+        <input type="text" class="input-filter input-filter-type" name="type_filter">
+        <input class="btn btn-filter" type="submit" value="Применить" name="filter_submit" />
+
+    </form>
+</div>
+{% endif %}
 <div class="content">
     {% for project in projects %}
             <!-- для отправленных заявок -->
@@ -75,5 +149,6 @@
 </div>
 
 <script src="{% static 'js/projects/index.js' %}"></script>
+<script src="{% static 'js/global/list.js' %}"></script>
 {% endif %}
 {% endblock %}
