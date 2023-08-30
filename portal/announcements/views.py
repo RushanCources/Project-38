@@ -135,13 +135,20 @@ def editannouncement(request, id):
         is_pinned = request.POST.get("is_pinned", False)
         if is_pinned : is_pinned = True
         files_to_add = request.FILES.getlist('files')
-        files_to_delete = request.POST.getlist('file_id_to_delete[]')
-        image_url = request.POST.get('image_url')
+        files_to_delete = request.POST.get('file_id_to_delete')
+        image_url = request.POST.get('image_url')   
 
-        for file_id in files_to_delete:
-            file = File.objects.get(pk=int(file_id))
-            file.file.delete()
-            file.delete()
+        if int(files_to_delete) is not -1:
+
+            if ',' in files_to_delete:
+                files_to_delete = files_to_delete.split(',')
+            else:
+                files_to_delete = [files_to_delete]    
+
+            for file_id in files_to_delete:
+                file = File.objects.get(pk=int(file_id))
+                file.file.delete()
+                file.delete()
 
         for file in files_to_add:
             File.objects.create(announcement=announcement, file=file)

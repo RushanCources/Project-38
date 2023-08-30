@@ -12,7 +12,7 @@ class AnnouncementForm(forms.Form):
     is_pinned = forms.BooleanField(label='Закрепить', required=False)
     image_url = forms.CharField(label='', required=False, widget=forms.HiddenInput())
     files = forms.FileField(label='Прикрепить файлы', widget=forms.FileInput(attrs={'class':"file-input", "id" : 'file', "multiple" : ''}), required=False)
-    file_id_to_delete = forms.IntegerField(widget=forms.HiddenInput(attrs={'class': 'fitd'}), required=False)
+    file_id_to_delete = forms.IntegerField(widget=forms.HiddenInput(attrs={'class': 'fitd', 'value' : '-1'}), required=False)
 
     def clean_date_of_expiring(self):
         exdate = self.cleaned_data.get('date_of_expiring')

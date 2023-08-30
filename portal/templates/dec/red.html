@@ -4,11 +4,11 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/dec/red.css' %}">
 <link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
-<title>Редактор Объявления</title>
+<title>Создание Объявления</title>
 {% endblock head %}
 {% block content %}
 
-<h1 class="title">Редактор объявления</h1>
+<h1 class="title">Создание объявления</h1>
 
 <form action="createannouncement" method="POST" class="form" enctype="multipart/form-data">
     {% csrf_token %}
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="label label-cover"><span>Обложка:</span>
-            <button class="covers-btn" onclick="url_open()">Добавить обложку
+            <button class="covers-btn" onclick="url_open()" type="button">Добавить обложку
                 <svg width="16" height="16" viewBox="0 0 200 200"
                     style="transform: rotate(45deg)">
                     <path
@@ -49,26 +49,14 @@
             <!-- Скрытый инпут для url обложек. Список с url обложек доступен в переменной covers -->
             {{ form.image_url }}
             <ul class="covers-list">
-                <li class="covers-item item1">
+                {% for cover in covers %}
+
+                <li class="covers-item" style="background-image: url('{{cover}}');">
                     <div class="covers-selected">
                         <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
                     </div>
                 </li>
-                <li class="covers-item item2">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
-                <li class="covers-item item3">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
-                <li class="covers-item item4">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
         <input class="form-btn" type="submit" value="Разместить" />
@@ -108,7 +96,7 @@
         <h3 class="url-title">Вставьте ссылку на вашу обложку</h3>
         <span class="url-span">Учтите, что ссылка на вашу обложку может перестать быть активной со временем!</span>
     </div>
-    {{ form.image_url }}
+    <input class="url-input" type="text" placeholder="Ваша ссылка...">
     <div class="url-btns">
         <button class="btn exit" type="button" onclick="url_exit()">Отмена</button>
         <button class="btn save" onclick="url_save()">Сохранить</button>
