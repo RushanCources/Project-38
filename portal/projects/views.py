@@ -8,6 +8,7 @@ from django.contrib import messages
 
 from management.models import User
 from projects.models import Project, File
+from subjects.models import Subject
 
 
 def check_what_user_not_have_access(request: HttpRequest, project: Project):  # True если пользаватель не имеет прав для просмотра проекта, False, если имеет
@@ -18,6 +19,9 @@ def check_what_user_not_have_access(request: HttpRequest, project: Project):  # 
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     # здесь идёт исполнение кода и возвращается страница общих проектов, т.к. не указан конкретный проект
+    if not request.user.is_authenticated:
+        return render(request, 'base.html')
+    
     if project_id is None:
         if request.user.role == 'Ученик':
             projects = Project.objects.filter(student=request.user)
@@ -78,52 +82,26 @@ def index(request: HttpRequest):
                    'defence': defence_file,
                    'old_defence': defence_file.get_prevent_files() if defence_file is not None else [],
                    'other_files': other_files,
-                   'old_other_files': [other_file.get_prevent_files() for other_file in other_files]
+                   'old_other_files': [other_file.get_prevent_files() for other_file in other_files],
+                   'all_subjects_names': [subject.name for subject in Subject.objects.all()]
                    }
 
         return render(request, "projects/project_page.html", context=context)
     except Project.DoesNotExist:
         return render(request, "WrongData.html")
-    except BaseException as e:
-        print(e)
+    except BaseException as error:
+        print(error)
         return render(request, "FatalError.html")
 
 
-def create_data(request: HttpRequest):
-    user1, created = User.objects.get_or_create(username="aaa1", first_name="Надежда", middle_name="Борисовна",
-                                                last_name="Тукова", email="a@a.ru", role="Учитель")
-    user1.set_password("1")
-    user1.save()
-    user2, created = User.objects.get_or_create(username="aaa2", first_name="Наталья", middle_name="Львовна",
-                                                last_name="Попова", email="a@a.ru",
-                                                role="Учитель")
-    user2.set_password("1")
-    user2.save()
-    user3, created = User.objects.get_or_create(username="aaa3", first_name="Алексей", middle_name="Романович",
-                                                last_name="Дмитриев", email="a@a.ru",
-                                                role="Ученик")
-    user3.set_password("1")
-    user3.save()
-    user4, created = User.objects.get_or_create(username='d1ffy', last_name='Кокорин', first_name='Петр', middle_name='Алексеевич',
-                                                email='helpersteam96@inbox.ru', role='Администратор')
-    user4.set_password("1")
-    user4.save()
-    user5, created = User.objects.get_or_create(username='Cbytl', last_name='Кабанин', first_name='Денис', middle_name='Андреевич',
-                                                email='email@email.ru', role='Администратор')
-    user5.set_password("555555")
-    user5.save()
-    project = Project.objects.create(name="Проект1", teacher=user1, student=user3)
-    project.set_subject("Математика")
-    project.save()
-    return HttpResponse("Всё ок")
-
-
 # отправка страницы с формой для подачи заявки на проект
-def send_create_form(request: HttpRequest):
+def send_create_form(request: HttpRequest, context_theme={}):
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
             teachers = User.objects.filter(role="Учитель")
-            data = {"teachers": teachers}
+            data = {"teachers": teachers,
+                    "subjects_names": [subject.name for subject in Subject.objects.all()]}
+            data.update(context_theme)
             return render(request, "projects/create.html", data)
     return render(request, "NotEnoughPermissions.html")
 
@@ -131,33 +109,36 @@ def send_create_form(request: HttpRequest):
 # этот декоратор автоматически проверяет POST запрос на его метод, на наличие прав у пользователя и на наличие входящих данных
 def check_post_request(*need_values):
     def decorator(func):
-        def wrapper(request):
+        def wrapper(request: HttpRequest):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
             if not request.user.is_authenticated:
                 messages.error(request, 'У вас нет прав для совершения этого действия')
-                return render(request, "projects/create.html")
+                return render(request, "")
 
             for value in need_values:
                 request_value = request.POST.get(value, '')
                 if request_value == '':
                     messages.error(request, 'Неверно введённые данные')
-                    return render(request, "projects/create.html")
+                    return render(request, request.get_full_path())
             return func(request)
         return wrapper
     return decorator
 
 
 # эта функция обрабатывает запрос на заявку проекта
-@check_post_request('teacher', 'name', "subject")
+@check_post_request('name', "subject")
 def create(request: HttpRequest):
-    teacher_id = request.POST.get("teacher")
+    teacher_id = request.POST.get("teacher", -1)
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
     try:
         if is_another_teacher == 'on':  # если учитель не из лицея
-            another_teacher = request.POST.get("new-teacher")
+            another_teacher = request.POST.get("new-teacher", -1)
+            if another_teacher == -1:
+                messages.error(request, 'Неверно введённые данные')
+                return render(request, "projects/create.html")
             last_user = User.objects.last()
             if last_user is None:
                 new_id = 1
@@ -169,6 +150,9 @@ def create(request: HttpRequest):
             teacher.set_password(User.objects.make_random_password(30))
             teacher.save()
         else:
+            if teacher_id == -1:
+                messages.error(request, 'Неверно введённые данные')
+                return render(request, "projects/create.html")
             teacher = User.objects.get(id=teacher_id)
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")
@@ -258,8 +242,8 @@ def correct_project(request: HttpRequest):
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
         return render(request, "WrongData.html")
-    except BaseException as e:  # если возникла непредвиденная ошибка
-        print(e)
+    except BaseException as error:  # если возникла непредвиденная ошибка
+        print(error)
         return render(request, "FatalError.html")
 
 

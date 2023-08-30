@@ -133,6 +133,11 @@ $('.delete').on('click', function () {
 
     $('.delete_page').css({ 'display': 'flex' });
     $('.back-form').css({ 'display': 'block' });
+
+    if ($(tr).hasClass('deactive-user')) {
+        $('.del-btn').val('Активировать');
+        $('.del-btn').attr('name', 'activate-butt');
+    }
 });
 
 // Токены

@@ -10,6 +10,7 @@ from liceum38.settings import BASE_DIR
 from .forms import UserRegistrationForm
 from .models import User, Tokens
 from projects.models import Project
+from django.core.paginator import Paginator, EmptyPage
  
 def register(request):
     if request.method == 'POST':
@@ -17,6 +18,7 @@ def register(request):
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.set_full_name()
             new_user.save()
             messages.success(request, 'Аккаунт успешно создан')
             authenticate_user = authenticate(request, username=new_user.username, password=user_form.cleaned_data['password'])
@@ -38,17 +40,43 @@ def token_page(request):
     return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
-    filter_users=User.objects.filter(deactivate = 0)
-    pages = []
+    filter_users = User.objects.all()
+    name = request.GET.get('name')
+    get_role = request.GET.get('role')
+    get_group = request.GET.get('group')
 
-    if len(filter_users) % 20 > 0:
-        pages_count=len(filter_users) // 20 + 1
+    if name != None and name != '':
+        filter_users = User.objects.filter(full_Name__icontains=name.replace(" ",""))
+        name_have = True
     else:
-        pages_count=len(filter_users) // 20
+        name_have = False
+    
+    if get_role != None and get_role != '':
+        filter_users = User.objects.filter(role=get_role)
+        role_have = True
+    else:
+        role_have = False
 
-    for i in range(0,pages_count):
-        pages.append(i+1)
+    if get_group != None and get_group != '':
+        filter_users = User.objects.filter(group=get_group)
+        group_have = True
+    else:
+        group_have = False
 
+    paginator = Paginator(filter_users, 20)
+    page_number = request.GET.get('p')
+    page_obj = paginator.get_page(page_number)
+
+    have_next_page = page_obj.has_next()
+    have_prev_page = page_obj.has_previous()
+    try:
+        prev_page = page_obj.previous_page_number()
+    except EmptyPage:
+        prev_page = False
+    try:
+        next_page = page_obj.next_page_number()
+    except EmptyPage:
+        next_page = False
 
     if request.method == "POST":
         user_id = request.POST.get('user_id_edit')
@@ -61,12 +89,6 @@ def admin_menu(request):
         group = request.POST.get('group_input')
         role = request.POST.get('role')
         email = request.POST.get('email_input')
-        search_names = request.POST.get('search_names')
-        role_filter = request.POST.get('role_filter')
-        group_filter = request.POST.get('group_filter')
-        deactivate_filter = request.POST.get('deactivate_filter')
-        role_filter_have = False
-        group_filter_have = False
 
         if request.POST.get('delete_butt'):
             user = User.objects.get(id=user_id_delete).delete()
@@ -93,19 +115,21 @@ def admin_menu(request):
             return FileResponse(open(filepath, "rb"), as_attachment=True)
 
         if request.POST.get('filter_submit'):
-            if role_filter !='' and group_filter !='':
-                filter_users=User.objects.filter(role = role_filter, group = group_filter)
-                role_filter_have = True
-                group_filter_have = True
-            if role_filter !='' and group_filter =='':
-                filter_users=User.objects.filter(role = role_filter)
-                role_filter_have = True
-                group_filter_have = False
-            if role_filter =='' and group_filter !='':
-                filter_users=User.objects.filter(group = group_filter)
-                group_filter_have = True
-                role_filter_have = False
-            return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "group_filter_have" : group_filter_have, "role_filter_have" : role_filter_have, "group_filter": group_filter, "role_filter": role_filter, "pages": pages})
+            role_filter = request.POST.get('role_filter')
+            group_filter = request.POST.get('group_filter')
+
+            return redirect(f'/management/admin_menu/?role={role_filter}&group={group_filter}')
+        
+        if request.POST.get('search_butt'):
+            search_names = request.POST.get('search_names').replace(" ", "+")
+
+            return redirect(f'/management/admin_menu/?name={search_names}')
+
+        if request.POST.get('activate-butt'):
+            user = User.objects.get(id=user_id_delete)
+            user.deactivate = False
+            user.save()
+            return redirect('admin_menu')
 
         if user_id == "-1":
             last_user = User.objects.last()
@@ -117,6 +141,7 @@ def admin_menu(request):
                                            middle_name=middle_name, group=group, role=role, email=email, password=0,
                                            id=new_id)
             new_user.set_password(request.POST.get('password_input'))
+            new_user.set_full_name()
             new_user.save()
             return redirect('admin_menu')
 
@@ -129,6 +154,7 @@ def admin_menu(request):
             user.group = group
             user.role = role
             user.email = email
+            user.set_full_name()
             if role == "Администратор":
                 user.group = 0
                 user.is_superuser = True
@@ -140,8 +166,24 @@ def admin_menu(request):
             user.save()
 
             return redirect('admin_menu')
+    
+    context = {
+        "users" : page_obj,
+        "paginator": paginator,
+        "name": name,
+        "name_have": name_have,
+        "role": get_role,
+        "role_have": role_have,
+        "group": get_group,
+        "group_have": group_have,
+        "have_next_page": have_next_page,
+        "have_prev_page": have_prev_page,
+        "next_page": next_page,
+        "prev_page" : prev_page,
+        "page_number" : page_obj.number
+    }
 
-    return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "pages": pages})
+    return render(request, 'admin_menu/admin.html', context=context)
 
 
 def profile(request):
