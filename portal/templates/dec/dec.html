@@ -50,7 +50,6 @@
                             {% endif %}
                         </button>
     
-                        <!-- Из-за кнопки все поехало, вставьте куда надо или переделайте (нужна для примера) -->
                         {% if announcement.author == user.username or user.role == 'Администратор' %}
                         <a href="{% url 'delete' announcement.id %}" class="delete-btn" title="Удалить объявление">
                             <svg viewBox="0 0 200 200" width="22px" height="22px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
@@ -108,7 +107,7 @@
 
 
 <!-- Кнопка для подгрузки новых объявлений, если их будет больше 20 (Надо сделать красивой) -->
-<button id="load-more-button">Load More</button>
+<button id="load-more-button" class="load-btn">Загрузить ещё</button>
 
 <!-- Почти весь скрипт ниже сделан с помощью ChatGPT потому что я не шарю в джаваскрипте, поправьте если плохо -->
 <!-- Все что он делает - реализует функционал страничек объявлений, добавляя кнопку на подгрузку объявлений, если их будет слишком много. По идее можно ничего не трогать, все работает -->
@@ -119,7 +118,7 @@
         var batch_size = 20;  // Match this with the batch size set in the backend
 
         function checkLoadMoreButtonVisibility() {
-            if ($('.flex').length != (page-1) * batch_size) {
+            if ($('.announ').length != (page-1) * batch_size) {
                 $("#load-more-button").hide();
             } else {
                 $("#load-more-button").show();
@@ -131,7 +130,7 @@
         $("#load-more-button").click(function() {
             var query = encodeURIComponent('{{ search_value }}');
             $.get('?q=' + query + '&page=' + page, function(data) {
-                var newAnnouncements = $(data).find('.flex');
+                var newAnnouncements = $(data).find('.announ');
                 if (newAnnouncements.length > 0) {
                     $("#FSL").append(newAnnouncements);
                     page++;
@@ -140,6 +139,28 @@
                     $("#load-more-button").hide();
                 }
             });
+        });
+
+        let descr = $('.announ-descr');
+
+        for (let i = 0; i < descr.length; i++) {
+            if (descr[i].offsetHeight > 250) {
+                $($('.announ-btn')[i]).addClass('announ-btn-active');
+                $(descr[i]).addClass('announ-descr-close');
+            }
+        }
+
+        $('.announ-btn').on('click', function() {
+            descr = this.parentNode.childNodes[5];
+            if ($(descr).hasClass('announ-descr-close')) {
+                $(descr).removeClass('announ-descr-close');
+                $(descr).addClass('announ-descr-open');
+                $(this).html('Скрыть');
+            } else if ($(descr).hasClass('announ-descr-open')) {
+                $(descr).removeClass('announ-descr-open');
+                $(descr).addClass('announ-descr-close');
+                $(this).html('Подробнее');
+            }
         });
     });
 </script>
