@@ -115,10 +115,11 @@
 <script>
     $(document).ready(function() {
         var page = 2;  // Start from page 2 since page 1 is already loaded
-        var batch_size = 20;  // Match this with the batch size set in the backend
+        var totalAnnouncements = {{ count }};
 
         function checkLoadMoreButtonVisibility() {
-            if ($('.announ').length != (page-1) * batch_size) {
+            var loadedAnnouncements = $('.announ').length;
+            if (loadedAnnouncements >= totalAnnouncements) {
                 $("#load-more-button").hide();
             } else {
                 $("#load-more-button").show();
