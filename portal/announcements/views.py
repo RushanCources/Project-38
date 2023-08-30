@@ -7,6 +7,9 @@ from .decorators import allowed_users
 from .models import File
 from .forms import AnnouncementForm
 from django.core.paginator import Paginator
+from django.conf import settings
+from pathlib import Path
+import os
 
 
 # ToDo: Добавить проверку форм при удалении тестовых шаблонов
@@ -35,8 +38,15 @@ def index(request):
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
 def redactor(request):
     """Отвечает за рендер шаблона редактора со всеми формами"""
+
+    covers_dir = settings.BASE_DIR / "media" / "covers"
+    covers = []
+
+    for cover in os.listdir(covers_dir):
+        covers.append("/media/covers/" + cover)
+
     form = AnnouncementForm()
-    return render(request, "dec/red.html", context={'form': form})
+    return render(request, "dec/red.html", context={'form': form, 'covers': covers})
 
 
 #@allowed_users(allowed_roles=['Teacher', 'admin'])
@@ -45,6 +55,13 @@ def createannouncement(request):
 
     if request.method != "POST":
         return HttpResponsePermanentRedirect("/announcements")
+
+    form = AnnouncementForm(request.POST)
+
+    if form.is_valid():
+        pass
+    else:
+        return render(request, 'WrongData.html')
 
     title = request.POST.get("title")
     body = request.POST.get("body")
@@ -81,12 +98,19 @@ def editor(request, id):
             'image_url': announcement.image_url,
         }
 
+        covers_dir = settings.BASE_DIR / "media" / "covers"
+        covers = []
+
+        for cover in os.listdir(covers_dir):
+            covers.append("/media/covers/" + cover)
+
         form = AnnouncementForm(initial=initial_data)
 
         data = {
             'form': form,
             'announcement_id': id,
             'announcement': announcement,
+            'covers': covers
         }
 
         return render(request, 'dec/ed.html', context=data)
@@ -175,3 +199,23 @@ def announcement(request, id):
     }
 
     return render(request, 'dec/ann.html', context=context)
+
+
+#@allowed_users(allowed_roles=['Teacher', 'admin'])
+def delete_announcement(request, id):
+    """Удаляет просроченные объявления и связанные с ними файлы"""
+
+    if request.method != 'GET':
+        return render(request, 'WrongData.html')
+
+    announcement = Announcement.objects.get(id=id)
+
+    files = announcement.files.all()
+
+    for file in files:
+        file.file.delete()
+        file.delete()
+
+    announcement.delete()
+
+    return HttpResponsePermanentRedirect('/announcements')
