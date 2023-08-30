@@ -3,6 +3,26 @@
     max-width: 1202px;
 }
 
+.no-projects {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    fill: #103A84;
+    color : #103A84;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.no-projects-svg {
+    width: 300px;
+}
+
 .btn {
     padding: 10px 25px;
     box-sizing: border-box;

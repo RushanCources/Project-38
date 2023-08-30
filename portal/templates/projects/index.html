@@ -19,7 +19,6 @@
     </svg></a>
 {% endif %}
 {% if not has_projects %}
-<h1 class="title">Общий список</h1>
 <div class="no-projects">
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="no-projects-svg">
         <g data-name="01" id="_01">
@@ -30,7 +29,7 @@
     <span class="no-projects-span">У вас ещё ни одного проекта...</span>
 </div>
 {% else %}
-{% if user.role == "Учитель" %}
+{% if user.role == "Учитель" or user.role == 'Администратор' %}
 <div class="main-nav">
     <div class="top-nav">
         <form class="search" method="POST">
