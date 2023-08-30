@@ -19,6 +19,9 @@ def check_what_user_not_have_access(request: HttpRequest, project: Project):  # 
 def index(request: HttpRequest):
     project_id = request.GET.get("id", None)
     # здесь идёт исполнение кода и возвращается страница общих проектов, т.к. не указан конкретный проект
+    if not request.user.is_authenticated:
+        return render(request, 'base.html')
+    
     if project_id is None:
         if request.user.role == 'Ученик':
             projects = Project.objects.filter(student=request.user)
@@ -108,33 +111,36 @@ def send_create_form(request: HttpRequest, context_theme={}):
 # этот декоратор автоматически проверяет POST запрос на его метод, на наличие прав у пользователя и на наличие входящих данных
 def check_post_request(*need_values):
     def decorator(func):
-        def wrapper(request):
+        def wrapper(request: HttpRequest):
             if request.method != 'POST':
                 return redirect(reverse("projects"))
             if not request.user.is_authenticated:
                 messages.error(request, 'У вас нет прав для совершения этого действия')
-                return render(request, "projects/create.html")
+                return render(request, "")
 
             for value in need_values:
                 request_value = request.POST.get(value, '')
                 if request_value == '':
                     messages.error(request, 'Неверно введённые данные')
-                    return render(request, "projects/create.html")
+                    return render(request, request.get_full_path())
             return func(request)
         return wrapper
     return decorator
 
 
 # эта функция обрабатывает запрос на заявку проекта
-@check_post_request('teacher', 'name', "subject")
+@check_post_request('name', "subject")
 def create(request: HttpRequest):
-    teacher_id = request.POST.get("teacher")
+    teacher_id = request.POST.get("teacher", -1)
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
     try:
         if is_another_teacher == 'on':  # если учитель не из лицея
-            another_teacher = request.POST.get("new-teacher")
+            another_teacher = request.POST.get("new-teacher", -1)
+            if another_teacher == -1:
+                messages.error(request, 'Неверно введённые данные')
+                return render(request, "projects/create.html")
             last_user = User.objects.last()
             if last_user is None:
                 new_id = 1
@@ -146,6 +152,9 @@ def create(request: HttpRequest):
             teacher.set_password(User.objects.make_random_password(30))
             teacher.save()
         else:
+            if teacher_id == -1:
+                messages.error(request, 'Неверно введённые данные')
+                return render(request, "projects/create.html")
             teacher = User.objects.get(id=teacher_id)
         if teacher.role != "Учитель":
             return render(request, "WrongData.html")

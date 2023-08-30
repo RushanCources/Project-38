@@ -536,3 +536,9 @@
 .deactive-user {
     background: #ff11003b;
 }
+
+.page-active {
+    background: rgba(131, 131, 131,  0.3);
+    color: #fff;
+    border-radius: 3px;
+}
