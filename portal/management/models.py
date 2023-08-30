@@ -18,8 +18,8 @@ class User(AbstractUser):
     
     def set_full_name(self):
         self.full_Name = self.last_name + self.first_name + self.middle_name
-
-    def save(self, *args, **kwargs):
+    
+    def save_photo(self, *args, **kwargs):
         super().save()
         img = Image.open(self.avatar.path)
         width, height = img.size  # Get dimensions
