@@ -18,8 +18,13 @@ function pin_active() {
 
 let data = new DataTransfer();
 
-function new_file() {
-    let new_file = $('#add_file')[0].files[0];
+function new_file(file) {
+    let new_file;
+    if (file == null) {
+        new_file = $('#add_file')[0].files[0];
+    } else {
+        new_file = file;
+    }
     let ul = $('.file-list')[0];
     let pre_ul = $('.announ-files-list')[0];
     let li = document.createElement('li');
@@ -45,7 +50,7 @@ function new_file() {
     data.items.add(new_file);
     $('#file')[0].files = data.files;
 
-    file_remove();
+    file_remove(false);
 }
 
 function file_name(start_name) {
@@ -69,31 +74,34 @@ function file_name(start_name) {
     return name;
 }
 
-function file_remove() {
+function file_remove(is_load) {
     $('.file-item-div').on('click', function () {
         let files = $('#file')[0].files;
         let li = this.parentNode;
         let name = $(li).attr('title');
         li.remove();
 
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].name == name) {
-                data.items.remove(i);
-                $('#file')[0].files = data.files;
-                break;
+        if (!is_load) {
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].name == name) {
+                    data.items.remove(i);
+                    $('#file')[0].files = data.files;
+                    break;
+                }
             }
         }
+
     });
 }
 
 $('.covers-item').on('click', function() {
-    let cls = $(this).attr('class');
-    cls = cls.replace('covers-item ', '.');
-
-    let url = $(cls).css('background-image');
+    let url = $(this).css('background-image');
+    let input_url = url.slice(url.indexOf('url('));
 
     $('.covers-selected').css({'display' : 'none'});
     $(this.childNodes[1]).css({'display' : 'flex'});
+
+    $('#id_image_url').val(input_url);
 
     preview_update(url, 'cover');
 });
@@ -132,7 +140,6 @@ function preview_update(el, block) {
             $('.favourite-btn').css({'fill' : '#DBDBDB'});
         }
     } else if (block == 'cover') {
-        console.log(el);
         $('.announ-img').css({'background-image' : el});
     }
 }
@@ -154,8 +161,9 @@ function url_save() {
     if(url != '') {
         url = 'url(' + url + ')';
         $('.announ-img').css({'background-image' : url});
+        $('#id_image_url').val(url);
         url_exit();
     } else {
-        alert('эу, ахуел?');
+        alert('Вставьте ссылку на обложку!');
     }
 }

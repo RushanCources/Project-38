@@ -13,3 +13,11 @@ let dte = $('.date')[0];
 preview_update(title, 'title');
 preview_update(descr, 'descr');
 preview_update(dte, 'date');
+
+file_remove(true);
+let id_arr = [];
+
+function file_id_update(id) {
+    id_arr.push(id);
+    $('.fitd').val(id_arr);
+}

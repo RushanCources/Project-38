@@ -24,7 +24,16 @@
             <label for="add_file" class="file-label">Добавить файл</label>
             <input type="file" id="add_file" onchange="new_file()" class="file-input">
             {{ form.files }}
-            <ul class="file-list"></ul>
+            {{ form.file_id_to_delete }}
+            {% load split_filter %}
+            <ul class="file-list">
+                {% for file in announcement.files.all %}
+                        <li title="{{ file.file.url|split }}" class="file-item">
+                            {{ file.file.url|split }}
+                            <div class="file-item-div" onclick="file_id_update({{ file.id }})"></div>
+                        </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
     <div class="form-other">
@@ -38,7 +47,7 @@
             </div>
         </div>
         <div class="label label-cover"><span>Обложка:</span>
-            <button class="covers-btn" onclick="url_open()">Добавить обложку
+            <button class="covers-btn" onclick="url_open()" type="button">Добавить обложку
                 <svg width="16" height="16" viewBox="0 0 200 200"
                     style="transform: rotate(45deg)">
                     <path
@@ -46,27 +55,16 @@
                         fill="#5A88FF"></path>
                 </svg>
             </button>
+            {{ form.image_url }}
             <ul class="covers-list">
-                <li class="covers-item item1">
+                {% for cover in covers %}
+
+                <li class="covers-item" style="background-image: url('{{cover}}');">
                     <div class="covers-selected">
                         <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
                     </div>
                 </li>
-                <li class="covers-item item2">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
-                <li class="covers-item item3">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
-                <li class="covers-item item4">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
         <input class="form-btn" type="submit" value="Сохранить" />
@@ -94,7 +92,13 @@
             <div>
                 <a href="#" class="announ-author">{{ user.username }}</a>
             </div>
-            <ul class="announ-files-list"></ul>
+            <ul class="announ-files-list">
+                {% for file in announcement.files.all %}
+                    <li class="announ-files-item">
+                        <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
      <div class="announ-img">
@@ -106,7 +110,7 @@
         <h3 class="url-title">Вставьте ссылку на вашу обложку</h3>
         <span class="url-span">Учтите, что ссылка на вашу обложку может перестать быть активной со временем!</span>
     </div>
-    {{ form.image_url }}
+    <input class="url-input" type="text" placeholder="Ваша ссылка...">
     <div class="url-btns">
         <button class="btn exit" type="button" onclick="url_exit()">Отмена</button>
         <button class="btn save" onclick="url_save()">Сохранить</button>
