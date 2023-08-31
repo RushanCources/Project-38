@@ -242,21 +242,47 @@
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    width: calc((100% - 150px) / 4);
+    width: calc((100% - 100px) / 3);
+    min-width: 300px;
     height: 300px;
     border-radius: 10px;
     background: #fff;
     overflow: hidden;
 }
 
+.project-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+
 .title {
     margin: 0;
     font-size: 34px;
     font-weight: 700;
-    height: 60%;
+    height: 80%;
     overflow: hidden;
     text-align: left;
     word-break: break-all;
+}
+
+.subtitle {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.sub-ball {
+    margin: 0 5px;
+    width: 3px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 50%;
 }
 
 .send-request {
@@ -277,7 +303,7 @@
 .anim {
     position: absolute;
     top: 70px;
-    left: 50px;
+    left: 55%;
 }
 
 .anim-send-request {
@@ -287,8 +313,8 @@
 
 .anim-done {
     position: absolute;
-    top: 50px;
-    left: 70px;
+    top: 20px;
+    left: 55%;
 }
 
 .gear {
@@ -300,26 +326,24 @@
 }
 
 .gear1 {
-    width: 40px;
-    height: 40px;
-    top: 22px;
-    left: 73px;
+    width: 60px;
+    height: 60px;
+    top: 19px;
+    left: 186px;
 }
 
 .gear2 {
-    width: 48px;
-    height: 48px;
+    width: 72px;
+    height: 72px;
     top: 51px;
-    left: 80px;
-
+    left: 215px;
 }
 
 .gear3 {
-    width: 40px;
-    height: 40px;
-    top: 48px;
-    left: 50px;
-
+    width: 60px;
+    height: 60px;
+    top: 70px;
+    left: 170px;
 }
 
 .dn {
@@ -343,12 +367,12 @@
 }
 
 .dn-svg {
-    height: 40px;
+    height: 70px;
 }
 
 .ball {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     background: rgb(136, 28, 37);
     transform: translateY(0px);

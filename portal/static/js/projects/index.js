@@ -2,8 +2,8 @@ let names = $('.title');
 
 for (let i = 0; i < names.length; i++) {
     let name = names[i].innerText;
-    if (name.length > 45) {
-        name = name.slice(0, 45) + '..';
+    if (name.length > 100) {
+        name = name.slice(0, 100) + '..';
         name = names[i].innerText = name;
     }
 }
