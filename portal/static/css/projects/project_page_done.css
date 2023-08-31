@@ -1,0 +1,148 @@
+.title {
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 44px;
+}
+
+.subtitle {
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.ball {
+    margin: 0 5px;
+    width: 3px;
+    height: 3px;
+    background: #000;
+    border-radius: 50%;
+}
+
+.content-list {
+    width: 100%;
+}
+
+.content-item {
+    margin-bottom: 30px;
+}
+
+.span {
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 300;
+    color: #000;
+}
+
+.content-item > p {
+    margin: 0;
+    font-size: 22px;
+    text-align: justify;
+}
+
+.file-list {
+    margin-bottom: 20px;
+}
+
+.file-item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-item:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.file-label {
+    position: relative;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    font-size: 18px;
+    border: 2px solid;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.docx {
+    background: rgba(16, 58, 132, 0.12);
+    color: #1f68e9ba;
+    border-color: #1f68e9ba;
+}
+
+.ppt {
+    background-color: rgba(132, 86, 16, .12);
+    color: #d5731ee3;
+    border-color: #d5731ee3;
+}
+
+.txt {
+    background-color: rgba(213, 213, 213, 0.12);
+    color: #929292;
+    border-color: #929292;
+}
+
+.download-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.download-link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.other-files-title {
+    margin-bottom: 20px;
+    padding-left: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8b8b8b;
+}
+
+.line {
+    position: relative;
+    display: block;
+    width: calc(100% - 60px);
+    height: 1px;
+    background: #8b8b8b;
+    border-radius: 10px;
+}
+
+.other-file-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.other-file-item {
+    position: relative;
+    margin-top: 10px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #00000030;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}

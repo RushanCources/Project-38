@@ -28,6 +28,8 @@ def index(request: HttpRequest):
             projects = Project.objects.filter(student=request.user)
         elif request.user.role == 'Учитель':
             projects = Project.objects.filter(teacher=request.user)
+        elif request.user.role == 'Администратор':
+            projects = Project.objects.all()
         else:
             projects = []
 
@@ -40,12 +42,24 @@ def index(request: HttpRequest):
         context_projects = []
 
         for project in projects:
-            files = list(File.objects.filter(project=project, version=1))
-            variables = vars(project)
-            values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
-            pp = ProjectPack(**values)
-            pp.files = files
-            context_projects.append(pp)
+            # files = list(File.objects.filter(project=project, version=1))
+            # variables = vars(project)
+            # values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+            # pp = ProjectPack(**values)
+            # pp.files = files
+            full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name[0] + '. ' + project.teacher.middle_name[0] + '.'
+            full_student_name = project.student.last_name + ' ' + project.student.first_name[0] + '. ' + project.student.middle_name[0] + '.'
+            some_project = {
+                "name" : project.name,
+                "descr": project.description,
+                "status": project.get_status(),
+                "type": project.get_type(),
+                "subjects" : project.get_subjects(),
+                "teacher" : full_teacher_name,
+                "student": full_student_name,
+                "id" : project.id,
+            }
+            context_projects.append(some_project)
 
         return render(request, "projects/index.html", context={'projects': context_projects,
                                                                'has_projects': len(context_projects) > 0})
@@ -58,9 +72,11 @@ def index(request: HttpRequest):
         presentation_file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
         annotation_file = File.objects.filter(project=project, version=1, _tag='Аннотация').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
+        full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name + ' ' + project.teacher.middle_name
+        full_student_name = project.student.last_name + ' ' + project.student.first_name + ' ' + project.student.middle_name
         context = {"name": project.name,
-                   "teacher": project.teacher.full_Name,
-                   "student": project.student.full_Name,
+                   "teacher": full_teacher_name,
+                   "student": full_student_name,
                    "avaurl_of_teacher": project.teacher.avatar.url,
                    "avaurl_of_student": project.student.avatar.url,
                    "status": project.get_status(),
@@ -147,8 +163,8 @@ def create(request: HttpRequest):
                 new_id = 1
             else:
                 new_id = last_user.pk + 1
-            teacher: User = User.objects.create_user(username=new_id, first_name=another_teacher.split()[0],
-                                                     last_name=another_teacher.split()[1], middle_name=another_teacher.split()[2],
+            teacher: User = User.objects.create_user(username=new_id, first_name=another_teacher.split()[1],
+                                                     last_name=another_teacher.split()[0], middle_name=another_teacher.split()[2],
                                                      role='Учитель', id=new_id)
             teacher.set_password(User.objects.make_random_password(30))
             teacher.is_other_teacher = True

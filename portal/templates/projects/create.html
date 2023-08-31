@@ -13,19 +13,20 @@
     <div class="formPZ">
         <h1 class="form h1">Подача заявки</h1>
         <div class="errors">
-            {% if messages %}
             {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
             <p class="error">{{ message }}</p>
-            {% endfor %}
             {% endif %}
+            {% endfor %}
         </div>
         <div class="form">
             <h3 class="h3">Название*</h3>
-            <input name="name" class="wf" required value='{%if name is not None%}{{name}}{%endif%}'/>
+            <input name="name" class="wf" required value='{%if name is not None%}{{name}}{%endif%}' />
         </div>
         <div class="form">
             <h3 class="h3">Описание*</h3>
-            <textarea name="description" class="wf ta" required>{%if description is not None%}{{description}}{%endif%}</textarea>
+            <textarea name="description" class="wf ta"
+                required>{%if description is not None%}{{description}}{%endif%}</textarea>
         </div>
         <div class="form selects">
             <div class="tea">
@@ -47,11 +48,13 @@
             </div>
             <div class="subj">
                 <h3 class="h3 subj">Предмет*</h3>
-                <select name="subject" id="selSubj" class="wf" required>
-                    {% for subject_name in subjects_names %}
-                        <option class="opG opt">{{subject_name}}</option>
-                    {% endfor %}
-                </select>
+                <div class="new-theme-subjects">
+                    <input type="text" class="new-theme-subjects-input form-input"
+                        placeholder="Введите названние предметной области" id="theme_subject">
+                    <ul class="search-result-list"></ul>
+                    <ul class="new-theme-subjects-list"></ul>
+                </div>
+                <input type="hidden" class="subject-input" name="subject" required>
             </div>
         </div>
         <div class="form files">
@@ -62,6 +65,10 @@
         <button class="but" type="submit">Подать заявку</button>
     </div>
 </form>
+
+<script>
+    subjects = {{ subjects_names }}
+</script>
 
 <script src="{% static 'js/projects/create_page.js' %}"></script>
 
