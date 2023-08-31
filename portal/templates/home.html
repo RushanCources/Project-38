@@ -89,11 +89,11 @@
             12: 'individual',
             13: 'role-playing',
             14: 'subject-oriented',
-            15: 'none',
+            // 15: 'none',
         };
         console.log(typeProj);
         import {genDiv} from '{% static 'js/global/functions.js' %}'; //import функции из js/global/functions.js
-        genDiv(16,"a","cont","wbtn","p","wp");
+        genDiv(15,"a","cont","wbtn","p","wp");
         console.log("genDiv"); // отчёт в консоль об успешном выполнении вызванной функции
         for(let i=0; i<16; i++){ // цикл для добавления информации в сгенерированные теги
             $(`#wp${i}`).append(() => { // берём по id <p> и вставляем в него строку
@@ -114,12 +114,12 @@
                     case 12:str+=`Индивидуальный проект`;break;
                     case 13:str+=`Ролево-игровой проект`;break;
                     case 14:str+=`Предметно-ориентированный проект`;break;
-                    case 15:str+=` проект`;break;
+                    // case 15:str+=` проект`;break;
                     default:break;
                 }
                 return str;
             });
-            $(`#wbtn${i}`).attr("href", `projects/types/${typeProj[i]}_project`)
+            $(`#wbtn${i}`).attr("href", ``)
             $(`#wbtn${i}`).append(()=>{ // берём по id <button> и вставляем в него строку
                 let str=``;
                 switch (i){
@@ -131,7 +131,7 @@
                     case 12:
                     case 13:
                     case 14:
-                    case 15:
+                    // case 15:
                     str+=`<img class="bImg" id="bImg${i}" src="../static/img/home_page/butImg${i}.png"/>`;
                     break;
                     case 0:
