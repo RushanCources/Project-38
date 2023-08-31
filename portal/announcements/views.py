@@ -12,16 +12,13 @@ from pathlib import Path
 import os
 
 
-# ToDo: Добавить проверку форм при удалении тестовых шаблонов
-
-
 def index(request):
 
     group = None
     superuser = False
     anns = Announcement.objects.all()
 
-    paginator = Paginator(anns, 20) # Batch size здесь (см dec.html)
+    paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
@@ -30,12 +27,12 @@ def index(request):
     if group in ['Teacher', 'admin']:
         superuser = True
 
-    data = {'superuser': superuser, 'page_announcements': page_announcements}
+    data = {'superuser': superuser, 'page_announcements': page_announcements, 'count': anns.count()}
 
     return render(request, 'dec/dec.html', context=data)
 
 
-#@allowed_users(allowed_roles=['Teacher', 'admin'])
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def redactor(request):
     """Отвечает за рендер шаблона редактора со всеми формами"""
 
@@ -49,7 +46,7 @@ def redactor(request):
     return render(request, "dec/red.html", context={'form': form, 'covers': covers})
 
 
-#@allowed_users(allowed_roles=['Teacher', 'admin'])
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def createannouncement(request):
     """Создает объявление (Записывает в БД)"""
 
@@ -84,7 +81,7 @@ def createannouncement(request):
     return HttpResponsePermanentRedirect('/announcements')
 
 
-#@allowed_users(allowed_roles=['Teacher', 'admin'])
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def editor(request, id):
     """Отвечает за рендер шаблона эдитора объявлений со всеми формами и прошлыми данными"""
 
@@ -119,7 +116,7 @@ def editor(request, id):
         return render(request, 'WrongData.html')
 
 
-#@allowed_users(allowed_roles=['Teacher', 'admin'])
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def editannouncement(request, id):
     """Отвечает за редактирование объявления (изменение существующих значений в БД)"""
 
@@ -183,7 +180,7 @@ def search(request):
 
     anns = Announcement.objects.filter(query_filter)
 
-    paginator = Paginator(anns, 20)
+    paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
@@ -208,7 +205,7 @@ def announcement(request, id):
     return render(request, 'dec/ann.html', context=context)
 
 
-#@allowed_users(allowed_roles=['Teacher', 'admin'])
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def delete_announcement(request, id):
     """Удаляет просроченные объявления и связанные с ними файлы"""
 
