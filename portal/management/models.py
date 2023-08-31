@@ -10,6 +10,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.png")
     is_view_window = models.BooleanField(default=False)
     full_Name = models.TextField(max_length=100, null=True)
+    is_other_teacher = models.BooleanField(default=False)
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
