@@ -122,6 +122,7 @@
                 <p class="p inbtn">Редактирование проекта</p>
             </a>
         </div> -->
+        {% if project.status == 'send request' %}
             <a class="project project{{project.id}} send-request" href="./?id={{ project.id }}">
                 <div class="anim anim-send-request">
                     <div class="ball"></div>
@@ -131,6 +132,7 @@
                 <h2 class="title">{{ project.name }}</h2>
             </a>
             <!-- для проектов на этапе разработки -->
+        {% elif project.status == 'on work' %}
             <a class="project project{{project.id}} on-work" href="./?id={{ project.id }}">
                 <div class="anim-on-work">
                     <div class="gear gear1">
@@ -145,6 +147,7 @@
                 </div>
                 <h2 class="title">{{ project.name }}</h2>
             </a>
+        {% elif project.status == 'done' %}
             <!-- для выполненных проектов -->
             <a class="project project{{project.id}} done" href="./?id={{ project.id }}">
                 <div class="anim-done">
@@ -159,7 +162,14 @@
                     </div>
                 </div>
                 <h2 class="title">{{ project.name }}</h2>
+                <span class="subtitle">{{ project.project_type }} <div class=""></div> {{ project.subjects }}</span>
+                {% if user.role == 'Ученик' %}
+                <span>{{ project.teacher }}</span>
+                {% else %}
+                <span>{{ project.student }}</span>
+                {% endif %}
             </a>
+        {% endif %}    
     {% endfor %}
 </div>
 
