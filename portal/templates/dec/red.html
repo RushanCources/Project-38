@@ -3,29 +3,107 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/dec/red.css' %}">
-<title>Редактор Объявления</title>
+<link rel="stylesheet" href="{% static 'css/dec/dec.css' %}">
+<title>Создание Объявления</title>
 {% endblock head %}
 {% block content %}
 
-<form method="post" action="createannouncement" enctype="multipart/form-data" class="f">
+<h1 class="title">Создание объявления</h1>
+
+<form action="createannouncement" method="POST" class="form" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="td">
-        {{ form.title }}
-        {{ form.date_of_expiring }}
+    <div class="form-main">
+        <div class="label label-title"><span>Название:</span>
+            {{ form.title }}
+        </div>
+        <div class="label label-descr"><span>Описание:</span>
+            {{ form.body }}
+        </div>
+        <div class="label label-files"><span>Файлы:</span>
+            <input type="hidden" name="file_id" value="-1" />
+            <label for="add_file" class="file-label">Добавить файл</label>
+            <input type="file" id="add_file" onchange="new_file()" class="file-input">
+            {{ form.files }}
+            <ul class="file-list"></ul>
+        </div>
     </div>
-    {{ form.body }}
-    <div class="pin">
-        <p>Закрепить</p>
-        {{ form.is_pinned }}
+    <div class="form-other">
+        <div class="label label-date"><span>Дата окончания:</span>
+            {{ form.date_of_expiring }}
+        </div>
+        <div class="label label-pin"><span>Закрепить:</span>
+            {{ form.is_pinned }}
+            <div class="div-pin" onclick="pin_active()">
+                <div class="ball"></div>
+            </div>
+        </div>
+        <div class="label label-cover"><span>Обложка:</span>
+            <button class="covers-btn" onclick="url_open()" type="button">Добавить обложку
+                <svg width="16" height="16" viewBox="0 0 200 200"
+                    style="transform: rotate(45deg)">
+                    <path
+                        d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
+                        fill="#5A88FF"></path>
+                </svg>
+            </button>
+            <!-- Скрытый инпут для url обложек. Список с url обложек доступен в переменной covers -->
+            {{ form.image_url }}
+            <ul class="covers-list">
+                {% for cover in covers %}
+
+                <li class="covers-item" style="background-image: url('{{cover}}');">
+                    <div class="covers-selected">
+                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <input class="form-btn" type="submit" value="Разместить" />
     </div>
-    <div class="imur">
-        <p>Ссылка на ваше изображение</p>
-        {{ form.image_url }}
-    </div>
-    {{ form.files }} 
-    {{ form.file_id_to_delete }}
-    <input class="subm" type="submit" value="Разместить" />
-    <!-- <div></div> -->
 </form>
+
+<h2>Предпросмотр объявления</h2>
+
+<div class="preview">
+    <div class="announ-content">
+        <div class="top-info">
+            <div class="top-info-text">
+                <span class="date">c <span class="date-start"></span> до <span class="date-end"></span></span>
+            </div>
+            <button class="favourite-btn" title="Закрепить">
+                <svg class="favourite-svg" width="18" height="18" viewBox="0 0 18 18" fill="inherit">
+                    <path d="M17.6844 6.825C17.615 6.61154 17.4877 6.4215 17.3168 6.27597C17.1459 6.13045 16.9381 6.03514 16.7163 6.00063L12.1481 5.31625L10.0919 0.95125C9.8875 0.51875 9.46938 0.25 9 0.25C8.53063 0.25 8.1125 0.51875 7.90813 0.95125L5.88188 5.30063L1.28375 6.00063C0.833755 6.06938 0.46313 6.385 0.31563 6.825C0.241171 7.04419 0.228913 7.27972 0.280215 7.50545C0.331518 7.73118 0.444374 7.93828 0.606255 8.10375L3.93188 11.5075L3.14625 16.305C3.10629 16.5361 3.1327 16.7739 3.22242 16.9906C3.31214 17.2073 3.46149 17.3941 3.65313 17.5294C3.83519 17.6597 4.05052 17.7355 4.27404 17.7482C4.49756 17.7608 4.72007 17.7096 4.91563 17.6006L8.97125 15.3356L13.0844 17.6006C13.28 17.7094 13.5025 17.7604 13.7259 17.7478C13.9494 17.7352 14.1647 17.6595 14.3469 17.5294C14.5386 17.3942 14.6881 17.2074 14.7778 16.9907C14.8675 16.7739 14.8939 16.5361 14.8538 16.305L14.0669 11.5013L17.3938 8.10375C17.5556 7.93828 17.6685 7.73118 17.7198 7.50545C17.7711 7.27972 17.7588 7.04419 17.6844 6.825Z" fill="inherit"/>
+                </svg>
+            </button>
+        </div>
+        <h2 class="announ-title"></h2>
+        <p class="announ-descr"></p>
+        <button class="announ-btn">Подробнее</button>
+        <div class="announ-bottom">
+            <div>
+                <a href="#" class="announ-author">{{ user.username }}</a>
+            </div>
+            <ul class="announ-files-list"></ul>
+        </div>
+    </div>
+     <div class="announ-img">
+    </div>
+</div>
+
+<div class="url-cover">
+    <div>
+        <h3 class="url-title">Вставьте ссылку на вашу обложку</h3>
+        <span class="url-span">Учтите, что ссылка на вашу обложку может перестать быть активной со временем!</span>
+    </div>
+    <input class="url-input" type="text" placeholder="Ваша ссылка...">
+    <div class="url-btns">
+        <button class="btn exit" type="button" onclick="url_exit()">Отмена</button>
+        <button class="btn save" onclick="url_save()">Сохранить</button>
+    </div>
+</div>
+<div class="back-form"></div>
+
+<script src="{% static 'js/announcement/red.js' %}"></script>
 
 {% endblock content %}

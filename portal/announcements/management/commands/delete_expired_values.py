@@ -4,7 +4,7 @@ from announcements.models import Announcement
 
 
 class Command(BaseCommand):
-    help = 'Deletes expired announcements and their related images, files and tags'
+    help = 'Deletes expired announcements and their related images and files'
 
     def handle(self, *args, **options):
         now = datetime.now(timezone.utc)

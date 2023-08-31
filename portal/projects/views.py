@@ -110,13 +110,14 @@ def index(request: HttpRequest):
 
 
 # отправка страницы с формой для подачи заявки на проект
-def send_create_form(request: HttpRequest, context_theme={}):
+def send_create_form(request: HttpRequest, context_data={}):
+    print(context_data)
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
             teachers = User.objects.filter(role="Учитель", is_other_teacher=True)
             data = {"teachers": teachers,
                     "subjects_names": [subject.name for subject in Subject.objects.all()]}
-            data.update(context_theme)
+            data.update(context_data)
             return render(request, "projects/create.html", data)
     return render(request, "NotEnoughPermissions.html")
 
@@ -148,12 +149,15 @@ def create(request: HttpRequest):
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
+    description = request.POST.get('description', '')
+
     try:
+
         if is_another_teacher == 'on':  # если учитель не из лицея
             another_teacher = request.POST.get("new-teacher", -1)
             if another_teacher == -1:
                 messages.error(request, 'Неверно введённые данные')
-                return render(request, "projects/create.html")
+                return send_create_form(request, context_data={'name': name, 'description': description})
             last_user = User.objects.last()
             if last_user is None:
                 new_id = 1
@@ -168,11 +172,12 @@ def create(request: HttpRequest):
         else:
             if teacher_id == -1:
                 messages.error(request, 'Неверно введённые данные')
-                return render(request, "projects/create.html")
+                print({'name': name, 'description': description})
+                return send_create_form(request, context_data={'name': name, 'description': description})
             teacher = User.objects.get(id=teacher_id)
+
         if teacher.role != "Учитель":
-            return render(request, "WrongData.html")
-        description = request.POST.get('description', '')
+            return send_create_form(request, context_data={'name': name, 'description': description})
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
         if description != -1:
             project.description = description
@@ -186,7 +191,8 @@ def create(request: HttpRequest):
         return render(request, "projects/success.html")
     except User.DoesNotExist:  # если не удалось получить пользователя из бд
         return render(request, "WrongData.html")
-    except BaseException:  # если возникла непредвиденная ошибка
+    except BaseException as e:  # если возникла непредвиденная ошибка
+        print(e)
         return render(request, "FatalError.html")
 
 

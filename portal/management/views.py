@@ -1,5 +1,7 @@
 import string
 import random
+import time
+import os
 from dataclasses import dataclass, field
 
 from django.contrib.auth import authenticate, login
@@ -12,7 +14,12 @@ from .models import User, Tokens
 from projects.models import Project
 from django.core.paginator import Paginator, EmptyPage
  
-def register(request):
+def register(request, token):
+    temp_token = False
+
+    if Tokens.objects.filter(token=token).exists():
+        temp_token = True
+
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -23,17 +30,21 @@ def register(request):
             messages.success(request, 'Аккаунт успешно создан')
             authenticate_user = authenticate(request, username=new_user.username, password=user_form.cleaned_data['password'])
             login(request, authenticate_user)
+            if temp_token:
+                Tokens.objects.get(token=token).delete()
             return redirect('profile')
+
+        elif request.POST.get('register_submit') and not user_form.is_valid():
+            messages.error(request, 'Что-то введено неправильно, проверьте пароли. Так же возможно такой логин или мейл уже существует!')
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'registration/register.html', {'user_form': user_form})
+    return render(request, 'registration/register.html', {'user_form': user_form, "is_token": temp_token, "token": token})
 
 def token_page(request):
     if request.method == "POST":
         token = request.POST.get("token")
         if Tokens.objects.filter(token=token).exists():
-            temp_token = Tokens.objects.get(token=token).delete()
-            return redirect('register')
+            return redirect(f'/management/register/{token}/')
         else:
             messages.error(request, 'Неправильный токен!')
     
@@ -160,6 +171,7 @@ def admin_menu(request):
                 user.is_superuser = True
             elif role == "Учитель":
                 user.group = 0
+                user.is_superuser = False
             else:
                 user.is_superuser = False
 
@@ -213,7 +225,6 @@ def profile(request):
         request_projects_packs = [ProjectsPack(project) for project in request_projects_T]
     user_full = request.user.getPName()
 
-
     if request.method == "POST":
         new_password = request.POST.get('new_password')
         old_password = request.POST.get('old_password')
@@ -243,8 +254,9 @@ def profile(request):
 
 
         if request.POST.get('avatar_submit') and request.FILES:
+            os.remove(request.user.avatar.path, dir_fd=None)
             request.user.avatar = new_avatar
-            request.user.save()
+            request.user.save_photo()
             return redirect('profile')
 
     context = {"open_projects_packs": open_projects_packs,

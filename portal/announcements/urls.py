@@ -7,6 +7,7 @@ urlpatterns = [
     path('createannouncement', views.createannouncement, name='createannouncement'),
     path('redactor/<int:id>', views.editor, name='editor'),
     path('redactor/editannouncement/<int:id>', views.editannouncement, name='editannouncement'),
-    path('search', views.search, name='search'),
+    path('search/', views.search, name='search'),
     path('<int:id>', views.announcement, name='announcement'),
+    path('delete/<int:id>', views.delete_announcement, name='delete')
 ]
