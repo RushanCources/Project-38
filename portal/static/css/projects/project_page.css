@@ -53,6 +53,10 @@
     color: #ffb51b;
 }
 
+.done {
+    color: #19ca4e;
+}
+
 .people-fio {
     margin: 0;
     font-size: 16px;

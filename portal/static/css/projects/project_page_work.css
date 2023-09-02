@@ -96,8 +96,29 @@
     fill: #fff;
 }
 
-.next-btn {
+.bottom-div-right {
+    display: flex;
+    column-gap: 10px;
     margin-left: auto;
+}
+
+.finish-btn {
+    background: #7a7a7a;
+    pointer-events: none;
+}
+
+.finish-active {
+    pointer-events: auto;
+    background: #39a43d;
+    font-weight: 700;
+}
+
+.finish-active:hover {
+    background: #4ab94e;
+}
+
+.finish-active:active {
+    background: #308b33;
 }
 
 .skip-btn {
