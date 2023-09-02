@@ -66,6 +66,7 @@ def index(request: HttpRequest):
                    "status": project.get_status(),
                    "subjects" : project.get_subjects(),
                    "description": project.description,
+                   "project_level": project.get_level(),
                    "project_type": project.get_type(),
                    'problem': project.problem,
                    "relevance": project.relevance,
@@ -190,19 +191,20 @@ def correct_project(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
-        project_type = request.POST.get('project-type', -1)
+        project_level = request.POST.get('project-level', -1)
         problem = request.POST.get('problem', -1)
         relevance = request.POST.get('relevance', -1)
         target = request.POST.get('target', -1)
         tasks = request.POST.get('tasks', -1)
         expected_results = request.POST.get('expected-results', -1)
         project_type = request.POST.get('project-type', -1)
+        print(project_type)
         if name != -1:
             project.name = name
         if description != -1:
             project.description = description
-        if project_type != -1:
-            project.set_type(project_type)
+        if project_level != -1:
+            project.set_level(project_level)
         if problem != -1:
             project.problem = problem
         if relevance != -1:

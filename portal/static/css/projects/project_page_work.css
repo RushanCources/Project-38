@@ -120,13 +120,13 @@
     align-items: center;
 }
 
-.type-line {
+.level-line {
     width: 60%;
     height: 1px;
     background: rgba(0,0,0,0.3);
 }
 
-.type-label {
+.level-label {
     padding-top: 55px;
     display: flex;
     flex-direction: column;
@@ -137,9 +137,19 @@
     cursor: pointer;
 }
 
-.type-label:last-child {
+.level-label:last-child {
     background-image: url("../../img/project/noy.svg");
     background-size: 45px 45px;
+}
+
+.type-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
 }
 
 .form-input {

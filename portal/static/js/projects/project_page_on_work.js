@@ -61,19 +61,31 @@ function checking(name, is_click) {
             }
         }
     } else if (name == 'cb5') {
-        if ($('.file-name')[0].innerText != '') {
+        if (is_click) {
             let content_status = $('.content-status')[4];
             $(content_status).html(ok);
+            $('.next-btn').css({'pointer-events' : 'auto'});
         } else {
             let content_status = $('.content-status')[4];
+            $(content_status).html(not_ok);
+            if (!is_opened) {
+                $('.next-btn').css({'pointer-events' : 'none'});
+            }
+        }
+    } else if (name == 'cb6') {
+        if ($('.file-name')[0].innerText != '') {
+            let content_status = $('.content-status')[5];
+            $(content_status).html(ok);
+        } else {
+            let content_status = $('.content-status')[5];
             $(content_status).html(not_ok);
         }
 
         if ($('.file-name')[1].innerText != '') {
-            let content_status = $('.content-status')[5];
+            let content_status = $('.content-status')[6];
             $(content_status).html(ok);
         } else {
-            let content_status = $('.content-status')[5];
+            let content_status = $('.content-status')[6];
             $(content_status).html(not_ok);
         }
     }
@@ -108,7 +120,7 @@ if (is_opened) {
             checking('cb' + num_of_cb);
     
     
-            if (num_of_cb != 5) {
+            if (num_of_cb != 6) {
                 if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
                     if (!is_opened) {
                         $('.next-btn').css({'pointer-events' : 'none'});
@@ -119,7 +131,7 @@ if (is_opened) {
             if (num_of_cb == 4) {
                 $('.skip-btn').css({'display' : 'block'});
             }
-            else if (num_of_cb == 5) {
+            else if (num_of_cb == 6) {
                 $('.next-btn').css({
                     'background-url' : 'none',
                     'text-align' : 'center'
@@ -137,7 +149,7 @@ if (is_opened) {
         $(new_cb).addClass('content-block-open');
         num_of_cb++;
     
-        if (num_of_cb != 5) {
+        if (num_of_cb != 6) {
             if ($($(new_cb)[0].childNodes[3].childNodes[1]).attr('class') == 'not_ok') {
                 if (!is_opened) {
                     $('.next-btn').css({'pointer-events' : 'none'});
@@ -146,7 +158,7 @@ if (is_opened) {
         }
     
     
-        if (num_of_cb == 5) {
+        if (num_of_cb == 6) {
             $('.next-btn').css({
                 'background-url' : 'none',
                 'text-align' : 'center'
@@ -159,17 +171,26 @@ if (is_opened) {
     }
 }
 
-// выбор типа проекта
+//установление типа проекта
+$('.project-type').each(function(i, item) {
+        if (item.value == project_type){
+            item.checked = true;
+            item.onchange();
+        }
+    });
 
-$('.project-type').on('click',function() {
+
+// выбор уровня проекта
+
+$('.project-level').on('click',function() {
     if ($(this).attr('id') == 'noy') {
-        $('.input-cb2').val('НОУ');
+        $('.input-cb5').val('НОУ');
     } else if ($(this).attr('id') == 'project') {
-        $('.input-cb2').val('Проект');
+        $('.input-cb5').val('Проект');
     }
 }); 
 
-let projec_type = $('.input-cb2').val();
+let projec_type = $('.input-cb5').val();
 
 if (projec_type == 'НОУ') {
     $('#noy').click();
