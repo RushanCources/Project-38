@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load js %}
 {% block head %}
 <link rel="stylesheet" href="{%static 'css/projects/fl.css' %}">
 <link rel="stylesheet" href="{%static 'select2/css/select2.min.css' %}">
@@ -31,16 +32,15 @@
         <div class="form selects">
             <div class="tea">
                 <h3 class="h3 tea">Учитель*</h3>
-                <div class="teachers">
-                    <div class="teacher teacher-open">
-                        <select name="teacher" id="selTea" class="wf select2" multiple>
-                            {% for teacher in teachers %}
-                            <option value="{{ teacher.id }}" class="opG opt">{{ teacher.full_Name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <input type="text" class="new-teacher wf" placeholder="ФИО учителя" name="new-teacher">
+                <div>
+                    <input type="text" class="search-block-input form-input search-block-teachers teacher-open"
+                        placeholder="ФИО учителя">
+                        <input type="text" class="new-teacher wf" placeholder="ФИО учителя" name="new-teacher">
+                    <ul class="search-block-result-list"></ul>
+                    <ul class="search-block-list"></ul>
                 </div>
+                <input type="hidden" class="search-block-hidden-input" required>
+                <input type="hidden" name="teacher" class="search-block-for-teacher">
                 <div class="checkbox">
                     <input type="checkbox" name="teacher-checkbox" id="teacher-checkbox" onclick="checkbox()">
                     <label for="teacher-checkbox" class="checkbox-label">Учитель не из лицея</label>
@@ -48,13 +48,13 @@
             </div>
             <div class="subj">
                 <h3 class="h3 subj">Предмет*</h3>
-                <div class="new-theme-subjects">
-                    <input type="text" class="new-theme-subjects-input form-input"
-                        placeholder="Введите названние предметной области" id="theme_subject">
-                    <ul class="search-result-list"></ul>
-                    <ul class="new-theme-subjects-list"></ul>
+                <div>
+                    <input type="text" class="search-block-input form-input search-block-subjects"
+                        placeholder="Введите названние предметной области">
+                    <ul class="search-block-result-list"></ul>
+                    <ul class="search-block-list"></ul>
                 </div>
-                <input type="hidden" class="subject-input" name="subject" required>
+                <input type="hidden" class="search-block-hidden-input" name="subject" required>
             </div>
         </div>
         <div class="form files">
@@ -66,10 +66,40 @@
     </div>
 </form>
 
+<script src="{% static 'js/global/search_block.js' %}"></script>
 <script>
-    subjects = {{ subjects_names }}
+    let teacher_arr = {{ teachers | js }}
+    let teacher_name = [];
+
+    for (let i = 0; i < teacher_arr.length; i++) {
+        teacher_name.push(teacher_arr[i][0]);
+    }
+
+    $('.search-block-subjects').on('focus', function() {
+        list_arr = {{ subjects_names | js }};
+        max_item = 3;
+        add_other_text = true;
+    });
+
+    $('.search-block-teachers').on('focus', function() {
+        list_arr = teacher_name;
+        max_item = 1;
+        add_other_text = false;
+    });
+
+    $($('.search-block-result-list')[0]).on('click', function() {
+        let input = $('.search-block-hidden-input')[0];
+        teacher_id(input);
+        teacher_del();
+    });
+
+    function teacher_del() {
+        $($('.search-block-div')[0]).on('click', function() {
+            let input = $('.search-block-hidden-input')[0];
+            teacher_id(input);
+        });
+    }
 </script>
 
 <script src="{% static 'js/projects/create_page.js' %}"></script>
-
 {% endblock content %}
