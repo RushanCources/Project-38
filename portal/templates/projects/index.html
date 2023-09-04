@@ -32,18 +32,13 @@
 {% if user.role == "Учитель" or user.role == 'Администратор' %}
 <div class="main-nav">
     <div class="top-nav">
-        <form class="search" method="POST">
-            {% csrf_token %}
-            {% if name_filter_have %}
+        <div class="search">
             <input class="search-input" type="text" placeholder="Поиск..." name="search_names"
-                value="{{ name_filter }}">
-            {% else %}
-            <input class="search-input" type="text" placeholder="Поиск..." name="search_names">
-            {% endif %}
-            <input class="search-button" type="submit" name="search_butt">
-        </form>
+                value="{% if name_filter_have %}{{ name_filter }}{% endif %}" 
+                oninput="filter(this.value);" >
+        </div>
     </div>
-    <form class="filter" method="POST">
+    <div class="filter">
         {% csrf_token %}
         <div class="div-list">
             <p class="list-name">Группа:</p>
@@ -51,7 +46,7 @@
                 {% if group_filter_have %}
                 <p class="list-p" id="filter-group">{{ group_filter }}</p>
                 {% else %}
-                <p class="list-p" id="filter-group">Не указано</p>
+                <p class="list-p" id="filter-group" onchange="filter();">Не указано</p>
                 {% endif %}
                 <ul class="list">
                     <li class="list-li">Не указано</li>
@@ -87,7 +82,7 @@
                 {% if role_filter_have %}
                 <p class="list-p" id="filter-role">{{ role_filter }}</p>
                 {% else %}
-                <p class="list-p" id="filter-role">Не указано</p>
+                <p class="list-p" id="filter-role" onchange="filter();">Не указано</p>
                 {% endif %}
                 <ul class="list sub-list">
                     <li class="list-li">Не указано</li>
@@ -96,17 +91,15 @@
                 </ul>
             </div>
         </div>
-        <input type="number" class="input-filter input-filter-group" name="group_filter">
-        <input type="text" class="input-filter input-filter-type" name="type_filter">
-        <input class="btn btn-filter" type="submit" value="Применить" name="filter_submit" />
+        <input type="number" class="input-filter input-filter-group" name="group_filter" >
+        <input type="text" class="input-filter input-filter-type" name="type_filter" >
 
-    </form>
+    </div>
 </div>
 {% endif %}
 <div class="content">
-    {% load run %}
     {% for project in projects %}
-        {% if project.status == 'send request' %}
+        {% if project.get_status == 'send request' %}
             <a class="project project{{project.id}} send-request" href="./?id={{ project.id }}">
                 <div class="anim anim-send-request">
                     <div class="ball"></div>
@@ -117,14 +110,16 @@
                     <h2 class="title">{{ project.name }}</h2>
                     <span class="subtitle">{{ project.subjects }}</span>
                     {% if user.role == 'Ученик' %}
-                    <span>{{ project.teacher }}</span>
+                    <span>{{ project.teacher.get_full_name }}</span>
                     {% else %}
-                    <span>{{ project.student }}</span>
+                    <span class="student">{{ project.student.getPName }}</span>
+                    <span hidden class="student-group">{{project.student.group}}</span>
                     {% endif %}
+                    <span hidden class="project-type">{{project.get_level}}</span>
                 </div>
             </a>
             <!-- для проектов на этапе разработки -->
-        {% elif project.status == 'on work' %}
+        {% elif project.get_status == 'on work' %}
             <a class="project project{{project.id}} on-work" href="./?id={{ project.id }}">
                 <div class="anim-on-work">
                     <div class="gear gear1">
@@ -141,13 +136,15 @@
                     <h2 class="title">{{ project.name }}</h2>
                     <span class="subtitle">{{ project.type }} <div class="sub-ball"></div> {{ project.subjects }}</span>
                     {% if user.role == 'Ученик' %}
-                    <span>{{ project.teacher }}</span>
+                    <span>{{ project.teacher.get_full_name }}</span>
                     {% else %}
-                    <span>{{ project.student }}</span>
+                    <span class="student">{{ project.student.getPName }}</span>
+                    <span hidden class="student-group">{{project.student.group}}</span>
                     {% endif %}
+                    <span hidden class="project-type">{{project.get_level}}</span>
                 </div>
             </a>
-        {% elif project.status == 'done' %}
+        {% elif project.get_status == 'done' %}
             <!-- для выполненных проектов -->
             <a class="project project{{project.id}} done" href="./?id={{ project.id }}">
                 <div class="anim-done">
@@ -165,10 +162,12 @@
                     <h2 class="title">{{ project.name }}</h2>
                     <span class="subtitle">{{ project.type }} <div class="sub-ball"></div> {{ project.subjects }}</span>
                     {% if user.role == 'Ученик' %}
-                    <span>{{ project.teacher }}</span>
+                    <span>{{ project.teacher.get_full_name }}</span>
                     {% else %}
-                    <span>{{ project.student }}</span>
+                    <span class="student">{{ project.student.getPName }}</span>
+                    <span hidden class="student-group">{{project.student.group}}</span>
                     {% endif %}
+                    <span hidden class="project-type">{{project.get_level}}</span>
                 </div>
             </a>
         {% endif %}    

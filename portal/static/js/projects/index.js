@@ -75,3 +75,36 @@ $('.done').hover(function () {
         $(block.childNodes[1].childNodes).removeClass('dn3');
     }, 400);
 });
+
+function filter(){
+    let text = document.querySelector(".search-input").value.toLowerCase();
+    let group = document.getElementById("filter-group").innerText;
+    let type = document.getElementById("filter-role").innerText;
+    $('.project').each(function(i, element){
+        if(contains_text(element, text) && match_group(element, group) && match_type(element, type)){
+            element.style.display = 'flex';
+        }
+        else{
+            element.style.display = 'none';
+        }
+    });
+}
+
+
+function contains_text(element, text){
+    return element.querySelector('.title').textContent.toLowerCase().includes(text) || element.querySelector('.student').textContent.toLowerCase().includes(text);
+}
+
+function match_group(element, group){
+    if (group == "Не указано"){
+        return true;
+    }
+    return element.querySelector('.student-group').textContent == group;
+}
+
+function match_type(element, type){
+    if (type == "Не указано"){
+        return true;
+    }
+    return element.querySelector('.project-type').textContent == type;
+}

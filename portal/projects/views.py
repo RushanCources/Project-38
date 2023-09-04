@@ -42,24 +42,12 @@ def index(request: HttpRequest):
         context_projects = []
 
         for project in projects:
-            # files = list(File.objects.filter(project=project, version=1))
-            # variables = vars(project)
-            # values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
-            # pp = ProjectPack(**values)
-            # pp.files = files
-            full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name[0] + '. ' + project.teacher.middle_name[0] + '.'
-            full_student_name = project.student.last_name + ' ' + project.student.first_name[0] + '. ' + project.student.middle_name[0] + '.'
-            some_project = {
-                "name" : project.name,
-                "descr": project.description,
-                "status": project.get_status(),
-                "type": project.get_type(),
-                "subjects" : project.get_subjects(),
-                "teacher" : full_teacher_name,
-                "student": full_student_name,
-                "id" : project.id,
-            }
-            context_projects.append(some_project)
+            files = list(File.objects.filter(project=project, version=1))
+            variables = vars(project)
+            values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+            pp = ProjectPack(**values)
+            pp.files = files
+            context_projects.append(pp)
 
         return render(request, "projects/index.html", context={'projects': context_projects,
                                                                'has_projects': len(context_projects) > 0})
@@ -82,6 +70,7 @@ def index(request: HttpRequest):
                    "status": project.get_status(),
                    "subjects" : project.get_subjects(),
                    "description": project.description,
+                   "project_level": project.get_level(),
                    "project_type": project.get_type(),
                    'problem': project.problem,
                    "relevance": project.relevance,
@@ -209,19 +198,20 @@ def correct_project(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
-        project_type = request.POST.get('project-type', -1)
+        project_level = request.POST.get('project-level', -1)
         problem = request.POST.get('problem', -1)
         relevance = request.POST.get('relevance', -1)
         target = request.POST.get('target', -1)
         tasks = request.POST.get('tasks', -1)
         expected_results = request.POST.get('expected-results', -1)
         project_type = request.POST.get('project-type', -1)
+        print(project_type)
         if name != -1:
             project.name = name
         if description != -1:
             project.description = description
-        if project_type != -1:
-            project.set_type(project_type)
+        if project_level != -1:
+            project.set_level(project_level)
         if problem != -1:
             project.problem = problem
         if relevance != -1:
