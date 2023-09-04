@@ -42,24 +42,12 @@ def index(request: HttpRequest):
         context_projects = []
 
         for project in projects:
-            # files = list(File.objects.filter(project=project, version=1))
-            # variables = vars(project)
-            # values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
-            # pp = ProjectPack(**values)
-            # pp.files = files
-            full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name[0] + '. ' + project.teacher.middle_name[0] + '.'
-            full_student_name = project.student.last_name + ' ' + project.student.first_name[0] + '. ' + project.student.middle_name[0] + '.'
-            some_project = {
-                "name" : project.name,
-                "descr": project.description,
-                "status": project.get_status(),
-                "type": project.get_type(),
-                "subjects" : project.get_subjects(),
-                "teacher" : full_teacher_name,
-                "student": full_student_name,
-                "id" : project.id,
-            }
-            context_projects.append(some_project)
+            files = list(File.objects.filter(project=project, version=1))
+            variables = vars(project)
+            values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+            pp = ProjectPack(**values)
+            pp.files = files
+            context_projects.append(pp)
 
         return render(request, "projects/index.html", context={'projects': context_projects,
                                                                'has_projects': len(context_projects) > 0})

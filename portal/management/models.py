@@ -20,6 +20,9 @@ class User(AbstractUser):
     def set_full_name(self):
         self.full_Name = self.last_name + self.first_name + self.middle_name
     
+    def get_full_name(self) -> str:
+        return self.last_name+' '+self.first_name+' '+self.middle_name;
+
     def save_photo(self, *args, **kwargs):
         super().save()
         img = Image.open(self.avatar.path)
