@@ -103,8 +103,11 @@ def send_create_form(request: HttpRequest, context_data={}):
     print(context_data)
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
-            teachers = User.objects.filter(role="Учитель", is_other_teacher=True)
-            data = {"teachers": teachers,
+            teachers = User.objects.filter(role="Учитель", is_other_teacher=False)
+            teacher_arr = []
+            for teacher in teachers:
+                teacher_arr.append([teacher.full_Name, teacher.id])
+            data = {"teachers": teacher_arr,
                     "subjects_names": [subject.name for subject in Subject.objects.all()]}
             data.update(context_data)
             return render(request, "projects/create.html", data)
