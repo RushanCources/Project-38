@@ -94,12 +94,12 @@ function file_remove(is_load) {
     });
 }
 
-$('.covers-item').on('click', function() {
+$('.covers-list').on('click', '.covers-item', function() {
     let url = $(this).css('background-image');
     let input_url = url.slice(url.indexOf('url('));
 
     $('.covers-selected').css({'display' : 'none'});
-    $(this.childNodes[1]).css({'display' : 'flex'});
+    $(this).find('.covers-selected').css({'display' : 'flex'});
 
     $('#id_image_url').val(input_url);
 

@@ -9,6 +9,7 @@ from .forms import AnnouncementForm
 from django.core.paginator import Paginator
 from django.conf import settings
 from pathlib import Path
+from django.http import JsonResponse
 import os
 
 
@@ -227,3 +228,20 @@ def delete_announcement(request, id):
     announcement.delete()
 
     return HttpResponsePermanentRedirect('/announcements')
+
+
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
+def upload_image(request):
+    if request.method == 'POST':
+        image = request.FILES['image']
+
+        filename = os.path.join(settings.MEDIA_ROOT, 'covers', image.name)
+
+        with open(filename, 'wb') as destination:
+            for chunk in image.chunks():
+                destination.write(chunk)
+
+        image_url = os.path.join(settings.MEDIA_URL, 'covers/', image.name)
+        return JsonResponse({'success': True, 'image_url': image_url})
+
+    return JsonResponse({'success': False})
