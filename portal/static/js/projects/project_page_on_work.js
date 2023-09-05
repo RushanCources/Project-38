@@ -98,7 +98,7 @@ if (is_opened) {
 
     let i = 1;
 
-    while (i != 5) {
+    while (i != 6) {
         i++;
         checking('cb' + i);
     }
