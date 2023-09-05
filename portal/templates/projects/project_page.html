@@ -164,38 +164,39 @@
 
                 <div class="content-block cb2">
                     <div class="content-div" >
-                        <span class="span">Тип проекта*: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="question"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
-                        <div class="content-type" style="flex-direction: column;">
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Исследовательский" name="project-type" onchange="checking('cb2', true)">
-                            Исследовательский</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Информационный" name="project-type" onchange="checking('cb2', true)">
-                            Информационный</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Прикладной" name="project-type" onchange="checking('cb2', true)">
-                            Прикладной</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Ролевой(игровой)" name="project-type" onchange="checking('cb2', true)">
-                            Ролевой(игровой)</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Социальный" name="project-type" onchange="checking('cb2', true)">
-                            Социальный</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Технологический (инженерный)" name="project-type" onchange="checking('cb2', true)">
-                            Технологический (инженерный)</label>
-                            <label class="type-label">
-                                <input type="radio" class='project-type' value="Бизнес-план" name="project-type" onchange="checking('cb2', true)">
-                            Бизнес-план</label>
+                        <span class="span">Тип проекта*:</span>
+                        <div class="content-type" style="position: absolute; z-index: -10; opacity: 0;">
+                            <input type="radio" class="project-type" value="Исследовательский" name="project-type" onchange="checking('cb2', true)" id="type1">
+                            <input type="radio" class="project-type" value="Информационный" name="project-type" onchange="checking('cb2', true)" id="type2">
+                            <input type="radio" class="project-type" value="Прикладной" name="project-type" onchange="checking('cb2', true)" id="type3">
+                            <input type="radio" class="project-type" value="Ролевой(игровой)" name="project-type" onchange="checking('cb2', true)" id="type4">
+                            <input type="radio" class="project-type" value="Социальный" name="project-type" onchange="checking('cb2', true)" id="type5">
+                            <input type="radio" class="project-type" value="Технологический (инженерный)" name="project-type" onchange="checking('cb2', true)" id="type6">
+                            <input type="radio" class="project-type" value="Бизнес-план" name="project-type" onchange="checking('cb2', true)" id="type7">
                                 <!-- Инфу брал отсюда https://lyc507u.mskobr.ru/users_files/lyc507u/%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B/%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D0%BE%D0%B9%20%D0%B4%D0%B5%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8%202019.pdf                                 -->
+                        </div>
+                        <div class="content-type-blocks">
+                            <label for="type1" class="content-type-label label1">Исследовательский</label>
+                            <label for="type2" class="content-type-label label2">Информационный</label>
+                            <label for="type3" class="content-type-label label3">Прикладной</label>
+                            <label for="type4" class="content-type-label label4">Ролевой(игровой)</label>
+                            <label for="type5" class="content-type-label label5">Социальный</label>
+                            <label for="type6" class="content-type-label label6">Технологический (инженерный)</label>
+                            <label for="type7" class="content-type-label label7">Бизнес-план</label>
+                            <label class="content-type-label content-type-answer">
+                                <span class="ans ans1">Деятельность учащихся с решением проблемы, включающая основные этапы исследования.</span>
+                                <span class="ans ans2">Работа с информацией о объекте/явлении, ознакомление, анализ и обобщение для широкой аудитории.</span>
+                                <span class="ans ans3">Проект с четко обозначенным результатом с самого начала.</span>
+                                <span class="ans ans4">Cтруктура проекта намечается и остается открытой до конца. Участники принимают определенные роли, связанные проектом.</span>
+                                <span class="ans ans5">Решение проблем соц. групп или общества. Основа — неудовлетворенность потребностей или конфликт интересов.</span>
+                                <span class="ans ans6">Нацелен на освоение учащимися элементов инженерной технологии разработки и внедрения технических устройств.</span>
+                                <span class="ans ans7">Проект для получения опыта в коммерческой сфере и освоения алгоритмов создания и продвижения нового продукта.</span>
+                            </label>
                         </div>
                     </div>
                     <div class="content-status">
                         <svg class="not_ok" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"> <path d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z" fill="#e24a4a" /> </svg>
                     </div>
-                    <p class="help">
-                        Тип школьного проекта может быть НОУ (научное общество учащихся) или обычным проектом. <br><br> НОУ -  добровольное общественное объединение учащихся 2-11 классов, которые стремятся к более глубокому познанию достижений в различных областях науки. <br><br> Обычный проект может быть любого характера: исследовательский, социальный, технический и т. д., и основывается на интересах и тематике ученика.
-                    </p>
                 </div>
 
                 <div class="content-block cb3">
@@ -450,7 +451,7 @@
                                                             fill=" #5A88FF" />
                                                     </svg>
                                                 </button>
-                                                <button type="submit" class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
+                                                <button class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
                                                     title="Посмотреть предыдущие версии файла" type="button">
                                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                         xmlns="http://www.w3.org/2000/svg">
