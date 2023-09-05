@@ -14,20 +14,13 @@ import os
 
 def index(request):
 
-    group = None
-    superuser = False
     anns = Announcement.objects.all()
 
     paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
-    if request.user.groups.exists():
-        group = request.user.groups.all()[0].name
-    if group in ['Teacher', 'admin']:
-        superuser = True
-
-    data = {'superuser': superuser, 'page_announcements': page_announcements, 'count': anns.count()}
+    data = {'page_announcements': page_announcements, 'count': anns.count()}
 
     return render(request, 'dec/dec.html', context=data)
 
@@ -87,6 +80,12 @@ def editor(request, id):
 
     try:
         announcement = Announcement.objects.get(id=id)
+
+        if request.user.id == announcement.author_id or request.user.role == 'Администратор':
+            pass
+        else:
+            return HttpResponsePermanentRedirect('/announcements')
+
         initial_data = {
             'title': announcement.title,
             'body': announcement.body,
@@ -135,7 +134,7 @@ def editannouncement(request, id):
         files_to_delete = request.POST.get('file_id_to_delete')
         image_url = request.POST.get('image_url')   
 
-        if int(files_to_delete) is not -1:
+        if int(files_to_delete) != -1:
 
             if ',' in files_to_delete:
                 files_to_delete = files_to_delete.split(',')
@@ -211,6 +210,11 @@ def delete_announcement(request, id):
 
     if request.method != 'GET':
         return render(request, 'WrongData.html')
+
+    if request.user.id == Announcement.objects.get(id=id).author_id or request.user.role == 'Администратор':
+        pass
+    else:
+        return HttpResponsePermanentRedirect('/announcements')
 
     announcement = Announcement.objects.get(id=id)
 

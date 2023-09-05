@@ -13,14 +13,14 @@
                 <input value="{{ search_value }}" name="q" class="search-input" type="text" placeholder="Поиск...">
                 <button class="search-button"></button>
             </div>
-            {% comment %} {% if user.role == administrator or user.role == teacher %} {% endcomment %}
+            {% if user.role == 'Администратор' or user.role == 'Учитель' %}
                 <a href="{% url 'redactor' %}" class="create-link">
                     <span>Создать объявление</span>
                     <svg width="20" height="20" viewBox="0 0 200 200" style="transform: rotate(45deg)">
                         <path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#FFFFFF"></path>
                     </svg>
               </a>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
         </form>
     </div>
 
@@ -50,7 +50,7 @@
                             {% endif %}
                         </button>
     
-                        {% if announcement.author == user.username or user.role == 'Администратор' %}
+                        {% if announcement.author_id == user.id or user.role == 'Администратор' %}
                         <a href="{% url 'delete' announcement.id %}" class="delete-btn" title="Удалить объявление">
                             <svg viewBox="0 0 200 200" width="22px" height="22px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
                         </a>
@@ -60,6 +60,7 @@
                 </div>
                 <div class="middle-info">
                     <h2 class="announ-title">{{ announcement.title }}</h2>
+                    {% if announcement.author_id == user.id or user.role == 'Администратор' %}
                     <a href="{% url 'redactor' %}/{{ announcement.id }}">
                         <svg height="20px" version="1.1" viewBox="0 0 18 18" width="20px">
                             <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
@@ -73,6 +74,7 @@
                             </g>
                         </svg>
                     </a>
+                    {% endif %}
                 </div>
                 <p class="announ-descr">{{ announcement.body }}</p>
                 <button class="announ-btn">Подробнее</button>
