@@ -73,7 +73,12 @@
     margin-bottom: 5px;
 }
 
-.teacher, .new-teacher {
+.new-teacher {
+    display: none;
+    margin-bottom: 15px;
+}
+
+.search-block-teachers {
     display: none;
 }
 
@@ -91,6 +96,7 @@
 
 .tea {
     width: 40%;
+    position: relative;
 }
 
 .subj {
@@ -181,7 +187,7 @@
 .form-input {
     width: 100%;
     border-radius: 5px;
-    padding: 10px 5px;
+    padding: 10px;
     border: 1px solid #00000030;
     color: #000;
     font-size: 16px;
@@ -189,23 +195,7 @@
     margin-bottom: 15px;
 }
 
-.new-theme-btns {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.new-theme-textarea {
-    min-height: 180px;
-    resize: none;
-    color: #000;
-    font-size: 16px;
-    line-height: 18px;
-    font-weight: 400;
-    font-family: inherit;
-}
-
-.search-result-list {
+.search-block-result-list {
     margin-top: -15px;
     position: absolute;
     z-index: 4;
@@ -216,26 +206,25 @@
     overflow-y: auto;
 }
 
-.search-result-item {
+.search-block-result-item {
     padding: 10px;
     font-size: 16px;
     font-weight: 300;
     cursor: pointer;
 }
 
-.search-result-item:hover {
+.search-block-result-item:hover {
     background: #ccc;
 }
 
-.new-theme-subjects-list {
+.search-block-list {
     flex-wrap: wrap;
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 15px;
     gap: 10px;
 }
 
-.new-theme-subjects-div {
+.search-block-div {
     position: absolute;
     top: -7.5px;
     right: -7.5px;
@@ -246,7 +235,7 @@
     cursor: pointer;
 }
 
-.new-theme-subjects-item {
+.search-block-item {
     position: relative;
     padding: 5px 15px;
     border: 1px solid #1f3f76;
