@@ -682,7 +682,7 @@
                         </a>
                     </label>
                     </li>
-                    {% if annotation == not None %}
+                    {% if annotation is not None %}
                     <li class="file-item">
                     <label class="file-label txt">
                         <a href="{% url 'download_file' %}?file_id={{annotation.id}}" title="Загрузить файл" class="download-link">
