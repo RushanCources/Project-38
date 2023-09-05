@@ -171,11 +171,35 @@ if (is_opened) {
     }
 }
 
-//установление типа проекта
+// установление типа проекта
+
+$('.content-type-label').hover(function(){
+    if (!$(this).hasClass('content-type-answer')) {
+        let type_class = '.ans' + $(this).attr('class').replace('content-type-label label', '', 1);
+        $(type_class).addClass('ans-open');
+    }
+}, function() {
+    if (!$(this).hasClass('content-type-answer')) {
+        let type_class = '.ans' + $(this).attr('class').replace('content-type-label label', '', 1);
+        $(type_class).removeClass('ans-open');
+    }
+});
+
+$('.content-type-label').on('click', function() {
+    let type_class = '.ans' + $(this).attr('class').replace('content-type-label label', '', 1);
+    $('.ans').removeClass('ans-active');
+    $('.ans').removeClass('ans-open');
+    $(type_class).addClass('ans-active');
+    $('.content-type-label').removeClass('type-label-active');
+    $(this).addClass('type-label-active');
+});
+
+// установление уровня проекта
 $('.project-type').each(function(i, item) {
         if (item.value == project_type){
             item.checked = true;
             item.onchange();
+            $('.label' + (i + 1)).click();
         }
     });
 

@@ -18,7 +18,7 @@ class Project(Model):
     _subjects = CharField(max_length=100, null=True)
     _levels = ['Проект', 'НОУ']
     _level = CharField(max_length=10, null=True)
-    _types = ['Исследовательский', 'Информационный', 'Прикладной', 'Ролевой(игровой)', 'Социальный', 'Технологическийт (инженерный)', 'Бизнес-план']
+    _types = ['Исследовательский', 'Информационный', 'Прикладной', 'Ролевой(игровой)', 'Социальный', 'Технологический (инженерный)', 'Бизнес-план']
     _type = CharField(max_length=10, null=True)
     problem = CharField(max_length=1000, null=True)
     relevance = CharField(max_length=1000, null=True)
