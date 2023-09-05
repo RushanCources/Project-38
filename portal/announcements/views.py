@@ -11,7 +11,7 @@ from django.conf import settings
 from pathlib import Path
 from django.http import JsonResponse
 import os
-
+from django.core.files.storage import FileSystemStorage
 
 def index(request):
 
@@ -243,5 +243,24 @@ def upload_image(request):
 
         image_url = os.path.join(settings.MEDIA_URL, 'covers/', image.name)
         return JsonResponse({'success': True, 'image_url': image_url})
+
+    return JsonResponse({'success': False})
+
+
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
+def delete_cover(request):
+    if request.method == 'POST':
+        cover_url = request.POST.get('cover_url')
+
+        fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+        file_path = fs.path(str(settings.BASE_DIR).replace('\\', '/') + cover_url)
+
+        try:
+            fs.delete(file_path)
+            return JsonResponse({'success': True})
+        except FileNotFoundError:
+            return JsonResponse({'success': False, 'message': 'File not found.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
 
     return JsonResponse({'success': False})
