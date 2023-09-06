@@ -12,6 +12,8 @@ from pathlib import Path
 from django.http import JsonResponse
 import os
 from django.core.files.storage import FileSystemStorage
+import urllib.parse
+
 
 def index(request):
 
@@ -234,15 +236,21 @@ def delete_announcement(request, id):
 def upload_image(request):
     if request.method == 'POST':
         image = request.FILES['image']
+        valid_extensions = ['.png', '.jpg', '.jpeg', '.pjp', '.jfif', '.svgz', '.jxl', '.ico', '.tiff', '.avif', '.svg', '.tif', '.gif', '.xbm', '.pjpeg', '.bmp', '.webp']
 
-        filename = os.path.join(settings.MEDIA_ROOT, 'covers', get_unique_filename(image.name, os.path.join(settings.MEDIA_ROOT, 'covers')))
+        file_extension = os.path.splitext(image.name)[1].lower()
 
-        with open(filename, 'wb') as destination:
-            for chunk in image.chunks():
-                destination.write(chunk)
+        if file_extension in valid_extensions:
+            filename = os.path.join(settings.MEDIA_ROOT, 'covers', get_unique_filename(image.name, os.path.join(settings.MEDIA_ROOT, 'covers')))
 
-        image_url = os.path.join(settings.MEDIA_URL, 'covers/', image.name)
-        return JsonResponse({'success': True, 'image_url': image_url})
+            with open(filename, 'wb') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
+
+            image_url = os.path.join(settings.MEDIA_URL, 'covers/', image.name)
+            return JsonResponse({'success': True, 'image_url': image_url})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid file format'})
 
     return JsonResponse({'success': False})
 
@@ -250,7 +258,7 @@ def upload_image(request):
 @allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def delete_cover(request):
     if request.method == 'POST':
-        cover_url = request.POST.get('cover_url')
+        cover_url = urllib.parse.unquote(request.POST.get('cover_url')) # Раскодируем для того чтобы ничего не сломалось
 
         fs = FileSystemStorage(location=settings.MEDIA_ROOT)
         file_path = fs.path(str(settings.BASE_DIR).replace('\\', '/') + cover_url)
