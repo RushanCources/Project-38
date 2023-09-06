@@ -235,7 +235,7 @@ def upload_image(request):
     if request.method == 'POST':
         image = request.FILES['image']
 
-        filename = os.path.join(settings.MEDIA_ROOT, 'covers', image.name)
+        filename = os.path.join(settings.MEDIA_ROOT, 'covers', get_unique_filename(image.name, os.path.join(settings.MEDIA_ROOT, 'covers')))
 
         with open(filename, 'wb') as destination:
             for chunk in image.chunks():
@@ -264,3 +264,15 @@ def delete_cover(request):
             return JsonResponse({'success': False, 'message': str(e)})
 
     return JsonResponse({'success': False})
+
+
+def get_unique_filename(base_filename, directory):
+    filename, file_extension = os.path.splitext(base_filename)
+    i = 1
+    new_filename = base_filename
+
+    while os.path.exists(os.path.join(directory, new_filename)):
+        new_filename = f"{filename}_{i:02d}{file_extension}"
+        i += 1
+
+    return new_filename
