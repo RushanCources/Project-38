@@ -51,9 +51,9 @@
                         </button>
     
                         {% if announcement.author_id == user.id or user.role == 'Администратор' %}
-                        <a href="{% url 'delete' announcement.id %}" class="delete-btn" title="Удалить объявление">
-                            <svg viewBox="0 0 200 200" width="22px" height="22px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
-                        </a>
+                        <button class="announ-delete-btn" onclick="del_open(`{% url 'delete' announcement.id %}`)">
+                            <svg viewBox="0 0 200 200" width="20px" height="20px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
+                        </button>
                         {% endif %}
                     </div>
 
@@ -96,76 +96,22 @@
         </div>
         {% endfor %}
     </div>
-    <script>
-        $('.btn-dec').on('click', function () {
-            let ul = this.parentNode.childNodes[3];
-            if ($(ul).hasClass('ul-open')) {
-                $(ul).removeClass('ul-open');
-            } else {
-                $(ul).addClass('ul-open');
-            }
-        });
-    </script>
-
+    <div class="back-form"></div>
 
 <!-- Кнопка для подгрузки новых объявлений, если их будет больше 20 (Надо сделать красивой) -->
 <button id="load-more-button" class="load-btn">Загрузить ещё</button>
 
-<!-- Почти весь скрипт ниже сделан с помощью ChatGPT потому что я не шарю в джаваскрипте, поправьте если плохо -->
-<!-- Все что он делает - реализует функционал страничек объявлений, добавляя кнопку на подгрузку объявлений, если их будет слишком много. По идее можно ничего не трогать, все работает -->
+<div class="delete-div">
+    <p class="delete-title">Вы уверены, что хотите удалить объявление?</p>
+    <div class="delete-btns">
+        <button class="delete-btn" type="button" onclick="del_exit()">Отмена</button>
+        <a href="#" class="delete-btn delete-btn-link">Удалить</a>
+    </div>
+</div>
 
 <script>
-    $(document).ready(function() {
-        var page = 2;  // Start from page 2 since page 1 is already loaded
-        var totalAnnouncements = {{ count }};
-
-        function checkLoadMoreButtonVisibility() {
-            var loadedAnnouncements = $('.announ').length;
-            if (loadedAnnouncements >= totalAnnouncements) {
-                $("#load-more-button").hide();
-            } else {
-                $("#load-more-button").show();
-            }
-        }
-
-        checkLoadMoreButtonVisibility();  // Initially check button visibility
-
-        $("#load-more-button").click(function() {
-            var query = encodeURIComponent('{{ search_value }}');
-            $.get('?q=' + query + '&page=' + page, function(data) {
-                var newAnnouncements = $(data).find('.announ');
-                if (newAnnouncements.length > 0) {
-                    $("#FSL").append(newAnnouncements);
-                    page++;
-                    checkLoadMoreButtonVisibility();  // Check and update button visibility
-                } else {
-                    $("#load-more-button").hide();
-                }
-            });
-        });
-
-        let descr = $('.announ-descr');
-
-        for (let i = 0; i < descr.length; i++) {
-            if (descr[i].offsetHeight > 250) {
-                $($('.announ-btn')[i]).addClass('announ-btn-active');
-                $(descr[i]).addClass('announ-descr-close');
-            }
-        }
-
-        $('.announ-btn').on('click', function() {
-            descr = this.parentNode.childNodes[5];
-            if ($(descr).hasClass('announ-descr-close')) {
-                $(descr).removeClass('announ-descr-close');
-                $(descr).addClass('announ-descr-open');
-                $(this).html('Скрыть');
-            } else if ($(descr).hasClass('announ-descr-open')) {
-                $(descr).removeClass('announ-descr-open');
-                $(descr).addClass('announ-descr-close');
-                $(this).html('Подробнее');
-            }
-        });
-    });
+        let totalAnnouncements = {{ count }};
 </script>
+<script src="{% static 'js/announcement/dec.js' %}"></script>
 
 {% endblock content %}

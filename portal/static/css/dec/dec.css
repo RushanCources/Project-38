@@ -86,7 +86,6 @@
 }
 
 .create-link:hover > span {
-    padding-right: 5px;
     max-width: 500px;
     transition: max-width 0.3s cubic-bezier(1, 0, 1, 0);
 }
@@ -148,6 +147,22 @@
 
 .favourite-btn:hover {
     fill: #bdbdbd;
+}
+
+.announ-delete-btn {
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s linear;
+}
+
+.announ-delete-btn:hover {
+    background: rgba(0,0,0,.1);
 }
 
 .middle-info {
@@ -291,6 +306,71 @@
 
 .load-btn:active {
     background: #3e5e96;
+}
+
+.delete-div {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 45px;
+    min-height: 300px;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    border-radius: 5px;
+}
+
+.delete-active {
+    display: flex;
+}
+
+.delete-title {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+
+}
+
+.delete-btns {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-btn {
+    padding: 10px 30px;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #103A84;
+    color: #fff;
+    transition: background 0.3s linear;
+}
+
+.delete-btn:hover {
+    background: #0d306d;
+}
+
+.delete-btn:active {
+    background: #3e5e96;
+}
+
+.back-form {
+    display: none;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background: #00000072;
 }
 
 @media (max-width: 2000px){
