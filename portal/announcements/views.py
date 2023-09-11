@@ -137,7 +137,7 @@ def editannouncement(request, id):
         files_to_delete = request.POST.get('file_id_to_delete')
         image_url = request.POST.get('image_url')   
 
-        if int(files_to_delete) != -1:
+        if files_to_delete != '-1':
 
             if ',' in files_to_delete:
                 files_to_delete = files_to_delete.split(',')
