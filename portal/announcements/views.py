@@ -214,9 +214,7 @@ def delete_announcement(request, id):
     if request.method != 'GET':
         return render(request, 'WrongData.html')
 
-    if request.user.id == Announcement.objects.get(id=id).author_id or request.user.role == 'Администратор':
-        pass
-    else:
+    if request.user.id != Announcement.objects.get(id=id).author_id and request.user.role != 'Администратор':
         return HttpResponsePermanentRedirect('/announcements')
 
     announcement = Announcement.objects.get(id=id)
