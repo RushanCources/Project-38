@@ -20,7 +20,7 @@ def index(request):
 
     anns = Announcement.objects.all().order_by('-is_pinned')
 
-    paginator = Paginator(anns, 2) # Сколько объявлений на странице
+    paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
@@ -183,7 +183,7 @@ def search(request):
 
     anns = Announcement.objects.filter(query_filter).order_by('-is_pinned')
 
-    paginator = Paginator(anns, 2) # Сколько объявлений на странице
+    paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
