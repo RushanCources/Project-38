@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date
 from .decorators import allowed_users
@@ -16,10 +16,11 @@ import urllib.parse
 
 
 def index(request):
+    """Отвечает за рендер шаблона главной страницы"""
 
-    anns = Announcement.objects.all()
+    anns = Announcement.objects.all().order_by('-is_pinned')
 
-    paginator = Paginator(anns, 20) # Сколько объявлений на странице
+    paginator = Paginator(anns, 2) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
@@ -180,20 +181,22 @@ def search(request):
         query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(
             author__first_name__icontains=word) | Q(author__last_name__icontains=word)
 
-    anns = Announcement.objects.filter(query_filter)
+    anns = Announcement.objects.filter(query_filter).order_by('-is_pinned')
 
-    paginator = Paginator(anns, 20) # Сколько объявлений на странице
+    paginator = Paginator(anns, 2) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
     data = {
         'page_announcements': page_announcements,
         'search_value': query,
+        'count': anns.count(),
     }
     return render(request, 'dec/dec.html', context=data)
 
 
 def announcement(request, id):
+    """Отвечает за рендер шаблона объявления (не готово)"""
     try:
         announcement = Announcement.objects.get(id=id)
 
@@ -232,6 +235,7 @@ def delete_announcement(request, id):
 
 @allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def upload_image(request):
+    """Загружает обложку на сервер и отправляет response в ajax"""
     if request.method == 'POST':
         image = request.FILES['image']
         valid_extensions = ['.png', '.jpg', '.jpeg', '.pjp', '.jfif', '.svgz', '.jxl', '.ico', '.tiff', '.avif', '.svg', '.tif', '.gif', '.xbm', '.pjpeg', '.bmp', '.webp']
@@ -255,6 +259,7 @@ def upload_image(request):
 
 @allowed_users(allowed_roles=['Учитель', 'Администратор'])
 def delete_cover(request):
+    """Удаляет обложку с сервера и отправляет response в ajax"""
     if request.method == 'POST':
         cover_url = urllib.parse.unquote(request.POST.get('cover_url')) # Раскодируем для того чтобы ничего не сломалось
 
@@ -273,6 +278,7 @@ def delete_cover(request):
 
 
 def get_unique_filename(base_filename, directory):
+    """Обеспечивает уникальное имя каждой обложки"""
     filename, file_extension = os.path.splitext(base_filename)
     i = 1
     new_filename = base_filename

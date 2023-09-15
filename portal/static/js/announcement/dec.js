@@ -12,7 +12,7 @@ function checkLoadMoreButtonVisibility() {
 checkLoadMoreButtonVisibility();  // Initially check button visibility
 
 $("#load-more-button").click(function () {
-    let query = encodeURIComponent('{{ search_value }}');
+    let query = encodeURIComponent(searchValue);
     $.get('?q=' + query + '&page=' + page, function (data) {
         let newAnnouncements = $(data).find('.announ');
         if (newAnnouncements.length > 0) {

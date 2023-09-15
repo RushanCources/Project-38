@@ -91,11 +91,11 @@
                     <div>
                         <a href="#" class="announ-author">{{ announcement.author }}</a>
                     </div>
-                    {% load split_filter %}
+                    {% load filters %}
                     <ul class="announ-files-list">
                         {% for file in announcement.files.all %}
                         <li class="announ-files-item">
-                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split }}</a>
+                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split|encode }}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -107,7 +107,6 @@
     </div>
     <div class="back-form"></div>
 
-<!-- Кнопка для подгрузки новых объявлений, если их будет больше 20 (Надо сделать красивой) -->
 <button id="load-more-button" class="load-btn">Загрузить ещё</button>
 
 <div class="delete-div">
@@ -120,6 +119,7 @@
 
 <script>
         let totalAnnouncements = {{ count }};
+        let searchValue = '{{ search_value }}';
 </script>
 <script src="{% static 'js/announcement/dec.js' %}"></script>
 
