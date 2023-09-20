@@ -21,3 +21,17 @@ function file_id_update(id) {
     id_arr.push(id);
     $('.fitd').val(id_arr);
 }
+
+let url = $('#id_image_url').val();
+
+let covers = $('.covers-content');
+let preview_img = $('.announ-img').attr('style');
+
+for (let i = 0; i < covers.length; i++) {
+    let styles = $(covers[i]).attr('style');
+    styles = styles.replace("background-image: url('", '', 1);
+    styles = styles.replace("')", '', 1);
+    if (preview_img.includes(styles)) {
+        $(covers[i]).click();
+    }
+}

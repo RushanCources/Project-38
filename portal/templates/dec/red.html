@@ -74,7 +74,21 @@
     <div class="announ-content">
         <div class="top-info">
             <div class="top-info-text">
-                <span class="date">c <span class="date-start"></span> до <span class="date-end"></span></span>
+                {% if announcement.date_of_expiring %}
+                    {% if announcement.updated_at == announcement.created_at %}
+                    <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                    {% else %}
+                    <span class="change">изм.</span>
+                    <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                    {% endif %}
+                {% else %}    
+                    {% if announcement.updated_at == announcement.created_at %}
+                    <span class="date">{{ announcement.created_at }}</span>
+                    {% else %}
+                    <span class="change">изм.</span>
+                    <span class="date">{{ announcement.updated_at }}</span>
+                    {% endif %}
+                {% endif %}
             </div>
             <button class="favourite-btn" title="Закрепить">
                 <svg class="favourite-svg" width="18" height="18" viewBox="0 0 18 18" fill="inherit">
