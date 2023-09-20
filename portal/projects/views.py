@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
@@ -27,26 +28,26 @@ def index(request: HttpRequest):
             projects = Project.objects.filter(student=request.user)
         elif request.user.role == 'Учитель':
             projects = Project.objects.filter(teacher=request.user)
+        elif request.user.role == 'Администратор':
+            projects = Project.objects.all()
         else:
             projects = []
 
-        # это классы для более удобного доступа к данным в шаблоне
-        @dataclass
-        class FilePack:
-            file: File
-            name: str
-
-        @dataclass
-        class ProjectPack:
-            project: Project
-            files: list[FilePack]
+        # это класс для более удобного доступа к данным в шаблоне
+        class ProjectPack(Project):
+            files: list[File] = []
 
         # упаковка проектов и файлов в один массив состоящий из объектов класса ProjectPack
+        
         context_projects = []
 
         for project in projects:
-            files = [FilePack(file, file.file.name.split('/')[-1]) for file in File.objects.filter(project=project, version=1)]
-            context_projects.append(ProjectPack(project, files))
+            files = list(File.objects.filter(project=project, version=1))
+            variables = vars(project)
+            values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+            pp = ProjectPack(**values)
+            pp.files = files
+            context_projects.append(pp)
 
         return render(request, "projects/index.html", context={'projects': context_projects,
                                                                'has_projects': len(context_projects) > 0})
@@ -57,16 +58,19 @@ def index(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         abstract_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
         presentation_file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
-        defence_file = File.objects.filter(project=project, version=1, _tag='Защита').first()
+        annotation_file = File.objects.filter(project=project, version=1, _tag='Аннотация').first()
         other_files = File.objects.filter(project=project, version=1, _tag='Другое')
+        full_teacher_name = project.teacher.last_name + ' ' + project.teacher.first_name + ' ' + project.teacher.middle_name
+        full_student_name = project.student.last_name + ' ' + project.student.first_name + ' ' + project.student.middle_name
         context = {"name": project.name,
-                   "teacher": project.teacher.fullName(),
-                   "student": project.student.fullName(),
+                   "teacher": full_teacher_name,
+                   "student": full_student_name,
                    "avaurl_of_teacher": project.teacher.avatar.url,
                    "avaurl_of_student": project.student.avatar.url,
                    "status": project.get_status(),
                    "subjects" : project.get_subjects(),
                    "description": project.description,
+                   "project_level": project.get_level(),
                    "project_type": project.get_type(),
                    'problem': project.problem,
                    "relevance": project.relevance,
@@ -79,8 +83,8 @@ def index(request: HttpRequest):
                    'old_abstracts': abstract_file.get_prevent_files() if abstract_file is not None else [],
                    'presentation': presentation_file,
                    'old_presentation': presentation_file.get_prevent_files() if presentation_file is not None else [],
-                   'defence': defence_file,
-                   'old_defence': defence_file.get_prevent_files() if defence_file is not None else [],
+                   'annotation': annotation_file,
+                   'old_annotation': annotation_file.get_prevent_files() if annotation_file is not None else [],
                    'other_files': other_files,
                    'old_other_files': [other_file.get_prevent_files() for other_file in other_files],
                    'all_subjects_names': [subject.name for subject in Subject.objects.all()]
@@ -95,13 +99,17 @@ def index(request: HttpRequest):
 
 
 # отправка страницы с формой для подачи заявки на проект
-def send_create_form(request: HttpRequest, context_theme={}):
+def send_create_form(request: HttpRequest, context_data={}):
+    print(context_data)
     if request.user.is_authenticated:
         if request.user.role == "Ученик":
-            teachers = User.objects.filter(role="Учитель")
-            data = {"teachers": teachers,
+            teachers = User.objects.filter(role="Учитель", is_other_teacher=False)
+            teacher_arr = []
+            for teacher in teachers:
+                teacher_arr.append([teacher.full_Name, teacher.id])
+            data = {"teachers": teacher_arr,
                     "subjects_names": [subject.name for subject in Subject.objects.all()]}
-            data.update(context_theme)
+            data.update(context_data)
             return render(request, "projects/create.html", data)
     return render(request, "NotEnoughPermissions.html")
 
@@ -133,30 +141,35 @@ def create(request: HttpRequest):
     subject = request.POST.get("subject")
     name = request.POST.get("name")
     is_another_teacher = request.POST.get('teacher-checkbox')
+    description = request.POST.get('description', '')
+
     try:
+
         if is_another_teacher == 'on':  # если учитель не из лицея
             another_teacher = request.POST.get("new-teacher", -1)
             if another_teacher == -1:
                 messages.error(request, 'Неверно введённые данные')
-                return render(request, "projects/create.html")
+                return send_create_form(request, context_data={'name': name, 'description': description})
             last_user = User.objects.last()
             if last_user is None:
                 new_id = 1
             else:
                 new_id = last_user.pk + 1
-            teacher: User = User.objects.create_user(username=new_id, first_name=another_teacher.split()[0],
-                                                     last_name=another_teacher.split()[1], middle_name=another_teacher.split()[2],
+            teacher: User = User.objects.create_user(username=new_id, first_name=another_teacher.split()[1],
+                                                     last_name=another_teacher.split()[0], middle_name=another_teacher.split()[2],
                                                      role='Учитель', id=new_id)
             teacher.set_password(User.objects.make_random_password(30))
+            teacher.is_other_teacher = True
             teacher.save()
         else:
             if teacher_id == -1:
                 messages.error(request, 'Неверно введённые данные')
-                return render(request, "projects/create.html")
+                print({'name': name, 'description': description})
+                return send_create_form(request, context_data={'name': name, 'description': description})
             teacher = User.objects.get(id=teacher_id)
+
         if teacher.role != "Учитель":
-            return render(request, "WrongData.html")
-        description = request.POST.get('description', '')
+            return send_create_form(request, context_data={'name': name, 'description': description})
         project = Project.objects.create(name=name, teacher=teacher, student=request.user)
         if description != -1:
             project.description = description
@@ -170,7 +183,8 @@ def create(request: HttpRequest):
         return render(request, "projects/success.html")
     except User.DoesNotExist:  # если не удалось получить пользователя из бд
         return render(request, "WrongData.html")
-    except BaseException:  # если возникла непредвиденная ошибка
+    except BaseException as e:  # если возникла непредвиденная ошибка
+        print(e)
         return render(request, "FatalError.html")
 
 
@@ -184,19 +198,20 @@ def correct_project(request: HttpRequest):
             return render(request, "NotEnoughPermissions.html")
         name = request.POST.get("name", -1)
         description = request.POST.get("description", -1)
-        project_type = request.POST.get('project-type', -1)
+        project_level = request.POST.get('project-level', -1)
         problem = request.POST.get('problem', -1)
         relevance = request.POST.get('relevance', -1)
         target = request.POST.get('target', -1)
         tasks = request.POST.get('tasks', -1)
         expected_results = request.POST.get('expected-results', -1)
         project_type = request.POST.get('project-type', -1)
+        print(project_type)
         if name != -1:
             project.name = name
         if description != -1:
             project.description = description
-        if project_type != -1:
-            project.set_type(project_type)
+        if project_level != -1:
+            project.set_level(project_level)
         if problem != -1:
             project.problem = problem
         if relevance != -1:
@@ -214,7 +229,7 @@ def correct_project(request: HttpRequest):
         request.user.save()
         abstract_file = request.FILES.get('abstract', -1)
         presentation_file = request.FILES.get('presentation', -1)
-        defence_file = request.FILES.get('defence', -1)
+        annotation_file = request.FILES.get('annotation', -1)
         if abstract_file != -1:
             file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
             if  file is None:
@@ -231,14 +246,14 @@ def correct_project(request: HttpRequest):
                 file.save()
             else:
                 file.update_file(presentation_file)
-        if defence_file != -1:
-            file = File.objects.filter(project=project, version=1, _tag='Защита').first()
+        if annotation_file != -1:
+            file = File.objects.filter(project=project, version=1, _tag='Аннотация').first()
             if  file is None:
-                file = File.objects.create(project=project, file=defence_file, version=1)
-                file.set_tag('Защита')
+                file = File.objects.create(project=project, file=annotation_file, version=1)
+                file.set_tag('Аннотация')
                 file.save()
             else:
-                file.update_file(defence_file)
+                file.update_file(annotation_file)
         return redirect(f"{reverse('projects')}?id={project_id}")
     except Project.DoesNotExist:  # если не удалось получить проект из бд
         return render(request, "WrongData.html")

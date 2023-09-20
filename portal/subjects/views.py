@@ -72,7 +72,7 @@ def use_theme(request: HttpRequest):
     try:
         theme = Theme.objects.get(id=theme_id)
         context = {'name': theme.name,
-                   'description': theme.descript}
-        return send_create_form(request, context_theme=context)
+                  'description': theme.descript}
+        return send_create_form(request, context_data=context)
     except Theme.DoesNotExist:
         redirect('theme_list')

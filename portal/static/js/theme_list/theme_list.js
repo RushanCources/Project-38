@@ -130,17 +130,21 @@ function subject_remove() {
 }
 
 $('.new-theme-subjects-input').on('blur', function () {
-    let len = $('.new-theme-subjects-list')[0].childNodes.length;
-    if (len < 3) {
-        let text = $('.new-theme-subjects-input').val().trim();
-        if (text != '' && text.length > 3) {
-            create(text);
+    let results = $('.search-result-item').length;
 
-            let input = $('.subject-input').val();
-            if (input == '') {
-                $(".subject-input").val(input + text);
-            } else {
-                $(".subject-input").val(input + ',' + text);
+    if (results < 1) {
+        let len = $('.new-theme-subjects-list')[0].childNodes.length;
+        if (len < 3) {
+            let text = $('.new-theme-subjects-input').val().trim();
+            if (text != '' && text.length > 3) {
+                create(text);
+    
+                let input = $('.subject-input').val();
+                if (input == '') {
+                    $(".subject-input").val(input + text);
+                } else {
+                    $(".subject-input").val(input + ',' + text);
+                }
             }
         }
     }
@@ -178,8 +182,8 @@ $('.edit').on('click', function () {
         li.append(div);
         subject_remove();
     }
-    let title = block.childNodes[3].childNodes[1].innerHTML;
-    let descr = block.childNodes[3].childNodes[3].innerHTML;
+    let title = block.childNodes[3].childNodes[1].innerText;
+    let descr = block.childNodes[3].childNodes[3].innerText;
     let theme_id = $(block).attr('id');
     let subject_input = block.childNodes[1].innerText;
     console.log(subject_input);

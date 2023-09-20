@@ -1,8 +1,3 @@
-$('.select2').select2({
-    placeholder: 'ФИО учителя',
-    maximumSelectionLength: 1
-})
-
 let files = [];
 
 $('#file-input').on('change', function () {
@@ -55,10 +50,26 @@ function file_remove() {
 function checkbox() {
     let is_true = document.getElementById('teacher-checkbox').checked;
     if (is_true) {
-        $('.teacher').removeClass('teacher-open');
+        $('.search-block-teachers').removeClass('teacher-open');
         $('.new-teacher').addClass('teacher-open');
     } else {
         $('.new-teacher').removeClass('teacher-open');
-        $('.teacher').addClass('teacher-open');
+        $('.search-block-teachers').addClass('teacher-open');
+    }
+}
+
+function teacher_id (input) {
+    let text = $(input).val();
+    let teacher_input = $('.search-block-for-teacher');
+    
+    if (text == ''){
+        $(teacher_input).val(text);
+    } else {
+        for (let i = 0; i < teacher_arr.length; i++) {
+            if (text == teacher_arr[i][0]) {
+                text = teacher_arr[i][1];
+                $(teacher_input).val(text);
+            }
+        }
     }
 }

@@ -16,7 +16,9 @@ class Project(Model):
     _statuses = ["send request", "on work", "send to verification", "done"]
     _status = CharField(max_length=30)
     _subjects = CharField(max_length=100, null=True)
-    _types = ['Проект', 'НОУ']
+    _levels = ['Проект', 'НОУ']
+    _level = CharField(max_length=10, null=True)
+    _types = ['Исследовательский', 'Информационный', 'Прикладной', 'Ролевой(игровой)', 'Социальный', 'Технологический (инженерный)', 'Бизнес-план']
     _type = CharField(max_length=10, null=True)
     problem = CharField(max_length=1000, null=True)
     relevance = CharField(max_length=1000, null=True)
@@ -47,12 +49,21 @@ class Project(Model):
         return self._status
 
     def set_type(self, project_type):
+        print(project_type, project_type in self._types, self._types)
         if project_type in self._types:
             self._type = project_type
             self.save()
 
     def get_type(self):
         return self._type
+    
+    def set_level(self, project_level):
+        if project_level in self._levels:
+            self._level = project_level
+            self.save()
+
+    def get_level(self):
+        return self._level
 
 
 # эта константа показывает сколько версий может быть у одного файла
@@ -65,7 +76,7 @@ def get_upload_path(instance, filename):
 
 class File(Model):
     _tag = CharField(max_length=20, null=True)
-    _tags = ['Реферат', 'Презентация', 'Защита', 'Другое']
+    _tags = ['Реферат', 'Презентация', 'Аннотация', 'Другое']
     project: Project = ForeignKey(Project, related_name='files', on_delete=CASCADE)
     file = FileField(upload_to=get_upload_path, blank=True, null=True, storage=MyStorage)
     version = IntegerField(default=1)

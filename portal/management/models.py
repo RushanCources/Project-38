@@ -10,6 +10,7 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to="avatars", default="avatars/avatar.png")
     is_view_window = models.BooleanField(default=False)
     full_Name = models.TextField(max_length=100, null=True)
+    is_other_teacher = models.BooleanField(default=False)
 
     def __init__(self, *args, **kwargs):
         super(User, self).__init__(*args, **kwargs)
@@ -19,6 +20,9 @@ class User(AbstractUser):
     def set_full_name(self):
         self.full_Name = self.last_name + self.first_name + self.middle_name
     
+    def get_full_name(self) -> str:
+        return self.last_name+' '+self.first_name+' '+self.middle_name;
+
     def save_photo(self, *args, **kwargs):
         super().save()
         img = Image.open(self.avatar.path)

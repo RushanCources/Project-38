@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{% static 'css/projects/project_page_request.css' %}">
 {% elif status == 'on work' %}
     <link rel="stylesheet" href="{% static 'css/projects/project_page_work.css' %}">
+{% elif status == 'done' %}   
+    <link rel="stylesheet" href="{% static 'css/projects/project_page_done.css' %}"> 
 {% endif %}
 
 {% endblock head %}
@@ -45,6 +47,8 @@
                 <span class="send-request">Заявка на рассмотрении руководителем</span>
                 {% elif status == 'on work' %}
                 <span class="on-work">Проект в процессе выполнения</span>
+                {% elif status == 'done' %}
+                <span class="done">Проект выполнен</span>
                 {% endif %}
             </span>
         </div>
@@ -133,17 +137,11 @@
                 </ul>
             </div>
 
-            {% if status == 'send request' and user.role == 'Учитель'%}
+            {% if status == 'send request' and user.role == 'Учитель' or user.role == 'Администратор' %}
                 <form method="POST" action="{% url 'approve_project' %}" class="form-btn">
                     {% csrf_token %}
                     <input type="hidden" name="project_id" value="{{project_id}}">
                     <input type="submit" id="approve_project" class="status-input" value="Одобрить проект">
-                </form>
-            {% elif status == 'on work' and user.role == 'Учитель' %}
-                <form method="POST" action="{% url 'close_project' %}" class="form-btn">
-                    {% csrf_token %}
-                    <input type="hidden" name="project_id" value="{{project_id}}">
-                    <input type="submit" id="close_project " class="status-input" value="Завршить проект">
                 </form>
             {% endif %}
 
@@ -163,26 +161,42 @@
                         Название – это краткое, запоминающееся и отражающее суть проекта выражение, которое привлекает внимание и вызывает интерес у целевой аудитории.
                     </p>
                 </div>
+
                 <div class="content-block cb2">
-                    <div class="content-div">
-                        <span class="span">Тип проекта*: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="question"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
-                        <div class="content-type">
-                            <label class="type-label">
-                                <input type="radio" id="project" onchange="checking('cb2', true)" value="Проект" class="project-type" name="type"> Проект
-                            </label>
-                            <div class="type-line"></div>
-                            <label class="type-label">
-                                <input type="radio" id="noy" onchange="checking('cb2', true)" value="НОУ" class="project-type" name="type"> НОУ
+                    <div class="content-div" >
+                        <span class="span">Тип проекта*:</span>
+                        <div class="content-type" style="position: absolute; z-index: -10; opacity: 0;">
+                            <input type="radio" class="project-type" value="Исследовательский" name="project-type" onchange="checking('cb2', true)" id="type1">
+                            <input type="radio" class="project-type" value="Информационный" name="project-type" onchange="checking('cb2', true)" id="type2">
+                            <input type="radio" class="project-type" value="Прикладной" name="project-type" onchange="checking('cb2', true)" id="type3">
+                            <input type="radio" class="project-type" value="Ролевой(игровой)" name="project-type" onchange="checking('cb2', true)" id="type4">
+                            <input type="radio" class="project-type" value="Социальный" name="project-type" onchange="checking('cb2', true)" id="type5">
+                            <input type="radio" class="project-type" value="Технологический (инженерный)" name="project-type" onchange="checking('cb2', true)" id="type6">
+                            <input type="radio" class="project-type" value="Бизнес-план" name="project-type" onchange="checking('cb2', true)" id="type7">
+                                <!-- Инфу брал отсюда https://lyc507u.mskobr.ru/users_files/lyc507u/%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%B0%D0%BA%D1%82%D1%8B/%D0%9F%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%BD%D0%BE%D0%B9%20%D0%B4%D0%B5%D1%8F%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8%202019.pdf                                 -->
+                        </div>
+                        <div class="content-type-blocks">
+                            <label for="type1" class="content-type-label label1">Исследовательский</label>
+                            <label for="type2" class="content-type-label label2">Информационный</label>
+                            <label for="type3" class="content-type-label label3">Прикладной</label>
+                            <label for="type4" class="content-type-label label4">Ролевой(игровой)</label>
+                            <label for="type5" class="content-type-label label5">Социальный</label>
+                            <label for="type6" class="content-type-label label6">Технологический (инженерный)</label>
+                            <label for="type7" class="content-type-label label7">Бизнес-план</label>
+                            <label class="content-type-label content-type-answer">
+                                <span class="ans ans1">Деятельность учащихся с решением проблемы, включающая основные этапы исследования.</span>
+                                <span class="ans ans2">Работа с информацией о объекте/явлении, ознакомление, анализ и обобщение для широкой аудитории.</span>
+                                <span class="ans ans3">Проект с четко обозначенным результатом с самого начала.</span>
+                                <span class="ans ans4">Cтруктура проекта намечается и остается открытой до конца. Участники принимают определенные роли, связанные проектом.</span>
+                                <span class="ans ans5">Решение проблем соц. групп или общества. Основа — неудовлетворенность потребностей или конфликт интересов.</span>
+                                <span class="ans ans6">Нацелен на освоение учащимися элементов инженерной технологии разработки и внедрения технических устройств.</span>
+                                <span class="ans ans7">Проект для получения опыта в коммерческой сфере и освоения алгоритмов создания и продвижения нового продукта.</span>
                             </label>
                         </div>
-                        <input type="hidden" name="project-type" class="input-cb2" value="{{ project_type }}">
                     </div>
                     <div class="content-status">
                         <svg class="not_ok" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"> <path d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z" fill="#e24a4a" /> </svg>
                     </div>
-                    <p class="help">
-                        Тип школьного проекта может быть НОУ (научное общество учащихся) или обычным проектом. <br><br> НОУ -  добровольное общественное объединение учащихся 2-11 классов, которые стремятся к более глубокому познанию достижений в различных областях науки. <br><br> Обычный проект может быть любого характера: исследовательский, социальный, технический и т. д., и основывается на интересах и тематике ученика.
-                    </p>
                 </div>
 
                 <div class="content-block cb3">
@@ -252,6 +266,28 @@
 
                 <div class="content-block cb5">
                     <div class="content-div">
+                        <span class="span">Уровень проекта*: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="question"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
+                        <div class="content-type">
+                            <label class="level-label">
+                                <input type="radio" id="project" onchange="checking('cb5', true)" value="Проект" class="project-level" name="level"> Проект
+                            </label>
+                            <div class="level-line"></div>
+                            <label class="level-label">
+                                <input type="radio" id="noy" onchange="checking('cb5', true)" value="НОУ" class="project-level" name="level"> НОУ
+                            </label>
+                        </div>
+                        <input type="hidden" name="project-level" class="input-cb5" value="{{ project_level}}">
+                    </div>
+                    <div class="content-status">
+                        <svg class="not_ok" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"> <path d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z" fill="#e24a4a" /> </svg>
+                    </div>
+                    <p class="help">
+                        Уровень школьного проекта может быть НОУ (научное общество учащихся) или обычным проектом. <br><br> НОУ -  добровольное общественное объединение учащихся 2-11 классов, которые стремятся к более глубокому познанию достижений в различных областях науки. <br><br> Обычный проект может быть любого характера: исследовательский, социальный, технический и т. д., и основывается на интересах и тематике ученика.
+                    </p>
+                </div>
+
+                <div class="content-block cb6">
+                    <div class="content-div">
                         <span class="span">Файлы: <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="question"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z" fill="#b8b8b8" ></path></svg></span>
                         <ul class="file-list">
                             <li class="file-item">
@@ -261,7 +297,7 @@
                                             Реферат
                                             <span class="file-name">{{abstract.name}}</span>
                                             <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#1f68e9ba"><path d="M19,13 L19,10 L19,10 L13,3 L2.00276013,3 C0.896666251,3 0,3.89833832 0,5.00732994 L0,27.9926701 C0,29.1012878 0.890925393,30 1.99742191,30 L17.0025781,30 C18.1057238,30 19,29.1017876 19,28.0092049 L19,26 L29.0057181,26 C30.6594143,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6594313,13 29.0057181,13 L19,13 L19,13 L19,13 Z M18,26 L18,28.0066023 C18,28.5550537 17.5523026,29 17.0000398,29 L1.9999602,29 C1.45470893,29 1,28.5543187 1,28.004543 L1,4.99545703 C1,4.45526288 1.44573523,4 1.9955775,4 L12,4 L12,8.99408095 C12,10.1134452 12.8944962,11 13.9979131,11 L18,11 L18,13 L5.99428189,13 C4.34058566,13 3,14.3422643 3,15.9987856 L3,23.0012144 C3,24.6573979 4.3405687,26 5.99428189,26 L18,26 L18,26 L18,26 Z M13,4.5 L13,8.99121523 C13,9.54835167 13.4506511,10 13.9967388,10 L17.6999512,10 L13,4.5 L13,4.5 Z M6.00732994,14 C4.89871223,14 4,14.9001762 4,15.992017 L4,23.007983 C4,24.1081436 4.89833832,25 6.00732994,25 L28.9926701,25 C30.1012878,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.1016617,14 28.9926701,14 L6.00732994,14 L6.00732994,14 Z M6,16 L6,23 L8.9951185,23 C10.102384,23 11,22.1134452 11,20.9940809 L11,18.0059191 C11,16.8980806 10.1061002,16 8.9951185,16 L6,16 L6,16 Z M7,17 L7,22 L9.00104344,22 C9.55275191,22 10,21.5562834 10,21.0001925 L10,17.9998075 C10,17.4476291 9.55733967,17 9.00104344,17 L7,17 L7,17 Z M14.0048815,16 C12.897616,16 12,16.8865548 12,18.0059191 L12,20.9940809 C12,22.1019194 12.8938998,23 14.0048815,23 L14.9951185,23 C16.102384,23 17,22.1134452 17,20.9940809 L17,18.0059191 C17,16.8980806 16.1061002,16 14.9951185,16 L14.0048815,16 L14.0048815,16 Z M13.9989566,17 C13.4472481,17 13,17.4437166 13,17.9998075 L13,21.0001925 C13,21.5523709 13.4426603,22 13.9989566,22 L15.0010434,22 C15.5527519,22 16,21.5562834 16,21.0001925 L16,17.9998075 C16,17.4476291 15.5573397,17 15.0010434,17 L13.9989566,17 L13.9989566,17 Z M22.9999916,21 C22.9968339,22.1165689 22.1004316,23 20.9951185,23 L20.0048815,23 C18.8938998,23 18,22.1019194 18,20.9940809 L18,18.0059191 C18,16.8865548 18.897616,16 20.0048815,16 L20.9951185,16 C22.1041209,16 22.9968142,16.8948834 22.9999915,18 L22,18 C22,17.4476291 21.5573397,17 21.0010434,17 L19.9989566,17 C19.4472481,17 19,17.4437166 19,17.9998075 L19,21.0001925 C19,21.5523709 19.4426603,22 19.9989566,22 L21.0010434,22 C21.5527519,22 22,21.5562834 22,21.0001925 L22.9999923,21 L22.9999916,21 L22.9999916,21 Z M26,19.5 L24,16 L25,16 L26.5,18.625 L28,16 L29,16 L27,19.5 L29,23 L28,23 L26.5,20.375 L25,23 L24,23 L26,19.5 L26,19.5 Z"/></g></g></svg>
-                                            <input type="file" class="file-input" name="abstract" id="abstract" onchange="file_name(this, 0); checking('cb5')"/>
+                                            <input type="file" class="file-input" name="abstract" id="abstract" onchange="file_name(this, 0); checking('cb6')"/>
                                         </a>
                                     </label>
                                     <div class="file-setting">
@@ -292,7 +328,7 @@
                                     <label class="file-label docx">Реферат
                                         <span class="file-name">{{abstract.name}}</span>
                                         <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#1f68e9ba"><path d="M19,13 L19,10 L19,10 L13,3 L2.00276013,3 C0.896666251,3 0,3.89833832 0,5.00732994 L0,27.9926701 C0,29.1012878 0.890925393,30 1.99742191,30 L17.0025781,30 C18.1057238,30 19,29.1017876 19,28.0092049 L19,26 L29.0057181,26 C30.6594143,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6594313,13 29.0057181,13 L19,13 L19,13 L19,13 Z M18,26 L18,28.0066023 C18,28.5550537 17.5523026,29 17.0000398,29 L1.9999602,29 C1.45470893,29 1,28.5543187 1,28.004543 L1,4.99545703 C1,4.45526288 1.44573523,4 1.9955775,4 L12,4 L12,8.99408095 C12,10.1134452 12.8944962,11 13.9979131,11 L18,11 L18,13 L5.99428189,13 C4.34058566,13 3,14.3422643 3,15.9987856 L3,23.0012144 C3,24.6573979 4.3405687,26 5.99428189,26 L18,26 L18,26 L18,26 Z M13,4.5 L13,8.99121523 C13,9.54835167 13.4506511,10 13.9967388,10 L17.6999512,10 L13,4.5 L13,4.5 Z M6.00732994,14 C4.89871223,14 4,14.9001762 4,15.992017 L4,23.007983 C4,24.1081436 4.89833832,25 6.00732994,25 L28.9926701,25 C30.1012878,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.1016617,14 28.9926701,14 L6.00732994,14 L6.00732994,14 Z M6,16 L6,23 L8.9951185,23 C10.102384,23 11,22.1134452 11,20.9940809 L11,18.0059191 C11,16.8980806 10.1061002,16 8.9951185,16 L6,16 L6,16 Z M7,17 L7,22 L9.00104344,22 C9.55275191,22 10,21.5562834 10,21.0001925 L10,17.9998075 C10,17.4476291 9.55733967,17 9.00104344,17 L7,17 L7,17 Z M14.0048815,16 C12.897616,16 12,16.8865548 12,18.0059191 L12,20.9940809 C12,22.1019194 12.8938998,23 14.0048815,23 L14.9951185,23 C16.102384,23 17,22.1134452 17,20.9940809 L17,18.0059191 C17,16.8980806 16.1061002,16 14.9951185,16 L14.0048815,16 L14.0048815,16 Z M13.9989566,17 C13.4472481,17 13,17.4437166 13,17.9998075 L13,21.0001925 C13,21.5523709 13.4426603,22 13.9989566,22 L15.0010434,22 C15.5527519,22 16,21.5562834 16,21.0001925 L16,17.9998075 C16,17.4476291 15.5573397,17 15.0010434,17 L13.9989566,17 L13.9989566,17 Z M22.9999916,21 C22.9968339,22.1165689 22.1004316,23 20.9951185,23 L20.0048815,23 C18.8938998,23 18,22.1019194 18,20.9940809 L18,18.0059191 C18,16.8865548 18.897616,16 20.0048815,16 L20.9951185,16 C22.1041209,16 22.9968142,16.8948834 22.9999915,18 L22,18 C22,17.4476291 21.5573397,17 21.0010434,17 L19.9989566,17 C19.4472481,17 19,17.4437166 19,17.9998075 L19,21.0001925 C19,21.5523709 19.4426603,22 19.9989566,22 L21.0010434,22 C21.5527519,22 22,21.5562834 22,21.0001925 L22.9999923,21 L22.9999916,21 L22.9999916,21 Z M26,19.5 L24,16 L25,16 L26.5,18.625 L28,16 L29,16 L27,19.5 L29,23 L28,23 L26.5,20.375 L25,23 L24,23 L26,19.5 L26,19.5 Z"/></g></g></svg>
-                                        <input type="file" class="file-input" name="abstract" onchange="file_name(this, 0); checking('cb5')"/>
+                                        <input type="file" class="file-input" name="abstract" onchange="file_name(this, 0); checking('cb6')"/>
                                     </label>
                                 {% endif %}
                                 <div class="content-status">
@@ -306,7 +342,7 @@
                                             Презентация
                                         <span class="file-name">{{presentation.name}}</span>
                                         <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#d5731ee3"><path d="M21,13 L21,10 L21,10 L15,3 L4.00276013,3 C2.89666625,3 2,3.89833832 2,5.00732994 L2,27.9926701 C2,29.1012878 2.89092539,30 3.99742191,30 L19.0025781,30 C20.1057238,30 21,29.1017876 21,28.0092049 L21,26 L28.9931517,26 C30.6537881,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6640085,13 28.9931517,13 L21,13 L21,13 L21,13 Z M20,26 L20,28.0066023 C20,28.5550537 19.5523026,29 19.0000398,29 L3.9999602,29 C3.45470893,29 3,28.5543187 3,28.004543 L3,4.99545703 C3,4.45526288 3.44573523,4 3.9955775,4 L14,4 L14,8.99408095 C14,10.1134452 14.8944962,11 15.9979131,11 L20,11 L20,13 L12.0068483,13 C10.3462119,13 9,14.3422643 9,15.9987856 L9,23.0012144 C9,24.6573979 10.3359915,26 12.0068483,26 L20,26 L20,26 L20,26 Z M15,4.5 L15,8.99121523 C15,9.54835167 15.4506511,10 15.9967388,10 L19.6999512,10 L15,4.5 L15,4.5 Z M11.9945615,14 C10.8929956,14 10,14.9001762 10,15.992017 L10,23.007983 C10,24.1081436 10.9023438,25 11.9945615,25 L29.0054385,25 C30.1070044,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.0976562,14 29.0054385,14 L11.9945615,14 L11.9945615,14 Z M18,18 L18,23 L19,23 L19,20 L20.9951185,20 C22.102384,20 23,19.1122704 23,18 C23,16.8954305 22.1061002,16 20.9951185,16 L18,16 L18,18 L18,18 Z M19,17 L19,19 L21.0010434,19 C21.5527519,19 22,18.5561352 22,18 C22,17.4477153 21.5573397,17 21.0010434,17 L19,17 L19,17 Z M12,18 L12,23 L13,23 L13,20 L14.9951185,20 C16.102384,20 17,19.1122704 17,18 C17,16.8954305 16.1061002,16 14.9951185,16 L12,16 L12,18 L12,18 Z M13,17 L13,19 L15.0010434,19 C15.5527519,19 16,18.5561352 16,18 C16,17.4477153 15.5573397,17 15.0010434,17 L13,17 L13,17 Z M26,17 L26,23 L27,23 L27,17 L29,17 L29,16 L24,16 L24,17 L26,17 L26,17 Z"/></g></g></svg>
-                                        <input type="file" class="file-input" name="presentation" onchange="file_name(this, 1); checking('cb5')" id="presentation"/>
+                                        <input type="file" class="file-input" name="presentation" onchange="file_name(this, 1); checking('cb6')" id="presentation"/>
                                         </a>
                                     </label>
                                     <div class="file-setting">
@@ -338,7 +374,7 @@
                                 Презентация
                                 <span class="file-name">{{presentation.name}}</span>
                                 <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#d5731ee3"><path d="M21,13 L21,10 L21,10 L15,3 L4.00276013,3 C2.89666625,3 2,3.89833832 2,5.00732994 L2,27.9926701 C2,29.1012878 2.89092539,30 3.99742191,30 L19.0025781,30 C20.1057238,30 21,29.1017876 21,28.0092049 L21,26 L28.9931517,26 C30.6537881,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6640085,13 28.9931517,13 L21,13 L21,13 L21,13 Z M20,26 L20,28.0066023 C20,28.5550537 19.5523026,29 19.0000398,29 L3.9999602,29 C3.45470893,29 3,28.5543187 3,28.004543 L3,4.99545703 C3,4.45526288 3.44573523,4 3.9955775,4 L14,4 L14,8.99408095 C14,10.1134452 14.8944962,11 15.9979131,11 L20,11 L20,13 L12.0068483,13 C10.3462119,13 9,14.3422643 9,15.9987856 L9,23.0012144 C9,24.6573979 10.3359915,26 12.0068483,26 L20,26 L20,26 L20,26 Z M15,4.5 L15,8.99121523 C15,9.54835167 15.4506511,10 15.9967388,10 L19.6999512,10 L15,4.5 L15,4.5 Z M11.9945615,14 C10.8929956,14 10,14.9001762 10,15.992017 L10,23.007983 C10,24.1081436 10.9023438,25 11.9945615,25 L29.0054385,25 C30.1070044,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.0976562,14 29.0054385,14 L11.9945615,14 L11.9945615,14 Z M18,18 L18,23 L19,23 L19,20 L20.9951185,20 C22.102384,20 23,19.1122704 23,18 C23,16.8954305 22.1061002,16 20.9951185,16 L18,16 L18,18 L18,18 Z M19,17 L19,19 L21.0010434,19 C21.5527519,19 22,18.5561352 22,18 C22,17.4477153 21.5573397,17 21.0010434,17 L19,17 L19,17 Z M12,18 L12,23 L13,23 L13,20 L14.9951185,20 C16.102384,20 17,19.1122704 17,18 C17,16.8954305 16.1061002,16 14.9951185,16 L12,16 L12,18 L12,18 Z M13,17 L13,19 L15.0010434,19 C15.5527519,19 16,18.5561352 16,18 C16,17.4477153 15.5573397,17 15.0010434,17 L13,17 L13,17 Z M26,17 L26,23 L27,23 L27,17 L29,17 L29,16 L24,16 L24,17 L26,17 L26,17 Z"/></g></g></svg>
-                                <input type="file" class="file-input" name="presentation" onchange="file_name(this, 1); checking('cb5')"/>
+                                <input type="file" class="file-input" name="presentation" onchange="file_name(this, 1); checking('cb6')"/>
                             </label>
                             {% endif %}
                                 <div class="content-status">
@@ -346,17 +382,17 @@
                                 </div>
                             </li>
                             <li class="file-item">
-                                {% if defence is not None %}
+                                {% if annotation is not None %}
                                     <label class="file-label txt">
-                                        <a href="{% url 'download_file' %}?file_id={{defence.id}}" title="Загрузить файл" class="download-link">
-                                            Защита
-                                            <span class="file-name">{{defence.name}}</span>
+                                        <a href="{% url 'download_file' %}?file_id={{annotation.id}}" title="Загрузить файл" class="download-link">
+                                            Аннотация
+                                            <span class="file-name">{{annotation.name}}</span>
                                             <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#929292"><path d="M19.5,3 L9.00276013,3 C7.89666625,3 7,3.89833832 7,5.00732994 L7,27.9926701 C7,29.1012878 7.89092539,30 8.99742191,30 L24.0025781,30 C25.1057238,30 26,29.1017876 26,28.0092049 L26,10.5 L26,10 L20,3 L19.5,3 L19.5,3 L19.5,3 Z M19,4 L8.9955775,4 C8.44573523,4 8,4.45526288 8,4.99545703 L8,28.004543 C8,28.5543187 8.45470893,29 8.9999602,29 L24.0000398,29 C24.5523026,29 25,28.5550537 25,28.0066023 L25,11 L20.9979131,11 C19.8944962,11 19,10.1134452 19,8.99408095 L19,4 L19,4 Z M20,4.5 L20,8.99121523 C20,9.54835167 20.4506511,10 20.9967388,10 L24.6999512,10 L20,4.5 L20,4.5 Z M10,10 L10,11 L15,11 L15,10 L10,10 L10,10 Z M10,7 L10,8 L17,8 L17,7 L10,7 L10,7 Z M10,13 L10,14 L23,14 L23,13 L10,13 L10,13 Z M10,16 L10,17 L20,17 L20,16 L10,16 L10,16 Z M10,19 L10,20 L23,20 L23,19 L10,19 L10,19 Z M10,22 L10,23 L19,23 L19,22 L10,22 L10,22 Z M10,25 L10,26 L23,26 L23,25 L10,25 L10,25 Z"/></g></g></svg>
-                                            <input type="file" class="file-input" name="defence" onchange="file_name(this, 2)" id="defence"/>
+                                            <input type="file" class="file-input" name="annotation" onchange="file_name(this, 2)" id="annotation"/>
                                         </a>
                                     </label>
                                     <div class="file-setting">
-                                        <button type="button" onclick="show_window('comments{{defence.id}}')" title="Посмотреть комментарии">
+                                        <button type="button" onclick="show_window('comments{{annotation.id}}')" title="Посмотреть комментарии">
                                             <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -364,7 +400,7 @@
                                                     fill=" #5A88FF" />
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn-old-files" onclick="show_window('old-files{{defence.id}}')"
+                                        <button type="button" class="btn-old-files" onclick="show_window('old-files{{annotation.id}}')"
                                             title="Посмотреть предыдущие версии файла">
                                             <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -373,7 +409,7 @@
                                                     fill="#88cc5a" />
                                             </svg>
                                         </button>
-                                        <label for="defence" class="btns-label" title="Обновить файл">
+                                        <label for="annotation" class="btns-label" title="Обновить файл">
                                             <svg viewBox="0 0 512 512" fill="#ff6d1b">
                                                 <path d="M64,256H34A222,222,0,0,1,430,118.15V85h30V190H355V160h67.27A192.21,192.21,0,0,0,256,64C150.13,64,64,150.13,64,256Zm384,0c0,105.87-86.13,192-192,192A192.21,192.21,0,0,1,89.73,352H157V322H52V427H82V393.85A222,222,0,0,0,478,256Z"/>
                                             </svg>
@@ -381,10 +417,10 @@
                                 </div>
                             {% else %}    
                             <label class="file-label txt">
-                                Защита
-                                <span class="file-name">{{defence.name}}</span>
+                                Аннотация
+                                <span class="file-name">{{annotation.name}}</span>
                                 <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#929292"><path d="M19.5,3 L9.00276013,3 C7.89666625,3 7,3.89833832 7,5.00732994 L7,27.9926701 C7,29.1012878 7.89092539,30 8.99742191,30 L24.0025781,30 C25.1057238,30 26,29.1017876 26,28.0092049 L26,10.5 L26,10 L20,3 L19.5,3 L19.5,3 L19.5,3 Z M19,4 L8.9955775,4 C8.44573523,4 8,4.45526288 8,4.99545703 L8,28.004543 C8,28.5543187 8.45470893,29 8.9999602,29 L24.0000398,29 C24.5523026,29 25,28.5550537 25,28.0066023 L25,11 L20.9979131,11 C19.8944962,11 19,10.1134452 19,8.99408095 L19,4 L19,4 Z M20,4.5 L20,8.99121523 C20,9.54835167 20.4506511,10 20.9967388,10 L24.6999512,10 L20,4.5 L20,4.5 Z M10,10 L10,11 L15,11 L15,10 L10,10 L10,10 Z M10,7 L10,8 L17,8 L17,7 L10,7 L10,7 Z M10,13 L10,14 L23,14 L23,13 L10,13 L10,13 Z M10,16 L10,17 L20,17 L20,16 L10,16 L10,16 Z M10,19 L10,20 L23,20 L23,19 L10,19 L10,19 Z M10,22 L10,23 L19,23 L19,22 L10,22 L10,22 Z M10,25 L10,26 L23,26 L23,25 L10,25 L10,25 Z"/></g></g></svg>
-                                <input type="file" class="file-input" name="defence" onchange="file_name(this, 2)"/>
+                                <input type="file" class="file-input" name="annotation" onchange="file_name(this, 2)"/>
                             </label>
                             {% endif %}
                             </li>
@@ -415,7 +451,7 @@
                                                             fill=" #5A88FF" />
                                                     </svg>
                                                 </button>
-                                                <button type="submit" class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
+                                                <button class="btn-old-files" onclick="show_window('old-files{{file.id}}')"
                                                     title="Посмотреть предыдущие версии файла" type="button">
                                                     <svg fill="none" height="20" viewBox="0 0 20 20" width="20"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -441,18 +477,30 @@
                         </div>
                     </div>
                     <p class="help">
-                        К концу выполнения проекта ты также должен будешь прикрепить от двух до трех файлов: реферат, презентация и защита. <br><br>
+                        К концу выполнения проекта ты также должен будешь прикрепить от двух до трех файлов: реферат, презентация и аннотация. <br><br>
                         Реферат - это главный файл твоего проекта, в нем описывается абсолютно все, что ты делал в проекте. <br><br>
                         Презентация - это то, что ты будешь показывать при выступлении. Презентация должна содержать меньше текста и больше иллюстраций, а также должна быть оформлена должным образом. <br><br>
-                        Защита - это текст к твоей презентации. Этот файл прикреплять необязательно, но он поможет тебе следовать установленному плану при выступлении. <br><br>
+                        аннотация - это текст к твоей презентации. Этот файл прикреплять необязательно, но он поможет тебе следовать установленному плану при выступлении. <br><br>
                     </p>
                 </div>
                 <div class="bottom-div">
                     <button class="bottom-btn skip-btn" onclick="skip()">Пропустить</button>
+                    <div class="bottom-div-right">
+                        {% if status == 'on work' and user.role == 'Учитель' or user.role == 'Администратор' %}
+                            <input type="submit" id="close_project " class="bottom-btn finish-btn" value="Завершить проект" form="finish-form">
+                        {% endif %}
                         <button class="bottom-btn next-btn" onclick="next()" type="button" form="form-on-work">Дальше <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><path d="M69.8437,43.3876,33.8422,13.3863a6.0035,6.0035,0,0,0-7.6878,9.223l30.47,25.39-30.47,25.39a6.0035,6.0035,0,0,0,7.6878,9.2231L69.8437,52.6106a6.0091,6.0091,0,0,0,0-9.223Z"/></svg>
                             </button>
+                    </div>
                 </div>
             </form>
+
+            {% if status == 'on work' and user.role == 'Учитель' or user.role == 'Администратор' %}
+                <form method="POST" action="{% url 'close_project' %}" class="form-btn" id="finish-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="project_id" value="{{project_id}}">
+                </form>
+            {% endif %}
 
             <form method="POST" action="{% url 'add_file' %}" enctype="multipart/form-data" id="add-file">
                 {% csrf_token %}
@@ -550,19 +598,19 @@
                 </div>
 
                 <div>
-                    <div id="comments{{defence.id}}" class="comment-window">
-                        {% if defence.comment is not None %}
-                            <div>{{defence.comment}}</div>
+                    <div id="comments{{annotation.id}}" class="comment-window">
+                        {% if annotation.comment is not None %}
+                            <div>{{annotation.comment}}</div>
                         {%else%}
                             <form method="POST" action="{% url 'add_comment' %}" class="comment-form">
                                 {% csrf_token %}
-                                <input type="hidden" name="file_id" value="{{defence.id}}" />
+                                <input type="hidden" name="file_id" value="{{annotation.id}}" />
                                 <textarea name="comment" class="textarea comment-textarea" placeholder="Введите комментарий"
                                     onkeyup="textarea_size(this)" required></textarea>
                                 <input type="submit" value="Отправить комментарий" class="comment-btn">
                             </form>
                         {%endif%}
-                        <button class="btn-exit" onclick="exit('comments{{defence.id}}')">
+                        <button class="btn-exit" onclick="exit('comments{{annotation.id}}')">
                             <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                                 <path
                                     d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -570,8 +618,8 @@
                             </svg>
                         </button>
                     </div>
-                    <div id="old-files{{defence.id}}" class="old-files">
-                        <button class="btn-exit" onclick="exit('old-files{{defence.id}}')" type="button">
+                    <div id="old-files{{annotation.id}}" class="old-files">
+                        <button class="btn-exit" onclick="exit('old-files{{annotation.id}}')" type="button">
                             <svg width="25" height="25" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="btn-exit-svg">
                                 <path
                                     d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
@@ -580,7 +628,7 @@
                         </button>
                         <h2 class="old-files-title">Предыдущие версии файла</h2>
                         <ul class="old-files-list">
-                            {% for old_file in old_defence %}
+                            {% for old_file in old_annotation %}
                                 <li class="old-files-item">
                                     <a href="{% url 'download_file' %}?file_id={{old_file.id}}"
                                         class="old-files-link">{{old_file.name}}</a>
@@ -590,6 +638,79 @@
                     </div>
                 </div>
             </div>
+        {% elif status == 'done' %}
+            <h1 class="title">{{ name }}</h1>
+            <span class="subtitle">{{ project_type }} <div class="ball"></div> {{ subjects }}</span>
+
+            <ul class="content-list">
+                <li class="content-item">
+                    <span class="span">Проблема:</span>
+                    <p>{{problem}}</p>
+                </li>
+                <li class="content-item">
+                    <span class="span">Актуальность:</span>
+                    <p>{{relevance}}</p>
+                </li>
+                <li class="content-item">
+                    <span class="span">Цель:</span>
+                    <p>{{target}}</p>
+                </li>
+                <li class="content-item">
+                    <span class="span">Задачи:</span>
+                    <p>{{tasks}}</p>
+                </li>
+                <li class="content-item">
+                    <span class="span">Ожидаемые результаты:</span>
+                    <p>{{expected_results}}</p>
+                </li>
+            </ul>
+                <ul class="file-list">
+                    <li class="file-item">   
+                        <label class="file-label docx">
+                            <a href="{% url 'download_file' %}?file_id={{abstract.id}}" title="Загрузить файл" class="download-link">
+                                Реферат
+                                <span class="file-name">{{abstract.name}}</span>
+                                <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#1f68e9ba"><path d="M19,13 L19,10 L19,10 L13,3 L2.00276013,3 C0.896666251,3 0,3.89833832 0,5.00732994 L0,27.9926701 C0,29.1012878 0.890925393,30 1.99742191,30 L17.0025781,30 C18.1057238,30 19,29.1017876 19,28.0092049 L19,26 L29.0057181,26 C30.6594143,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6594313,13 29.0057181,13 L19,13 L19,13 L19,13 Z M18,26 L18,28.0066023 C18,28.5550537 17.5523026,29 17.0000398,29 L1.9999602,29 C1.45470893,29 1,28.5543187 1,28.004543 L1,4.99545703 C1,4.45526288 1.44573523,4 1.9955775,4 L12,4 L12,8.99408095 C12,10.1134452 12.8944962,11 13.9979131,11 L18,11 L18,13 L5.99428189,13 C4.34058566,13 3,14.3422643 3,15.9987856 L3,23.0012144 C3,24.6573979 4.3405687,26 5.99428189,26 L18,26 L18,26 L18,26 Z M13,4.5 L13,8.99121523 C13,9.54835167 13.4506511,10 13.9967388,10 L17.6999512,10 L13,4.5 L13,4.5 Z M6.00732994,14 C4.89871223,14 4,14.9001762 4,15.992017 L4,23.007983 C4,24.1081436 4.89833832,25 6.00732994,25 L28.9926701,25 C30.1012878,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.1016617,14 28.9926701,14 L6.00732994,14 L6.00732994,14 Z M6,16 L6,23 L8.9951185,23 C10.102384,23 11,22.1134452 11,20.9940809 L11,18.0059191 C11,16.8980806 10.1061002,16 8.9951185,16 L6,16 L6,16 Z M7,17 L7,22 L9.00104344,22 C9.55275191,22 10,21.5562834 10,21.0001925 L10,17.9998075 C10,17.4476291 9.55733967,17 9.00104344,17 L7,17 L7,17 Z M14.0048815,16 C12.897616,16 12,16.8865548 12,18.0059191 L12,20.9940809 C12,22.1019194 12.8938998,23 14.0048815,23 L14.9951185,23 C16.102384,23 17,22.1134452 17,20.9940809 L17,18.0059191 C17,16.8980806 16.1061002,16 14.9951185,16 L14.0048815,16 L14.0048815,16 Z M13.9989566,17 C13.4472481,17 13,17.4437166 13,17.9998075 L13,21.0001925 C13,21.5523709 13.4426603,22 13.9989566,22 L15.0010434,22 C15.5527519,22 16,21.5562834 16,21.0001925 L16,17.9998075 C16,17.4476291 15.5573397,17 15.0010434,17 L13.9989566,17 L13.9989566,17 Z M22.9999916,21 C22.9968339,22.1165689 22.1004316,23 20.9951185,23 L20.0048815,23 C18.8938998,23 18,22.1019194 18,20.9940809 L18,18.0059191 C18,16.8865548 18.897616,16 20.0048815,16 L20.9951185,16 C22.1041209,16 22.9968142,16.8948834 22.9999915,18 L22,18 C22,17.4476291 21.5573397,17 21.0010434,17 L19.9989566,17 C19.4472481,17 19,17.4437166 19,17.9998075 L19,21.0001925 C19,21.5523709 19.4426603,22 19.9989566,22 L21.0010434,22 C21.5527519,22 22,21.5562834 22,21.0001925 L22.9999923,21 L22.9999916,21 L22.9999916,21 Z M26,19.5 L24,16 L25,16 L26.5,18.625 L28,16 L29,16 L27,19.5 L29,23 L28,23 L26.5,20.375 L25,23 L24,23 L26,19.5 L26,19.5 Z"/></g></g></svg>
+                            </a>
+                        </label>
+                    </li>
+                    <li class="file-item">    
+                    <label class="file-label ppt">
+                        <a href="{% url 'download_file' %}?file_id={{presentation.id}}" title="Загрузить файл" class="download-link">
+                            Презентация
+                            <span class="file-name">{{presentation.name}}</span>
+                            <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#d5731ee3"><path d="M21,13 L21,10 L21,10 L15,3 L4.00276013,3 C2.89666625,3 2,3.89833832 2,5.00732994 L2,27.9926701 C2,29.1012878 2.89092539,30 3.99742191,30 L19.0025781,30 C20.1057238,30 21,29.1017876 21,28.0092049 L21,26 L28.9931517,26 C30.6537881,26 32,24.6577357 32,23.0012144 L32,15.9987856 C32,14.3426021 30.6640085,13 28.9931517,13 L21,13 L21,13 L21,13 Z M20,26 L20,28.0066023 C20,28.5550537 19.5523026,29 19.0000398,29 L3.9999602,29 C3.45470893,29 3,28.5543187 3,28.004543 L3,4.99545703 C3,4.45526288 3.44573523,4 3.9955775,4 L14,4 L14,8.99408095 C14,10.1134452 14.8944962,11 15.9979131,11 L20,11 L20,13 L12.0068483,13 C10.3462119,13 9,14.3422643 9,15.9987856 L9,23.0012144 C9,24.6573979 10.3359915,26 12.0068483,26 L20,26 L20,26 L20,26 Z M15,4.5 L15,8.99121523 C15,9.54835167 15.4506511,10 15.9967388,10 L19.6999512,10 L15,4.5 L15,4.5 Z M11.9945615,14 C10.8929956,14 10,14.9001762 10,15.992017 L10,23.007983 C10,24.1081436 10.9023438,25 11.9945615,25 L29.0054385,25 C30.1070044,25 31,24.0998238 31,23.007983 L31,15.992017 C31,14.8918564 30.0976562,14 29.0054385,14 L11.9945615,14 L11.9945615,14 Z M18,18 L18,23 L19,23 L19,20 L20.9951185,20 C22.102384,20 23,19.1122704 23,18 C23,16.8954305 22.1061002,16 20.9951185,16 L18,16 L18,18 L18,18 Z M19,17 L19,19 L21.0010434,19 C21.5527519,19 22,18.5561352 22,18 C22,17.4477153 21.5573397,17 21.0010434,17 L19,17 L19,17 Z M12,18 L12,23 L13,23 L13,20 L14.9951185,20 C16.102384,20 17,19.1122704 17,18 C17,16.8954305 16.1061002,16 14.9951185,16 L12,16 L12,18 L12,18 Z M13,17 L13,19 L15.0010434,19 C15.5527519,19 16,18.5561352 16,18 C16,17.4477153 15.5573397,17 15.0010434,17 L13,17 L13,17 Z M26,17 L26,23 L27,23 L27,17 L29,17 L29,16 L24,16 L24,17 L26,17 L26,17 Z"/></g></g></svg>
+                        </a>
+                    </label>
+                    </li>
+                    {% if annotation is not None %}
+                    <li class="file-item">
+                    <label class="file-label txt">
+                        <a href="{% url 'download_file' %}?file_id={{annotation.id}}" title="Загрузить файл" class="download-link">
+                            Аннотация
+                            <span class="file-name">{{annotation.name}}</span>
+                            <svg height="32px" version="1.1" viewBox="0 0 32 32" width="32px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><g fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g fill="#929292"><path d="M19.5,3 L9.00276013,3 C7.89666625,3 7,3.89833832 7,5.00732994 L7,27.9926701 C7,29.1012878 7.89092539,30 8.99742191,30 L24.0025781,30 C25.1057238,30 26,29.1017876 26,28.0092049 L26,10.5 L26,10 L20,3 L19.5,3 L19.5,3 L19.5,3 Z M19,4 L8.9955775,4 C8.44573523,4 8,4.45526288 8,4.99545703 L8,28.004543 C8,28.5543187 8.45470893,29 8.9999602,29 L24.0000398,29 C24.5523026,29 25,28.5550537 25,28.0066023 L25,11 L20.9979131,11 C19.8944962,11 19,10.1134452 19,8.99408095 L19,4 L19,4 Z M20,4.5 L20,8.99121523 C20,9.54835167 20.4506511,10 20.9967388,10 L24.6999512,10 L20,4.5 L20,4.5 Z M10,10 L10,11 L15,11 L15,10 L10,10 L10,10 Z M10,7 L10,8 L17,8 L17,7 L10,7 L10,7 Z M10,13 L10,14 L23,14 L23,13 L10,13 L10,13 Z M10,16 L10,17 L20,17 L20,16 L10,16 L10,16 Z M10,19 L10,20 L23,20 L23,19 L10,19 L10,19 Z M10,22 L10,23 L19,23 L19,22 L10,22 L10,22 Z M10,25 L10,26 L23,26 L23,25 L10,25 L10,25 Z"/></g></g></svg>
+                        </a>
+                    </label>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div class="other-files">
+                    <div class="other-files-title">
+                        Другое:
+                        <div class="line"></div>
+                    </div>
+                    <div class="other-files-content">
+                        <ul class="other-file-list">
+                            {% for file in other_files %}
+                                <li class="other-file-item">
+                                    <a href="{% url 'download_file' %}?file_id={{file.id}}"
+                                        title="Загрузить файл">{{file.name}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
         {% endif %}
     </div>
 </div>
@@ -670,10 +791,15 @@
     update_files_url = "{% url 'update_file' %}";
     let subjects = {{ all_subjects_names | js}};
 
+    let project_type = {{project_type | js}};
+    
 </script>
 
 {% if status == 'on work' %}
     <script src="{% static 'js/projects/project_page_on_work.js' %}"></script>
+    {% if user.role == 'Учитель' %}
+        <script src="{% static 'js/projects/project_checking.js' %}"></script>
+    {% endif %}
 {% endif %}
 <script src="{% static 'js/projects/project_page.js' %}"></script>
 {% endblock %}
