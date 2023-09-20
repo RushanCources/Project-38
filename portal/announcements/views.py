@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect
 from .models import Announcement
 from datetime import date
 from .decorators import allowed_users
@@ -9,25 +9,22 @@ from .forms import AnnouncementForm
 from django.core.paginator import Paginator
 from django.conf import settings
 from pathlib import Path
+from django.http import JsonResponse
 import os
+from django.core.files.storage import FileSystemStorage
+import urllib.parse
 
 
 def index(request):
+    """Отвечает за рендер шаблона главной страницы"""
 
-    group = None
-    superuser = False
-    anns = Announcement.objects.all()
+    anns = Announcement.objects.all().order_by('-is_pinned')
 
     paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
     page_announcements = paginator.get_page(page_number)
 
-    if request.user.groups.exists():
-        group = request.user.groups.all()[0].name
-    if group in ['Teacher', 'admin']:
-        superuser = True
-
-    data = {'superuser': superuser, 'page_announcements': page_announcements, 'count': anns.count()}
+    data = {'page_announcements': page_announcements, 'count': anns.count()}
 
     return render(request, 'dec/dec.html', context=data)
 
@@ -87,6 +84,12 @@ def editor(request, id):
 
     try:
         announcement = Announcement.objects.get(id=id)
+
+        if request.user.id == announcement.author_id or request.user.role == 'Администратор':
+            pass
+        else:
+            return HttpResponsePermanentRedirect('/announcements')
+
         initial_data = {
             'title': announcement.title,
             'body': announcement.body,
@@ -135,7 +138,7 @@ def editannouncement(request, id):
         files_to_delete = request.POST.get('file_id_to_delete')
         image_url = request.POST.get('image_url')   
 
-        if int(files_to_delete) is not -1:
+        if files_to_delete != '-1':
 
             if ',' in files_to_delete:
                 files_to_delete = files_to_delete.split(',')
@@ -178,7 +181,7 @@ def search(request):
         query_filter |= Q(title__icontains=word) | Q(body__icontains=word) | Q(
             author__first_name__icontains=word) | Q(author__last_name__icontains=word)
 
-    anns = Announcement.objects.filter(query_filter)
+    anns = Announcement.objects.filter(query_filter).order_by('-is_pinned')
 
     paginator = Paginator(anns, 20) # Сколько объявлений на странице
     page_number = request.GET.get('page')
@@ -187,11 +190,13 @@ def search(request):
     data = {
         'page_announcements': page_announcements,
         'search_value': query,
+        'count': anns.count(),
     }
     return render(request, 'dec/dec.html', context=data)
 
 
 def announcement(request, id):
+    """Отвечает за рендер шаблона объявления (не готово)"""
     try:
         announcement = Announcement.objects.get(id=id)
 
@@ -212,6 +217,9 @@ def delete_announcement(request, id):
     if request.method != 'GET':
         return render(request, 'WrongData.html')
 
+    if request.user.id != Announcement.objects.get(id=id).author_id and request.user.role != 'Администратор':
+        return HttpResponsePermanentRedirect('/announcements')
+
     announcement = Announcement.objects.get(id=id)
 
     files = announcement.files.all()
@@ -223,3 +231,60 @@ def delete_announcement(request, id):
     announcement.delete()
 
     return HttpResponsePermanentRedirect('/announcements')
+
+
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
+def upload_image(request):
+    """Загружает обложку на сервер и отправляет response в ajax"""
+    if request.method == 'POST':
+        image = request.FILES['image']
+        valid_extensions = ['.png', '.jpg', '.jpeg', '.pjp', '.jfif', '.svgz', '.jxl', '.ico', '.tiff', '.avif', '.svg', '.tif', '.gif', '.xbm', '.pjpeg', '.bmp', '.webp']
+
+        file_extension = os.path.splitext(image.name)[1].lower()
+
+        if file_extension in valid_extensions:
+            filename = os.path.join(settings.MEDIA_ROOT, 'covers', get_unique_filename(image.name, os.path.join(settings.MEDIA_ROOT, 'covers')))
+
+            with open(filename, 'wb') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
+
+            image_url = os.path.join(settings.MEDIA_URL, 'covers/', image.name)
+            return JsonResponse({'success': True, 'image_url': image_url})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid file format'})
+
+    return JsonResponse({'success': False})
+
+
+@allowed_users(allowed_roles=['Учитель', 'Администратор'])
+def delete_cover(request):
+    """Удаляет обложку с сервера и отправляет response в ajax"""
+    if request.method == 'POST':
+        cover_url = urllib.parse.unquote(request.POST.get('cover_url')) # Раскодируем для того чтобы ничего не сломалось
+
+        fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+        file_path = fs.path(str(settings.BASE_DIR).replace('\\', '/') + cover_url)
+
+        try:
+            fs.delete(file_path)
+            return JsonResponse({'success': True})
+        except FileNotFoundError:
+            return JsonResponse({'success': False, 'message': 'File not found.'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+    return JsonResponse({'success': False})
+
+
+def get_unique_filename(base_filename, directory):
+    """Обеспечивает уникальное имя каждой обложки"""
+    filename, file_extension = os.path.splitext(base_filename)
+    i = 1
+    new_filename = base_filename
+
+    while os.path.exists(os.path.join(directory, new_filename)):
+        new_filename = f"{filename}_{i:02d}{file_extension}"
+        i += 1
+
+    return new_filename

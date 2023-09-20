@@ -38,23 +38,28 @@
             </div>
         </div>
         <div class="label label-cover"><span>Обложка:</span>
-            <button class="covers-btn" onclick="url_open()" type="button">Добавить обложку
-                <svg width="16" height="16" viewBox="0 0 200 200"
-                    style="transform: rotate(45deg)">
+            <input type="file" accept="image/*" name="image" id="image-upload-input" style="display: none;">
+            <button class="covers-btn" type="button" onclick="uploadImage()">Добавить обложку
+                <svg width="16" height="16" viewBox="0 0 200 200" style="transform: rotate(45deg)">
                     <path
                         d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z"
                         fill="#5A88FF"></path>
                 </svg>
             </button>
-            <!-- Скрытый инпут для url обложек. Список с url обложек доступен в переменной covers -->
             {{ form.image_url }}
             <ul class="covers-list">
                 {% for cover in covers %}
-
-                <li class="covers-item" style="background-image: url('{{cover}}');">
-                    <div class="covers-selected">
-                        <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
+                <li class="covers-item">
+                    <div class="covers-content" style="background-image: url('{{cover}}')">
+                        <div class="covers-selected">
+                            <svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg>
+                        </div>
                     </div>
+                    <button type="button" class="covers-button-delete" data-url="{{ cover }}" title="Удалить обложку" onclick="del_open(this)">
+                        <svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z" fill="#e24a4a" />
+                        </svg>
+                    </button>
                 </li>
                 {% endfor %}
             </ul>
@@ -69,7 +74,21 @@
     <div class="announ-content">
         <div class="top-info">
             <div class="top-info-text">
-                <span class="date">c <span class="date-start"></span> до <span class="date-end"></span></span>
+                {% if announcement.date_of_expiring %}
+                    {% if announcement.updated_at == announcement.created_at %}
+                    <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                    {% else %}
+                    <span class="change">изм.</span>
+                    <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                    {% endif %}
+                {% else %}    
+                    {% if announcement.updated_at == announcement.created_at %}
+                    <span class="date">{{ announcement.created_at }}</span>
+                    {% else %}
+                    <span class="change">изм.</span>
+                    <span class="date">{{ announcement.updated_at }}</span>
+                    {% endif %}
+                {% endif %}
             </div>
             <button class="favourite-btn" title="Закрепить">
                 <svg class="favourite-svg" width="18" height="18" viewBox="0 0 18 18" fill="inherit">
@@ -91,19 +110,101 @@
     </div>
 </div>
 
-<div class="url-cover">
-    <div>
-        <h3 class="url-title">Вставьте ссылку на вашу обложку</h3>
-        <span class="url-span">Учтите, что ссылка на вашу обложку может перестать быть активной со временем!</span>
-    </div>
-    <input class="url-input" type="text" placeholder="Ваша ссылка...">
-    <div class="url-btns">
-        <button class="btn exit" type="button" onclick="url_exit()">Отмена</button>
-        <button class="btn save" onclick="url_save()">Сохранить</button>
+<div class="covers-delete-div">
+    <p class="delete-title">Вы уверены, что хотите удалить обложку?</p>
+    <span class="delete-subtitle">Учтите, что обложка пропадет везде, где присутствует!</span>
+    <div class="cover-delete"></div>
+    <div class="delete-btns">
+        <button class="delete-btn" type="button" onclick="del_exit()">Отмена</button>
+        <button class="delete-btn" type="button" onclick="del_active()">Удалить</button>
     </div>
 </div>
+
 <div class="back-form"></div>
 
 <script src="{% static 'js/announcement/red.js' %}"></script>
+
+<script>
+    function uploadImage() {
+        $('#image-upload-input').click();
+    }
+
+    $('#image-upload-input').on('change', function() {
+        let formData = new FormData();
+        formData.append('image', this.files[0]);
+
+        // CSRF Токен чтобы ничего не сломалось
+        let csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: '/announcements/upload_image/',  // Далее параметры для ajax
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                if (response.success) {
+                    let imageUrl = response.image_url;
+
+                    // Создаем новый <li> элемент для новой обложки
+                    let newCoverItem = $(`<li class="covers-item"><div class="covers-content" style="background-image: url('${imageUrl}')"><div class="covers-selected"><svg class="covers-selected-svg" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"> <g/><g><path d="M18.3,6.3L9.1,16.4l-2.3-3c-0.3-0.4-1-0.5-1.4-0.2c-0.4,0.3-0.5,1-0.2,1.4l3,4C8.4,18.8,8.7,19,9,19c0,0,0,0,0,0   c0.3,0,0.5-0.1,0.7-0.3l10-11c0.4-0.4,0.3-1-0.1-1.4C19.3,5.9,18.6,5.9,18.3,6.3z"/></g> </svg></div></div><button type="button" class="covers-button-delete" data-url="${imageUrl}" title="Удалить обложку" onclick="del_open(this)"><svg fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M3.89705 4.05379L3.96967 3.96967C4.23594 3.7034 4.6526 3.6792 4.94621 3.89705L5.03033 3.96967L10 8.939L14.9697 3.96967C15.2359 3.7034 15.6526 3.6792 15.9462 3.89705L16.0303 3.96967C16.2966 4.23594 16.3208 4.6526 16.1029 4.94621L16.0303 5.03033L11.061 10L16.0303 14.9697C16.2966 15.2359 16.3208 15.6526 16.1029 15.9462L16.0303 16.0303C15.7641 16.2966 15.3474 16.3208 15.0538 16.1029L14.9697 16.0303L10 11.061L5.03033 16.0303C4.76406 16.2966 4.3474 16.3208 4.05379 16.1029L3.96967 16.0303C3.7034 15.7641 3.6792 15.3474 3.89705 15.0538L3.96967 14.9697L8.939 10L3.96967 5.03033C3.7034 4.76406 3.6792 4.3474 3.89705 4.05379L3.96967 3.96967L3.89705 4.05379Z" fill="#e24a4a" /></svg></button></li>`);
+                    $('.covers-list').append(newCoverItem);
+
+                    $('#id_image_url').val(imageUrl);
+
+                } else {
+                    console.error('Image upload failed.');
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $('.covers-list').on('click', '.delete-active', function() {
+        let coverUrl = $(this).data('url');
+
+        if (!coverUrl) {
+            // Если CoverUrl не найден пробуем получить его из атрибута стиля
+            let backgroundImage = $(this).closest('.covers-item').css('background-image');
+            if (backgroundImage) {
+                // Получаем url из функции url() с помощью регулярок
+                let match = /url\(['"]?(.*?)['"]?\)/.exec(backgroundImage);
+                if (match && match[1]) {
+                    // Извлекаем относительный путь из абсолютного с помощью регулярок
+                    coverUrl = match[1].replace(/^.*?\/media(\/covers\/.*)$/, '/media$1');
+                }
+            }
+        }
+
+        if (!coverUrl) {
+            // Если CoverUrl все еще не найден то бросаем исключение
+            console.error('Cover URL not found.');
+            return;
+        }
+
+        // CSRF Токен чтобы ничего не сломалось
+        let csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: '/announcements/delete_cover/', // Далее параметры ajax
+            method: 'POST',
+            data: { cover_url: coverUrl },
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Убираем удаленную обложку из DOM
+                    $(this).closest('.covers-item').remove();
+                } else {
+                    console.error('Cover deletion failed.');
+                }
+            }.bind(this)
+        });
+    });
+</script>
 
 {% endblock content %}

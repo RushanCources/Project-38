@@ -94,12 +94,12 @@ function file_remove(is_load) {
     });
 }
 
-$('.covers-item').on('click', function() {
+$('.covers-list').on('click', '.covers-content', function() {
     let url = $(this).css('background-image');
     let input_url = url.slice(url.indexOf('url('));
 
     $('.covers-selected').css({'display' : 'none'});
-    $(this.childNodes[1]).css({'display' : 'flex'});
+    $(this).find('.covers-selected').css({'display' : 'flex'});
 
     $('#id_image_url').val(input_url);
 
@@ -144,26 +144,23 @@ function preview_update(el, block) {
     }
 }
 
-function url_open() {
-    $('.url-cover').addClass('url-active');
+let del_el;
+
+function del_open(el) {
+    del_el = el;
+    $('.covers-delete-div').addClass('covers-active');
     $('.back-form').css({'display' : 'block'});
+    let url = $(el.parentNode).find('.covers-content').attr('style').replace('background-image:', '');
+    $('.cover-delete').css({ 'background-image': url });
 }
 
-function url_exit() {
-    $('.url-cover').removeClass('url-active');
+function del_exit() {
+    $('.covers-delete-div').removeClass('covers-active');
     $('.back-form').css({'display' : 'none'});
-    $('.url-input').val('');
 }
 
-function url_save() {
-    let url = $('.url-input').val().trim();
-
-    if(url != '') {
-        url = 'url(' + url + ')';
-        $('.announ-img').css({'background-image' : url});
-        $('#id_image_url').val(url);
-        url_exit();
-    } else {
-        alert('Вставьте ссылку на обложку!');
-    }
+function del_active() {
+    $(del_el).addClass('delete-active');
+    $(del_el).click();
+    del_exit();
 }

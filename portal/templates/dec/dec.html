@@ -13,14 +13,14 @@
                 <input value="{{ search_value }}" name="q" class="search-input" type="text" placeholder="Поиск...">
                 <button class="search-button"></button>
             </div>
-            {% comment %} {% if user.role == administrator or user.role == teacher %} {% endcomment %}
+            {% if user.role == 'Администратор' or user.role == 'Учитель' %}
                 <a href="{% url 'redactor' %}" class="create-link">
                     <span>Создать объявление</span>
                     <svg width="20" height="20" viewBox="0 0 200 200" style="transform: rotate(45deg)">
                         <path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#FFFFFF"></path>
                     </svg>
               </a>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
         </form>
     </div>
 
@@ -30,11 +30,20 @@
             <div class="announ-content" id="{{ announcement.id }}">
                 <div class="top-info">
                     <div class="top-info-text">
-                        {% if announcement.updated_at == announcement.created_at %}
-                        <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
-                        {% else %}
-                        <span class="change">изм.</span>
-                        <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                        {% if announcement.date_of_expiring %}
+                            {% if announcement.updated_at == announcement.created_at %}
+                            <span class="date">c <span class="date-start">{{ announcement.created_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                            {% else %}
+                            <span class="change">изм.</span>
+                            <span class="date">c <span class="date-start">{{ announcement.updated_at }}</span> до <span class="date-end">{{ announcement.date_of_expiring }}</span></span>
+                            {% endif %}
+                        {% else %}    
+                            {% if announcement.updated_at == announcement.created_at %}
+                            <span class="date">{{ announcement.created_at }}</span>
+                            {% else %}
+                            <span class="change">изм.</span>
+                            <span class="date">{{ announcement.updated_at }}</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div style="display: flex; column-gap: 15px;">
@@ -50,16 +59,17 @@
                             {% endif %}
                         </button>
     
-                        {% if announcement.author == user.username or user.role == 'Администратор' %}
-                        <a href="{% url 'delete' announcement.id %}" class="delete-btn" title="Удалить объявление">
-                            <svg viewBox="0 0 200 200" width="22px" height="22px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
-                        </a>
+                        {% if announcement.author_id == user.id or user.role == 'Администратор' %}
+                        <button class="announ-delete-btn" onclick="del_open(`{% url 'delete' announcement.id %}`)">
+                            <svg viewBox="0 0 200 200" width="20px" height="20px"><path d="m114 100 49-49a9.9 9.9 0 0 0-14-14l-49 49-49-49a9.9 9.9 0 0 0-14 14l49 49-49 49a9.9 9.9 0 0 0 14 14l49-49 49 49a9.9 9.9 0 0 0 14-14Z" fill="#f05454"></path></svg>
+                        </button>
                         {% endif %}
                     </div>
 
                 </div>
                 <div class="middle-info">
                     <h2 class="announ-title">{{ announcement.title }}</h2>
+                    {% if announcement.author_id == user.id or user.role == 'Администратор' %}
                     <a href="{% url 'redactor' %}/{{ announcement.id }}">
                         <svg height="20px" version="1.1" viewBox="0 0 18 18" width="20px">
                             <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
@@ -73,6 +83,7 @@
                             </g>
                         </svg>
                     </a>
+                    {% endif %}
                 </div>
                 <p class="announ-descr">{{ announcement.body }}</p>
                 <button class="announ-btn">Подробнее</button>
@@ -80,11 +91,11 @@
                     <div>
                         <a href="#" class="announ-author">{{ announcement.author }}</a>
                     </div>
-                    {% load split_filter %}
+                    {% load filters %}
                     <ul class="announ-files-list">
                         {% for file in announcement.files.all %}
                         <li class="announ-files-item">
-                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split }}</a>
+                            <a href="{{ file.file.url }}" class="announ-files-link">{{ file.file.url|split|encode }}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -94,76 +105,22 @@
         </div>
         {% endfor %}
     </div>
-    <script>
-        $('.btn-dec').on('click', function () {
-            let ul = this.parentNode.childNodes[3];
-            if ($(ul).hasClass('ul-open')) {
-                $(ul).removeClass('ul-open');
-            } else {
-                $(ul).addClass('ul-open');
-            }
-        });
-    </script>
+    <div class="back-form"></div>
 
-
-<!-- Кнопка для подгрузки новых объявлений, если их будет больше 20 (Надо сделать красивой) -->
 <button id="load-more-button" class="load-btn">Загрузить ещё</button>
 
-<!-- Почти весь скрипт ниже сделан с помощью ChatGPT потому что я не шарю в джаваскрипте, поправьте если плохо -->
-<!-- Все что он делает - реализует функционал страничек объявлений, добавляя кнопку на подгрузку объявлений, если их будет слишком много. По идее можно ничего не трогать, все работает -->
+<div class="delete-div">
+    <p class="delete-title">Вы уверены, что хотите удалить объявление?</p>
+    <div class="delete-btns">
+        <button class="delete-btn" type="button" onclick="del_exit()">Отмена</button>
+        <a href="#" class="delete-btn delete-btn-link">Удалить</a>
+    </div>
+</div>
 
 <script>
-    $(document).ready(function() {
-        var page = 2;  // Start from page 2 since page 1 is already loaded
-        var totalAnnouncements = {{ count }};
-
-        function checkLoadMoreButtonVisibility() {
-            var loadedAnnouncements = $('.announ').length;
-            if (loadedAnnouncements >= totalAnnouncements) {
-                $("#load-more-button").hide();
-            } else {
-                $("#load-more-button").show();
-            }
-        }
-
-        checkLoadMoreButtonVisibility();  // Initially check button visibility
-
-        $("#load-more-button").click(function() {
-            var query = encodeURIComponent('{{ search_value }}');
-            $.get('?q=' + query + '&page=' + page, function(data) {
-                var newAnnouncements = $(data).find('.announ');
-                if (newAnnouncements.length > 0) {
-                    $("#FSL").append(newAnnouncements);
-                    page++;
-                    checkLoadMoreButtonVisibility();  // Check and update button visibility
-                } else {
-                    $("#load-more-button").hide();
-                }
-            });
-        });
-
-        let descr = $('.announ-descr');
-
-        for (let i = 0; i < descr.length; i++) {
-            if (descr[i].offsetHeight > 250) {
-                $($('.announ-btn')[i]).addClass('announ-btn-active');
-                $(descr[i]).addClass('announ-descr-close');
-            }
-        }
-
-        $('.announ-btn').on('click', function() {
-            descr = this.parentNode.childNodes[5];
-            if ($(descr).hasClass('announ-descr-close')) {
-                $(descr).removeClass('announ-descr-close');
-                $(descr).addClass('announ-descr-open');
-                $(this).html('Скрыть');
-            } else if ($(descr).hasClass('announ-descr-open')) {
-                $(descr).removeClass('announ-descr-open');
-                $(descr).addClass('announ-descr-close');
-                $(this).html('Подробнее');
-            }
-        });
-    });
+        let totalAnnouncements = {{ count }};
+        let searchValue = '{{ search_value }}';
 </script>
+<script src="{% static 'js/announcement/dec.js' %}"></script>
 
 {% endblock content %}
