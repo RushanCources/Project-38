@@ -81,6 +81,13 @@ function file_remove(is_load) {
         let name = $(li).attr('title');
         li.remove();
 
+        for (let i = 0; i < $('.announ-files-item').length; i++) {
+            let pre_name = $($('.announ-files-item')[i]).attr('title');
+            if (name == pre_name) {
+                $('.announ-files-item')[i].remove();
+            }
+        }
+
         if (!is_load) {
             for (let i = 0; i < files.length; i++) {
                 if (files[i].name == name) {

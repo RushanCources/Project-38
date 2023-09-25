@@ -56,6 +56,8 @@
     width: 100%;
     border: 1px solid #103A84;
     border-radius: 30px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     background: #fff;
     outline: none;
     padding: 12px 20px;
@@ -65,9 +67,8 @@
 }
 
 .search-button {
-    width: 40px;
-    height: 40px;
-    margin-left: -40px;
+    width: 42px;
+    height: 42px;
     padding: 19px;
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;

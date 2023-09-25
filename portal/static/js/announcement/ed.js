@@ -35,3 +35,15 @@ for (let i = 0; i < covers.length; i++) {
         $(covers[i]).click();
     }
 }
+
+for (let i = 0; i < $('.file-item-span').length; i++) {
+    let name = $('.file-item-span')[i].innerText;
+    name = file_name(name);
+    $('.file-item-span')[i].innerText = name;
+}
+
+for (let i = 0; i < $('.announ-files-link').length; i++) {
+    let name = $('.announ-files-link')[i].innerText;
+    name = file_name(name);
+    $('.announ-files-link')[i].innerText = name;
+}

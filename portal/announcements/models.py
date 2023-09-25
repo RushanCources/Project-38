@@ -2,6 +2,13 @@ from django.db import models
 from django.conf import settings
 from django.contrib.staticfiles import finders
 
+
+class Notification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    read = models.BooleanField(default=False)
+    announcement_id = models.IntegerField(null=True)
+
+
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

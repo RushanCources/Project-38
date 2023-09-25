@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import HttpResponsePermanentRedirect
-from .models import Announcement
+from .models import Announcement, Notification
 from datetime import date
 from .decorators import allowed_users
 from .models import File
@@ -17,6 +17,10 @@ import urllib.parse
 
 def index(request):
     """Отвечает за рендер шаблона главной страницы"""
+
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(user_id=request.user.id)
+        notifications.delete()
 
     anns = Announcement.objects.all().order_by('-is_pinned')
 
@@ -221,6 +225,7 @@ def delete_announcement(request, id):
         return HttpResponsePermanentRedirect('/announcements')
 
     announcement = Announcement.objects.get(id=id)
+    notifications = Notification.objects.filter(announcement_id=id)
 
     files = announcement.files.all()
 
@@ -229,6 +234,7 @@ def delete_announcement(request, id):
         file.delete()
 
     announcement.delete()
+    notifications.delete()
 
     return HttpResponsePermanentRedirect('/announcements')
 

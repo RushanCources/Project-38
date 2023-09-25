@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 {% load static %}
+{% load ann_notifications %}
 
 <head>
     <meta charset="UTF-8">
@@ -33,7 +34,7 @@
                     <a href="{% url 'home' %}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'announcements' %}">Объявления</a>
+                    <a href="{% url 'announcements' %}">Объявления{% if request.user.is_authenticated %}{% unread_notification_count request.user %}{% endif %}</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'theme_list' %}">Список тем</a>
