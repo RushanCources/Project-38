@@ -17,7 +17,7 @@
 {% block content %}
 <h1 class="h1">Профиль</h1>
 <div class="main-div">
-    <div>
+    <div class="left-block">
         <section class="section main-info">
             <div class="role-div">
                 {{user.role}}
@@ -97,7 +97,7 @@
                 <button class="btn btn-projects">Завершенные проекты</button>
                 <div class="btn-projects-icon"></div>
                 <ul class="projects-list">
-                    {% if close_projects_packs.length == null %}
+                    {% if close_projects_packs|length == null %}
                     <li class="project-item project-item-none">У вас ещё нет ни одного завершенного проекта🙁</li>
                     {% else %}
                     {% for project_pack in close_projects_packs %}

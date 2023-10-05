@@ -3,3 +3,8 @@ Assets LTE
 env
 portal/db.sqlite3
 portal/db.sqlite3
+env/
+venv
+lib64
+pyvenv.cfg
+.vscode/

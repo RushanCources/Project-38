@@ -1,7 +1,8 @@
 .main {
+    padding-top: 50px;
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
@@ -11,6 +12,7 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
+    width: 100%;
 }
 
 .people {
@@ -51,6 +53,10 @@
     color: #ffb51b;
 }
 
+.done {
+    color: #19ca4e;
+}
+
 .people-fio {
     margin: 0;
     font-size: 16px;
@@ -72,10 +78,12 @@
     position: relative;
     padding: 15px 30px;
     padding-top: 15px;
-    max-width: 700px;
+    min-width: 500px;
+    max-width: 40vw;
     background: #fff;
     border-radius: 15px;
     font-style: normal;
+    flex: 2 0 20em;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -83,7 +91,7 @@
 }
 
 .old-files{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     padding-top: 10px;
     top: 40%;
@@ -107,8 +115,12 @@
     background: #00000072;
 }
 
+#description {
+    overflow-x: hidden;
+}
+
 .update-file{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     top: 40%;
     left: 50%;
@@ -120,7 +132,7 @@
 }
 
 .comment-window{
-    position: absolute;
+    position: fixed;
     padding: 20px;
     padding-top: 45px;
     top: 40%;
@@ -243,4 +255,10 @@
 
 .update-file-btn:active {
     background: #3e5e96;
+}
+
+@media (max-width: 1400px) {
+    .content {
+        max-width: 62vw;
+    }
 }

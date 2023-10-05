@@ -9,26 +9,24 @@
 {% block content %}
 
 <div class="filters">
-    <form class="container" method="POST" action="https://jsonplaceholder.typicode.com/posts">
+    <form class="container" method="POST" action="{% url 'search_results_view' %}">
+        {% csrf_token %}
         <div class="left">
             <div class="search">
-                <input class="search-input" type="text" placeholder="Поиск...">
+                <input class="search-input" type="text" placeholder="Поиск..." name="search_input">
                 <button class="search-button"></button>
             </div>
             <div class="checkboxes">
                 <div class="div-list">
                     <div class="list-name">Предмет</div>
+                    <input type="hidden" id="subject-filter" name="subject" />
                     <div class="list-names">
-                        <div class="list-p" name="subject">Не указано</div>
-                        <ul class="list">
+                        <div class="list-p">Не указано</div>
+                        <ul class="list" name="subject">
                             <li class="list-li">Не указано</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
-                            <li class="list-li">Предмет</li>
+                            {% for subject in subjects %}
+                            <li class="list-li">{{subject.name}}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -62,30 +60,26 @@
         </svg>
     </button>
     {% for theme in themes %}
-    <div class="{{ theme.Class_of_subject }}">
-        <ul class="theme-subjects-list">
-            {% for sub in theme.Subject %}
-            <li class="theme-subjects-item">{{ sub }}</li>
-            {% endfor %}
-        </ul>
+    <div class="theme-block theme-block-close"
+        style="background: linear-gradient(248deg, rgb({{theme.subject_color}}) 44%, rgba({{theme.subject_color}}, 0.9) 98%);"
+        id="{{theme.id}}">
+        <h2 class="theme-block-title">{{ theme.subjects }}</h2>
         <div class="descr">
-            <h2 class="theme-name theme-name-close">{{ theme.Name }}</h2>
+            <h2 class="theme-name theme-name-close">{{ theme.name }}</h2>
             <p class="theme-descr theme-descr-close">
-                {{ theme.Descript }}
+                {{ theme.descript }}
             </p>
             <button class="theme-btn">Подробнее</button>
             <div class="info">
-                <a class="info-link" href="#" title="Автор темы">{{ theme.Author }}</a>
-                <span class="{{ theme.Class_of_tag }}">{{ theme.Status }}</span>
+                <a class="info-link" href="#" title="Автор темы">{{ theme.author }}</a>
+                <span class="tag {{theme.class_of_tag}}">{{ theme.status }}</span>
             </div>
-            <button class="theme-btn-take">Взяться за проект</button>
+            <button class="theme-btn-take" ,
+                onclick="window.location = '{% url 'use_theme' %}?theme_id={{theme.id}}'">Взять проект</button>
         </div>
         <button class="edit">
             <svg height="18px" version="1.1" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg"
                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title />
-                <desc />
-                <defs />
                 <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
                     <g fill="#000000" id="Core" transform="translate(-213.000000, -129.000000)">
                         <g id="create" transform="translate(213.000000, 129.000000)">
@@ -101,18 +95,24 @@
     </div>
     {% endfor %}
 
-    <form method="POST" class="new-theme-form">
+    <form method="POST" class="new-theme-form" action="{% url 'new_theme_create' %}">
+        <input type="hidden" name="theme_id" value="0" class="theme-id">
+        {% csrf_token %}
         <h2 class="new-theme-title">Создание новой темы</h2>
         <div class="new-theme-inputs">
-            <input type="text" class="new-theme-input form-input" placeholder="Название темы" required />
-            <textarea class="new-theme-textarea form-input" placeholder="Описание темы" required></textarea>
+            <input type="text" class="new-theme-input form-input" name="name_input" placeholder="Название темы"
+                required />
+            <textarea class="new-theme-textarea form-input" name="descript_input" placeholder="Описание темы"
+                required></textarea>
             <div class="new-theme-subjects">
                 <input type="text" class="new-theme-subjects-input form-input"
                     placeholder="Введите названние предметной области" id="theme_subject">
                 <ul class="search-result-list"></ul>
                 <ul class="new-theme-subjects-list"></ul>
             </div>
+            <input type="hidden" class="subject-input" name="subjects_input" required>
         </div>
+        <input type="hidden" value="{{user}}" name="author_input">
         <div class="new-theme-btns">
             <button class="btn new-theme-exit" onclick="new_theme_exit()" type="button">Отмена</button>
             <button class="btn new-theme-create" type="submit">Создать</button>

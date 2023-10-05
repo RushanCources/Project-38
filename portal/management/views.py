@@ -1,5 +1,7 @@
 import string
 import random
+import time
+import os
 from dataclasses import dataclass, field
 
 from django.contrib.auth import authenticate, login
@@ -10,45 +12,82 @@ from liceum38.settings import BASE_DIR
 from .forms import UserRegistrationForm
 from .models import User, Tokens
 from projects.models import Project
+from django.core.paginator import Paginator, EmptyPage
  
-def register(request):
+def register(request, token):
+    temp_token = False
+
+    if Tokens.objects.filter(token=token).exists():
+        temp_token = True
+
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.set_full_name()
             new_user.save()
             messages.success(request, 'Аккаунт успешно создан')
             authenticate_user = authenticate(request, username=new_user.username, password=user_form.cleaned_data['password'])
             login(request, authenticate_user)
+            if temp_token:
+                Tokens.objects.get(token=token).delete()
             return redirect('profile')
+
+        elif request.POST.get('register_submit') and not user_form.is_valid():
+            messages.error(request, 'Что-то введено неправильно, проверьте пароли. Так же возможно такой логин или мейл уже существует!')
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'registration/register.html', {'user_form': user_form})
+    return render(request, 'registration/register.html', {'user_form': user_form, "is_token": temp_token, "token": token})
 
 def token_page(request):
     if request.method == "POST":
         token = request.POST.get("token")
         if Tokens.objects.filter(token=token).exists():
-            temp_token = Tokens.objects.get(token=token).delete()
-            return redirect('register')
+            return redirect(f'/management/register/{token}/')
         else:
             messages.error(request, 'Неправильный токен!')
     
     return render(request, 'registration/token_page.html')
 
 def admin_menu(request):
-    filter_users=User.objects.filter(deactivate = 0)
-    pages = []
+    filter_users = User.objects.all()
+    name = request.GET.get('name')
+    get_role = request.GET.get('role')
+    get_group = request.GET.get('group')
 
-    if len(filter_users) % 20 > 0:
-        pages_count=len(filter_users) // 20 + 1
+    if name != None and name != '':
+        filter_users = User.objects.filter(full_Name__icontains=name.replace(" ",""))
+        name_have = True
     else:
-        pages_count=len(filter_users) // 20
+        name_have = False
+    
+    if get_role != None and get_role != '':
+        filter_users = User.objects.filter(role=get_role)
+        role_have = True
+    else:
+        role_have = False
 
-    for i in range(0,pages_count):
-        pages.append(i+1)
+    if get_group != None and get_group != '':
+        filter_users = User.objects.filter(group=get_group)
+        group_have = True
+    else:
+        group_have = False
 
+    paginator = Paginator(filter_users, 20)
+    page_number = request.GET.get('p')
+    page_obj = paginator.get_page(page_number)
+
+    have_next_page = page_obj.has_next()
+    have_prev_page = page_obj.has_previous()
+    try:
+        prev_page = page_obj.previous_page_number()
+    except EmptyPage:
+        prev_page = False
+    try:
+        next_page = page_obj.next_page_number()
+    except EmptyPage:
+        next_page = False
 
     if request.method == "POST":
         user_id = request.POST.get('user_id_edit')
@@ -61,12 +100,6 @@ def admin_menu(request):
         group = request.POST.get('group_input')
         role = request.POST.get('role')
         email = request.POST.get('email_input')
-        search_names = request.POST.get('search_names')
-        role_filter = request.POST.get('role_filter')
-        group_filter = request.POST.get('group_filter')
-        deactivate_filter = request.POST.get('deactivate_filter')
-        role_filter_have = False
-        group_filter_have = False
 
         if request.POST.get('delete_butt'):
             user = User.objects.get(id=user_id_delete).delete()
@@ -93,19 +126,21 @@ def admin_menu(request):
             return FileResponse(open(filepath, "rb"), as_attachment=True)
 
         if request.POST.get('filter_submit'):
-            if role_filter !='' and group_filter !='':
-                filter_users=User.objects.filter(role = role_filter, group = group_filter)
-                role_filter_have = True
-                group_filter_have = True
-            if role_filter !='' and group_filter =='':
-                filter_users=User.objects.filter(role = role_filter)
-                role_filter_have = True
-                group_filter_have = False
-            if role_filter =='' and group_filter !='':
-                filter_users=User.objects.filter(group = group_filter)
-                group_filter_have = True
-                role_filter_have = False
-            return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "group_filter_have" : group_filter_have, "role_filter_have" : role_filter_have, "group_filter": group_filter, "role_filter": role_filter, "pages": pages})
+            role_filter = request.POST.get('role_filter')
+            group_filter = request.POST.get('group_filter')
+
+            return redirect(f'/management/admin_menu/?role={role_filter}&group={group_filter}')
+        
+        if request.POST.get('search_butt'):
+            search_names = request.POST.get('search_names').replace(" ", "+")
+
+            return redirect(f'/management/admin_menu/?name={search_names}')
+
+        if request.POST.get('activate-butt'):
+            user = User.objects.get(id=user_id_delete)
+            user.deactivate = False
+            user.save()
+            return redirect('admin_menu')
 
         if user_id == "-1":
             last_user = User.objects.last()
@@ -117,6 +152,7 @@ def admin_menu(request):
                                            middle_name=middle_name, group=group, role=role, email=email, password=0,
                                            id=new_id)
             new_user.set_password(request.POST.get('password_input'))
+            new_user.set_full_name()
             new_user.save()
             return redirect('admin_menu')
 
@@ -129,19 +165,37 @@ def admin_menu(request):
             user.group = group
             user.role = role
             user.email = email
+            user.set_full_name()
             if role == "Администратор":
                 user.group = 0
                 user.is_superuser = True
             elif role == "Учитель":
                 user.group = 0
+                user.is_superuser = False
             else:
                 user.is_superuser = False
 
             user.save()
 
             return redirect('admin_menu')
+    
+    context = {
+        "users" : page_obj,
+        "paginator": paginator,
+        "name": name,
+        "name_have": name_have,
+        "role": get_role,
+        "role_have": role_have,
+        "group": get_group,
+        "group_have": group_have,
+        "have_next_page": have_next_page,
+        "have_prev_page": have_prev_page,
+        "next_page": next_page,
+        "prev_page" : prev_page,
+        "page_number" : page_obj.number
+    }
 
-    return render(request, 'admin_menu/admin.html', context={"users" : filter_users, "pages": pages})
+    return render(request, 'admin_menu/admin.html', context=context)
 
 
 def profile(request):
@@ -170,7 +224,6 @@ def profile(request):
         close_projects_packs = [ProjectsPack(project) for project in close_projects_T]
         request_projects_packs = [ProjectsPack(project) for project in request_projects_T]
     user_full = request.user.getPName()
-
 
     if request.method == "POST":
         new_password = request.POST.get('new_password')
@@ -201,8 +254,9 @@ def profile(request):
 
 
         if request.POST.get('avatar_submit') and request.FILES:
+            os.remove(request.user.avatar.path, dir_fd=None)
             request.user.avatar = new_avatar
-            request.user.save()
+            request.user.save_photo()
             return redirect('profile')
 
     context = {"open_projects_packs": open_projects_packs,

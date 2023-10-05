@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load js %}
 {% block head %}
 <link rel="stylesheet" href="{%static 'css/projects/fl.css' %}">
 <link rel="stylesheet" href="{%static 'select2/css/select2.min.css' %}">
@@ -13,33 +14,33 @@
     <div class="formPZ">
         <h1 class="form h1">Подача заявки</h1>
         <div class="errors">
-            {% if messages %}
             {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
             <p class="error">{{ message }}</p>
-            {% endfor %}
             {% endif %}
+            {% endfor %}
         </div>
         <div class="form">
             <h3 class="h3">Название*</h3>
-            <input name="name" class="wf" required/>
+            <input name="name" class="wf" required value='{%if name is not None%}{{name}}{%endif%}' />
         </div>
         <div class="form">
             <h3 class="h3">Описание*</h3>
-            <textarea name="description" class="wf ta" required></textarea>
+            <textarea name="description" class="wf ta"
+                required>{%if description is not None%}{{description}}{%endif%}</textarea>
         </div>
         <div class="form selects">
             <div class="tea">
                 <h3 class="h3 tea">Учитель*</h3>
-                <div class="teachers">
-                    <div class="teacher teacher-open">
-                        <select name="teacher" id="selTea" class="wf select2" multiple>
-                            {% for teacher in teachers %}
-                            <option value="{{ teacher.id }}" class="opG opt">{{ teacher.fullName }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <input type="text" class="new-teacher wf" placeholder="ФИО учителя" name="new-teacher">
+                <div>
+                    <input type="text" class="search-block-input form-input search-block-teachers teacher-open"
+                        placeholder="ФИО учителя">
+                        <input type="text" class="new-teacher wf" placeholder="ФИО учителя" name="new-teacher">
+                    <ul class="search-block-result-list"></ul>
+                    <ul class="search-block-list"></ul>
                 </div>
+                <input type="hidden" class="search-block-hidden-input" required>
+                <input type="hidden" name="teacher" class="search-block-for-teacher">
                 <div class="checkbox">
                     <input type="checkbox" name="teacher-checkbox" id="teacher-checkbox" onclick="checkbox()">
                     <label for="teacher-checkbox" class="checkbox-label">Учитель не из лицея</label>
@@ -47,52 +48,13 @@
             </div>
             <div class="subj">
                 <h3 class="h3 subj">Предмет*</h3>
-                <select name="subject" id="selSubj" class="wf" required>
-                    <optgroup label="Математические">
-                        <option class="opG opt">Математика</option>
-                        <option class="opG opt">Алгебра</option>
-                        <option class="opG opt">Геометрия</option>
-                        <option class="opG opt">Теория вероятностей и статистика</option>
-                        <option class="opG opt">Информатика</option>
-                    </optgroup>
-                    <optgroup label="Естественно-научные">
-                        <option class="opG opt">География</option>
-                        <option class="opG opt">Биология</option>
-                        <option class="opG opt">Физика</option>
-                        <option class="opG opt">Химия</option>
-                        <option class="opG opt">Основы безопасности жизнедеятельности</option>
-                        <option class="opG opt">Естествознание</option>
-                        <option class="opG opt">Экология</option>
-                        <option class="opG opt">Астрономия</option>
-                    </optgroup>
-                    <optgroup label="Общественно-научные">
-                        <option class="opG opt">История</option>
-                        <option class="opG opt">Обществознание</option>
-                        <option class="opG opt">Экономика</option>
-                        <option class="opG opt">Право</option>
-                        <option class="opG opt">Разговоры о важном</option>
-                        <option class="opG opt">Краеведение</option>
-                        <option class="opG opt">Основы религиозных культур и светской этики</option>
-                    </optgroup>
-                    <optgroup label="Гуманитарные">
-                        <option class="opG opt">Родная литература</option>
-                        <option class="opG opt">Русский язык</option>
-                        <option class="opG opt">Литература</option>
-                        <option class="opG opt">Иностранный язык(Английский)</option>
-                        <option class="opG opt">Иностранный язык(Французский)</option>
-                        <option class="opG opt">Иностранный язык(Немецкий)</option>
-                    </optgroup>
-                    <optgroup label="Трудовое обучение">
-                        <option class="opG opt">Труд</option>
-                        <option class="opG opt">Технология</option>
-                        <option class="opG opt">Черчение</option>
-                        <option class="opG opt">Индивидуальный проект</option>
-                    </optgroup>
-                    <option class="opG opt">Физическая культура</option>
-                    <option class="opG opt">Музыка</option>
-                    <option class="opG opt">Изобразительное искусство</option>
-                    <option class="opG opt">Другая научная область/предмет</option>
-                </select>
+                <div>
+                    <input type="text" class="search-block-input form-input search-block-subjects"
+                        placeholder="Введите названние предметной области">
+                    <ul class="search-block-result-list"></ul>
+                    <ul class="search-block-list"></ul>
+                </div>
+                <input type="hidden" class="search-block-hidden-input" name="subject" required>
             </div>
         </div>
         <div class="form files">
@@ -104,6 +66,40 @@
     </div>
 </form>
 
-<script src="{% static 'js/projects/create_page.js' %}"></script>
+<script src="{% static 'js/global/search_block.js' %}"></script>
+<script>
+    let teacher_arr = {{ teachers | js }}
+    let teacher_name = [];
 
+    for (let i = 0; i < teacher_arr.length; i++) {
+        teacher_name.push(teacher_arr[i][0]);
+    }
+
+    $('.search-block-subjects').on('focus', function() {
+        list_arr = {{ subjects_names | js }};
+        max_item = 3;
+        add_other_text = true;
+    });
+
+    $('.search-block-teachers').on('focus', function() {
+        list_arr = teacher_name;
+        max_item = 1;
+        add_other_text = false;
+    });
+
+    $($('.search-block-result-list')[0]).on('click', function() {
+        let input = $('.search-block-hidden-input')[0];
+        teacher_id(input);
+        teacher_del();
+    });
+
+    function teacher_del() {
+        $($('.search-block-div')[0]).on('click', function() {
+            let input = $('.search-block-hidden-input')[0];
+            teacher_id(input);
+        });
+    }
+</script>
+
+<script src="{% static 'js/projects/create_page.js' %}"></script>
 {% endblock content %}
