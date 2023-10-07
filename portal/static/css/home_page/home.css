@@ -1,85 +1,183 @@
-body, html {
+@font-face {
+    font-family: 'NICO MOJI';
+    src: local('NICO MOJI'),
+      url('../../fonts/Nico-Moji.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rubik Mono One';
+    src: local('Rubik Mono One'),
+      url('../../fonts/RubikMonoOne-Regular.woff') format('woff'),
+      url('../../fonts/RubikMonoOne-Regular.ttf') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+  
+
+body {
+    background-color: #fff;
+}
+
+.container {
+    padding: 0 176px;
     width: 100%;
-    height: 100%;
-    margin: 0;
-    box-sizing: border-box;
 }
 
-* {
-    box-sizing: inherit;
-}
-
-img {
+.header {
+    padding: 45px 176px;
+    display: flex;
+    align-items: center;
     width: 100%;
-}
-
-a {
-    text-decoration: none;
 }
 
 .logo {
-    display: inline-block;
-    margin-top: 40px;
-    margin-left: 10%;
+    margin-right: auto;
+}
+
+.nav {
+    margin-right: 90px;
+}
+
+.nav-list {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-item {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.user {
+    display: flex;
+    gap: 12px;
+}
+
+.username {
+    color: #007EFA;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.avatar {
+    max-width: 50px;
+    max-height: 50px;
 }
 
 .main {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    margin: 0 auto;
-    display:  flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.img {
-    width: 40%;
-}
-
-.content {
-    max-width: 50%;
-}
-
-.text {
-    margin: 0;
-    font-size: calc(24px + 20 * (100vw / 1920));
-    font-weight: 400;
-    font-family: 'Roboto', sans-serif;
-    color: #007EFA;
-}
-
-.bold_text {
-    display: block;
-    font-weight: 700;
-}
-
-.sub-title {
-    display: block;
-    padding-top: 7px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: calc(16px + 14 * (100vw / 1920));
-    color: #000;
-}
-
-.button {
-    margin-top: 25px;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(248deg, rgba(16,58,132,1) 8%, rgba(75,127,219,1) 81%);
-    padding: 17px 0;
-}
-
-.button > a {
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    padding: 17px 45px;
     width: 100%;
+}
+
+/* hero */
+
+.hero {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+.hero-div {
+    padding: 182px 64px;
+    width: 100%;
+    height: 650px;
+    background: url('../../img/home_page/hero_bk.png') no-repeat center center;
+    background-size: cover;
+    border-radius: 32px;
+}
+
+.hero-title {
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: 'NICO MOJI';
+    color: #000;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.hero-subtitle {
+    margin: 0;
+    max-width: 633px;
+    color: #000;
+    font-family: 'Rubik Mono One';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.hero-span {
+    color: #fff;
+}
+
+/* contests */
+
+.contests {
+    background: linear-gradient(180deg, #FFF 0%, rgba(92, 144, 240, 0.377) 51.87%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+.contests-title {
+    margin: 0;
+    margin-bottom: 100px;
+    color: #000;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.contests-list {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 50px;
+    column-gap: calc(100% / 10);
+}
+
+.contests-item {
+    display: block;
+    width: calc((90% - (100% / 10)) / 3);
+    height: 250px;
+}
+
+.contests-block {
+    position: relative;
+    display: block;
     height: 100%;
+    width: 100%;
+    background: url('../../img/home_page/home_cover.jpg');
+    background-size: cover;
+    border-radius: 32px;
+}
+
+.contests-span {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    bottom: 10%;
+    right: 10%;
+    font-size: 16px;
+    font-weight: 300;
+    color: #fff;
+}
+
+.contests-span::after {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background: url('../../img/home_page/arrow-right.svg') no-repeat center center;
+    background-size: cover;
+    transition: 0.3s transform linear;
+}
+
+.contests-block:hover > .contests-span::after {
+    transform: translateX(10px);
 }
