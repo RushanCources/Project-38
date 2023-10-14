@@ -436,7 +436,10 @@ def archive(request:HttpRequest):
         values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
         values.update({'abstruct': abstract_file,
                             'presentation': presentation_file,
-                            'annotation': annotation_file})
+                            'annotation': annotation_file,
+                            'status': project.get_status(),
+                            'subjects': project.get_subjects()})
         context_projects.append(values.copy())
+        print(project.get_subjects())
 
     return render(request, 'projects/archive.html', context={'projects':context_projects})
