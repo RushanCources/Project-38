@@ -25,6 +25,7 @@ class Project(Model):
     target = CharField(max_length=1000, null=True)
     tasks = CharField(max_length=1000, null=True)
     expected_results = CharField(max_length=1000, null=True)
+    defence_video = CharField(max_length=200, null=True)
 
     # фильтрация предметов при записи их в бд(что бы не удалось поставить не существующий предмет
     def set_subject(self, subjects: str):

@@ -14,5 +14,6 @@ urlpatterns = [
     path('add_comment', views.set_comment, name='add_comment'),  # добавление комментария к файлу
     path('approve_project', views.approve_project, name='approve_project'),  # одобрение заявки на проект
     path('close_project', views.close_project, name='close_project'),  # закрытие работы над проектом
-    path("restore_file", views.restore_file, name='restore_file')  # восстановление файла из корзины
+    path("restore_file", views.restore_file, name='restore_file'),  # восстановление файла из корзины
+    path('archive', views.archive, name='archive'),
 ]
