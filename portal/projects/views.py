@@ -419,3 +419,27 @@ def close_project(request: HttpRequest):
         return render(request, "WrongData.html")
     except BaseException:
         return render(request, "FatalError.html")
+    
+
+def archive(request:HttpRequest):
+    projects = Project.objects.filter(_status='done')[0:20]
+
+    # упаковка проектов и файлов в один массив состоящий из объектов класса ProjectPack
+    
+    context_projects = []
+
+    for project in projects:
+        abstract_file = File.objects.filter(project=project, version=1, _tag='Реферат').first()
+        presentation_file = File.objects.filter(project=project, version=1, _tag='Презентация').first()
+        annotation_file = File.objects.filter(project=project, version=1, _tag='Аннотация').first()
+        variables = vars(project)
+        values = {key : val for key, val in zip(variables.keys(), variables.values()) if key != '_state'}
+        values.update({'abstruct': abstract_file,
+                            'presentation': presentation_file,
+                            'annotation': annotation_file,
+                            'status': project.get_status(),
+                            'subjects': project.get_subjects()})
+        context_projects.append(values.copy())
+        print(project.get_subjects())
+
+    return render(request, 'projects/archive.html', context={'projects':context_projects})
