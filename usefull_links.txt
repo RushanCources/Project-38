@@ -10,3 +10,5 @@ codePen:https://codepen.io/
 Bootstrap:https://getbootstrap.com/docs/5.3/getting-started/download/
 FlatIcon:https://www.flaticon.com/ru/
 Other assets: in /Assets LTE/ folder in project
+
+https://drive.google.com/drive/u/0/folders/19XlSG-xq4rJ0MaNmI2GEjybwzIT6Gbi4
