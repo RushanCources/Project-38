@@ -1,0 +1,33 @@
+{% load static %}
+{% load js %}
+{% block head %}
+<title>Архив работ</title>
+{% endblock head %}
+
+{% block content %}
+<ul>
+{%for project in projects%}
+<li>
+<div>
+    <span>{{project.name}}</span>
+    <div>
+        {{project.description}}
+    </div>
+    <div>
+        {% if user.is_authenticated%}
+            <a href="{% url 'projects' %}?id={{project.abstruct.id}}" title="Загрузить файл" class="download-link">Реферат</a>
+        {% endif %}
+        <a href="{% url 'projects' %}?id={{project.defence.id}}" title="Загрузить файл" class="download-link">Защита</a>
+        <a href="{% url 'download_file' %}?file_id={{project.presentation.id}}" title="Загрузить файл" class="download-link">Презентация</a>
+        {% if project.defence_video is not null%}
+        <a href="{{project.defence_video}}" title="Загрузить файл" class="download-link">Видео с защиты</a>
+        {% endif %}
+    </div>
+    <div>
+        {{ project.subjects }}
+    </div>
+</div>
+</li>
+{%endfor%}
+</ul>
+{% endblock content %}
